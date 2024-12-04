@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // (Tests)
 public enum AttackType
@@ -13,32 +14,28 @@ public class Nero : MonoBehaviour, IPlayer
     private ICharacterMovement _movement;
     private Animator _animator;
 
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
-        _movement = new PlayerMovement(this, _animator);
+
+        IControlLayout controlLayout = new DefaultControlLayout();
+        InputHandler inputHandler = new InputHandler(controlLayout);
+
+        _movement = new PlayerMovement(this, inputHandler);
+    }
+
+
+    private void StopMovement(InputAction.CallbackContext context)
+    {
+        _movement.Stop();
+        Debug.Log("stop");
     }
 
     private void Update()
     {
         Move();
 
-        // Todo : Implement testing block
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _animator.SetTrigger("Die");
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            _animator.SetTrigger("Attack");
-            _animator.SetInteger("AttackType", (int)AttackType.Fast);
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            _animator.SetTrigger("Attack");
-            _animator.SetInteger("AttackType", (int)AttackType.Heavy);
-        }
     }
 
     public void Attack()
@@ -46,10 +43,14 @@ public class Nero : MonoBehaviour, IPlayer
         throw new System.NotImplementedException();
     }
 
-  
+
 
     public void Move()
     {
-        _movement.Move();
+        if (_movement.CanMove)
+        {
+            _movement.Move();
+            _animator.SetFloat("Speed", _movement.CurrentSpeed);
+        }
     }
 }

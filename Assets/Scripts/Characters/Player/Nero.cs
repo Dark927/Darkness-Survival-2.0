@@ -1,30 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// (Tests)
-public enum AttackType
-{
-    Reset = 0,
-    Fast,
-    Heavy
-}
 
 public class Nero : MonoBehaviour, IPlayer
 {
     private ICharacterMovement _movement;
     private Animator _animator;
+    private CharacterAnimatorController _animatorController;
 
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _animatorController = new CharacterAnimatorController(_animator, new PlayerAnimatorParameters());
 
         IControlLayout controlLayout = new DefaultControlLayout();
         InputHandler inputHandler = new InputHandler(controlLayout);
 
         _movement = new PlayerMovement(this, inputHandler);
-    }
 
+        _movement.OnSpeedChanged += _animatorController.SpeedUpdateListener;
+    }
 
     private void StopMovement(InputAction.CallbackContext context)
     {
@@ -35,7 +31,6 @@ public class Nero : MonoBehaviour, IPlayer
     private void Update()
     {
         Move();
-
     }
 
     public void Attack()
@@ -43,14 +38,8 @@ public class Nero : MonoBehaviour, IPlayer
         throw new System.NotImplementedException();
     }
 
-
-
     public void Move()
     {
-        if (_movement.CanMove)
-        {
-            _movement.Move();
-            _animator.SetFloat("Speed", _movement.CurrentSpeed);
-        }
+        _movement.Move();
     }
 }

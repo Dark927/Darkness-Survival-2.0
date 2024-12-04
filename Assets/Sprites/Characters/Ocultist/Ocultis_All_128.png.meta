@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2fb6995d7ee017e47a5d58d5d75311ed
+guid: f44cb5eebd7368a4685949c405255699
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,19 +94,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,7 +110,91 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ocultist_Green_128_0
+      name: Ocultis_All_128_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16f266f426f9cf94ead3a5e49fba598c
+      internalID: 1426238576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocultis_All_128_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6fc848671b667a40ad5fe57e80d906b
+      internalID: -1801122547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocultis_All_128_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e796ee9afda1aa046a9ab69d7274e48c
+      internalID: -93158464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocultis_All_128_3
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 981f4247259966b489e8d2d772bba40d
+      internalID: -1079428832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocultis_All_128_4
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e094dfae1c1f7c498de383c7ca38c80
-      internalID: -864149745
+      spriteID: 21e1180d435acb944955e7982fcd7826
+      internalID: 1161434712
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ocultist_Green_128_1
+      name: Ocultis_All_128_5
       rect:
         serializedVersion: 2
         x: 128
@@ -158,8 +229,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6161de9ad21b3894f9c98a5f9876b7b1
-      internalID: 516244833
+      spriteID: 651e3d592d57b5545bb4f6b3fd7e71b2
+      internalID: 518954698
       vertices: []
       indices: 
       edges: []
@@ -175,8 +246,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Ocultist_Green_128_0: -864149745
-      Ocultist_Green_128_1: 516244833
+      Ocultis_All_128_0: 1426238576
+      Ocultis_All_128_1: -1801122547
+      Ocultis_All_128_2: -93158464
+      Ocultis_All_128_3: -1079428832
+      Ocultis_All_128_4: 1161434712
+      Ocultis_All_128_5: 518954698
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

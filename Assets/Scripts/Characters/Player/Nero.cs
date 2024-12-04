@@ -11,7 +11,6 @@ public enum AttackType
 public class Nero : MonoBehaviour, IPlayer
 {
     private ICharacterMovement _movement;
-
     private Animator _animator;
 
     private void Awake()

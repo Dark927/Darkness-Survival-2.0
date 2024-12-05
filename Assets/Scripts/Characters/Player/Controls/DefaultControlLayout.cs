@@ -4,10 +4,22 @@ using UnityEngine.InputSystem;
 
 public class DefaultControlLayout : IControlLayout
 {
+    #region Fields 
+
     private PlayerInputActions _inputActions;
     private InputAction _playerMovement;
 
+    #endregion
+
+
+    #region Properties
+
     public InputAction PlayerMovement { get => _playerMovement; private set => _playerMovement = value; }
+
+    #endregion
+
+
+    #region Methods
 
     public DefaultControlLayout()
     {
@@ -25,4 +37,6 @@ public class DefaultControlLayout : IControlLayout
         _inputActions = new PlayerInputActions();
         _playerMovement = _inputActions.PlayerActions.Movement;
     }
+
+    #endregion
 }

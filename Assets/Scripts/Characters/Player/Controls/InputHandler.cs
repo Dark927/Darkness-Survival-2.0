@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum InputType
@@ -11,8 +9,21 @@ public enum InputType
 
 public class InputHandler
 {
-    IControlLayout _controlLayout;
+    #region Fields
+
+    private IControlLayout _controlLayout;
+
+    #endregion
+
+
+    #region Properties
+
     private Dictionary<InputType, InputAction> _actions;
+
+    #endregion
+
+
+    #region Methods
 
     public InputHandler(IControlLayout controlLayout)
     {
@@ -43,4 +54,5 @@ public class InputHandler
         _actions[inputType].canceled += subscriber;
     }
 
+    #endregion
 }

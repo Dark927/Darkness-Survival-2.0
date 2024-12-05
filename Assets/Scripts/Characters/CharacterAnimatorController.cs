@@ -1,17 +1,17 @@
 
-using System;
 using UnityEngine;
 
 public class CharacterAnimatorController
 {
+    #region Fields
+
     private IAnimatorParameters _parameters;
     private Animator _animator;
 
-    public CharacterAnimatorController(Animator characterAnimator, IAnimatorParameters parameters)
-    {
-        _animator = characterAnimator;
-        _parameters = parameters;
-    }
+    #endregion
+
+
+    #region Properties
 
     public float Speed
     {
@@ -23,6 +23,17 @@ public class CharacterAnimatorController
     {
         get => (PlayerAttackType)_animator.GetInteger(_parameters.AttackTypeFieldName);
         set => _animator.SetInteger(_parameters.AttackTypeFieldName, (int)value);
+    }
+
+    #endregion
+
+
+    #region Methods
+
+    public CharacterAnimatorController(Animator characterAnimator, IAnimatorParameters parameters)
+    {
+        _animator = characterAnimator;
+        _parameters = parameters;
     }
 
     public void TriggerAttack()
@@ -39,4 +50,6 @@ public class CharacterAnimatorController
     {
         Speed = args.CurrentSpeed;
     }
+
+    #endregion
 }

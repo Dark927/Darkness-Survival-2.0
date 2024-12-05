@@ -4,10 +4,16 @@ using UnityEngine.InputSystem;
 
 public class Nero : MonoBehaviour, IPlayer
 {
+    #region Fields
+
     private ICharacterMovement _movement;
     private Animator _animator;
     private CharacterAnimatorController _animatorController;
 
+    #endregion
+
+
+    #region Methods
 
     private void Awake()
     {
@@ -22,15 +28,20 @@ public class Nero : MonoBehaviour, IPlayer
         _movement.OnSpeedChanged += _animatorController.SpeedUpdateListener;
     }
 
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
     private void StopMovement(InputAction.CallbackContext context)
     {
         _movement.Stop();
         Debug.Log("stop");
     }
 
-    private void Update()
+    public void Move()
     {
-        Move();
+        _movement.Move();
     }
 
     public void Attack()
@@ -38,8 +49,5 @@ public class Nero : MonoBehaviour, IPlayer
         throw new System.NotImplementedException();
     }
 
-    public void Move()
-    {
-        _movement.Move();
-    }
+    #endregion
 }

@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 public class CharacterAnimatorController
@@ -36,8 +37,15 @@ public class CharacterAnimatorController
         _parameters = parameters;
     }
 
-    public void TriggerAttack()
+    public void TriggerFastAttack(object sender, EventArgs args)
     {
+        AttackType = PlayerAttackType.Fast;
+        _animator.SetTrigger(_parameters.AttackTriggerName);
+    }
+
+    public void TriggerHeavyAttack(object sender, EventArgs args)
+    {
+        AttackType = PlayerAttackType.Heavy;
         _animator.SetTrigger(_parameters.AttackTriggerName);
     }
 

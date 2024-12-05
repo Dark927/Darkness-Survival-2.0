@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,6 @@ public class PlayerMovement : ICharacterMovement
 
     private Transform _playerTransform;
     private Rigidbody2D _rigidbody;
-    private InputHandler _inputHandler;
 
     private float _actualSpeed;
     private float _maxSpeed = 4f;
@@ -44,17 +44,22 @@ public class PlayerMovement : ICharacterMovement
 
     #region Methods 
 
-    public PlayerMovement(IPlayer player, InputHandler inputHandler)
+    #region Init
+
+    public PlayerMovement(IPlayer player, bool hasBonus = false)
     {
         if (player is MonoBehaviour playerMonoBehaviour)
         {
             // Init components which depends on Player firstly.
             _playerTransform = playerMonoBehaviour.transform;
-            _inputHandler = inputHandler;
 
             ResetFields();
             InitComponents();
-            ConfigureEvents();
+
+            if (hasBonus)
+            {
+                _maxSpeed = 10;
+            }
         }
         else
         {
@@ -67,42 +72,29 @@ public class PlayerMovement : ICharacterMovement
         _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
     }
 
+    #endregion
+
     private void ResetFields()
     {
         _actualSpeed = 0;
         _isMovementBlocked = false;
     }
 
-    private void ConfigureEvents()
-    {
-        _inputHandler.SubscribeOnActionPerformed(InputType.Movement, InputPerformedListener);
-        _inputHandler.SubscribeOnActionCanceled(InputType.Movement, InputCanceledListener);
-    }
-
     public void Move()
     {
-        if (!IsAFK)
+        if (IsAFK || _isMovementBlocked)
         {
-            // -------------------------------------------------------------------
-            // ToDo : Refactore this piece of code (create more separated methods)
-            // -------------------------------------------------------------------
-
-            _direction = _inputHandler.RequestValueFromAction<Vector2>(InputType.Movement);
-
-            if ((_direction.x > 0 && _playerTransform.localScale.x < 0) || (_direction.x < 0 && _playerTransform.localScale.x > 0))
-            {
-                Vector3 newScale = _playerTransform.localScale;
-                newScale.x *= -1;
-
-                _playerTransform.localScale = newScale;
-            }
-
-            Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
-            Vector2 offset = new Vector2(_playerTransform.position.x + (movementDirection.x * CurrentSpeed * Time.fixedDeltaTime),
-                                          _playerTransform.position.y + (movementDirection.y * CurrentSpeed * Time.fixedDeltaTime));
-
-            _rigidbody.MovePosition(offset);
+            return;
         }
+
+
+        if (!IsLookingForward())
+        {
+            SwitchLookDirection();
+        }
+
+        Vector2 offset = CalculateOffset();
+        _rigidbody.MovePosition(offset);
     }
 
     public void Stop()
@@ -110,16 +102,43 @@ public class PlayerMovement : ICharacterMovement
         CurrentSpeed = 0;
     }
 
-    private void InputPerformedListener(InputAction.CallbackContext context)
+    public void MovementPerformedListener(InputAction.CallbackContext context)
     {
+        _direction = context.ReadValue<Vector2>();
         CurrentSpeed = _maxSpeed;
     }
 
-    private void InputCanceledListener(InputAction.CallbackContext context)
+    public void MovementStoppedListener(InputAction.CallbackContext context)
     {
         Stop();
     }
 
-    #endregion
+    private bool IsLookingForward()
+    {
+        float scaleX = _playerTransform.localScale.x;
 
+        bool correctLeftLookSide = (_direction.x < 0) && (scaleX < 0);
+        bool correctRightLookSide = (_direction.x > 0) && (scaleX > 0);
+        bool previousLookSide = (_direction.x == 0);
+
+        return previousLookSide || (correctLeftLookSide || correctRightLookSide);
+    }
+
+    private void SwitchLookDirection()
+    {
+        Vector3 newScale = _playerTransform.localScale;
+        newScale.x *= -1;
+
+        _playerTransform.localScale = newScale;
+    }
+
+    private Vector2 CalculateOffset()
+    {
+        Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
+
+        return new Vector2(_playerTransform.position.x + (movementDirection.x * CurrentSpeed * Time.fixedDeltaTime),
+                           _playerTransform.position.y + (movementDirection.y * CurrentSpeed * Time.fixedDeltaTime));
+    }
+
+    #endregion
 }

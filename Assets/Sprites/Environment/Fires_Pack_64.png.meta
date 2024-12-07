@@ -110,1135 +110,1135 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Environment_Pack_64_0
+      name: Fires_Pack_64_0
       rect:
         serializedVersion: 2
         x: 0
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fa997f21b28bd64b92b283de8da93d2
-      internalID: 1668022746
+      spriteID: ccad5f0ba967d544590374326af32402
+      internalID: 1051480313
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_1
+      name: Fires_Pack_64_1
       rect:
         serializedVersion: 2
         x: 64
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac470e9d5e8de9b408075e445a3af738
-      internalID: -600689126
+      spriteID: 3caee929934b03b4fadd76cf18ce4fd3
+      internalID: 2046727764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_2
+      name: Fires_Pack_64_2
       rect:
         serializedVersion: 2
         x: 128
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2527074fc46b2724f8f0b07b66228ea1
-      internalID: -562078261
+      spriteID: 31dff6c8808ac144d97c57590c2b7af6
+      internalID: 1518084438
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_3
+      name: Fires_Pack_64_3
       rect:
         serializedVersion: 2
         x: 192
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6564aa72fdb40d4e88e71ea1096cd93
-      internalID: 1783808723
+      spriteID: cb331697a7fd37541af3eb40e3c63267
+      internalID: -1607701779
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_4
+      name: Fires_Pack_64_4
       rect:
         serializedVersion: 2
         x: 256
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad42a544b0c130041b1428afb6e2a7ca
-      internalID: 1542493839
+      spriteID: 19a93422c0abb304fb710f5e1a36e581
+      internalID: -1559324261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_5
+      name: Fires_Pack_64_5
       rect:
         serializedVersion: 2
         x: 320
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2c662e778ff4dc4ea74add5336d3151
-      internalID: 91983681
+      spriteID: 2ee565eb29d8ae746909ceb87c3378b7
+      internalID: -1569210879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_6
+      name: Fires_Pack_64_6
       rect:
         serializedVersion: 2
         x: 384
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6465a0d2ad8df954e94b4b940b34a63e
-      internalID: 2136607138
+      spriteID: 36c81d1a39ec05b469d79f74f4674cde
+      internalID: -1886724315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_7
+      name: Fires_Pack_64_7
       rect:
         serializedVersion: 2
         x: 448
         y: 384
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d2f26ae885b8ae4a8493087b7a3ab2e
-      internalID: 244149771
+      spriteID: 424f12b622a016645aa1612bb5297bef
+      internalID: 1839530436
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_8
+      name: Fires_Pack_64_8
       rect:
         serializedVersion: 2
         x: 0
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 552e5de5c393e1442804d310cf944c44
-      internalID: 1105793523
+      spriteID: 0aedfd92f40aac144a51b7e90196d623
+      internalID: -1449745077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_9
+      name: Fires_Pack_64_9
       rect:
         serializedVersion: 2
         x: 64
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fa11748f060e9a4f838e921acc778c9
-      internalID: 853160896
+      spriteID: 5ec962a8feeba4c499f37a400599c2ef
+      internalID: 358957299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_10
+      name: Fires_Pack_64_10
       rect:
         serializedVersion: 2
         x: 128
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 111e3e40da24dfc40ac89e1527dbf093
-      internalID: -369837790
+      spriteID: 34e008bf6e0d2284dbb6a4b37f0b0ce1
+      internalID: -1414011001
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_11
+      name: Fires_Pack_64_11
       rect:
         serializedVersion: 2
         x: 192
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e54203cb309178a4cb0f464f632f583b
-      internalID: -1004603985
+      spriteID: 392bf7bee3e7c3c448580191f5b9369d
+      internalID: 898556322
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_12
+      name: Fires_Pack_64_12
       rect:
         serializedVersion: 2
         x: 256
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbb40bd12508b1a4eb78a775bc52288e
-      internalID: 1162678524
+      spriteID: c21a2bcf7b504944da7ba207702c9b51
+      internalID: 1884066493
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_13
+      name: Fires_Pack_64_13
       rect:
         serializedVersion: 2
         x: 320
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 861a2bf2e2451d54e95a0fbb3da483fd
-      internalID: 331459363
+      spriteID: 81f3277826b60614aa96a9a206bd7ea2
+      internalID: -989823304
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_14
+      name: Fires_Pack_64_14
       rect:
         serializedVersion: 2
         x: 384
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03b5244f3dc7c544287981ccb499917c
-      internalID: 471409738
+      spriteID: 6c0c9fc158331864c92ee115426e232c
+      internalID: -1721145261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_15
+      name: Fires_Pack_64_15
       rect:
         serializedVersion: 2
         x: 448
         y: 320
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c66f262219327c4cb70330c13646c05
-      internalID: 220779646
+      spriteID: 28a658e74ecd0ee49b3b041ce22f1a6f
+      internalID: -1026703107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_16
+      name: Fires_Pack_64_16
       rect:
         serializedVersion: 2
         x: 0
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73ff57b855462f1478140362b557c84a
-      internalID: 1437943254
+      spriteID: 731bb5efe07093042810270ba9cf9633
+      internalID: -2071193411
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_17
+      name: Fires_Pack_64_17
       rect:
         serializedVersion: 2
         x: 64
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86fd58b564219194d9cd2eb82c72f627
-      internalID: 996668013
+      spriteID: 4d9d15078928f5e4d85245abe74c83a2
+      internalID: -1724640429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_18
+      name: Fires_Pack_64_18
       rect:
         serializedVersion: 2
         x: 128
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13ba4479df6cf43498bc81f22a0e15f5
-      internalID: -1622274089
+      spriteID: d3d0670eefdea6f419973bf10804733d
+      internalID: 205986210
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_19
+      name: Fires_Pack_64_19
       rect:
         serializedVersion: 2
         x: 192
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4312efc4e812e834caa6adf9c3c0ba6f
-      internalID: -1460520182
+      spriteID: 3e4f17473a154af44bf70443627e8b26
+      internalID: -267654074
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_20
+      name: Fires_Pack_64_20
       rect:
         serializedVersion: 2
         x: 256
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 351a3bc9814f2ec49a894011b1718b68
-      internalID: -461913511
+      spriteID: 336bd1838e29dcb49ab2677ba0cdf518
+      internalID: -2114396392
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_21
+      name: Fires_Pack_64_21
       rect:
         serializedVersion: 2
         x: 320
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7d690ada7ab6b44683a7276a3c50d98
-      internalID: 701645793
+      spriteID: c5202e61f9132f345a30c6e12dc1c5a7
+      internalID: 1665868760
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_22
+      name: Fires_Pack_64_22
       rect:
         serializedVersion: 2
         x: 384
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fb9b538449eb714f933710ddd818b97
-      internalID: -507144492
+      spriteID: f2fd6fd8ee1909645a219571b016faca
+      internalID: -768775145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_23
+      name: Fires_Pack_64_23
       rect:
         serializedVersion: 2
         x: 448
         y: 256
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1063707786a92ec46b6483528e320374
-      internalID: -1164924989
+      spriteID: 650457645a220b746b425d1c6a60471c
+      internalID: -1387499821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_24
+      name: Fires_Pack_64_24
       rect:
         serializedVersion: 2
         x: 0
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44cb417a3cf5d8a4185b416c4516023b
-      internalID: 512932758
+      spriteID: c5030fed49f887542b87a5edb55fc813
+      internalID: 1558767161
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_25
+      name: Fires_Pack_64_25
       rect:
         serializedVersion: 2
         x: 64
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4011e5e7b7275f4cbccfd399118e3fd
-      internalID: -263682099
+      spriteID: 9f1fe8cd76159b142ad53509b440aa43
+      internalID: 1090398675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_26
+      name: Fires_Pack_64_26
       rect:
         serializedVersion: 2
         x: 128
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23082c5e3cd182d4a97b03f7c4a0ee91
-      internalID: 1192511279
+      spriteID: 74084cad6d8a0b9429739ae9391bf5ab
+      internalID: 1414150956
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_27
+      name: Fires_Pack_64_27
       rect:
         serializedVersion: 2
         x: 192
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf6d1434037466d40b6c01749d01b2e4
-      internalID: 1898176405
+      spriteID: 1aa55919a8d18a149b36ce004bcb36cf
+      internalID: -42816146
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_28
+      name: Fires_Pack_64_28
       rect:
         serializedVersion: 2
         x: 256
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1826b9c89c06a7040a387081edde33d5
-      internalID: 43420058
+      spriteID: 3a33561a52969a5409d671c7f3fb3892
+      internalID: 271940829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_29
+      name: Fires_Pack_64_29
       rect:
         serializedVersion: 2
         x: 320
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a25eab7437fa86b429061777217d6137
-      internalID: 1004646993
+      spriteID: c89cd948fd729f241ac9efcbc642abec
+      internalID: 1514283618
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_30
+      name: Fires_Pack_64_30
       rect:
         serializedVersion: 2
         x: 384
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25649f3f0f992834d874750319a79130
-      internalID: 2144839938
+      spriteID: dde0f01c1bb1b6f448ad0fdb48b20323
+      internalID: -485859976
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_31
+      name: Fires_Pack_64_31
       rect:
         serializedVersion: 2
         x: 448
         y: 192
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 581227fbb11b44d488dcabe9a7306ff4
-      internalID: 28748584
+      spriteID: a2ded6271ae149c488db674be68a58be
+      internalID: -840945395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_32
+      name: Fires_Pack_64_32
       rect:
         serializedVersion: 2
         x: 0
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53b5f0fb63dc10a43bedbefffb19e1df
-      internalID: -2038310665
+      spriteID: 72df328df2d90ee4fa55dd427133c8a0
+      internalID: 557821048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_33
+      name: Fires_Pack_64_33
       rect:
         serializedVersion: 2
         x: 64
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a51f5b2bea3eda84096bd575f6418570
-      internalID: -1092552829
+      spriteID: 9fd583cce0ad898498a8819fa5af4af3
+      internalID: 1865179572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_34
+      name: Fires_Pack_64_34
       rect:
         serializedVersion: 2
         x: 128
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4915a43ca63fe5489beefe114529352
-      internalID: -1557218818
+      spriteID: deb487c04ee1d114e9fcc2dba5f494be
+      internalID: -1302890639
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_35
+      name: Fires_Pack_64_35
       rect:
         serializedVersion: 2
         x: 192
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e36fb07d8c2c50744a5467b23bb6c0d8
-      internalID: 1515956153
+      spriteID: a6cc76f167fcae5408c7d1de2429d991
+      internalID: 1271726326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_36
+      name: Fires_Pack_64_36
       rect:
         serializedVersion: 2
         x: 256
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b88f09f1014186428a8470e1da49bde
-      internalID: -1159879663
+      spriteID: 033ce7fb77c600b4e8870998804811ee
+      internalID: 1559561945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_37
+      name: Fires_Pack_64_37
       rect:
         serializedVersion: 2
         x: 320
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cdf5fab0cdd5f149aaa0d0f664abc55
-      internalID: 838735986
+      spriteID: 2e03c41c38d923b4c8964a67d1880c66
+      internalID: 1770561032
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_38
+      name: Fires_Pack_64_38
       rect:
         serializedVersion: 2
         x: 384
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80b57398cfbd2ec4682b5ecee10c043b
-      internalID: -119783932
+      spriteID: dc089200ab656dc4e9bcb120caf0f76b
+      internalID: 1154882617
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_39
+      name: Fires_Pack_64_39
       rect:
         serializedVersion: 2
         x: 448
         y: 128
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f95bebae30fdc149892dfbbf7090b7f
-      internalID: 912879137
+      spriteID: c7073ab107888ba4aa0ad609ca3c21c8
+      internalID: -475393598
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_40
+      name: Fires_Pack_64_40
       rect:
         serializedVersion: 2
         x: 0
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.01}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2015741b0a5215d46a11a3183f59ec10
-      internalID: -1550160585
+      spriteID: ce774bfbde8fe704fa7cff461f99cca4
+      internalID: -520312389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_41
+      name: Fires_Pack_64_41
       rect:
         serializedVersion: 2
         x: 64
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 376495d823b26964ebf1831aa02d6d68
-      internalID: 1261004313
+      spriteID: 589ab28c0fb7c0845a23b0392f742985
+      internalID: 469868810
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_42
+      name: Fires_Pack_64_42
       rect:
         serializedVersion: 2
         x: 128
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cbdb6f30059af2498aa22cfac63899b
-      internalID: 1509713278
+      spriteID: 7bad6f01dbc24874694f8fd74df9980d
+      internalID: -733809764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_43
+      name: Fires_Pack_64_43
       rect:
         serializedVersion: 2
         x: 192
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b94986dd1829c64899787e593a22ef0
-      internalID: 126884385
+      spriteID: 6dd2db3e638573440a25dd4e42d9bcbe
+      internalID: 1015440236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_44
+      name: Fires_Pack_64_44
       rect:
         serializedVersion: 2
         x: 256
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca01d082645984d49b7b0ee5611fd044
-      internalID: 1033207577
+      spriteID: 9fa82f49493d65648aa5bf0041e0d3a5
+      internalID: 1130646341
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_45
+      name: Fires_Pack_64_45
       rect:
         serializedVersion: 2
         x: 320
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7945f798b8d058c43a9d0d7b67472264
-      internalID: 1602817361
+      spriteID: 30988dfb4b6e9e04d9340a67044434b8
+      internalID: -238680670
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_46
+      name: Fires_Pack_64_46
       rect:
         serializedVersion: 2
         x: 384
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 151b102e86315c44a9c1ad07c05a1cb5
-      internalID: 468362467
+      spriteID: a55bf0b2610b3b94c86c94eb05053ea3
+      internalID: -946078584
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_47
+      name: Fires_Pack_64_47
       rect:
         serializedVersion: 2
         x: 448
         y: 64
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d57bcabd366632243af16d5fa7c80a22
-      internalID: -358398329
+      spriteID: 661cede8e90f4164cae338492c12eb15
+      internalID: -1605203346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_48
+      name: Fires_Pack_64_48
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea0224d878bf67746833d7a374d3e6d0
-      internalID: -1622684520
+      spriteID: 628f5df3a8458d948afdec62cf98ea54
+      internalID: -1065031568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_49
+      name: Fires_Pack_64_49
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b9c891dcffe9abf459ee2a1c95741dc8
-      internalID: -849775640
+      spriteID: 8a2752d7eae14184c8b60cb57ebdba80
+      internalID: 1335992093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_50
+      name: Fires_Pack_64_50
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e7dde6a17d59a748abb318616ba92ce
-      internalID: 889650832
+      spriteID: aec79881efcff83459ba1cb51e756af6
+      internalID: -1331017788
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_51
+      name: Fires_Pack_64_51
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2aeae3dc03f89b34d911e2061a2234f8
-      internalID: -1619589454
+      spriteID: 29d610d60abbc0241ba3b4a024c2ac74
+      internalID: 1045291925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_52
+      name: Fires_Pack_64_52
       rect:
         serializedVersion: 2
         x: 256
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67207f403c853084283a87e2ebb587fa
-      internalID: 141496673
+      spriteID: b7b58406b13357a49b2a83b6f5dd9871
+      internalID: -2020314922
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Environment_Pack_64_53
+      name: Fires_Pack_64_53
       rect:
         serializedVersion: 2
         x: 320
         y: 0
         width: 64
         height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f21ab2feb9b7f2b46bc9beb2a0a63529
-      internalID: 1468523484
+      spriteID: 71ef3b31436734a44bf89185a1b60c4e
+      internalID: 583795041
       vertices: []
       indices: 
       edges: []
@@ -1254,60 +1254,60 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Environment_Pack_64_0: 1668022746
-      Environment_Pack_64_1: -600689126
-      Environment_Pack_64_10: -369837790
-      Environment_Pack_64_11: -1004603985
-      Environment_Pack_64_12: 1162678524
-      Environment_Pack_64_13: 331459363
-      Environment_Pack_64_14: 471409738
-      Environment_Pack_64_15: 220779646
-      Environment_Pack_64_16: 1437943254
-      Environment_Pack_64_17: 996668013
-      Environment_Pack_64_18: -1622274089
-      Environment_Pack_64_19: -1460520182
-      Environment_Pack_64_2: -562078261
-      Environment_Pack_64_20: -461913511
-      Environment_Pack_64_21: 701645793
-      Environment_Pack_64_22: -507144492
-      Environment_Pack_64_23: -1164924989
-      Environment_Pack_64_24: 512932758
-      Environment_Pack_64_25: -263682099
-      Environment_Pack_64_26: 1192511279
-      Environment_Pack_64_27: 1898176405
-      Environment_Pack_64_28: 43420058
-      Environment_Pack_64_29: 1004646993
-      Environment_Pack_64_3: 1783808723
-      Environment_Pack_64_30: 2144839938
-      Environment_Pack_64_31: 28748584
-      Environment_Pack_64_32: -2038310665
-      Environment_Pack_64_33: -1092552829
-      Environment_Pack_64_34: -1557218818
-      Environment_Pack_64_35: 1515956153
-      Environment_Pack_64_36: -1159879663
-      Environment_Pack_64_37: 838735986
-      Environment_Pack_64_38: -119783932
-      Environment_Pack_64_39: 912879137
-      Environment_Pack_64_4: 1542493839
-      Environment_Pack_64_40: -1550160585
-      Environment_Pack_64_41: 1261004313
-      Environment_Pack_64_42: 1509713278
-      Environment_Pack_64_43: 126884385
-      Environment_Pack_64_44: 1033207577
-      Environment_Pack_64_45: 1602817361
-      Environment_Pack_64_46: 468362467
-      Environment_Pack_64_47: -358398329
-      Environment_Pack_64_48: -1622684520
-      Environment_Pack_64_49: -849775640
-      Environment_Pack_64_5: 91983681
-      Environment_Pack_64_50: 889650832
-      Environment_Pack_64_51: -1619589454
-      Environment_Pack_64_52: 141496673
-      Environment_Pack_64_53: 1468523484
-      Environment_Pack_64_6: 2136607138
-      Environment_Pack_64_7: 244149771
-      Environment_Pack_64_8: 1105793523
-      Environment_Pack_64_9: 853160896
+      Fires_Pack_64_0: 1051480313
+      Fires_Pack_64_1: 2046727764
+      Fires_Pack_64_10: -1414011001
+      Fires_Pack_64_11: 898556322
+      Fires_Pack_64_12: 1884066493
+      Fires_Pack_64_13: -989823304
+      Fires_Pack_64_14: -1721145261
+      Fires_Pack_64_15: -1026703107
+      Fires_Pack_64_16: -2071193411
+      Fires_Pack_64_17: -1724640429
+      Fires_Pack_64_18: 205986210
+      Fires_Pack_64_19: -267654074
+      Fires_Pack_64_2: 1518084438
+      Fires_Pack_64_20: -2114396392
+      Fires_Pack_64_21: 1665868760
+      Fires_Pack_64_22: -768775145
+      Fires_Pack_64_23: -1387499821
+      Fires_Pack_64_24: 1558767161
+      Fires_Pack_64_25: 1090398675
+      Fires_Pack_64_26: 1414150956
+      Fires_Pack_64_27: -42816146
+      Fires_Pack_64_28: 271940829
+      Fires_Pack_64_29: 1514283618
+      Fires_Pack_64_3: -1607701779
+      Fires_Pack_64_30: -485859976
+      Fires_Pack_64_31: -840945395
+      Fires_Pack_64_32: 557821048
+      Fires_Pack_64_33: 1865179572
+      Fires_Pack_64_34: -1302890639
+      Fires_Pack_64_35: 1271726326
+      Fires_Pack_64_36: 1559561945
+      Fires_Pack_64_37: 1770561032
+      Fires_Pack_64_38: 1154882617
+      Fires_Pack_64_39: -475393598
+      Fires_Pack_64_4: -1559324261
+      Fires_Pack_64_40: -520312389
+      Fires_Pack_64_41: 469868810
+      Fires_Pack_64_42: -733809764
+      Fires_Pack_64_43: 1015440236
+      Fires_Pack_64_44: 1130646341
+      Fires_Pack_64_45: -238680670
+      Fires_Pack_64_46: -946078584
+      Fires_Pack_64_47: -1605203346
+      Fires_Pack_64_48: -1065031568
+      Fires_Pack_64_49: 1335992093
+      Fires_Pack_64_5: -1569210879
+      Fires_Pack_64_50: -1331017788
+      Fires_Pack_64_51: 1045291925
+      Fires_Pack_64_52: -2020314922
+      Fires_Pack_64_53: 583795041
+      Fires_Pack_64_6: -1886724315
+      Fires_Pack_64_7: 1839530436
+      Fires_Pack_64_8: -1449745077
+      Fires_Pack_64_9: 358957299
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

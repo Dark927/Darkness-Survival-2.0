@@ -1,9 +1,7 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : ICharacterMovement
 {
     #region Fields 
@@ -46,7 +44,7 @@ public class PlayerMovement : ICharacterMovement
 
     #region Init
 
-    public PlayerMovement(IPlayer player, bool hasBonus = false)
+    public PlayerMovement(IPlayer player)
     {
         if (player is MonoBehaviour playerMonoBehaviour)
         {
@@ -55,11 +53,6 @@ public class PlayerMovement : ICharacterMovement
 
             ResetFields();
             InitComponents();
-
-            if (hasBonus)
-            {
-                _maxSpeed = 10;
-            }
         }
         else
         {

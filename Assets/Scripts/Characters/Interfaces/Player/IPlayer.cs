@@ -4,5 +4,4 @@ using UnityEngine;
 
 public interface IPlayer : IMovable, IAttackable
 {
-
 }

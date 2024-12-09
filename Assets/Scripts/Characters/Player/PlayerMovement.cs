@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +11,7 @@ public class PlayerMovement : ICharacterMovement
     private Rigidbody2D _rigidbody;
 
     private float _actualSpeed;
-    private float _maxSpeed = 4f;
+    private float _maxSpeed = 3f;
     private Vector2 _direction;
 
     private bool _isMovementBlocked;
@@ -39,6 +38,9 @@ public class PlayerMovement : ICharacterMovement
         }
     }
 
+    public Vector2 Direction => _direction;
+
+
     #endregion
 
 
@@ -46,7 +48,7 @@ public class PlayerMovement : ICharacterMovement
 
     #region Init
 
-    public PlayerMovement(IPlayer player, bool hasBonus = false)
+    public PlayerMovement(IPlayer player)
     {
         if (player is MonoBehaviour playerMonoBehaviour)
         {
@@ -55,11 +57,6 @@ public class PlayerMovement : ICharacterMovement
 
             ResetFields();
             InitComponents();
-
-            if (hasBonus)
-            {
-                _maxSpeed = 10;
-            }
         }
         else
         {
@@ -87,14 +84,11 @@ public class PlayerMovement : ICharacterMovement
             return;
         }
 
+        Vector2 position = CalculatePosition();
+        _rigidbody.MovePosition(position);
 
-        if (!IsLookingForward())
-        {
-            SwitchLookDirection();
-        }
-
-        Vector2 offset = CalculateOffset();
-        _rigidbody.MovePosition(offset);
+        // ToDo : Test movement and remove this line of code in the future
+        //_playerTransform.Translate(CurrentSpeed * Time.fixedDeltaTime * _direction.normalized);
     }
 
     public void Stop()
@@ -113,26 +107,7 @@ public class PlayerMovement : ICharacterMovement
         Stop();
     }
 
-    private bool IsLookingForward()
-    {
-        float scaleX = _playerTransform.localScale.x;
-
-        bool correctLeftLookSide = (_direction.x < 0) && (scaleX < 0);
-        bool correctRightLookSide = (_direction.x > 0) && (scaleX > 0);
-        bool previousLookSide = (_direction.x == 0);
-
-        return previousLookSide || (correctLeftLookSide || correctRightLookSide);
-    }
-
-    private void SwitchLookDirection()
-    {
-        Vector3 newScale = _playerTransform.localScale;
-        newScale.x *= -1;
-
-        _playerTransform.localScale = newScale;
-    }
-
-    private Vector2 CalculateOffset()
+    private Vector2 CalculatePosition()
     {
         Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
 

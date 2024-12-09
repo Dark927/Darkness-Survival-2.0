@@ -11,6 +11,7 @@ public class Nero : MonoBehaviour, IPlayer
 
     private Animator _animator;
     private CharacterAnimatorController _animatorController;
+    CharacterLookDirection _lookDirection;
 
     #endregion
 
@@ -24,6 +25,7 @@ public class Nero : MonoBehaviour, IPlayer
         InitAnimation();
         InitInput();
         InitMovement();
+        InitLookDirection();
         InitBasicAttacks();
     }
 
@@ -55,6 +57,11 @@ public class Nero : MonoBehaviour, IPlayer
         _playerInput = new PlayerInput(inputHandler);
     }
 
+    private void InitLookDirection()
+    {
+        _lookDirection = new CharacterLookDirection(transform);
+    }
+
     #endregion
 
     private void FixedUpdate()
@@ -65,6 +72,7 @@ public class Nero : MonoBehaviour, IPlayer
     public void Move()
     {
         _movement.Move();
+        _lookDirection.LookForward(_movement.Direction);
     }
 
     public void Attack()

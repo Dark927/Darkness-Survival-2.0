@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemyMovement : ICharacterMovement
 {
+    #region Fields 
+
     private float _currentSpeed;
     private float _maxSpeed = 2;
 
@@ -12,12 +14,23 @@ public class EnemyMovement : ICharacterMovement
     private Transform _targetTransform;
     private Vector2 _targetDirection;
 
-    public bool IsAFK => !(CurrentSpeed > 0f);
-    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
+    #endregion
+
+
+    #region Properties
+
+    public bool IsMoving => !(SpeedMultiplier > 0f);
+    public float SpeedMultiplier { get => _currentSpeed; set => _currentSpeed = value; }
     public Vector2 Direction => _targetDirection;
 
     public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
 
+    #endregion
+
+
+    #region Methods
+
+    #region Init
 
     public EnemyMovement(IEnemy source, IPlayer targetPlayer)
     {
@@ -32,8 +45,15 @@ public class EnemyMovement : ICharacterMovement
         }
 
         InitComponents();
-        CurrentSpeed = _maxSpeed;
+        SpeedMultiplier = _maxSpeed;
     }
+
+    private void InitComponents()
+    {
+        _rigidbody = _transform.GetComponent<Rigidbody2D>();
+    }
+
+    #endregion
 
     public void TrySetTarget(IPlayer targetPlayer)
     {
@@ -54,7 +74,7 @@ public class EnemyMovement : ICharacterMovement
 
     public void Move()
     {
-        if (!IsAFK)
+        if (!IsMoving)
         {
             FollowPlayer();
         }
@@ -68,7 +88,7 @@ public class EnemyMovement : ICharacterMovement
     private void FollowPlayer()
     {
         _targetDirection = (_targetTransform.position - _transform.position).normalized;
-        _rigidbody.MovePosition(_rigidbody.position + (CurrentSpeed * Time.fixedDeltaTime * _targetDirection));
+        _rigidbody.velocity = SpeedMultiplier * _targetDirection;
     }
 
     private void TrySetSource(IEnemy source)
@@ -88,8 +108,7 @@ public class EnemyMovement : ICharacterMovement
         _transform = source;
     }
 
-    private void InitComponents()
-    {
-        _rigidbody = _transform.GetComponent<Rigidbody2D>();
-    }
+
+
+    #endregion
 }

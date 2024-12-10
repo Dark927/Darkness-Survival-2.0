@@ -23,9 +23,9 @@ public class PlayerMovement : ICharacterMovement
 
     #region Properties 
 
-    public bool IsAFK { get => !(CurrentSpeed > 0f); }
+    public bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
 
-    public float CurrentSpeed
+    public float SpeedMultiplier
     {
         get => _actualSpeed;
         private set
@@ -79,13 +79,13 @@ public class PlayerMovement : ICharacterMovement
 
     public void Move()
     {
-        if (IsAFK || _isMovementBlocked)
+        if (_isMovementBlocked)
         {
             return;
         }
 
-        Vector2 position = CalculatePosition();
-        _rigidbody.MovePosition(position);
+        Vector2 velocity = CalculateVelocity();
+        _rigidbody.velocity = velocity;
 
         // ToDo : Test movement and remove this line of code in the future
         //_playerTransform.Translate(CurrentSpeed * Time.fixedDeltaTime * _direction.normalized);
@@ -93,13 +93,13 @@ public class PlayerMovement : ICharacterMovement
 
     public void Stop()
     {
-        CurrentSpeed = 0;
+        SpeedMultiplier = 0;
     }
 
     public void MovementPerformedListener(InputAction.CallbackContext context)
     {
         _direction = context.ReadValue<Vector2>();
-        CurrentSpeed = _maxSpeed;
+        SpeedMultiplier = _maxSpeed;
     }
 
     public void MovementStoppedListener(InputAction.CallbackContext context)
@@ -107,12 +107,12 @@ public class PlayerMovement : ICharacterMovement
         Stop();
     }
 
-    private Vector2 CalculatePosition()
+    private Vector2 CalculateVelocity()
     {
         Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
 
-        return new Vector2(_playerTransform.position.x + (movementDirection.x * CurrentSpeed * Time.fixedDeltaTime),
-                           _playerTransform.position.y + (movementDirection.y * CurrentSpeed * Time.fixedDeltaTime));
+        return new Vector2(movementDirection.x * SpeedMultiplier,
+                           movementDirection.y * SpeedMultiplier);
     }
 
     #endregion

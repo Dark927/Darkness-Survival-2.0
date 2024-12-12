@@ -1,46 +1,40 @@
 using UnityEngine;
 
-
-public class Nero : MonoBehaviour, IPlayer
+[RequireComponent (typeof(CharacterBody))]
+public class Nero : MonoBehaviour, IPlayerLogic
 {
     #region Fields
 
-    private ICharacterMovement _movement;
+    private CharacterBody _body;
     private PlayerBasicAttack _attack;
     private PlayerInput _playerInput;
-
-    private Animator _animator;
-    private CharacterAnimatorController _animatorController;
-    CharacterLookDirection _lookDirection;
+    private PlayerAnimatorController _animatorController;
 
     #endregion
 
 
     #region Methods
 
-    #region Init Methods
+    #region Init
 
     private void Awake()
     {
-        InitAnimation();
+        InitComponents();
         InitInput();
-        InitMovement();
-        InitLookDirection();
         InitBasicAttacks();
     }
 
-    private void InitAnimation()
+    private void Start()
     {
-        _animator = GetComponentInChildren<Animator>();
-        _animatorController = new CharacterAnimatorController(_animator, new PlayerAnimatorParameters());
+        SetReferences();
     }
 
-    private void InitMovement()
+    private void InitComponents()
     {
-        _movement = new PlayerMovement(this);
-        _movement.OnSpeedChanged += _animatorController.SpeedUpdateListener;
-        _playerInput.SetMovement(_movement);
+        _body = GetComponent<CharacterBody>();
+        _animatorController = (_body as PlayerBody).AnimatorController;
     }
+
 
     private void InitBasicAttacks()
     {
@@ -57,23 +51,12 @@ public class Nero : MonoBehaviour, IPlayer
         _playerInput = new PlayerInput(inputHandler);
     }
 
-    private void InitLookDirection()
+    private void SetReferences()
     {
-        _lookDirection = new CharacterLookDirection(transform);
+        _playerInput.SetMovement(_body.Movement);
     }
 
     #endregion
-
-    private void FixedUpdate()
-    {
-        Move();
-    }
-
-    public void Move()
-    {
-        _movement.Move();
-        _lookDirection.LookForward(_movement.Direction);
-    }
 
     public void Attack()
     {

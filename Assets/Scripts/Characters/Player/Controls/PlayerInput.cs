@@ -42,4 +42,9 @@ public class PlayerInput
         _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Canceled, _playerMovement.MovementStoppedListener);
         _playerMovement = null;
     }
+
+    public void Disable()
+    {
+        _inputHandler.Disable();
+    }
 }

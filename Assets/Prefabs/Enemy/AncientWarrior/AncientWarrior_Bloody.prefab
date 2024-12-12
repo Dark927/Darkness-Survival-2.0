@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6374089917486914929, guid: ecc3ce57d680b254b8500abc7c52310a, type: 3}
       propertyPath: m_Name
-      value: AncientWarrior_Bloody Variant
+      value: AncientWarrior_Bloody
       objectReference: {fileID: 0}
     - target: {fileID: 6614347300432140704, guid: ecc3ce57d680b254b8500abc7c52310a, type: 3}
       propertyPath: m_Controller

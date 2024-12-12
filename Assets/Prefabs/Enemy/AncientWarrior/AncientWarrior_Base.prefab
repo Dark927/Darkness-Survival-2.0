@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 3444676105112812919}
   - component: {fileID: 2249473969987001026}
   - component: {fileID: 1191460317430628475}
+  - component: {fileID: 7022780121879203508}
   m_Layer: 0
   m_Name: AncientWarrior_Base
   m_TagString: Untagged
@@ -232,9 +233,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.91}
+  m_Offset: {x: 0, y: 1.15}
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.4
 --- !u!114 &1191460317430628475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,5 +246,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a91b092a9d299a4aa76f548a454ddc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7022780121879203508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6374089917486914929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb6b18e52c1e724e94915992ad52f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

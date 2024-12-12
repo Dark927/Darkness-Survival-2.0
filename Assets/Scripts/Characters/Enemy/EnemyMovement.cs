@@ -32,11 +32,11 @@ public class EnemyMovement : ICharacterMovement
 
     #region Init
 
-    public EnemyMovement(IEnemy source, IPlayer targetPlayer)
+    public EnemyMovement(CharacterBody body, CharacterBody targetPlayer)
     {
         try
         {
-            TrySetSource(source);
+            TrySetBody(body);
             TrySetTarget(targetPlayer);
         }
         catch (Exception e)
@@ -55,7 +55,7 @@ public class EnemyMovement : ICharacterMovement
 
     #endregion
 
-    public void TrySetTarget(IPlayer targetPlayer)
+    public void TrySetTarget(CharacterBody targetPlayer)
     {
         if (targetPlayer is MonoBehaviour monoBehaviourPlayer)
         {
@@ -91,21 +91,21 @@ public class EnemyMovement : ICharacterMovement
         _rigidbody.velocity = SpeedMultiplier * _targetDirection;
     }
 
-    private void TrySetSource(IEnemy source)
+    private void TrySetBody(CharacterBody body)
     {
-        if (source is MonoBehaviour monoBehaviourEnemy)
+        if (body is MonoBehaviour monoBehaviourEnemy)
         {
-            SetSource(monoBehaviourEnemy.transform);
+            SetBody(monoBehaviourEnemy.transform);
         }
         else
         {
-            throw new NullReferenceException($"{nameof(source)} does not implement {nameof(MonoBehaviour)}. Source is null! - {ToString()}");
+            throw new NullReferenceException($"{nameof(body)} does not implement {nameof(MonoBehaviour)}. Source is null! - {ToString()}");
         }
     }
 
-    private void SetSource(Transform source)
+    private void SetBody(Transform body)
     {
-        _transform = source;
+        _transform = body;
     }
 
 

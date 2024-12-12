@@ -48,9 +48,9 @@ public class PlayerMovement : ICharacterMovement
 
     #region Init
 
-    public PlayerMovement(IPlayer player)
+    public PlayerMovement(CharacterBody playerBody)
     {
-        if (player is MonoBehaviour playerMonoBehaviour)
+        if (playerBody is MonoBehaviour playerMonoBehaviour)
         {
             // Init components which depends on Player firstly.
             _playerTransform = playerMonoBehaviour.transform;

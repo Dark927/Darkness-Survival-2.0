@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8943657363218935937}
   - component: {fileID: 264898128285231319}
   - component: {fileID: 1792064835569641051}
+  - component: {fileID: 6556337152735779997}
   m_Layer: 0
   m_Name: Ocultist_Base
   m_TagString: Untagged
@@ -94,9 +95,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.07, y: 0.46}
+  m_Offset: {x: 0.03, y: 0.69}
   serializedVersion: 2
-  m_Radius: 0.18
+  m_Radius: 0.2
 --- !u!114 &1792064835569641051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +108,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a91b092a9d299a4aa76f548a454ddc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6556337152735779997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877816916649359972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb6b18e52c1e724e94915992ad52f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7786103596346902915

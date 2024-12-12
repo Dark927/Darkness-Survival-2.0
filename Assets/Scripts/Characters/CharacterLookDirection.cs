@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-public class CharacterLookDirection
+public class CharacterLookDirection : ICharacterView
 {
     private Transform _characterTransform;
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2348940157812955668}
   - component: {fileID: 5938695483225964785}
   - component: {fileID: 9058086450931735013}
+  - component: {fileID: 4634844881543012924}
   m_Layer: 0
   m_Name: Simbiot
   m_TagString: Untagged
@@ -94,9 +95,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.11, y: 0.33}
+  m_Offset: {x: 0.08, y: 0.4}
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.22
 --- !u!114 &9058086450931735013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +108,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a91b092a9d299a4aa76f548a454ddc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4634844881543012924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214410797849948183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb6b18e52c1e724e94915992ad52f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4574752388136063668

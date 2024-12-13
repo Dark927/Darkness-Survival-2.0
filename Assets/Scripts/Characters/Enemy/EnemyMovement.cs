@@ -1,27 +1,50 @@
+using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyMovement : ICharacterMovement
 {
     #region Fields 
 
-    private float _currentSpeed;
     private float _maxSpeed = 2;
+    private float _currentSpeedMultiplier;
 
     private Transform _transform;
     private Rigidbody2D _rigidbody;
 
     private Transform _targetTransform;
     private Vector2 _targetDirection;
+    private Vector2 _velocity;
+
+    private CharacterMovementBlock _blockLogic;
 
     #endregion
 
 
     #region Properties
 
-    public bool IsMoving => !(SpeedMultiplier > 0f);
-    public float SpeedMultiplier { get => _currentSpeed; set => _currentSpeed = value; }
+    public bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
     public Vector2 Direction => _targetDirection;
+
+    public float MaxSpeedMultiplier => _maxSpeed;
+
+    public float ActualSpeed => Velocity.magnitude;
+
+    public Vector2 Velocity
+    {
+        get => _velocity;
+        private set
+        {
+            if (_velocity != value)
+            {
+                _velocity = value;
+                _rigidbody.velocity = value;
+                OnSpeedChanged?.Invoke(this, new SpeedChangedArgs(ActualSpeed, _maxSpeed));
+            }
+        }
+    }
 
     public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
 
@@ -45,12 +68,13 @@ public class EnemyMovement : ICharacterMovement
         }
 
         InitComponents();
-        SpeedMultiplier = _maxSpeed;
+        ResetSpeed();
     }
 
     private void InitComponents()
     {
         _rigidbody = _transform.GetComponent<Rigidbody2D>();
+        _blockLogic = new CharacterMovementBlock(this); 
     }
 
     #endregion
@@ -74,7 +98,7 @@ public class EnemyMovement : ICharacterMovement
 
     public void Move()
     {
-        if (!IsMoving)
+        if (!_blockLogic.IsBlocked)
         {
             FollowPlayer();
         }
@@ -82,13 +106,43 @@ public class EnemyMovement : ICharacterMovement
 
     public void Stop()
     {
-        throw new NotImplementedException();
+        _currentSpeedMultiplier = 0;
+        Velocity = Vector2.zero;
+    }
+
+    public void BlockMovement(int timeInMs)
+    {
+        _blockLogic.OnBlockFinish += ResetSpeed;
+        _blockLogic.BlockMovement(timeInMs);
+    }
+
+    public async UniTask UpdateSpeedMultiplierLinear(float targetSpeedMultiplier, int timeInMs, CancellationToken token)
+    {
+        float startSpeedMultiplier = _currentSpeedMultiplier;
+        float endSpeedMultiplier = targetSpeedMultiplier;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < timeInMs)
+        {
+            if(token.IsCancellationRequested)
+            {
+                _currentSpeedMultiplier = endSpeedMultiplier;
+                return;
+            }
+
+            _currentSpeedMultiplier = Mathf.Lerp(startSpeedMultiplier, endSpeedMultiplier, elapsedTime / timeInMs);
+            elapsedTime += Time.deltaTime * 1000f;
+
+            await UniTask.Yield();
+        }
+
+        _currentSpeedMultiplier = endSpeedMultiplier;
     }
 
     private void FollowPlayer()
     {
         _targetDirection = (_targetTransform.position - _transform.position).normalized;
-        _rigidbody.velocity = SpeedMultiplier * _targetDirection;
+        Velocity = _currentSpeedMultiplier * _targetDirection;
     }
 
     private void TrySetBody(CharacterBody body)
@@ -108,7 +162,11 @@ public class EnemyMovement : ICharacterMovement
         _transform = body;
     }
 
-
+    private void ResetSpeed()
+    {
+        _currentSpeedMultiplier = MaxSpeedMultiplier;
+        _blockLogic.OnBlockFinish -= ResetSpeed;
+    }
 
     #endregion
 }

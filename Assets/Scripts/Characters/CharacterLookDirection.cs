@@ -1,31 +1,53 @@
 ﻿
+using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class CharacterLookDirection : ICharacterView
 {
+    #region Fields
+
     private Transform _characterTransform;
+    public event EventHandler OnSideSwitch;
+
+    #endregion
+
+
+    #region Methods
+
+    #region Init
 
     public CharacterLookDirection(Transform characterTransform)
     {
         _characterTransform = characterTransform;
     }
 
+    #endregion
+
     public bool IsLookingForward(Vector2 lookDirection)
     {
-        float scaleX = _characterTransform.localScale.x;
+        float scaleSign = Mathf.Sign(_characterTransform.localScale.x);
+        float directionSign = Mathf.Sign(lookDirection.x);
 
-        bool correctLeftLookSide = (lookDirection.x < 0) && (scaleX < 0);
-        bool correctRightLookSide = (lookDirection.x > 0) && (scaleX > 0);
         bool previousLookSide = (lookDirection.x == 0);
 
-        return previousLookSide || (correctLeftLookSide || correctRightLookSide);
+        return previousLookSide || (scaleSign == directionSign);
     }
+
 
     public void LookForward(Vector2 lookDirection)
     {
-        int targetScaleX = IsLookingForward(lookDirection) ? 1 : -1;
+        if (IsLookingForward(lookDirection))
+        {
+            return;
+        }
+
         Vector3 newScale = _characterTransform.localScale;
-        newScale.x *= targetScaleX;
+        newScale.x *= -1;
         _characterTransform.localScale = newScale;
+
+        OnSideSwitch?.Invoke(this, EventArgs.Empty);
     }
+
+    #endregion
 }

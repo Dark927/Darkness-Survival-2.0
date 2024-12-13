@@ -1,4 +1,8 @@
+using Cysharp.Threading.Tasks;
 using System;
+using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,13 +14,12 @@ public class PlayerMovement : ICharacterMovement
     private Transform _playerTransform;
     private Rigidbody2D _rigidbody;
 
-    private float _actualSpeed;
     private float _maxSpeed = 3f;
     private Vector2 _direction;
-
-    private bool _isMovementBlocked;
+    private Vector2 _velocity = Vector2.zero;
 
     public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
+    private CharacterMovementBlock _blockLogic;
 
     #endregion
 
@@ -25,15 +28,24 @@ public class PlayerMovement : ICharacterMovement
 
     public bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
 
-    public float SpeedMultiplier
+    public float MaxSpeedMultiplier
     {
-        get => _actualSpeed;
+        get => _maxSpeed;
+        set => _maxSpeed = value;
+    }
+
+    public float ActualSpeed => Velocity.magnitude;
+
+    public Vector2 Velocity
+    {
+        get => _velocity;
         private set
         {
-            if (_actualSpeed != value)
+            if (_velocity != value)
             {
-                _actualSpeed = value;
-                OnSpeedChanged?.Invoke(this, new SpeedChangedArgs(_actualSpeed, _maxSpeed));
+                _velocity = value;
+                _rigidbody.velocity = value;
+                OnSpeedChanged?.Invoke(this, new SpeedChangedArgs(ActualSpeed, MaxSpeedMultiplier));
             }
         }
     }
@@ -67,39 +79,36 @@ public class PlayerMovement : ICharacterMovement
     private void InitComponents()
     {
         _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
+        _blockLogic = new CharacterMovementBlock(this);
     }
 
     #endregion
 
     private void ResetFields()
     {
-        _actualSpeed = 0;
-        _isMovementBlocked = false;
+        Velocity = Vector2.zero;
     }
 
     public void Move()
     {
-        if (_isMovementBlocked)
+        if (_blockLogic.IsBlocked)
         {
             return;
         }
 
-        Vector2 velocity = CalculateVelocity();
-        _rigidbody.velocity = velocity;
-
-        // ToDo : Test movement and remove this line of code in the future
-        //_playerTransform.Translate(CurrentSpeed * Time.fixedDeltaTime * _direction.normalized);
+        Vector2 calculatedVelocity = CalculateVelocity();
+        Velocity = calculatedVelocity;
     }
 
     public void Stop()
     {
-        SpeedMultiplier = 0;
+        _direction = Vector2.zero;
+        Velocity = Vector2.zero;
     }
 
     public void MovementPerformedListener(InputAction.CallbackContext context)
     {
         _direction = context.ReadValue<Vector2>();
-        SpeedMultiplier = _maxSpeed;
     }
 
     public void MovementStoppedListener(InputAction.CallbackContext context)
@@ -107,12 +116,23 @@ public class PlayerMovement : ICharacterMovement
         Stop();
     }
 
+    public void BlockMovement(int timeInMs)
+    {
+        _blockLogic.BlockMovement(timeInMs);
+    }
+
     private Vector2 CalculateVelocity()
     {
         Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
 
-        return new Vector2(movementDirection.x * SpeedMultiplier,
-                           movementDirection.y * SpeedMultiplier);
+        return new Vector2(movementDirection.x * MaxSpeedMultiplier,
+                           movementDirection.y * MaxSpeedMultiplier);
+    }
+
+    public UniTask UpdateSpeedMultiplierLinear(float targetSpeedMultiplier, int timeInMs, CancellationToken token)
+    {
+        // ToDo : implement
+        throw new NotImplementedException();
     }
 
     #endregion

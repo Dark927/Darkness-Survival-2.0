@@ -32,16 +32,12 @@ public class Nero : MonoBehaviour, IPlayerLogic
     private void InitComponents()
     {
         _body = GetComponent<CharacterBody>();
-        _animatorController = (_body as PlayerBody).AnimatorController;
     }
 
 
     private void InitBasicAttacks()
     {
         _attack = new PlayerBasicAttack();
-        _playerInput.SetBasicAttacks(_attack);
-        _attack.OnFastAttack += _animatorController.TriggerFastAttack;
-        _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
     }
 
     private void InitInput()
@@ -54,6 +50,11 @@ public class Nero : MonoBehaviour, IPlayerLogic
     private void SetReferences()
     {
         _playerInput.SetMovement(_body.Movement);
+        _animatorController = (_body as PlayerBody).AnimatorController;
+
+        _playerInput.SetBasicAttacks(_attack);
+        _attack.OnFastAttack += _animatorController.TriggerFastAttack;
+        _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
     }
 
     #endregion

@@ -1,10 +1,11 @@
 using UnityEngine;
 
-[RequireComponent (typeof(CharacterBody))]
+[RequireComponent(typeof(CharacterBody))]
 public class Nero : MonoBehaviour, IPlayerLogic
 {
     #region Fields
 
+    private bool _started = false;
     private CharacterBody _body;
     private PlayerBasicAttack _attack;
     private PlayerInput _playerInput;
@@ -27,6 +28,7 @@ public class Nero : MonoBehaviour, IPlayerLogic
     private void Start()
     {
         SetReferences();
+        _started = true;
     }
 
     private void InitComponents()
@@ -50,9 +52,9 @@ public class Nero : MonoBehaviour, IPlayerLogic
     private void SetReferences()
     {
         _playerInput.SetMovement(_body.Movement);
-        _animatorController = (_body as PlayerBody).AnimatorController;
-
         _playerInput.SetBasicAttacks(_attack);
+
+        _animatorController = (_body as PlayerBody).AnimatorController;
         _attack.OnFastAttack += _animatorController.TriggerFastAttack;
         _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
     }
@@ -62,6 +64,29 @@ public class Nero : MonoBehaviour, IPlayerLogic
     public void Attack()
     {
         throw new System.NotImplementedException();
+    }
+
+    private void OnEnable()
+    {
+        // ToDo : Implement another logic to avoid OnEnable before Start executed.
+
+        if (_started)
+        {
+            SetReferences();
+        }
+    }
+
+    private void OnDisable()
+    {
+        ClearReferences();
+    }
+
+    private void ClearReferences()
+    {
+        _playerInput.RemoveReferences();
+        _attack.OnFastAttack -= _animatorController.TriggerFastAttack;
+        _attack.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
+        _animatorController = null;
     }
 
     #endregion

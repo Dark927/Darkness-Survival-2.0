@@ -1,16 +1,11 @@
 
-using Cysharp.Threading.Tasks;
-using System;
-using System.Threading;
 using UnityEngine;
 
 public interface ICharacterMovement
 {
     public bool IsMoving { get; }
-    public float MaxSpeedMultiplier { get; }
-    public float ActualSpeed { get; }
-    public Vector2 Velocity { get; }
     public Vector2 Direction { get; }
+    public ref CharacterSpeed Speed { get; }
 
     public void Move();
 
@@ -25,6 +20,4 @@ public interface ICharacterMovement
     /// <param name="timeInSec">The amount of time the character has to stand</param>
     public void BlockMovement(int timeInMs);
 
-    public UniTask UpdateSpeedMultiplierLinear(float targetSpeedMultiplier, int timeInMs, CancellationToken token);
-    public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
 }

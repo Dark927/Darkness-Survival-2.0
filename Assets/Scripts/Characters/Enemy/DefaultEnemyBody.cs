@@ -15,6 +15,12 @@ public class DefaultEnemyBody : CharacterBody
 
     private UniTask _activeSideSwitch;
     private CancellationTokenSource _cancellationTokenSource;
+    private TargetDetector _targetDetector;
+
+    private PlayerBody _targetPlayer;
+
+    [SerializeField] private float _targetDetectionDistance;
+    [SerializeField] private float _targetDetectionAreaWidth;
 
     #endregion
 
@@ -31,6 +37,16 @@ public class DefaultEnemyBody : CharacterBody
 
     #region Init
 
+    protected override void Init()
+    {
+        InitAnimation();
+
+        _targetPlayer = FindObjectOfType<PlayerBody>();
+
+        // ToDo : Maybe move this logic to another place.
+        _targetDetector = new TargetDetector(transform);
+    }
+
     protected override void InitView()
     {
         View = new CharacterLookDirection(transform);
@@ -38,16 +54,24 @@ public class DefaultEnemyBody : CharacterBody
 
     protected override void InitMovement()
     {
-        Movement = new EnemyMovement(this, FindObjectOfType<PlayerBody>());
+        Movement = new EnemyMovement(this, _targetPlayer);
+        CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 2, MaxSpeedMultiplier = 2 };
+
+        Movement.Speed.Set(speed);
     }
 
-    protected override void InitAnimation()
+    private void InitAnimation()
     {
         Animator animator = GetComponent<Animator>();
         AnimatorController = new EnemyAnimatorController(animator, new EnemyAnimatorParameters());
     }
 
     protected override void InitReferences()
+    {
+
+    }
+
+    protected override void ClearReferences()
     {
 
     }
@@ -60,7 +84,7 @@ public class DefaultEnemyBody : CharacterBody
         {
             Movement.Move();
 
-            if (!View.IsLookingForward(Movement.Direction))
+            if (!View.IsLookingForward(Movement.Direction) && !_targetDetector.IsTargetFoundOnVerticalAxis(_targetPlayer.transform.position, _targetDetectionDistance, _targetDetectionAreaWidth))
             {
                 RequestSideSwitch();
             }
@@ -98,8 +122,7 @@ public class DefaultEnemyBody : CharacterBody
 
         View.LookForward(Movement.Direction);
 
-        await Movement.UpdateSpeedMultiplierLinear(Movement.MaxSpeedMultiplier, _accelerationTimeInMs, token);
-
+        await Movement.Speed.UpdateSpeedMultiplierLinear(Movement.Speed.MaxSpeedMultiplier, _accelerationTimeInMs, token);
     }
 
     private void InterruptCurrentSideSwitch()

@@ -21,6 +21,11 @@ public class PlayerBody : CharacterBody
 
     #region Init
 
+    protected override void Init()
+    {
+        InitAnimation();
+    }
+
     protected override void InitView()
     {
         View = new CharacterLookDirection(transform);
@@ -29,9 +34,11 @@ public class PlayerBody : CharacterBody
     protected override void InitMovement()
     {
         Movement = new PlayerMovement(this);
+        CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 4, MaxSpeedMultiplier = 4 };
+        Movement.Speed.Set(speed);
     }
 
-    protected override void InitAnimation()
+    private void InitAnimation()
     {
         Animator animator = GetComponentInChildren<Animator>();
         AnimatorController = new PlayerAnimatorController(animator, new PlayerAnimatorParameters());
@@ -39,7 +46,12 @@ public class PlayerBody : CharacterBody
 
     protected override void InitReferences()
     {
-        Movement.OnSpeedChanged += AnimatorController.SpeedUpdateListener;
+        Movement.Speed.OnActualSpeedChanged += AnimatorController.SpeedUpdateListener;
+    }
+
+    protected override void ClearReferences()
+    {
+        Movement.Speed.OnActualSpeedChanged -= AnimatorController.SpeedUpdateListener;
     }
 
     #endregion

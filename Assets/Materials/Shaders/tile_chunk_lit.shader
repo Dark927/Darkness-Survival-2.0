@@ -5,7 +5,7 @@ Shader "Custom/TileShaderLit"
     // called Base Map.
     Properties
     {
-        _MainTex ("Tile Atlas", 2D) = "white" {}
+        _MainTex("Tile Atlas", 2DArray) = "white" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
         // x: Grid width, y: Grid height, z: Atlas width, w: Atlas height
         _GridSize("Grid Size", Vector) = (9,9,2,2)
@@ -33,6 +33,9 @@ Shader "Custom/TileShaderLit"
 
             #pragma vertex vert
             #pragma fragment frag
+
+            // Compile the shader only on platforms that support texture arrays
+            #pragma require 2darray
 
             #pragma multi_compile USE_SHAPE_LIGHT_TYPE_0 __
             #pragma multi_compile USE_SHAPE_LIGHT_TYPE_1 __
@@ -66,7 +69,7 @@ Shader "Custom/TileShaderLit"
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/LightingUtility.hlsl"
 
-            TEXTURE2D(_MainTex);
+            TEXTURE2D_ARRAY(_MainTex);
             SAMPLER(sampler_MainTex);
             TEXTURE2D(_NormalMap);
             SAMPLER(sampler_NormalMap);
@@ -145,6 +148,8 @@ Shader "Custom/TileShaderLit"
 
             uint indexate(uint x, uint y)
             {
+                x = min(x, (uint)_GridSize.x);
+                y = min(y, (uint)_GridSize.y);
                 return _TileIndices[y * (uint)_GridSize.x + x];
             }
 
@@ -161,7 +166,7 @@ Shader "Custom/TileShaderLit"
                 #if defined(DEBUG_DISPLAY)
                 o.positionWS = TransformObjectToWorld(v.positionOS);
                 #endif
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;//TRANSFORM_TEX(v.uv, _MainTex);
                 o.lightingUV = half2(ComputeScreenPos(o.pos / o.pos.w).xy);
                 
 
@@ -169,9 +174,26 @@ Shader "Custom/TileShaderLit"
                 return o;
             }
 
-            float4 goodlerp(float4 a, float4 b, float t)
-            {
-                return lerp(a,b,smoothstep(0.0,1.0,t));
+            float Area(float2 a, float2 b, float2 c) {
+                return abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) * 0.5);
+            }
+            
+            float4 GradientBarycentric(float2 uv) : SV_Target {
+                //uv.x *= 0.5;
+               // uv.y = uv.y * 0.5 + 0.5;
+                // Define the corner colors
+                float3 colorTopLeft = float3(1, 0, 0); // Red
+                float3 colorTopRight = float3(0, 1, 0); // Green
+                float3 colorBottomLeft = float3(0, 0, 1); // Blue
+                
+                // Calculate interpolated colors along the horizontal edges
+                float3 topColor = lerp(colorTopLeft, colorTopRight, uv.x); // Interpolation at the top
+                float3 bottomColor = lerp(colorBottomLeft, float3(0, 0, 0), uv.x); // Interpolation at the bottom
+                
+                // Interpolate vertically between the top and bottom colors
+                float3 finalColor = lerp(bottomColor, topColor, uv.y);
+                
+                return float4(finalColor, 1.0); // Return as RGBA with full alpha
             }
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/CombinedShapeLightShared.hlsl"
@@ -196,66 +218,20 @@ Shader "Custom/TileShaderLit"
                 return ret;
             }
 
-            //ця хрень працює але крутить текстури
-            float4 SampleAtlasWithTiling(float2 tileUV, float2 tileOffset)
-            {
-                // Compute texel size and tile bounds/
-                float2 texelSize = _MainTex_TexelSize.xy;
-                //y стартує знизу
-                //float2 minUV = float2(tileOffset.x,       1 - tileOffset.y - 0.5);
-                //float2 maxUV = float2(tileOffset.x + 0.5, 1 - tileOffset.y); 
-
-                //одна стоміліпіздрична флоата, 1 / 2^25
-                //minUV.x += 2.9802326E-08;
-                //maxUV.x += 2.9802326E-08;
-                
-                
-                //float2 minUV = float2(0.0,0.5); //плитка (без полоски)
-                //float2 maxUV = float2(0.5,1);
-
-                float2 minUV = float2(0.5,0.5);//каменюка (полоска)
-                float2 maxUV = float2(1,1);
-
-                // Map tileUV to the full UV range of the tile
-                float2 fullUV = lerp(minUV, maxUV, tileUV);
-
-                // Calculate the fractional part of the UV and wrap it within tile bounds
-                float2 wrappedUV = frac((fullUV - minUV) / (maxUV - minUV)) * (maxUV - minUV) + minUV;
-
-                // Calculate texel coordinates
-                float2 texelCoord = fullUV / texelSize;
-                float2 texelCoordFloor = floor(texelCoord); // Bottom-left texel
-                float2 texelCoordFract = frac(texelCoord); // Fractional part for blending
-
-                //return float4(texelWrap((texelCoordFloor              )  * texelSize,minUV,float2(1, 1)).xy,0,1);
-                float4 c00 = _MainTex.SampleLevel(sampler_MainTex, texelWrap((texelCoordFloor               ) * texelSize,minUV,maxUV), 0);
-                float4 c10 = _MainTex.SampleLevel(sampler_MainTex, texelWrap((texelCoordFloor + float2(1, 0)) * texelSize,minUV,maxUV), 0);
-                float4 c01 = _MainTex.SampleLevel(sampler_MainTex, texelWrap((texelCoordFloor + float2(0, 1)) * texelSize,minUV,maxUV), 0);
-                float4 c11 = _MainTex.SampleLevel(sampler_MainTex, texelWrap((texelCoordFloor + float2(1, 1)) * texelSize,minUV,maxUV), 0);
-
-                // Perform bilinear interpolation manually
-                float4 colorX0 = lerp(c00, c10, texelCoordFract.x);
-                float4 colorX1 = lerp(c01, c11, texelCoordFract.x);
-                float4 finalColor = lerp(colorX0, colorX1, texelCoordFract.y);
-
-                return c00;
+            float4 bilinear(float2 uv, float4 TL, float4 TR, float4 BL, float4 BR){
+                float4 x1InterpColor = lerp(TL, TR, uv.x);
+                float4 x2InterpColor = lerp(BL, BR, uv.x);
+                float4 finalColor = lerp(x2InterpColor, x1InterpColor, uv.y);//directx -y
+                return finalColor;
             }
 
-
-
-            float2 texturePointSmooth(float2 uvs)
-            {
-                //_MainTex_TexelSize Vector4(1 / width, 1 / height, width, height)
-                uvs -= float2(_MainTex_TexelSize.x,_MainTex_TexelSize.y) * float2(0.5,0.5);
-                float2 uv_pixels = uvs * float2(_MainTex_TexelSize.z,_MainTex_TexelSize.w);
-                float2 delta_pixel = frac(uv_pixels) - float2(0.5,0.5);
-
-                float2 ddxy = fwidth(uv_pixels);
-                float2 mip = log2(ddxy) - 0.5;
-
-                float2 clampedUV = uvs - (clamp(delta_pixel / ddxy, 0.0, 1.0) - delta_pixel) * float2(_MainTex_TexelSize.x,_MainTex_TexelSize.y);
-                return clampedUV;
+            float4 bilinearGL(float2 uv, float4 TL, float4 TR, float4 BL, float4 BR){
+                return float4(uv.xy,0,1);
             }
+            float4 bilinearDX(float2 uv, float4 TL, float4 TR, float4 BL, float4 BR){
+                return float4(uv.x, 1 - uv.y,0,1);
+            }
+
 
             float4 frag(v2f i) : SV_Target
             {   
@@ -270,90 +246,74 @@ Shader "Custom/TileShaderLit"
                 uint tileIndex = indexate(x, y);
 
                 //calculate 9x9 tile
-                float2 tileUV_fullrange = fmod(smoothUV * _GridSize.xy,1); // [0;1]
-                float2 tileUV = tileuvgrid(tileUV_fullrange);  //[0;0.5] or [0.5;1]
-
-                // Calculate tile atlas UVs
-
-                float2 atlasUV = tileUV + atlasLookup(tileIndex);
-
-                //return float4(atlasLookup(0).xy,0,1);
-                return SampleAtlasWithTiling(tileUV_fullrange, float2(0.0,0.0)); 
-                //return SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV); 
-                //rotate uv 90
+                float2 tileUV = fmod(smoothUV * _GridSize.xy,1); // [0;1]
 
 
-                //atlasUV = Rotate2DCoord(atlasUV, float2(0.5,0.5));
-
-                float2 atlasUV_L = tileUV + atlasLookup(indexate(x-1, y));
-                float2 atlasUV_T = tileUV + atlasLookup(indexate(x,   y-1));
-                float2 atlasUV_R = tileUV + atlasLookup(indexate(x+1, y));
-                float2 atlasUV_B = tileUV + atlasLookup(indexate(x,   y+1));
-
-                float2 atlasUV_LT = tileUV + atlasLookup(indexate(x-1, y-1));
-                float2 atlasUV_RT = tileUV + atlasLookup(indexate(x+1, y-1));
-                float2 atlasUV_LB = tileUV + atlasLookup(indexate(x-1, y+1));
-                float2 atlasUV_RB = tileUV + atlasLookup(indexate(x+1, y+1));
-
-
-                float4 color =  SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV); 
-                float4 colorL = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_L);
-                float4 colorT = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_T);
-                float4 colorR = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_R);
-                float4 colorB = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_B);
-
-                float4 colorRB = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_LT); //RB
-                float4 colorLB = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_RT); //LB
-                float4 colorRT = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_LB); //RT
-                float4 colorLT = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, atlasUV_RB); //LT
+                // Sample tiles
+                float4 color =  SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, tileIndex);
+                float4 colorL = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x-1, y));
+                float4 colorT = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x,   y-1));
+                float4 colorR = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x+1, y));
+                float4 colorB = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x,   y+1));
+                //corner tiles
+                float4 colorLB = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x-1, y-1));
+                float4 colorRB = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x+1, y-1));
+                float4 colorLT = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x-1, y+1));
+                float4 colorRT = SAMPLE_TEXTURE2D_ARRAY(_MainTex, sampler_MainTex, tileUV, indexate(x+1, y+1));
 
                 float4 mixcolor = color;
-                float2 one_Minus_tileUV = 1 - tileUV_fullrange;
-
-                float2 sm = smoothstep(tileUV_fullrange.x,0.9,1.0);
-                float2 smInv = smoothstep(1-tileUV_fullrange.x,0.9,1.0);
-
-
-                float edging = 0.8;
+                float edging = 0.85;
                 float Iedging = 1 - edging;
-                
-                float2 clipUV =  clamp( (      tileUV_fullrange  - edging) / Iedging, 0.0, 1.0) * 0.5; //0.5 because we lerp both sides
-                float2 IclipUV = clamp( ( (1.0-tileUV_fullrange) - edging) / Iedging, 0.0, 1.0) * 0.5;
 
-                
+                float2 clipUV =  clamp( (      tileUV  - edging) / Iedging, 0.0, 1.0) * 0.5; //0.5 because we lerp both sides
+                float2 IclipUV = clamp( ( (1.0-tileUV) - edging) / Iedging, 0.0, 1.0) * 0.5;
+
+                clipUV = smoothstep(0.0, 1.0, clipUV);
+                IclipUV = smoothstep(0.0, 1.0, IclipUV);
+
                 mixcolor = lerp(mixcolor, colorL, IclipUV.x); 
                 mixcolor = lerp(mixcolor, colorT, IclipUV.y); 
                 mixcolor = lerp(mixcolor, colorR, clipUV.x); 
                 mixcolor = lerp(mixcolor, colorB, clipUV.y); 
-                
-                
-                // Separate corner weights to resolve overlaps
-                float cornerWeightTL = min(IclipUV.x, IclipUV.y); // Top-Left corner
-                float cornerWeightTR = min(clipUV.x, IclipUV.y);  // Top-Right corner
-                float cornerWeightBL = min(IclipUV.x, clipUV.y);  // Bottom-Left corner
-                float cornerWeightBR = min(clipUV.x, clipUV.y);  // Bottom-Right corner
 
+
+                // Diagonal weights based on overlap of clipUV and IclipUV
+                float4 diagonalWeights = float4(
+                    IclipUV.x * IclipUV.y, // Left-Bottom weight
+                    clipUV.x * IclipUV.y,  // Right-Bottom weight
+                    IclipUV.x * clipUV.y,  // Left-Top weight
+                    clipUV.x * clipUV.y    // Right-Top weight
+                );
+                
                 // Add corner contributions
-                //mixcolor = lerp(mixcolor, color, cornerWeightTL); // Top-Left influence
-                //mixcolor = lerp(mixcolor, color, cornerWeightTR); // Top-Right influence
-                //mixcolor = lerp(mixcolor, color, cornerWeightBL); // Bottom-Left influence
-                //mixcolor = lerp(mixcolor, color, cornerWeightBR); // Bottom-Right influence
+                float coef = 153377335;
+                //mind the swapped colors!
+                float4 B_colorLB = bilinear(float2(IclipUV.x, 1 - IclipUV.y), color, colorL, colorT, colorLB);
+                float4 B_colorRB = bilinear(float2( clipUV.x, 1 - IclipUV.y), color, colorR, colorT, colorRB); // right bottom angle
 
-                //mixcolor = lerp(color,mixcolor, 0.8); 
+                float4 B_colorLT = bilinear(float2(IclipUV.x, 1 -  clipUV.y), color, colorL, colorB, colorLT);
+                float4 B_colorRT = bilinear(float2( clipUV.x, 1 -  clipUV.y), color, colorR, colorB, colorRT);
+
+                mixcolor = lerp(mixcolor, B_colorLB, saturate(diagonalWeights.x * coef)); // Bottom-Left influence
+                mixcolor = lerp(mixcolor, B_colorRB, saturate(diagonalWeights.y * coef)); // Bottom-Right influence
+                mixcolor = lerp(mixcolor, B_colorLT, saturate(diagonalWeights.z * coef)); // Top-Left influence
+                mixcolor = lerp(mixcolor, B_colorRT, saturate(diagonalWeights.w * coef)); // Top-Right influence
+
+                //mixcolor = lerp(color,mixcolor, 0.7); 
 
                 
-                //draw rectangle outline based on tileUV_fullrange
-                /*
+                //draw rectangle outline based on tileUV
+                float bound = 0.996;
                 if(1==1){
 
                 }
-                else if(tileUV_fullrange.x > 0.996f && tileUV_fullrange.y < 0.996f){
+                else if(tileUV.x > bound && tileUV.y < bound){
                     mixcolor = float4(0,0,1,1); 
                 }
-                else if(tileUV_fullrange.x < 0.996f && tileUV_fullrange.y > 0.996f){
+                else if(tileUV.x < bound && tileUV.y > bound){
                     mixcolor = float4(0,1,0,1); 
                 }
-                */
+                
                 
 
                 //lit return

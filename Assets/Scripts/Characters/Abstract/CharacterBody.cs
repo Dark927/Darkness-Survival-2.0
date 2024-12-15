@@ -25,19 +25,41 @@ public abstract class CharacterBody : MonoBehaviour
 
     private void Awake()
     {
+        Init();
         InitMovement();
         InitView();
-        InitAnimation();
 
         InitReferences();
     }
 
-    protected abstract void InitView();
-    protected abstract void InitMovement();
-    protected abstract void InitAnimation();
-    protected abstract void InitReferences();
+    protected abstract void Init();
+
+    protected virtual void InitMovement()
+    {
+        _movement = new CharacterStaticMovement();
+    }
+
+    protected virtual void InitView()
+    {
+
+    }
+
+    protected virtual void InitReferences()
+    {
+
+    }
 
     #endregion
+
+    protected virtual void ClearReferences()
+    {
+
+    }
+
+    protected void OnDisable()
+    {
+        ClearReferences();
+    }
 
     #endregion
 }

@@ -14,11 +14,9 @@ public class PlayerMovement : ICharacterMovement
     private Transform _playerTransform;
     private Rigidbody2D _rigidbody;
 
-    private float _maxSpeed = 3f;
     private Vector2 _direction;
-    private Vector2 _velocity = Vector2.zero;
+    private CharacterSpeed _speed;
 
-    public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
     private CharacterMovementBlock _blockLogic;
 
     #endregion
@@ -28,29 +26,8 @@ public class PlayerMovement : ICharacterMovement
 
     public bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
 
-    public float MaxSpeedMultiplier
-    {
-        get => _maxSpeed;
-        set => _maxSpeed = value;
-    }
-
-    public float ActualSpeed => Velocity.magnitude;
-
-    public Vector2 Velocity
-    {
-        get => _velocity;
-        private set
-        {
-            if (_velocity != value)
-            {
-                _velocity = value;
-                _rigidbody.velocity = value;
-                OnSpeedChanged?.Invoke(this, new SpeedChangedArgs(ActualSpeed, MaxSpeedMultiplier));
-            }
-        }
-    }
-
     public Vector2 Direction => _direction;
+    public ref CharacterSpeed Speed => ref _speed; 
 
 
     #endregion
@@ -65,10 +42,11 @@ public class PlayerMovement : ICharacterMovement
         if (playerBody is MonoBehaviour playerMonoBehaviour)
         {
             // Init components which depends on Player firstly.
+
             _playerTransform = playerMonoBehaviour.transform;
 
-            ResetFields();
             InitComponents();
+            _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
         }
         else
         {
@@ -80,14 +58,10 @@ public class PlayerMovement : ICharacterMovement
     {
         _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
         _blockLogic = new CharacterMovementBlock(this);
+        _speed = new CharacterSpeed();
     }
 
     #endregion
-
-    private void ResetFields()
-    {
-        Velocity = Vector2.zero;
-    }
 
     public void Move()
     {
@@ -95,25 +69,12 @@ public class PlayerMovement : ICharacterMovement
         {
             return;
         }
-
-        Vector2 calculatedVelocity = CalculateVelocity();
-        Velocity = calculatedVelocity;
+        _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
     }
 
     public void Stop()
     {
-        _direction = Vector2.zero;
-        Velocity = Vector2.zero;
-    }
-
-    public void MovementPerformedListener(InputAction.CallbackContext context)
-    {
-        _direction = context.ReadValue<Vector2>();
-    }
-
-    public void MovementStoppedListener(InputAction.CallbackContext context)
-    {
-        Stop();
+        _speed.Stop();
     }
 
     public void BlockMovement(int timeInMs)
@@ -121,18 +82,25 @@ public class PlayerMovement : ICharacterMovement
         _blockLogic.BlockMovement(timeInMs);
     }
 
-    private Vector2 CalculateVelocity()
+    public void MovementPerformedListener(InputAction.CallbackContext context)
     {
-        Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
-
-        return new Vector2(movementDirection.x * MaxSpeedMultiplier,
-                           movementDirection.y * MaxSpeedMultiplier);
+        _direction = context.ReadValue<Vector2>();
+        _speed.SetMaxSpeedMultiplier();
     }
 
-    public UniTask UpdateSpeedMultiplierLinear(float targetSpeedMultiplier, int timeInMs, CancellationToken token)
+    public void MovementStoppedListener(InputAction.CallbackContext context)
     {
-        // ToDo : implement
-        throw new NotImplementedException();
+        Stop();
+    }
+
+    private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
+    {
+        _rigidbody.velocity = _speed.Velocity;
+    }
+
+    private void ResetFields()
+    {
+        Stop();
     }
 
     #endregion

@@ -1,4 +1,5 @@
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -7,9 +8,8 @@ public class CharacterMovementBlock
 {
     #region Fields 
 
-    private Task _activeBlockTask;
+    private UniTask _activeBlockTask;
     private ICharacterMovement _movement;
-    private bool _isBlocked = false;
 
     #endregion
 
@@ -17,7 +17,7 @@ public class CharacterMovementBlock
     #region Properties
 
     public event Action OnBlockFinish;
-    public bool IsBlocked { get => _isBlocked; private set => _isBlocked = value; }
+    public bool IsBlocked { get => (_activeBlockTask.Status == UniTaskStatus.Pending); }
 
     #endregion
 
@@ -36,10 +36,9 @@ public class CharacterMovementBlock
 
     public void BlockMovement(int timeInMs)
     {
-        bool hasActiveBlock = (_activeBlockTask != null) && !_activeBlockTask.IsCompleted;
         bool incorrectTime = timeInMs <= 0;
 
-        if (incorrectTime || hasActiveBlock)
+        if (incorrectTime || IsBlocked)
         {
             return;
         }
@@ -48,14 +47,9 @@ public class CharacterMovementBlock
         _activeBlockTask = MovementStopDelay(timeInMs);
     }
 
-    private async Task MovementStopDelay(int timeInMs)
+    private async UniTask MovementStopDelay(int timeInMs)
     {
-        IsBlocked = true;
-
         await Task.Delay(timeInMs);
-
-        IsBlocked = false;
-        _activeBlockTask = null;
         OnBlockFinish?.Invoke();
     }
 

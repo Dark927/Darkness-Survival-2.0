@@ -6,6 +6,7 @@ public class PlayerInput
 {
     private InputHandler _inputHandler;
     private PlayerMovement _playerMovement;
+    private PlayerBasicAttack _playerBasicAttack;
 
     public PlayerInput(InputHandler inputHandler)
     {
@@ -33,7 +34,8 @@ public class PlayerInput
 
     public void SetBasicAttacks(PlayerBasicAttack attack)
     {
-        _inputHandler.SubscribeOnActionPerformed(InputType.Attack, attack.AttackPerformedListener);
+        _playerBasicAttack = attack;
+        _inputHandler.SubscribeOnActionPerformed(InputType.Attack, _playerBasicAttack.AttackPerformedListener);
     }
 
     public void RemoveMovement()
@@ -41,6 +43,18 @@ public class PlayerInput
         _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Performed, _playerMovement.MovementPerformedListener);
         _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Canceled, _playerMovement.MovementStoppedListener);
         _playerMovement = null;
+    }
+
+    public void RemoveBasicAttacks()
+    {
+        _inputHandler.RemoveSubscriber(InputType.Attack, InputHandler.ActionState.Performed, _playerBasicAttack.AttackPerformedListener);
+
+    }
+
+    public void RemoveReferences()
+    {
+        RemoveMovement();
+        RemoveBasicAttacks();
     }
 
     public void Disable()

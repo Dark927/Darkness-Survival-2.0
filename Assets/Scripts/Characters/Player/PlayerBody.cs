@@ -2,17 +2,15 @@ using UnityEngine;
 
 public class PlayerBody : CharacterBody
 {
-
     #region Fields
 
-    private PlayerAnimatorController _animatorController;
+    private IPlayerLogic _playerLogic;
 
     #endregion
 
 
     #region Properties
 
-    public PlayerAnimatorController AnimatorController { get => _animatorController; private set => _animatorController = value; }
 
     #endregion
 
@@ -23,7 +21,7 @@ public class PlayerBody : CharacterBody
 
     protected override void Init()
     {
-        InitAnimation();
+        Visual = GetComponentInChildren<PlayerVisual>();
     }
 
     protected override void InitView()
@@ -38,20 +36,14 @@ public class PlayerBody : CharacterBody
         Movement.Speed.Set(speed);
     }
 
-    private void InitAnimation()
-    {
-        Animator animator = GetComponentInChildren<Animator>();
-        AnimatorController = new PlayerAnimatorController(animator, new PlayerAnimatorParameters());
-    }
-
     protected override void InitReferences()
     {
-        Movement.Speed.OnActualSpeedChanged += AnimatorController.SpeedUpdateListener;
+        Movement.Speed.OnActualSpeedChanged += (Visual.GetAnimatorController() as PlayerAnimatorController).SpeedUpdateListener;
     }
 
     protected override void ClearReferences()
     {
-        Movement.Speed.OnActualSpeedChanged -= AnimatorController.SpeedUpdateListener;
+        Movement.Speed.OnActualSpeedChanged -= (Visual.GetAnimatorController() as PlayerAnimatorController).SpeedUpdateListener;
     }
 
     #endregion

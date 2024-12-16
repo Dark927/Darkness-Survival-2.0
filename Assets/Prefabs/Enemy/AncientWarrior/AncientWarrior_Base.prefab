@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 461352084218156853}
   - component: {fileID: 9168847533961235719}
   - component: {fileID: 6614347300432140704}
+  - component: {fileID: 5867330243392070240}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -84,7 +85,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &6614347300432140704
 Animator:
   serializedVersion: 5
@@ -106,6 +107,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5867330243392070240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178386477471690085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69751365b6056d54bbabda4c413f4013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4223669612304869049
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,3 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb6b18e52c1e724e94915992ad52f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sideSwitchDelayInMs: 25
+  _accelerationTimeInMs: 500
+  _targetDetectionDistance: 10
+  _targetDetectionAreaWidth: 1.35

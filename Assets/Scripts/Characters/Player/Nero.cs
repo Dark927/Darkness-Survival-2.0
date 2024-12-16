@@ -5,6 +5,8 @@ public class Nero : MonoBehaviour, IPlayerLogic
 {
     #region Fields
 
+    private PlayerData _stats;
+
     private bool _started = false;
     private CharacterBody _body;
     private PlayerBasicAttack _attack;
@@ -54,7 +56,8 @@ public class Nero : MonoBehaviour, IPlayerLogic
         _playerInput.SetMovement(_body.Movement);
         _playerInput.SetBasicAttacks(_attack);
 
-        _animatorController = (_body as PlayerBody).AnimatorController;
+        // ToDo : Move this logic to the another place.
+        _animatorController = _body.Visual.GetAnimatorController() as PlayerAnimatorController;
         _attack.OnFastAttack += _animatorController.TriggerFastAttack;
         _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
     }

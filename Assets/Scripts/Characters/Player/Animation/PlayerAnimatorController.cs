@@ -2,10 +2,12 @@
 using System;
 using UnityEngine;
 
-public class PlayerAnimatorController : AnimatorController<PlayerAnimatorParameters>
+public class PlayerAnimatorController : AnimatorController
 {
 
     #region Properties
+
+    public new PlayerAnimatorParameters Parameters { get => base.Parameters as PlayerAnimatorParameters; }
 
     public float Speed
     {

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 [ExecuteAlways]
 public class MeshGen : MonoBehaviour
@@ -113,25 +114,40 @@ public class MeshGen : MonoBehaviour
 
     private void OnRenderObject()
     {
-        mpb ??= new MaterialPropertyBlock();
-        tilebuf ??= new ComputeBuffer((size.x+2) * (size.y+2), sizeof(uint), ComputeBufferType.Default);
+        try{
+            mpb ??= new MaterialPropertyBlock();
+            tilebuf ??= new ComputeBuffer((size.x+2) * (size.y+2), sizeof(uint), ComputeBufferType.Default);
 
-        if (tileIndices == null)
-        {
-            InitializeTileIndices();
+            if (tileIndices == null)
+            {
+                InitializeTileIndices();
+            }
+
+            // Pass the tile indices to the shader
+            tilebuf.SetData(tileIndices);
+            mpb.SetVector("_GridSize", new Vector4(size.x, size.y, atlasSize.x, atlasSize.y));
+            mpb.SetBuffer("_TileIndices", tilebuf);
+
+            if (meshRenderer == null)
+                meshRenderer = GetComponent<MeshRenderer>();
+            meshRenderer.SetPropertyBlock(mpb);
         }
-
-        // Pass the tile indices to the shader
-        tilebuf.SetData(tileIndices);
-        mpb.SetVector("_GridSize", new Vector4(size.x, size.y, atlasSize.x, atlasSize.y));
-        mpb.SetBuffer("_TileIndices", tilebuf);
-
-        if (meshRenderer == null)
-            meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.SetPropertyBlock(mpb);
+        catch (Exception e){
+            tilebuf.Dispose();
+            tilebuf = null;
+            mpb = null;
+            meshRenderer = null;
+        }
     }
 
     private void OnDestroy()
+    {
+        if (tilebuf != null)
+        {
+            tilebuf.Dispose();
+        }
+    }
+    private void OnDisable()
     {
         if (tilebuf != null)
         {

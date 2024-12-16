@@ -10,7 +10,8 @@ public class MeshGen : MonoBehaviour
     public Vector2Int size = new Vector2Int(9, 9);
     public Vector2Int atlasSize = new Vector2Int(2, 2);
     [Header("set true for quad, it only mirrors list")]
-    public bool xmirrorfix = true;
+    public bool xmirrorfix = false;
+    public bool ymirrorfix = true;
 
     [Header("Tile Indices")]
     public List<string> grid = new List<string>(9){
@@ -45,7 +46,7 @@ public class MeshGen : MonoBehaviour
         for(int x = 0; x < size.x; x++)
         for (int y = 0; y < size.y; y++)
         {
-            uint idx = tileIndices[x + y * size.x];
+            uint idx = tileIndices[x+1 + (y+1) * (size.x+2)];
             Vector3 pos = new Vector3(x, y, 0) * (size.x/2) //text offset
                         - this.transform.localScale / 2f // center to corner (chunk)
                         + new Vector3(2f,2f,0.0f); // center to corner (tile)
@@ -82,23 +83,30 @@ public class MeshGen : MonoBehaviour
         Dictionary<char, uint> charToUint = alphabet.Select((c, index) => new { c, index })
                                                     .ToDictionary(x => x.c, x => (uint)x.index);
 
-        tileIndices = new uint[size.x * size.y];
+        tileIndices = new uint[(size.x + 2) * (size.y + 2)];
+        // 0 1 2 3         x=0 x<4
+        // -1 0 1 2 3 4    x=-1 x<=4
+        // 0 1 2 3 4 5     x=0 x<4+2
+        // [0] 1 2 3 4 [5] x=1 x<=4
+
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
-                char currentChar = grid[y][xmirrorfix ? (size.x-1-x) : x];
+                char currentChar = grid[ymirrorfix ? (size.y-1-y) : y][xmirrorfix ? (size.x-1-x) : x];
 
                 if (!charToUint.TryGetValue(currentChar, out uint value))
                 {
                     Debug.LogError($"Invalid character '{currentChar}' in grid. Defaulting to zero");
-                    tileIndices[y * size.x + x] = 0;
+                    tileIndices[(y+1) * (size.x+2) + (x+1)] = 0;
                     continue;
                 }
 
-                tileIndices[y * size.x + x] = value;
+                tileIndices[(y+1) * (size.x+2) + (x+1)] = value;
             }
         }
+        //Debug.Log("Tile indices generated successfully");
+
 
 
     }
@@ -106,7 +114,7 @@ public class MeshGen : MonoBehaviour
     private void OnRenderObject()
     {
         mpb ??= new MaterialPropertyBlock();
-        tilebuf ??= new ComputeBuffer(size.x * size.y, sizeof(uint), ComputeBufferType.Default);
+        tilebuf ??= new ComputeBuffer((size.x+2) * (size.y+2), sizeof(uint), ComputeBufferType.Default);
 
         if (tileIndices == null)
         {

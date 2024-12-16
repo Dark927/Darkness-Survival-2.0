@@ -7,6 +7,7 @@ public abstract class CharacterBody : MonoBehaviour
 
     private ICharacterMovement _movement;
     private ICharacterView _view;
+    private CharacterVisual _visual;
 
     #endregion
 
@@ -15,6 +16,7 @@ public abstract class CharacterBody : MonoBehaviour
 
     public ICharacterMovement Movement { get => _movement; protected set => _movement = value; }
     public ICharacterView View { get => _view; protected set => _view = value; }
+    public CharacterVisual Visual { get => _visual; protected set => _visual = value; } 
 
     #endregion
 
@@ -30,7 +32,12 @@ public abstract class CharacterBody : MonoBehaviour
         InitView();
 
         InitReferences();
+
+#if UNITY_EDITOR
+        CheckComponentsStatus();
+#endif
     }
+
 
     protected abstract void Init();
 
@@ -60,6 +67,28 @@ public abstract class CharacterBody : MonoBehaviour
     {
         ClearReferences();
     }
+
+    // ToDo : Move this debug logic to the separate component 
+
+    // Debug
+    private void CheckComponentsStatus()
+    {
+        if (View == null)
+        {
+            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(View));
+        }
+
+        if (Movement == null)
+        {
+            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(Movement));
+        }
+
+        if (Visual == null)
+        {
+            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(Visual));
+        }
+    }
+
 
     #endregion
 }

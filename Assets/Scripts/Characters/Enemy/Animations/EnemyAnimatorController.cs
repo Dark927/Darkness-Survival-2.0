@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimatorController : AnimatorController<EnemyAnimatorParameters>
+public class EnemyAnimatorController : AnimatorController
 {
     #region Properties
+
+    public new EnemyAnimatorParameters Parameters { get => base.Parameters as EnemyAnimatorParameters; }
 
     public float Speed
     {

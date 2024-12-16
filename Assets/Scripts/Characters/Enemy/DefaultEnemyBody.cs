@@ -8,17 +8,19 @@ public class DefaultEnemyBody : CharacterBody
 {
     #region Fields
 
-    private EnemyAnimatorController _animatorController;
     [SerializeField] private int _sideSwitchDelayInMs = 0;
     [SerializeField] private int _accelerationTimeInMs = 500;
     private bool _isWaiting = false;
 
     private UniTask _activeSideSwitch;
     private CancellationTokenSource _cancellationTokenSource;
-    private TargetDetector _targetDetector;
 
+    private TargetDetector _targetDetector;
     private PlayerBody _targetPlayer;
 
+    // ToDo : In the future these parameters must be in the scriptable object (Enemy data)
+
+    [Header("Target Detection")]
     [SerializeField] private float _targetDetectionDistance;
     [SerializeField] private float _targetDetectionAreaWidth;
 
@@ -27,7 +29,7 @@ public class DefaultEnemyBody : CharacterBody
 
     #region Properties
 
-    public EnemyAnimatorController AnimatorController { get => _animatorController; private set => _animatorController = value; }
+    // ToDo : implement separate CharacterVisual component and move all related logic to it.
     public bool Waiting { get => _isWaiting; private set => _isWaiting = value; }
 
     #endregion
@@ -39,12 +41,11 @@ public class DefaultEnemyBody : CharacterBody
 
     protected override void Init()
     {
-        InitAnimation();
-
-        _targetPlayer = FindObjectOfType<PlayerBody>();
-
         // ToDo : Maybe move this logic to another place.
+        _targetPlayer = FindObjectOfType<PlayerBody>();
         _targetDetector = new TargetDetector(transform);
+
+        Visual = GetComponentInChildren<EnemyVisual>();
     }
 
     protected override void InitView()
@@ -58,12 +59,6 @@ public class DefaultEnemyBody : CharacterBody
         CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 2, MaxSpeedMultiplier = 2 };
 
         Movement.Speed.Set(speed);
-    }
-
-    private void InitAnimation()
-    {
-        Animator animator = GetComponent<Animator>();
-        AnimatorController = new EnemyAnimatorController(animator, new EnemyAnimatorParameters());
     }
 
     protected override void InitReferences()
@@ -80,14 +75,24 @@ public class DefaultEnemyBody : CharacterBody
 
     private void FixedUpdate()
     {
-        if (!Waiting)
+        if (Waiting)
         {
-            Movement.Move();
+            return;
+        }
 
-            if (!View.IsLookingForward(Movement.Direction) && !_targetDetector.IsTargetFoundOnVerticalAxis(_targetPlayer.transform.position, _targetDetectionDistance, _targetDetectionAreaWidth))
-            {
-                RequestSideSwitch();
-            }
+        Movement.Move();
+
+        if (!Visual.IsVisibleForCamera)
+        {
+            return;
+        }
+
+        bool needSideSwitch = !View.IsLookingForward(Movement.Direction) 
+            && !_targetDetector.IsTargetFoundOnVerticalAxis(_targetPlayer.transform.position, _targetDetectionDistance, _targetDetectionAreaWidth);
+        
+        if (needSideSwitch)
+        {
+            RequestSideSwitch();
         }
     }
 
@@ -128,6 +133,15 @@ public class DefaultEnemyBody : CharacterBody
     private void InterruptCurrentSideSwitch()
     {
         _cancellationTokenSource?.Cancel();
+    }
+
+
+    // Debug 
+
+    private void OnDrawGizmos()
+    {
+        _targetDetector = new TargetDetector(transform);
+        _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>(_targetDetectionDistance, _targetDetectionAreaWidth);
     }
 
     #endregion

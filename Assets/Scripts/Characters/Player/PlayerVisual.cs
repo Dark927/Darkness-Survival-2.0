@@ -6,7 +6,7 @@ public class PlayerVisual : CharacterVisual
     public PlayerAnimatorController PlayerAnimController { get; set; }
 
     protected override void Init()
-    {
+    { 
         base.Init();
 
         InitAnimation();

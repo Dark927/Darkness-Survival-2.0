@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 4305147359848049696}
   - component: {fileID: 1068641967125005398}
   - component: {fileID: 5069042129464851250}
+  - component: {fileID: 889460521701627987}
   m_Layer: 0
   m_Name: Nero
   m_TagString: Untagged
@@ -151,6 +152,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc72f795f1d16c4db02bac64bdda185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &889460521701627987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085055352683630366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5dac14bdf39d84aa8cc8ba84e961fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7507303139750698719
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +176,7 @@ GameObject:
   - component: {fileID: 7405241635267504937}
   - component: {fileID: 3756057329396142593}
   - component: {fileID: 284659710841730827}
+  - component: {fileID: 2057875600993417546}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -258,5 +272,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a72700a17bfe2a4a94c33ca5e2b72b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2057875600993417546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507303139750698719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b25739c02aeeb4794d1fa5bfca34d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

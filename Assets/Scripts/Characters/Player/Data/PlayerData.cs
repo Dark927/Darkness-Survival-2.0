@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player Data", menuName = "Player/MainData")]
-public class PlayerData : ScriptableObject
+namespace Characters.Player.Data
 {
-    public PlayerStats stats;
+    [CreateAssetMenu(fileName = "NewPlayerData", menuName = "Game/Characters/Player/MainData")]
+    public class PlayerData : ScriptableObject
+    {
+        public PlayerStats stats;
+    }
 }

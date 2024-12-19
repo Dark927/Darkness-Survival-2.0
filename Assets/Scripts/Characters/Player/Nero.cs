@@ -1,3 +1,4 @@
+using Characters.Player.Data;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterBody))]

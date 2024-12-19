@@ -4,146 +4,149 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 
-public class DefaultEnemyBody : CharacterBody
+namespace Characters.Enemy
 {
-    #region Fields
-
-    [SerializeField] private int _sideSwitchDelayInMs = 0;
-    [SerializeField] private int _accelerationTimeInMs = 500;
-    private bool _isWaiting = false;
-
-    private UniTask _activeSideSwitch;
-    private CancellationTokenSource _cancellationTokenSource;
-
-    private TargetDetector _targetDetector;
-    private PlayerBody _targetPlayer;
-
-    // ToDo : In the future these parameters must be in the scriptable object (Enemy data)
-
-    [Header("Target Detection")]
-    [SerializeField] private float _targetDetectionDistance;
-    [SerializeField] private float _targetDetectionAreaWidth;
-
-    #endregion
-
-
-    #region Properties
-
-    // ToDo : implement separate CharacterVisual component and move all related logic to it.
-    public bool Waiting { get => _isWaiting; private set => _isWaiting = value; }
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-
-    protected override void Init()
+    public class DefaultEnemyBody : CharacterBody
     {
-        // ToDo : Maybe move this logic to another place.
-        _targetPlayer = FindObjectOfType<PlayerBody>();
-        _targetDetector = new TargetDetector(transform);
+        #region Fields
 
-        Visual = GetComponentInChildren<EnemyVisual>();
-    }
+        [SerializeField] private int _sideSwitchDelayInMs = 0;
+        [SerializeField] private int _accelerationTimeInMs = 500;
+        private bool _isWaiting = false;
 
-    protected override void InitView()
-    {
-        View = new CharacterLookDirection(transform);
-    }
+        private UniTask _activeSideSwitch;
+        private CancellationTokenSource _cancellationTokenSource;
 
-    protected override void InitMovement()
-    {
-        Movement = new EnemyMovement(this, _targetPlayer);
-        CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 2, MaxSpeedMultiplier = 2 };
+        private TargetDetector _targetDetector;
+        private PlayerBody _targetPlayer;
 
-        Movement.Speed.Set(speed);
-    }
+        // ToDo : In the future these parameters must be in the scriptable object (Enemy data)
 
-    protected override void InitReferences()
-    {
+        [Header("Target Detection")]
+        [SerializeField] private float _targetDetectionDistance;
+        [SerializeField] private float _targetDetectionAreaWidth;
 
-    }
+        #endregion
 
-    protected override void ClearReferences()
-    {
 
-    }
+        #region Properties
 
-    #endregion
+        // ToDo : implement separate CharacterVisual component and move all related logic to it.
+        public bool Waiting { get => _isWaiting; private set => _isWaiting = value; }
 
-    private void FixedUpdate()
-    {
-        if (Waiting)
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+
+        protected override void Init()
         {
-            return;
+            // ToDo : Maybe move this logic to another place.
+            _targetPlayer = FindObjectOfType<PlayerBody>();
+            _targetDetector = new TargetDetector(transform);
+
+            Visual = GetComponentInChildren<EnemyVisual>();
         }
 
-        Movement.Move();
-
-        if (!Visual.IsVisibleForCamera)
+        protected override void InitView()
         {
-            return;
+            View = new CharacterLookDirection(transform);
         }
 
-        bool needSideSwitch = !View.IsLookingForward(Movement.Direction) 
-            && !_targetDetector.IsTargetFoundOnVerticalAxis(_targetPlayer.transform.position, _targetDetectionDistance, _targetDetectionAreaWidth);
-        
-        if (needSideSwitch)
+        protected override void InitMovement()
         {
-            RequestSideSwitch();
-        }
-    }
+            Movement = new EnemyMovement(this, _targetPlayer);
+            CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 2, MaxSpeedMultiplier = 2 };
 
-    private void RequestSideSwitch()
-    {
-        if (_activeSideSwitch.Status == UniTaskStatus.Pending)
-        {
-            InterruptCurrentSideSwitch();
-        }
-        else
-        {
-            _activeSideSwitch = SideSwitch(_sideSwitchDelayInMs);
-        }
-    }
-
-    private async UniTask SideSwitch(int delayInMs)
-    {
-        Waiting = true;
-        Movement.BlockMovement(delayInMs);
-
-        _cancellationTokenSource = new CancellationTokenSource();
-        CancellationToken token = _cancellationTokenSource.Token;
-
-        await UniTask.Delay(delayInMs, cancellationToken: token);
-
-        Waiting = false;
-
-        if (token.IsCancellationRequested)
-        {
-            return;
+            Movement.Speed.Set(speed);
         }
 
-        View.LookForward(Movement.Direction);
+        protected override void InitReferences()
+        {
 
-        await Movement.Speed.UpdateSpeedMultiplierLinear(Movement.Speed.MaxSpeedMultiplier, _accelerationTimeInMs, token);
+        }
+
+        protected override void ClearReferences()
+        {
+
+        }
+
+        #endregion
+
+        private void FixedUpdate()
+        {
+            if (Waiting)
+            {
+                return;
+            }
+
+            Movement.Move();
+
+            if (!Visual.IsVisibleForCamera)
+            {
+                return;
+            }
+
+            bool needSideSwitch = !View.IsLookingForward(Movement.Direction)
+                && !_targetDetector.IsTargetFoundOnVerticalAxis(_targetPlayer.transform.position, _targetDetectionDistance, _targetDetectionAreaWidth);
+
+            if (needSideSwitch)
+            {
+                RequestSideSwitch();
+            }
+        }
+
+        private void RequestSideSwitch()
+        {
+            if (_activeSideSwitch.Status == UniTaskStatus.Pending)
+            {
+                InterruptCurrentSideSwitch();
+            }
+            else
+            {
+                _activeSideSwitch = SideSwitch(_sideSwitchDelayInMs);
+            }
+        }
+
+        private async UniTask SideSwitch(int delayInMs)
+        {
+            Waiting = true;
+            Movement.BlockMovement(delayInMs);
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken token = _cancellationTokenSource.Token;
+
+            await UniTask.Delay(delayInMs, cancellationToken: token);
+
+            Waiting = false;
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            View.LookForward(Movement.Direction);
+
+            await Movement.Speed.UpdateSpeedMultiplierLinear(Movement.Speed.MaxSpeedMultiplier, _accelerationTimeInMs, token);
+        }
+
+        private void InterruptCurrentSideSwitch()
+        {
+            _cancellationTokenSource?.Cancel();
+        }
+
+
+        // Debug 
+
+        private void OnDrawGizmos()
+        {
+            _targetDetector = new TargetDetector(transform);
+            _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>(_targetDetectionDistance, _targetDetectionAreaWidth);
+        }
+
+        #endregion
+
     }
-
-    private void InterruptCurrentSideSwitch()
-    {
-        _cancellationTokenSource?.Cancel();
-    }
-
-
-    // Debug 
-
-    private void OnDrawGizmos()
-    {
-        _targetDetector = new TargetDetector(transform);
-        _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>(_targetDetectionDistance, _targetDetectionAreaWidth);
-    }
-
-    #endregion
-
 }

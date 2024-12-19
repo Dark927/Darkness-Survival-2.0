@@ -1,32 +1,36 @@
+using Characters.Enemy.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class DefaultEnemy : MonoBehaviour, IEnemyLogic
+namespace Characters.Enemy
 {
-    private CharacterBody _body;
-    private ICharacterMovement _movement;
-    private CharacterLookDirection _lookDirection;
-
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class DefaultEnemy : MonoBehaviour, IEnemyLogic
     {
-        InitComponents();
-    }
+        private CharacterBody _body;
+        private ICharacterMovement _movement;
+        private CharacterLookDirection _lookDirection;
 
-    private void InitComponents()
-    {
-        _body = GetComponent<CharacterBody>();
-    }
+        private void Awake()
+        {
+            InitComponents();
+        }
+
+        private void InitComponents()
+        {
+            _body = GetComponent<CharacterBody>();
+        }
 
 
-    public void Attack()
-    {
-        throw new System.NotImplementedException();
-    }
+        public void Attack()
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public void Move()
-    {
-        throw new System.NotImplementedException();
+        public void Move()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,23 +1,27 @@
-﻿using UnityEngine;
+﻿using Characters.Enemy.Animation;
+using UnityEngine;
 
-public class EnemyVisual : CharacterVisual
+namespace Characters.Enemy
 {
-    public EnemyAnimatorController AnimController { get; set; }
-
-    protected override void Init()
+    public class EnemyVisual : CharacterVisual
     {
-        base.Init();
-        InitAnimation();
-    }
+        public EnemyAnimatorController AnimController { get; set; }
 
-    private void InitAnimation()
-    {
-        Animator animator = GetComponent<Animator>();
-        AnimController = new EnemyAnimatorController(animator, new EnemyAnimatorParameters());
-    }
+        protected override void Init()
+        {
+            base.Init();
+            InitAnimation();
+        }
 
-    public override AnimatorController GetAnimatorController()
-    {
-        return AnimController;
+        private void InitAnimation()
+        {
+            Animator animator = GetComponent<Animator>();
+            AnimController = new EnemyAnimatorController(animator, new EnemyAnimatorParameters());
+        }
+
+        public override AnimatorController GetAnimatorController()
+        {
+            return AnimController;
+        }
     }
 }

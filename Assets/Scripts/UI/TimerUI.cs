@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
+using World.Components;
 
 public class TimerUI : MonoBehaviour
 {
     #region Fields
 
     private TextMeshProUGUI _textMesh;
-    private StageTimer _timer;
+    private GameTimer _timer;
 
     #endregion
 
@@ -18,7 +19,7 @@ public class TimerUI : MonoBehaviour
     private void Awake()
     {
         _textMesh = GetComponentInChildren<TextMeshProUGUI>();
-        _timer = FindAnyObjectByType<StageTimer>();
+        _timer = FindAnyObjectByType<GameTimer>();
 
         if (_timer == null)
         {
@@ -29,17 +30,14 @@ public class TimerUI : MonoBehaviour
 
     private void Start()
     {
-        _timer.OnSecondChanged += UpdateUI;
+        _timer.OnTimeChanged += UpdateUI;
     }
 
     #endregion
 
-    private void UpdateUI(int timeInSec)
+    private void UpdateUI(StageTime time)
     {
-        int minutes = Mathf.FloorToInt(timeInSec / 60f);
-        int seconds = Mathf.FloorToInt(timeInSec % 60f);
-
-        _textMesh.text = $"{minutes:00}:{seconds:00}";
+        _textMesh.text = $"{time.Minutes:00}:{time.Seconds:00}";
     }
 
     #endregion

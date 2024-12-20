@@ -46,7 +46,7 @@ public class PlayerMovement : ICharacterMovement
             _playerTransform = playerMonoBehaviour.transform;
 
             InitComponents();
-            _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
+            _speed.OnVelocityUpdate += VelocityUpdateListener;
         }
         else
         {
@@ -93,9 +93,9 @@ public class PlayerMovement : ICharacterMovement
         Stop();
     }
 
-    private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
+    private void VelocityUpdateListener(object sender, Vector2 velocity)
     {
-        _rigidbody.velocity = _speed.Velocity;
+        _rigidbody.velocity = velocity;
     }
 
     private void ResetFields()

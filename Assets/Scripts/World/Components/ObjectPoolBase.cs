@@ -9,14 +9,16 @@ namespace World.Components
     {
         #region Fields 
 
-        private Queue<T> _objectsQueue;
-
         private Func<T> _preloadFunc;
         private Action<T> _requestAction;
         private Action<T> _returnAction;
 
         private ObjectPoolSettings _poolSettings;
+
+        private Queue<T> _objectsQueue;
         private List<T> _activeObjects;
+
+        private Transform _container;
 
         #endregion
 
@@ -24,23 +26,21 @@ namespace World.Components
         #region Properties
 
         public bool CanExtend => (_objectsQueue.Count + _activeObjects.Count) < _poolSettings.MaxPoolCapacity;
+        public Transform Container => _container;
 
         #endregion
 
 
         #region Methods
 
-        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction)
+        #region Init
+
+        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, int preloadCount = ObjectPoolSettings.WRONG_PRELOAD_COUNT)
         {
             try
             {
-                _preloadFunc = preloadFunc;
-                _requestAction = requestAction;
-                _returnAction = returnAction;
-
-                _poolSettings = Resources.Load<GlobalGameConfig>("Data/Settings/GlobalGameConfig").PoolsSettings;
-
-                InitPool();
+                InitSettings(preloadFunc, requestAction, returnAction);
+                InitPool(preloadCount);
             }
             catch (Exception ex)
             {
@@ -49,9 +49,45 @@ namespace World.Components
             }
         }
 
-        private void InitPool()
+        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container, int preloadCount = ObjectPoolSettings.WRONG_PRELOAD_COUNT)
         {
-            int preloadCount = _poolSettings.PreloadInstancesCount;
+            try
+            {
+                InitSettings(preloadFunc, requestAction, returnAction, container);
+                InitPool(preloadCount);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+                Dispose();
+            }
+        }
+
+
+        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction)
+        {
+            InitActions(preloadFunc, requestAction, returnAction);
+            _poolSettings = Resources.Load<GlobalGameConfig>("Data/Settings/GlobalGameConfig").PoolsSettings;
+        }
+
+        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container)
+        {
+            _container = container;
+            InitActions(preloadFunc, requestAction, returnAction);
+            _poolSettings = Resources.Load<GlobalGameConfig>("Data/Settings/GlobalGameConfig").PoolsSettings;
+        }
+
+        private void InitActions(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction)
+        {
+            _preloadFunc = preloadFunc;
+            _requestAction = requestAction;
+            _returnAction = returnAction;
+        }
+
+        private void InitPool(int preloadCount)
+        {
+            preloadCount = (preloadCount == ObjectPoolSettings.WRONG_PRELOAD_COUNT) ? _poolSettings.PreloadInstancesCount : preloadCount; 
+
             _objectsQueue = new Queue<T>(preloadCount);
             _activeObjects = new List<T>();
 
@@ -60,6 +96,9 @@ namespace World.Components
                 ReturnObject(_preloadFunc());
             }
         }
+
+        #endregion
+
 
         public void ReturnObject(T obj)
         {

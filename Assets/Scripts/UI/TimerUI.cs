@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using World.Components;
+using Utilities.ErrorHandling;
 
 public class TimerUI : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class TimerUI : MonoBehaviour
 
         if (_timer == null)
         {
-            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(_timer));
+            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(_timer));
             gameObject.SetActive(false);
         }
     }

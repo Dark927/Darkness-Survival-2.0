@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 822d7151ce9378448a9ca0c0db45f695, type: 3}
-  m_Name: SimbiotSpawnData
+  m_Name: AncientKnightBloodySpawnData
   m_EditorClassIdentifier: 
-  EnemyData: {fileID: 11400000, guid: 5a189e271870fd646854d9dace422c71, type: 2}
-  Count: 3
+  EnemyData: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
+  Count: 5
   SpawnTime:
-    Minutes: 0
-    Seconds: 30
+    Minutes: 4
+    Seconds: 59
   SpawnInterval:
     Minutes: 0
     Seconds: 1

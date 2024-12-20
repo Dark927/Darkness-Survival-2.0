@@ -1,4 +1,6 @@
+using Characters.Enemy.Data;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using World.Components;
 using World.Data;
@@ -6,43 +8,37 @@ using World.Data;
 public class PoolTester : MonoBehaviour
 {
     private ObjectPoolBase<GameObject> _enemyPool;
-    [SerializeField] private EnemySpawnData _enemySpawnData;
-    GameObject container;
+    [SerializeField] private List<EnemySpawnData> _enemySpawnDataList;
+    private GameObject _container;
+    private EnemyFactory _enemyFactory;
 
     private void Start()
     {
-        container = new GameObject("EnemyContainer");
-        _enemyPool = new ObjectPoolBase<GameObject>(PreloadFunc, RequestAction, ReturnAction);
+        _container = new GameObject("EnemyContainer");
+        List<EnemyData> enemyDataList = new List<EnemyData>();
+
+        foreach(var enemySpawnData in _enemySpawnDataList)
+        {
+            enemyDataList.Add(enemySpawnData.EnemyData);
+        }
+
+        _enemyFactory = new EnemyFactory(enemyDataList);
         StartCoroutine(PoolRoutine());
     }
 
     IEnumerator PoolRoutine()
     {
         GameObject requested;
+        int randomIndex;
 
         while (true)
         {
-            requested = _enemyPool.RequestObject();
-            Debug.Log(requested != null);
+            randomIndex = Random.Range(0, _enemySpawnDataList.Count);
+            requested = _enemyFactory.GetEnemy(_enemySpawnDataList[randomIndex].EnemyData.ID);
+            Debug.Log($"Requested enemy is not null -> {requested != null}");
             yield return new WaitForSeconds(1.5f);
         }
     }
 
-    private GameObject PreloadFunc()
-    {
-        GameObject createdObj = Instantiate(_enemySpawnData.Obj.Prefab);
-        createdObj.transform.parent = container.transform;
 
-        return createdObj;
-    }
-
-    private void RequestAction(GameObject obj)
-    {
-        obj.SetActive(true);
-    }
-
-    private void ReturnAction(GameObject obj)
-    {
-        obj.SetActive(false);
-    }
 }

@@ -12,7 +12,7 @@ namespace World.Data
     {
         [Header("Enemy Settings")]
 
-        public EnemyData Obj;
+        public EnemyData EnemyData;
         public int Count = 0;
 
         [Header("Time Settings")]

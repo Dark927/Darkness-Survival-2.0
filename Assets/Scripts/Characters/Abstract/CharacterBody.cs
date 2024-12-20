@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using Utilities.ErrorHandling;
 
 public abstract class CharacterBody : MonoBehaviour
 {
@@ -75,17 +76,17 @@ public abstract class CharacterBody : MonoBehaviour
     {
         if (View == null)
         {
-            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(View));
+            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(View));
         }
 
         if (Movement == null)
         {
-            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(Movement));
+            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(Movement));
         }
 
         if (Visual == null)
         {
-            ErrorHandling.ErrorLogger.LogComponentIsNull(ErrorHandling.LogOutputType.Console, gameObject.name, nameof(Visual));
+            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(Visual));
         }
     }
 

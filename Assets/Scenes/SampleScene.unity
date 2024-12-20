@@ -1040,7 +1040,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fdf36b4a75854b4cb3abddd64a99b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawnData: {fileID: 11400000, guid: b8bd886664892d7498ae96ab9e29a388, type: 2}
+  _enemySpawnDataList:
+  - {fileID: 11400000, guid: 00bf18be8bbb39a43830ce621218b3f1, type: 2}
+  - {fileID: 11400000, guid: c30b72dfec457444aad8a23542325341, type: 2}
 --- !u!4 &1061828242
 Transform:
   m_ObjectHideFlags: 0

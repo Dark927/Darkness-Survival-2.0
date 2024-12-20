@@ -8,6 +8,8 @@ namespace Settings
     {
         [Header("Main Settings")]
 
+        public const short WRONG_PRELOAD_COUNT = -1;
+
         [SerializeField] private int _preloadInstancesCount;
         [SerializeField] private int _maxPoolCapacity;
 

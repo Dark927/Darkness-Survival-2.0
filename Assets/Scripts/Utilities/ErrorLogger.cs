@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ErrorHandling
+namespace Utilities.ErrorHandling
 {
     public enum LogOutputType
     {

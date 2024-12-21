@@ -35,7 +35,7 @@ namespace World.Components
 
         #region Init
 
-        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, int preloadCount = ObjectPoolSettings.WRONG_PRELOAD_COUNT)
+        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace World.Components
             }
         }
 
-        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container, int preloadCount = ObjectPoolSettings.WRONG_PRELOAD_COUNT)
+        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
         {
             try
             {
@@ -63,14 +63,7 @@ namespace World.Components
             }
         }
 
-
-        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction)
-        {
-            InitActions(preloadFunc, requestAction, returnAction);
-            _poolSettings = Resources.Load<GlobalGameConfig>("Data/Settings/GlobalGameConfig").PoolsSettings;
-        }
-
-        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container)
+        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container = null)
         {
             _container = container;
             InitActions(preloadFunc, requestAction, returnAction);
@@ -86,13 +79,17 @@ namespace World.Components
 
         private void InitPool(int preloadCount)
         {
-            preloadCount = (preloadCount == ObjectPoolSettings.WRONG_PRELOAD_COUNT) ? _poolSettings.PreloadInstancesCount : preloadCount; 
+            preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? _poolSettings.PreloadInstancesCount : preloadCount; 
 
             _objectsQueue = new Queue<T>(preloadCount);
             _activeObjects = new List<T>();
 
             for (int currentIndex = 0; currentIndex < preloadCount; currentIndex++)
             {
+                if(!CanExtend)
+                {
+                    break;
+                }
                 ReturnObject(_preloadFunc());
             }
         }

@@ -28,7 +28,7 @@ public class TargetDetector
                                             int layerIndex = Physics2D.DefaultRaycastLayers
                                             ) where T : MonoBehaviour
     {
-        // ToDo : Implement searching using default raycast without rectangle pattern.
+        // ToDo : Implement direct searching using default raycast without rectangle pattern.
         return IsTargetFoundInBox<T>(direction, distance, areaWidth, layerIndex);
     }
 

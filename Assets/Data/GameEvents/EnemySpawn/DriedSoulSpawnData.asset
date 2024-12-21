@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DriedSoulSpawnData
   m_EditorClassIdentifier: 
   EnemyData: {fileID: 11400000, guid: 74bb9dda9ee89934088434857091aa60, type: 2}
-  Count: 5
+  Count: 1000
   SpawnTime:
     Minutes: 0
-    Seconds: 59
-  SpawnInterval:
-    Minutes: 0
-    Seconds: 1
+    Seconds: 0
+  SpawnDuration:
+    Minutes: 7
+    Seconds: 0

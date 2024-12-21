@@ -3,7 +3,7 @@ using Settings;
 using System;
 using UnityEngine;
 
-namespace World.Components
+namespace World.Components.EnemyLogic
 {
     public class EnemyPool : ObjectPoolBase<GameObject>
     {
@@ -18,12 +18,12 @@ namespace World.Components
 
         #region Init
 
-        public EnemyPool(EnemyData data, int preloadCount = ObjectPoolSettings.WRONG_PRELOAD_COUNT) : 
+        public EnemyPool(EnemyData data, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
             base(() => PreloadFunc(data), RequestAction, ReturnAction, preloadCount)
         {
         }
 
-        public EnemyPool(EnemyData data, Transform container, int preloadCount = ObjectPoolSettings.WRONG_PRELOAD_COUNT) : 
+        public EnemyPool(EnemyData data, Transform container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
             base(() => PreloadFunc(data, container), RequestAction, ReturnAction, container, preloadCount)
         {
         }
@@ -46,14 +46,10 @@ namespace World.Components
 
         public static void RequestAction(GameObject obj)
         {
-
             if(obj == null)
             {
                 return;
             }
-
-            // ToDo : remove this later, caller shoul set active state by his own.
-            obj.SetActive(true);
         }
 
         public static void ReturnAction(GameObject obj)

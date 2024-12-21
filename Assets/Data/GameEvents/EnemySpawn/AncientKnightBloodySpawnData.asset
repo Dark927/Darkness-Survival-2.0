@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AncientKnightBloodySpawnData
   m_EditorClassIdentifier: 
   EnemyData: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
-  Count: 5
+  Count: 540
   SpawnTime:
-    Minutes: 4
-    Seconds: 59
-  SpawnInterval:
     Minutes: 0
-    Seconds: 1
+    Seconds: 0
+  SpawnDuration:
+    Minutes: 6
+    Seconds: 0

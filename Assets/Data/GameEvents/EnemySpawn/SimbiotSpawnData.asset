@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SimbiotSpawnData
   m_EditorClassIdentifier: 
   EnemyData: {fileID: 11400000, guid: 5a189e271870fd646854d9dace422c71, type: 2}
-  Count: 3
+  Count: 100
   SpawnTime:
     Minutes: 0
-    Seconds: 30
-  SpawnInterval:
+    Seconds: 20
+  SpawnDuration:
     Minutes: 0
-    Seconds: 1
+    Seconds: 59

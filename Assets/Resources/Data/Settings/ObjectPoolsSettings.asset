@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2839df2f810391543b34378b87a513f1, type: 3}
   m_Name: ObjectPoolsSettings
   m_EditorClassIdentifier: 
-  _preloadInstancesCount: 5
-  _maxPoolCapacity: 10
+  _preloadInstancesCount: 10
+  _maxPoolCapacity: 600

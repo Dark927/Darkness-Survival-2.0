@@ -12,6 +12,7 @@ namespace Characters.Enemy
 
         [SerializeField] private int _sideSwitchDelayInMs = 0;
         [SerializeField] private int _accelerationTimeInMs = 500;
+
         private bool _isWaiting = false;
 
         private UniTask _activeSideSwitch;
@@ -31,7 +32,6 @@ namespace Characters.Enemy
 
         #region Properties
 
-        // ToDo : implement separate CharacterVisual component and move all related logic to it.
         public bool Waiting { get => _isWaiting; private set => _isWaiting = value; }
 
         #endregion
@@ -58,7 +58,7 @@ namespace Characters.Enemy
         protected override void InitMovement()
         {
             Movement = new EnemyMovement(this, _targetPlayer);
-            CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 2, MaxSpeedMultiplier = 2 };
+            CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 3, MaxSpeedMultiplier = 3 };
 
             Movement.Speed.Set(speed);
         }

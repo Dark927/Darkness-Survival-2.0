@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AncientKnightGoldenSpawnData
   m_EditorClassIdentifier: 
   EnemyData: {fileID: 11400000, guid: c521cff070a5aa74eab4ec04a5695aee, type: 2}
-  Count: 5
+  Count: 20
   SpawnTime:
-    Minutes: 4
-    Seconds: 59
-  SpawnInterval:
     Minutes: 0
-    Seconds: 1
+    Seconds: 0
+  SpawnDuration:
+    Minutes: 0
+    Seconds: 59

@@ -1,15 +1,10 @@
 using Characters.Enemy.Data;
-using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using World.Components;
-using World.Data;
 
-namespace World.Components
+namespace World.Components.EnemyLogic
 {
-    public class EnemyFactory
+    public class EnemySource
     {
         #region Fields
 
@@ -23,9 +18,9 @@ namespace World.Components
 
         #region Init
 
-        public EnemyFactory(List<EnemyData> enemyDataList)
+        public EnemySource(List<EnemyData> enemyDataList, GameObjectsContainer container = null)
         {
-            InitContainer();
+            InitContainer(container);
             CreatePools(enemyDataList);
         }
 
@@ -45,18 +40,22 @@ namespace World.Components
             }
         }
 
-        private void InitContainer()
+        private void InitContainer(GameObjectsContainer container)
         {
-            if(_container == null)
+            if(container != null)
             {
-                GameObject obj = new GameObject("Default_Enemies_Container", typeof(GameObjectsContainer));
-                _container = obj.GetComponent<GameObjectsContainer>();
+                _container = container;
+                return;
             }
+
+            GameObject obj = new GameObject("Default_Enemies_Container", typeof(GameObjectsContainer));
+            _container = obj.GetComponent<GameObjectsContainer>();
         }
 
         #endregion
 
 
+        // ToDo : Move this logic to the separate script
         public GameObjectsContainer GetContainer(EnemyData data)
         {
             string outerContainerName = ($"{data.Name} container").Replace(" ", "_");

@@ -18,13 +18,13 @@ namespace Dark.Tile
         public uint[] UBO => tileMapAsset.UniformBuffer;
 
         private MaterialPropertyBlock mpb;
-        private MeshRenderer meshRenderer;
+        private Renderer meshRenderer;
         private ComputeBuffer tilebuf;
 
         [ExecuteAlways]
         private void Awake()
         {
-            meshRenderer = this.GetComponent<MeshRenderer>();
+            meshRenderer = this.GetComponent<Renderer>();
         }
         private void OnDrawGizmosSelected()
         {
@@ -82,7 +82,7 @@ namespace Dark.Tile
                 mpb.SetBuffer("_TileIndices", tilebuf);
 
                 if (meshRenderer == null)
-                    meshRenderer = GetComponent<MeshRenderer>();
+                    meshRenderer = GetComponent<Renderer>();
                 meshRenderer.SetPropertyBlock(mpb);
             }
             catch (Exception e)

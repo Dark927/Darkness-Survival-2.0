@@ -157,15 +157,16 @@ float4 TileSmooth(float2 uv)
     
     //draw rectangle outline based on tileUV
     #if _USE_EDGE_DEBUG_ON
-        float bound = 0.996;
+        //one pixel width
+        float bound = 1.0 - abs(ddx(tileUV.x)) * 0.5 - abs(ddy(tileUV.y)) * 0.5;
         if(tileUV.x >= bound && tileUV.y <= bound){
-            mixcolor = float4(0,0,1,1); 
+            mixcolor = float4(1,1,1,1); 
         }
         else if(tileUV.x <= bound && tileUV.y >= bound){
-            mixcolor = float4(0,1,0,1); 
+            mixcolor = float4(1,1,1,1); 
         }
         else if(tileUV.x >= bound && tileUV.y >= bound){
-            mixcolor = float4(1,0,0,1); 
+            mixcolor = float4(1,1,1,1); 
         }
     #endif
 

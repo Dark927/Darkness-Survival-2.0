@@ -146,7 +146,7 @@ namespace Dark.Tile
 
                 if (physicsScene.IsValid() && physicsScene.Raycast(ray.origin, ray.direction, out RaycastHit hit))
                 {
-                    MeshGen tileScript = hit.collider.GetComponent<MeshGen>();
+                    DarkTileMapDraw tileScript = hit.collider.GetComponent<DarkTileMapDraw>();
                     if (tileScript == null || textureArray == null) return;
 
                     // Call your tile editing logic

@@ -1,0 +1,94 @@
+#pragma kernel GaussianBlur
+#pragma kernel NormalKernel
+#pragma target cs_5_0 // or cs_5_0 for compute shaders
+
+// Texture inputs and outputs
+Texture2DArray<float4> InputTexture;
+RWTexture2DArray<float> TempTexture;
+RWTexture2DArray<float4> OutputTexture;
+
+SamplerState linearClampSampler {
+    Filter = MIN_MAG_MIP_POINT;
+    AddressU = TEXTURE_ADDRESS_WRAP;
+    AddressV = TEXTURE_ADDRESS_WRAP;
+};
+
+
+// Parameters
+uint _Width;
+uint _Height;
+float _Intensity;
+float _Smoothness;
+
+float Luminance(float3 color)
+{
+    return dot(color, float3(0.299f, 0.587f, 0.114f));
+}
+
+[numthreads(8, 8, 1)]
+void GaussianBlur(uint3 id : SV_DispatchThreadID) {
+    if (id.x >= _Width || id.y >= _Height) return;
+
+
+    _Smoothness = 5;
+    // Kernel radius for Gaussian blur
+    int kernelRadius = (int)(3.0 * _Smoothness);
+    float sigmaSq = _Smoothness * _Smoothness;
+
+    // Gaussian smoothing
+    float sum = 0.0;
+    float weightSum = 0.0;
+
+    
+    for (int x = -kernelRadius; x <= kernelRadius; x++) {
+        for (int y = -kernelRadius; y <= kernelRadius; y++) {
+            float weight = exp(-((x * x + y * y) / (2.0 * sigmaSq)));
+
+            int wrappedX = (id.x + x + _Width) % _Width;
+            int wrappedY = (id.y + y + _Height) % _Height;
+            
+            float4 sample = InputTexture[int3(wrappedX,wrappedY,id.z)];
+            //float4 sample = InputTexture.SampleLevel(linearClampSampler, float3((id.x + x) / (float)_Width, (id.y + y) / (float)_Height, id.z), 0);
+            sum += Luminance(sample.rgb) * weight; // Assuming grayscale input
+            weightSum += weight;
+        }
+    }
+
+    float smoothedValue = sum / weightSum;
+
+    // Store the smoothed value in the temporary texture
+    TempTexture[id.xyz] = smoothedValue;
+}
+
+[numthreads(8, 8, 1)]
+void NormalKernel(uint3 id : SV_DispatchThreadID) {
+    if (id.x >= _Width || id.y >= _Height) return;
+
+    // Sobel operator kernels
+    float c[3][3];
+    _Intensity = 3.8;
+    [unroll]
+    for (int i = 0; i < 3; i++) {
+        [unroll]
+        for (int j = 0; j < 3; j++) {
+            //int3 uv = id.xyz + int3(j-1, i-1, 0);
+            int wrappedX = (id.x + j-1 + _Width) % _Width;
+            int wrappedY = (id.y + i-1 + _Height) % _Height;
+            c[i][j] = TempTexture[int3(wrappedX,wrappedY,id.z)];
+            //c[i][j] = Luminance(InputTexture[int3(wrappedX,wrappedY,id.z)].rgb);
+        }
+    }
+    float gX =  -1.0f*c[0][0] - 2.0f*c[1][0] - 1.0f*c[2][0] 
+                +1.0f*c[0][2] + 2.0f*c[1][2] + 1.0f*c[2][2];
+
+    float gY =  -1.0f*c[2][0] - 2.0f*c[2][1] - 1.0f*c[2][1] 
+                +1.0f*c[0][0] + 2.0f*c[0][1] + 1.0f*c[0][2];
+
+    gX *= _Intensity;
+    gY *= _Intensity;
+    float3 normal = float3(gX,gY,1);
+    normal = normalize(normal);
+    normal.x *= -1;
+    normal = (normal * 0.5) + 0.5;
+    OutputTexture[id.xyz] = float4(normal,1.0);
+}

@@ -71,8 +71,8 @@ public class Nero : MonoBehaviour, IPlayer
 
     public void Move()
     {
-        _movement.Move();
-        _lookDirection.LookForward(_movement.Direction);
+        _movement?.Move();
+        _lookDirection?.LookForward(_movement.Direction);
     }
 
     public void Attack()

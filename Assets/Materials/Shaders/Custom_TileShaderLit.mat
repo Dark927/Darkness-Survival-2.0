@@ -40,13 +40,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeFactor: 0.85
+    - _EdgeFactor: 0.877
     - _USE_EDGE_DEBUG: 0
     - _USE_INTERPOLATION: 1
     - _USE_SMOOTHSTEP: 1
     - _USE_TILE_PADDING: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _GridSize: {r: 9, g: 9, b: 2, a: 2}
+    - _GridSize: {r: 9, g: 11, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -51,10 +51,7 @@ float4 bilinear(float2 uv, float4 TL, float4 TR, float4 BL, float4 BR){
 }
 
 uint indexate(uint x, uint y)
-{
-    x = min(x, (uint)_GridSize.x);
-    y = min(y, (uint)_GridSize.y);
-    
+{    
     #if _USE_TILE_PADDING_ON
         return _TileIndices[(y+1) * ((uint)_GridSize.x + 2) + (x+1)];
     #else
@@ -78,14 +75,8 @@ float4 SampleTiled(Texture2DArray texArray, SamplerState texsampler, float2 uv)
     return SAMPLE_TEXTURE2D_ARRAY(texArray, texsampler, tileUV, indexate(x, y));
 }
 
-//returns a normal indexed via tile
-float3 TileNormal(Texture2DArray normalMapArray, SamplerState normsampler, float2 uv)
-{
-    return UnpackNormal(SampleTiled(normalMapArray, normsampler, uv));
-}
-
 //returns unlit color of the tile
-float4 TileSmooth(float2 uv)
+float4 TileSmooth(Texture2DArray _MainTex, SamplerState sampler_MainTex, float2 uv)
 {
     // Map vertex UV to the grid
     float2 gridUV = uv * _GridSize.xy;
@@ -171,6 +162,18 @@ float4 TileSmooth(float2 uv)
     #endif
 
     return mixcolor;
+}
+
+//overload for default
+float4 TileSmooth(float2 uv)
+{
+    return TileSmooth(_MainTex, sampler_MainTex, uv);
+}
+
+//returns a normal indexed via tile
+float3 TileNormal(Texture2DArray normalMapArray, SamplerState normsampler, float2 uv)
+{
+    return UnpackNormal(TileSmooth(normalMapArray, normsampler, uv));
 }
 
 #endif

@@ -48,8 +48,8 @@ namespace Dark.Tile
             previewQuad.transform.position = Vector3.zero;
             previewQuad.transform.localScale = Vector3.one * 10f;
 
-            MeshGen meshGen = previewQuad.AddComponent<MeshGen>();
-            meshGen.tileMapAsset = tileMapData;
+            DarkTileMapDraw mapDraw = previewQuad.AddComponent<DarkTileMapDraw>();
+            mapDraw.tileMapAsset = tileMapData;
             //add quad to scene
             SceneManager.MoveGameObjectToScene(previewQuad, scene);
             addCamera();

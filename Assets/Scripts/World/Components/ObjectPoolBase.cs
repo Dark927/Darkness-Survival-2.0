@@ -2,6 +2,7 @@ using Settings;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace World.Components
 {
@@ -18,7 +19,7 @@ namespace World.Components
         private Queue<T> _objectsQueue;
         private List<T> _activeObjects;
 
-        private Transform _container;
+        private GameObjectsContainer _container;
 
         #endregion
 
@@ -26,7 +27,7 @@ namespace World.Components
         #region Properties
 
         public bool CanExtend => (_objectsQueue.Count + _activeObjects.Count) < _poolSettings.MaxPoolCapacity;
-        public Transform Container => _container;
+        public GameObjectsContainer Container => _container;
 
         #endregion
 
@@ -49,7 +50,7 @@ namespace World.Components
             }
         }
 
-        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
+        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
         {
             try
             {
@@ -63,11 +64,13 @@ namespace World.Components
             }
         }
 
-        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, Transform container = null)
+        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, GameObjectsContainer container = null)
         {
+            // ToDo : Try to use Zenject instead of this
+            _poolSettings = Resources.Load<GlobalGameConfig>(ResourcesPath.GlobalGameConfigPath).PoolsSettings;
+
             _container = container;
             InitActions(preloadFunc, requestAction, returnAction);
-            _poolSettings = Resources.Load<GlobalGameConfig>("Data/Settings/GlobalGameConfig").PoolsSettings;
         }
 
         private void InitActions(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction)
@@ -79,14 +82,14 @@ namespace World.Components
 
         private void InitPool(int preloadCount)
         {
-            preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? _poolSettings.PreloadInstancesCount : preloadCount; 
+            preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? _poolSettings.PreloadInstancesCount : preloadCount;
 
             _objectsQueue = new Queue<T>(preloadCount);
             _activeObjects = new List<T>();
 
             for (int currentIndex = 0; currentIndex < preloadCount; currentIndex++)
             {
-                if(!CanExtend)
+                if (!CanExtend)
                 {
                     break;
                 }

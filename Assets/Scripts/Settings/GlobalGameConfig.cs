@@ -8,7 +8,9 @@ namespace Settings
     {
         [Header("Gameplay Settings")]
         [SerializeField] private ObjectPoolSettings _poolSettings;
+        [SerializeField] private EnemySpawnSettings _enemySpawnSettings;
 
         public ObjectPoolSettings PoolsSettings => _poolSettings;
+        public EnemySpawnSettings EnemySpawnSettings => _enemySpawnSettings;
     }
 }

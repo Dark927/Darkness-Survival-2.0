@@ -23,7 +23,7 @@ namespace World.Components.EnemyLogic
         {
         }
 
-        public EnemyPool(EnemyData data, Transform container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
+        public EnemyPool(EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
             base(() => PreloadFunc(data, container), RequestAction, ReturnAction, container, preloadCount)
         {
         }
@@ -31,14 +31,14 @@ namespace World.Components.EnemyLogic
         #endregion
 
 
-        public static GameObject PreloadFunc(EnemyData data, Transform container = null)
+        public static GameObject PreloadFunc(EnemyData data, GameObjectsContainer container = null)
         {
             GameObject createdObj = UnityEngine.Object.Instantiate(data.Prefab);
             createdObj.name = $"{data.Name} {data.Type}".Replace(" ", "_");
 
             if (container != null)
             {
-                createdObj.transform.parent = container;
+                createdObj.transform.parent = container.transform;
             }
 
             return createdObj;

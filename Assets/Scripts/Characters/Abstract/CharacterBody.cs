@@ -1,6 +1,6 @@
 
 using UnityEngine;
-using Utilities.ErrorHandling;
+using Utilities.Characters;
 
 public abstract class CharacterBody : MonoBehaviour
 {
@@ -35,7 +35,7 @@ public abstract class CharacterBody : MonoBehaviour
         InitReferences();
 
 #if UNITY_EDITOR
-        CheckComponentsStatus();
+        CharacterSettingsValidator.CheckCharacterBodyStatus(this);
 #endif
     }
 
@@ -68,28 +68,6 @@ public abstract class CharacterBody : MonoBehaviour
     {
         ClearReferences();
     }
-
-    // ToDo : Move this debug logic to the separate component 
-
-    // Debug
-    private void CheckComponentsStatus()
-    {
-        if (View == null)
-        {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(View));
-        }
-
-        if (Movement == null)
-        {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(Movement));
-        }
-
-        if (Visual == null)
-        {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(Visual));
-        }
-    }
-
 
     #endregion
 }

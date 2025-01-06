@@ -1,6 +1,7 @@
 using Characters.Enemy.Data;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace World.Components.EnemyLogic
 {
@@ -35,14 +36,14 @@ namespace World.Components.EnemyLogic
             {
                 container = GetContainer(enemyData);
 
-                pool = new EnemyPool(enemyData, container.transform);
+                pool = new EnemyPool(enemyData, container);
                 _poolsDict.Add(enemyData.ID, pool);
             }
         }
 
         private void InitContainer(GameObjectsContainer container)
         {
-            if(container != null)
+            if (container != null)
             {
                 _container = container;
                 return;

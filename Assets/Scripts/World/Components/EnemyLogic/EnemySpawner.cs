@@ -1,12 +1,11 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
-using World.Components;
 using World.Data;
+using Settings;
+using Zenject;
 
 namespace World.Components.EnemyLogic
 {
@@ -18,14 +17,13 @@ namespace World.Components.EnemyLogic
 
         [SerializeField] private List<EnemySpawnData> _enemySpawnData;
         [SerializeField] private GameObjectsContainer _objectsContainer;
+
         private EnemySource _source;
         private GameTimer _timer;
         private List<UniTask> _actualSpawnTasks;
 
-        // ToDo : Move these fields to the EnemySpawn Config file and use it through GlobalGameSettings
-        [SerializeField] private Vector2 _spawnPositionRange = Vector2.zero;
-        [SerializeField] private Vector2 _spawnPositionOffset = Vector2.zero;
-
+        [Inject]
+        private EnemySpawnSettings _spawnSettings;
         private ICharacterConfigurator _configurator;
 
         #endregion
@@ -42,9 +40,10 @@ namespace World.Components.EnemyLogic
                 InitTimer();
                 TryInitContainer();
                 InitSource();
+
                 _actualSpawnTasks = new List<UniTask>();
                 _timer.OnTimeChanged += TrySpawnEnemy;
-                _configurator = new DefaultEnemyConfigurator(_spawnPositionRange, _spawnPositionOffset);
+                _configurator = new DefaultEnemyConfigurator(_spawnSettings.SpawnPositionRange, _spawnSettings.SpawnPositionOffset);
             }
             catch (Exception ex)
             {
@@ -85,25 +84,15 @@ namespace World.Components.EnemyLogic
 
         private void TrySpawnEnemy(StageTime time)
         {
-            List<EnemySpawnData> markedToSpawn = new List<EnemySpawnData>();
+            // Filter enemy spawn data
+            var markedToSpawn = _enemySpawnData
+                .Where(data => data.SpawnTime <= _timer.CurrentTime);
 
-            foreach (var data in _enemySpawnData)
-            {
-                if (data.SpawnTime <= _timer.CurrentTime)
-                {
-                    _actualSpawnTasks.Add(SpawnEnemyTask(data));
-                    markedToSpawn.Add(data);
-                    continue;
-                }
-                break;
-            }
+            // Add tasks for the filtered data
+            _actualSpawnTasks.AddRange(markedToSpawn.Select(data => SpawnEnemyTask(data)));
 
             // Remove all used enemy spawn data
-
-            foreach (var data in markedToSpawn)
-            {
-                _enemySpawnData.Remove(data);
-            }
+            _enemySpawnData.RemoveAll(data => markedToSpawn.Contains(data));
         }
 
         private async UniTask SpawnEnemyTask(EnemySpawnData data)

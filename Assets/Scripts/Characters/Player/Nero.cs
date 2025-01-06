@@ -8,7 +8,7 @@ public class Nero : MonoBehaviour, IPlayerLogic
 
     private PlayerData _stats;
 
-    private bool _started = false;
+    private bool _configured = false;
     private CharacterBody _body;
     private PlayerBasicAttack _attack;
     private PlayerInput _playerInput;
@@ -31,7 +31,6 @@ public class Nero : MonoBehaviour, IPlayerLogic
     private void Start()
     {
         SetReferences();
-        _started = true;
     }
 
     private void InitComponents()
@@ -61,6 +60,8 @@ public class Nero : MonoBehaviour, IPlayerLogic
         _animatorController = _body.Visual.GetAnimatorController() as PlayerAnimatorController;
         _attack.OnFastAttack += _animatorController.TriggerFastAttack;
         _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
+
+        _configured = true;
     }
 
     #endregion
@@ -72,9 +73,7 @@ public class Nero : MonoBehaviour, IPlayerLogic
 
     private void OnEnable()
     {
-        // ToDo : Implement another logic to avoid OnEnable before Start executed.
-
-        if (_started)
+        if (!_configured)
         {
             SetReferences();
         }
@@ -91,6 +90,8 @@ public class Nero : MonoBehaviour, IPlayerLogic
         _attack.OnFastAttack -= _animatorController.TriggerFastAttack;
         _attack.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
         _animatorController = null;
+
+        _configured = false;
     }
 
     #endregion

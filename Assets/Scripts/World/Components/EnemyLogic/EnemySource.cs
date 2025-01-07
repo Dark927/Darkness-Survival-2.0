@@ -12,6 +12,8 @@ namespace World.Components.EnemyLogic
         private Dictionary<int, EnemyPool> _poolsDict;
         private GameObjectsContainer _container;
 
+        private readonly DiContainer _diContainer;
+
         #endregion
 
 
@@ -19,9 +21,11 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemySource(List<EnemyData> enemyDataList, GameObjectsContainer container = null)
+        public EnemySource(DiContainer diContainer, List<EnemyData> enemyDataList, GameObjectsContainer container = null)
         {
-            InitContainer(container);
+            InitObjectsContainer(container);
+
+            _diContainer = diContainer;
             CreatePools(enemyDataList);
         }
 
@@ -36,12 +40,12 @@ namespace World.Components.EnemyLogic
             {
                 container = GetContainer(enemyData);
 
-                pool = new EnemyPool(enemyData, container);
+                pool = _diContainer.Instantiate<EnemyPool>(new object[] {enemyData, container});
                 _poolsDict.Add(enemyData.ID, pool);
             }
         }
 
-        private void InitContainer(GameObjectsContainer container)
+        private void InitObjectsContainer(GameObjectsContainer container)
         {
             if (container != null)
             {

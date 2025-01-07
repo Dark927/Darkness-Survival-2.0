@@ -2,14 +2,13 @@
 using Settings;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace World.Components.EnemyLogic
 {
     public class EnemyPool : ObjectPoolBase<GameObject>
     {
         #region Fields
-
-        private EnemyData _enemyData;
 
         #endregion
 
@@ -18,13 +17,28 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemyPool(EnemyData data, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
-            base(() => PreloadFunc(data), RequestAction, ReturnAction, preloadCount)
+        public EnemyPool(ObjectPoolSettings poolSettings,
+                        EnemyData data,
+                        int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
+            base(poolSettings,
+                () => PreloadFunc(data),
+                RequestAction,
+                ReturnAction,
+                preloadCount)
         {
         }
 
-        public EnemyPool(EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
-            base(() => PreloadFunc(data, container), RequestAction, ReturnAction, container, preloadCount)
+        [Inject]
+        public EnemyPool(ObjectPoolSettings poolSettings, 
+                        EnemyData data, 
+                        GameObjectsContainer container, 
+                        int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
+            base(poolSettings, 
+                () => PreloadFunc(data, container), 
+                RequestAction, 
+                ReturnAction, 
+                container, 
+                preloadCount)
         {
         }
 

@@ -22,9 +22,10 @@ namespace World.Components.EnemyLogic
         private GameTimer _timer;
         private List<UniTask> _actualSpawnTasks;
 
-        [Inject]
         private EnemySpawnSettings _spawnSettings;
         private ICharacterConfigurator _configurator;
+
+        private DiContainer _diContainer;
 
         #endregion
 
@@ -33,13 +34,20 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
+        [Inject]
+        public void Construct(DiContainer diContainer, EnemySpawnSettings spawnSettings)
+        {
+            _diContainer = diContainer;
+            _spawnSettings = spawnSettings;
+        }
+
         private void Awake()
         {
             try
             {
                 InitTimer();
                 TryInitContainer();
-                InitSource();
+                InitEnemySource();
 
                 _actualSpawnTasks = new List<UniTask>();
                 _timer.OnTimeChanged += TrySpawnEnemy;
@@ -73,10 +81,10 @@ namespace World.Components.EnemyLogic
             }
         }
 
-        private void InitSource()
+        private void InitEnemySource()
         {
             FilterSpawnData();
-            _source = new EnemySource(_enemySpawnData.Select(spawnData => spawnData.EnemyData).ToList(), _objectsContainer);
+            _source = _diContainer.Instantiate<EnemySource>(new object[] { _enemySpawnData.Select(spawnData => spawnData.EnemyData).ToList(), _objectsContainer });
         }
 
 

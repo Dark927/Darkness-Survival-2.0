@@ -36,10 +36,15 @@ namespace World.Components
 
         #region Init
 
-        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
+        public ObjectPoolBase(ObjectPoolSettings poolSettings,
+                            Func<T> preloadFunc, 
+                            Action<T> requestAction, 
+                            Action<T> returnAction, 
+                            int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
         {
             try
             {
+                _poolSettings = poolSettings;
                 InitSettings(preloadFunc, requestAction, returnAction);
                 InitPool(preloadCount);
             }
@@ -50,10 +55,16 @@ namespace World.Components
             }
         }
 
-        public ObjectPoolBase(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
+        public ObjectPoolBase(ObjectPoolSettings poolSettings,
+                            Func<T> preloadFunc, 
+                            Action<T> requestAction, 
+                            Action<T> returnAction, 
+                            GameObjectsContainer container, 
+                            int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
         {
             try
             {
+                _poolSettings = poolSettings;
                 InitSettings(preloadFunc, requestAction, returnAction, container);
                 InitPool(preloadCount);
             }
@@ -64,11 +75,9 @@ namespace World.Components
             }
         }
 
+
         private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, GameObjectsContainer container = null)
         {
-            // ToDo : Try to use Zenject instead of this
-            _poolSettings = Resources.Load<GlobalGameConfig>(ResourcesPath.GlobalGameConfigPath).PoolsSettings;
-
             _container = container;
             InitActions(preloadFunc, requestAction, returnAction);
         }
@@ -82,11 +91,16 @@ namespace World.Components
 
         private void InitPool(int preloadCount)
         {
-            preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? _poolSettings.PreloadInstancesCount : preloadCount;
+            preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? (_poolSettings.PreloadInstancesCount) : preloadCount;
 
             _objectsQueue = new Queue<T>(preloadCount);
             _activeObjects = new List<T>();
 
+            PreloadElements(preloadCount);
+        }
+
+        private void PreloadElements(int preloadCount)
+        {
             for (int currentIndex = 0; currentIndex < preloadCount; currentIndex++)
             {
                 if (!CanExtend)

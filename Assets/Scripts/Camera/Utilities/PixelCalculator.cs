@@ -1,6 +1,4 @@
-﻿
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class PixelCalculator
 {

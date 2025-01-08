@@ -40,7 +40,7 @@ namespace World.Components.EnemyLogic
             {
                 container = GetContainer(enemyData);
 
-                pool = _diContainer.Instantiate<EnemyPool>(new object[] {enemyData, container});
+                pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemyData, container });
                 _poolsDict.Add(enemyData.ID, pool);
             }
         }

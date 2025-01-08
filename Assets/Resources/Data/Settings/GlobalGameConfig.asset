@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _poolSettings: {fileID: 11400000, guid: a9b8e2c04d6ec5241a0e5d8feace65dc, type: 2}
   _enemySpawnSettings: {fileID: 11400000, guid: 06ef901eab1b6a2429edd89ea69acbc0, type: 2}
+  _worldGenerationSettings: {fileID: 11400000, guid: 02924422fa4358c4a8048ad490324e98, type: 2}

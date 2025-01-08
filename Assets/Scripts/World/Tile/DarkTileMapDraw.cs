@@ -1,45 +1,49 @@
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-
 using Dark.Tile;
+using System;
 using UnityEditor;
-using System.Runtime.InteropServices;
+using UnityEngine;
 
-namespace Dark.Tile
+namespace World.Tile
 {
     [ExecuteAlways]
     public class DarkTileMapDraw : MonoBehaviour
     {
         [Header("Dark Tile Asset")]
         public DarkTileMap tileMapAsset;
+
         public Vector2Int Size => tileMapAsset.Size;
+
         [HideInInspector]
         private uint[] gavno;
+
         [HideInInspector]
-        public uint[] UBO {
-            get {
-                if(gavno==null)
+        public uint[] UBO
+        {
+            get
+            {
+                if (gavno == null)
                     gavno = (uint[])tileMapAsset.UniformBuffer.Clone();
                 return gavno;
             }
         }
+
         private MaterialPropertyBlock mpb;
         private Renderer meshRenderer;
         private ComputeBuffer tilebuf;
+
         //its a view of the buffer, so we always create it
         public BezelData<uint> BezelData => new(UBO, Size);
+
         //[HideInInspector]
         public BezelState bezelState = BezelState.None;
-    
+
         [ExecuteAlways]
         private void Awake()
         {
             //UBO = (uint[])tileMapAsset.UniformBuffer.Clone();
             meshRenderer = this.GetComponent<Renderer>();
         }
+
         private void OnDrawGizmosSelected()
         {
 #if UNITY_EDITOR
@@ -58,7 +62,7 @@ namespace Dark.Tile
                     //apply rotation of transform to pos
                     pos = transform.rotation * pos;
                     pos += this.transform.position;
-                    if(Application.isPlaying)
+                    if (Application.isPlaying)
                         UnityEditor.Handles.Label(pos, idx.ToString(), playingStyle);
                     else
                         UnityEditor.Handles.Label(pos, idx.ToString());

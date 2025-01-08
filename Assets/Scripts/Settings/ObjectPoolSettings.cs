@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 namespace Settings
@@ -15,6 +14,7 @@ namespace Settings
 
         public int PreloadInstancesCount => _preloadInstancesCount;
         public int MaxPoolCapacity => _maxPoolCapacity;
+
     }
 
 }

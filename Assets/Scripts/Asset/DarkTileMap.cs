@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -19,14 +18,14 @@ namespace Dark.Tile
         private Vector2Int size;
 
         [DoNotSerialize]
-        public Vector2Int Size 
-        { 
+        public Vector2Int Size
+        {
             get => size;
-            set 
+            set
             {
                 //reinit array to avoid problems
-                if(size.x != value.x || size.y != value.y) //if the size has changed
-                { 
+                if (size.x != value.x || size.y != value.y) //if the size has changed
+                {
                     //reinit array to avoid problems
                     UniformBuffer = new uint[(value.x + 2) * (value.y + 2)];
                 }

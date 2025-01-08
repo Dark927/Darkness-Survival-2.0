@@ -1,5 +1,3 @@
-using System.Linq;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class DefaultControlLayout : IControlLayout

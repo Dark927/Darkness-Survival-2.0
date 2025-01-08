@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dark.Utils {
+namespace Dark.Utils
+{
     class Vector2ShortEqualityComparer : IEqualityComparer<Vector2Int>
     {
         public static readonly Vector2ShortEqualityComparer Default = new();

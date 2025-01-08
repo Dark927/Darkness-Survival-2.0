@@ -19,7 +19,7 @@ namespace Utilities.ErrorHandling
                     Debug.LogError($"{objectName} has {componentName} component == null");
                     break;
 
-                default: 
+                default:
                     throw new NotImplementedException();
             }
 

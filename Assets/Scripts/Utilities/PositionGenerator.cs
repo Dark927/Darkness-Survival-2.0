@@ -28,14 +28,14 @@ namespace Utilities.World
             }
 
             return position;
-        }        
-        
+        }
+
 
         public static Vector2 GetRandomPositionOutsideCamera(Camera camera)
         {
             return GetRandomPositionOutsideCamera(camera, Vector2.zero, Vector2.zero);
         }
-        
+
         public static Vector2 GetRandomPositionOutsideCamera(Camera camera, Vector2 range, Vector2 offset)
         {
             Vector2 cameraPosition = camera.transform.position;

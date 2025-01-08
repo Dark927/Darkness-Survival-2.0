@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dark.Utils 
+namespace Dark.Utils
 {
     public class PointGridIterator : IEnumerable<Vector2Int>
     {
@@ -11,9 +10,9 @@ namespace Dark.Utils
         public PointGridIterator(float X, float Y, int subdivisions)
         {
             this.minX = -X;
-            this.maxX =  X;
+            this.maxX = X;
             this.minY = -Y;
-            this.maxY =  Y;
+            this.maxY = Y;
             this.subdivisions = subdivisions;
         }
 

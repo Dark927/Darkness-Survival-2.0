@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
+using Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using World.Data;
-using Settings;
 using Zenject;
 
 namespace World.Components.EnemyLogic

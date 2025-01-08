@@ -150,7 +150,7 @@ public static class NormalProcessor
 
 
         intensity = 1.0f / intensity;
-        
+
         var strength = maxGradient / (maxGradient * intensity);
 
         for (int y = 0; y < height; y++)
@@ -201,6 +201,6 @@ public static class MenuUtilsNormie
         System.IO.File.WriteAllBytes(normalMapPath, normalMap.EncodeToPNG());
         AssetDatabase.Refresh();
 
-        
+
     }
 }

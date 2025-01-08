@@ -1,8 +1,3 @@
-using Cysharp.Threading.Tasks;
-using System;
-using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,7 +22,7 @@ public class PlayerMovement : ICharacterMovement
     public bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
 
     public Vector2 Direction => _direction;
-    public ref CharacterSpeed Speed => ref _speed; 
+    public ref CharacterSpeed Speed => ref _speed;
 
 
     #endregion

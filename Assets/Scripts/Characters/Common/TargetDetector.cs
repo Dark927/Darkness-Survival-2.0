@@ -1,7 +1,4 @@
-﻿
-using TMPro;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class TargetDetector

@@ -1,14 +1,15 @@
 ﻿using Characters.Enemy.Data;
 using Settings;
-using System;
 using UnityEngine;
 using Zenject;
 
 namespace World.Components.EnemyLogic
 {
-    public class EnemyPool : ObjectPoolBase<GameObject>
+    public sealed class EnemyPool : ObjectPoolBase<GameObject>
     {
         #region Fields
+
+        private readonly EnemyData _enemyData;
 
         #endregion
 
@@ -17,38 +18,27 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemyPool(ObjectPoolSettings poolSettings,
-                        EnemyData data,
-                        int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
-            base(poolSettings,
-                () => PreloadFunc(data),
-                RequestAction,
-                ReturnAction,
-                preloadCount)
+        public EnemyPool(ObjectPoolSettings poolSettings, EnemyData data, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
+            base(poolSettings, data.Prefab)
         {
+            _enemyData = data;
+            InitPool(preloadCount);
         }
 
         [Inject]
-        public EnemyPool(ObjectPoolSettings poolSettings, 
-                        EnemyData data, 
-                        GameObjectsContainer container, 
-                        int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) : 
-            base(poolSettings, 
-                () => PreloadFunc(data, container), 
-                RequestAction, 
-                ReturnAction, 
-                container, 
-                preloadCount)
+        public EnemyPool(ObjectPoolSettings poolSettings, EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
+            base(poolSettings, data.Prefab, container)
         {
+            _enemyData = data;
+            InitPool(preloadCount);
         }
 
         #endregion
 
-
-        public static GameObject PreloadFunc(EnemyData data, GameObjectsContainer container = null)
+        protected override GameObject PreloadFunc(GameObject prefab, GameObjectsContainer container = null)
         {
-            GameObject createdObj = UnityEngine.Object.Instantiate(data.Prefab);
-            createdObj.name = $"{data.Name} {data.Type}".Replace(" ", "_");
+            GameObject createdObj = UnityEngine.Object.Instantiate(_enemyData.Prefab);
+            createdObj.name = $"{_enemyData.Name} {_enemyData.Type}".Replace(" ", "_");
 
             if (container != null)
             {
@@ -58,21 +48,9 @@ namespace World.Components.EnemyLogic
             return createdObj;
         }
 
-        public static void RequestAction(GameObject obj)
+        protected override void ReturnAction(GameObject obj)
         {
-            if(obj == null)
-            {
-                return;
-            }
-        }
-
-        public static void ReturnAction(GameObject obj)
-        {
-            if(obj == null)
-            {
-                throw new ArgumentNullException($"# Returning the null object to the object pool! - {nameof(EnemyPool)} : {nameof(ReturnAction)}");
-            }
-
+            base.ReturnAction(obj);
             obj.SetActive(false);
         }
 

@@ -7,7 +7,7 @@ public class GameTimer : MonoBehaviour
     #region Fields
 
     [SerializeField] private float _speed = 1f;
-    
+
     private float _elapsedTime;
     private StageTime _time;
 
@@ -23,7 +23,7 @@ public class GameTimer : MonoBehaviour
 
 
     #region Methods
-    
+
     private void Awake()
     {
         _elapsedTime = 0;
@@ -33,7 +33,7 @@ public class GameTimer : MonoBehaviour
     {
         _elapsedTime += Time.deltaTime * _speed;
 
-        if(_time.TryUpdateSeconds((uint)Mathf.FloorToInt(_elapsedTime)))
+        if (_time.TryUpdateSeconds((uint)Mathf.FloorToInt(_elapsedTime)))
         {
             OnTimeChanged?.Invoke(_time);
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInput
@@ -17,7 +15,7 @@ public class PlayerInput
     {
         if (playerMovement is PlayerMovement movement)
         {
-            if(_playerMovement != null)
+            if (_playerMovement != null)
             {
                 RemoveMovement();
             }

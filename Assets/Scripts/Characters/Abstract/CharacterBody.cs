@@ -17,7 +17,7 @@ public abstract class CharacterBody : MonoBehaviour
 
     public ICharacterMovement Movement { get => _movement; protected set => _movement = value; }
     public ICharacterView View { get => _view; protected set => _view = value; }
-    public CharacterVisual Visual { get => _visual; protected set => _visual = value; } 
+    public CharacterVisual Visual { get => _visual; protected set => _visual = value; }
 
     #endregion
 

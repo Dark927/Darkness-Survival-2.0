@@ -2,10 +2,11 @@ using Settings;
 using System;
 using UnityEngine;
 using Utilities.ErrorHandling;
+using World.Tile;
 using Zenject;
 
 [CreateAssetMenu(fileName = "GameSettingsInstaller", menuName = "Installers/GameSettingsInstaller")]
-public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
+public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller>
 {
     private GlobalGameConfig _gameConfig;
 
@@ -43,6 +44,11 @@ public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInsta
         Container
             .Bind<EnemySpawnSettings>()
             .FromScriptableObject(_gameConfig.EnemySpawnSettings)
+            .AsSingle();
+
+        Container
+            .Bind<GenerationSettings>()
+            .FromScriptableObject(_gameConfig.WorldGenerationSettings)
             .AsSingle();
     }
 

@@ -1,10 +1,6 @@
+using CommunityToolkit.HighPerformance;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Dark.Utils;
-
-using CommunityToolkit.HighPerformance;
 using UnityEngine;
 
 
@@ -50,7 +46,7 @@ public ref struct BezelData<T>
     public ref T CornerLB => ref Buffer[^1, 0];
     public ref T CornerRB => ref Buffer[^1, ^1];
 
-    public readonly Span2D<T> Top => Buffer[..1, 1..^1]; 
+    public readonly Span2D<T> Top => Buffer[..1, 1..^1];
     public readonly Span2D<T> Bottom => Buffer[^1.., 1..^1];
     public readonly Span2D<T> Left => Buffer[1..^1, ..1];
     public readonly Span2D<T> Right => Buffer[1..^1, ^1..];
@@ -62,14 +58,14 @@ public ref struct BezelData<T>
     }
     public BezelData(T[] buffer, Vector2Int innerSize)
     {
-        Buffer = new Span2D<T>(buffer, innerSize.y+2, innerSize.x+2);
+        Buffer = new Span2D<T>(buffer, innerSize.y + 2, innerSize.x + 2);
     }
 
     public void Randomize(List<T> values)
     {
         var random = new System.Random();
-        for(int x = 0; x < Buffer.Width; x++)
-            for(int y = 0; y < Buffer.Height; y++)
-                Buffer[y,x] = values[random.Next(values.Count)];
+        for (int x = 0; x < Buffer.Width; x++)
+            for (int y = 0; y < Buffer.Height; y++)
+                Buffer[y, x] = values[random.Next(values.Count)];
     }
 }

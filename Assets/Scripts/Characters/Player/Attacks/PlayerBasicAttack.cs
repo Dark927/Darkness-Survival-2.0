@@ -1,7 +1,7 @@
 
 using System;
-using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum PlayerAttackType
 {
@@ -25,7 +25,7 @@ public class PlayerBasicAttack
 
         var animationEvents = GameObject.FindObjectOfType<NeroAnimationEvents>();
 
-        if(animationEvents != null )
+        if (animationEvents != null)
         {
             animationEvents.AttackFinished += SetAttackFinished;
         }

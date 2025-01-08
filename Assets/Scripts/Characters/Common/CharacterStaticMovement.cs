@@ -1,12 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterStaticMovement : ICharacterMovement
 {
@@ -19,7 +11,7 @@ public class CharacterStaticMovement : ICharacterMovement
     {
 
     }
-    
+
     public void Move()
     {
 
@@ -27,7 +19,7 @@ public class CharacterStaticMovement : ICharacterMovement
 
     public void SetSpeed(CharacterSpeed speed)
     {
-        
+
     }
 
     public void Stop()

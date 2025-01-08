@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -67,7 +66,7 @@ public class NormalProcessorGPU : System.IDisposable
         RenderTexture.active = outputTexture;
         result.ReadPixels(new Rect(0, 0, outputTexture.width, outputTexture.height), 0, 0);
         result.Apply();
-        
+
         RenderTexture.active = null;
 
         // Cleanup
@@ -95,7 +94,7 @@ public static class MenuUtilsNormieGPU
     }
 
     [MenuItem("Assets/Dark/Generate Normals (GPU)")]
-    public static void OpenPreview() 
+    public static void OpenPreview()
     {
         Texture2D texture = Selection.activeObject as Texture2D;
         if (texture == null)
@@ -115,6 +114,6 @@ public static class MenuUtilsNormieGPU
         System.IO.File.WriteAllBytes(normalMapPath, normalMap.EncodeToPNG());
         AssetDatabase.Refresh();
 
-        
+
     }
 }

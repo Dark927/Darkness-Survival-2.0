@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Experimental.Rendering;
 
 namespace Dark.Utils
 {
@@ -11,9 +8,9 @@ namespace Dark.Utils
     {
         public static void DrawBorder(this Texture2D tex, Color borderCol, int thickness)
         {
-            if(tex.format != TextureFormat.RGBA32)
+            if (tex.format != TextureFormat.RGBA32)
                 throw new Exception("WRONG TEXTURE FORMAT TO ADD BORDER!");
-                
+
             int width = tex.width;
             int height = tex.height;
 

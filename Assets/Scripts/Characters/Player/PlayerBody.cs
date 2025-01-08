@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerBody : CharacterBody
 {
     #region Fields
@@ -56,8 +54,8 @@ public class PlayerBody : CharacterBody
 
     private void MoveForward()
     {
-        Movement.Move();
-        View.LookForward(Movement.Direction);
+        Movement?.Move();
+        View?.LookForward(Movement.Direction);
     }
 
     #endregion

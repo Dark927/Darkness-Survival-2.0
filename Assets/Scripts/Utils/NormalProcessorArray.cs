@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -76,11 +75,11 @@ public class NormalProcessorArray : System.IDisposable
         //Graphics.CopyTexture(outputTexture, result);
         var asyncAction = AsyncGPUReadback.Request(outputTexture, 0);
         asyncAction.WaitForCompletion();
-        for(int i = 0; i < 64;i++)
+        for (int i = 0; i < 64; i++)
             result.SetPixelData(asyncAction.GetData<byte>(i), 0, i);
         result.Apply();
-        
-        
+
+
         RenderTexture.active = null;
 
         // Cleanup
@@ -108,7 +107,7 @@ public static class MenuUtilsNormieArray
     }
 
     [MenuItem("Assets/Dark/Generate Normals (Array)")]
-    public static void OpenPreview() 
+    public static void OpenPreview()
     {
         Texture2DArray texture = Selection.activeObject as Texture2DArray;
         if (texture == null)
@@ -127,7 +126,7 @@ public static class MenuUtilsNormieArray
         // Save the normal map to disk
         SaveTextureAtlas(normalMap, 8, normalMapPath);
 
-        AssetDatabase.Refresh();   
+        AssetDatabase.Refresh();
     }
 
     public static void SaveTextureAtlas(Texture2DArray textureArray, int atlasColumns, string savePath)
@@ -148,7 +147,7 @@ public static class MenuUtilsNormieArray
         for (int layer = 0; layer < layerCount; layer++)
         {
             int xOffset = (layer % atlasColumns) * layerWidth;
-            int yOffset = ((layerCount-layer-1) / atlasColumns) * layerHeight;
+            int yOffset = ((layerCount - layer - 1) / atlasColumns) * layerHeight;
 
             // Extract layer
             Texture2D layerTexture = new Texture2D(layerWidth, layerHeight, textureArray.format, false);

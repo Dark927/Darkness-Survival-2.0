@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
-using World.Components;
 using Utilities.ErrorHandling;
+using World.Components;
 
 public class TimerUI : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class TimerUI : MonoBehaviour
     #region Methods
 
     #region Init 
-    
+
     private void Awake()
     {
         _textMesh = GetComponentInChildren<TextMeshProUGUI>();

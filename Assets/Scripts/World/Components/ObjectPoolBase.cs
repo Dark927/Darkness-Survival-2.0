@@ -2,18 +2,14 @@ using Settings;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace World.Components
 {
-    public class ObjectPoolBase<T> : IDisposable where T : class
+    public abstract class ObjectPoolBase<T> : IDisposable where T : class
     {
         #region Fields 
 
-        private Func<T> _preloadFunc;
-        private Action<T> _requestAction;
-        private Action<T> _returnAction;
-
+        private T _poolItem;
         private ObjectPoolSettings _poolSettings;
 
         private Queue<T> _objectsQueue;
@@ -36,17 +32,11 @@ namespace World.Components
 
         #region Init
 
-        public ObjectPoolBase(ObjectPoolSettings poolSettings,
-                            Func<T> preloadFunc, 
-                            Action<T> requestAction, 
-                            Action<T> returnAction, 
-                            int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
+        public ObjectPoolBase(ObjectPoolSettings poolSettings, T poolItem)
         {
             try
             {
-                _poolSettings = poolSettings;
-                InitSettings(preloadFunc, requestAction, returnAction);
-                InitPool(preloadCount);
+                InitSettings(poolSettings, poolItem);
             }
             catch (Exception ex)
             {
@@ -55,18 +45,11 @@ namespace World.Components
             }
         }
 
-        public ObjectPoolBase(ObjectPoolSettings poolSettings,
-                            Func<T> preloadFunc, 
-                            Action<T> requestAction, 
-                            Action<T> returnAction, 
-                            GameObjectsContainer container, 
-                            int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
+        public ObjectPoolBase(ObjectPoolSettings poolSettings, T poolItem, GameObjectsContainer container)
         {
             try
             {
-                _poolSettings = poolSettings;
-                InitSettings(preloadFunc, requestAction, returnAction, container);
-                InitPool(preloadCount);
+                InitSettings(poolSettings, poolItem, container);
             }
             catch (Exception ex)
             {
@@ -76,20 +59,14 @@ namespace World.Components
         }
 
 
-        private void InitSettings(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction, GameObjectsContainer container = null)
+        private void InitSettings(ObjectPoolSettings poolSettings, T poolItem, GameObjectsContainer container = null)
         {
+            _poolItem = poolItem;
+            _poolSettings = poolSettings;
             _container = container;
-            InitActions(preloadFunc, requestAction, returnAction);
         }
 
-        private void InitActions(Func<T> preloadFunc, Action<T> requestAction, Action<T> returnAction)
-        {
-            _preloadFunc = preloadFunc;
-            _requestAction = requestAction;
-            _returnAction = returnAction;
-        }
-
-        private void InitPool(int preloadCount)
+        protected virtual void InitPool(int preloadCount)
         {
             preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? (_poolSettings.PreloadInstancesCount) : preloadCount;
 
@@ -107,16 +84,26 @@ namespace World.Components
                 {
                     break;
                 }
-                ReturnObject(_preloadFunc());
+                ReturnObject(PreloadFunc(_poolItem, _container) as T);
             }
         }
 
         #endregion
 
+        #region Clear
+
+        public void Dispose()
+        {
+            _objectsQueue = null;
+            _activeObjects = null;
+            _poolSettings = null;
+        }
+
+        #endregion
 
         public void ReturnObject(T obj)
         {
-            _returnAction(obj);
+            ReturnAction(obj as GameObject);
             _activeObjects.Remove(obj);
             _objectsQueue.Enqueue(obj);
         }
@@ -128,24 +115,45 @@ namespace World.Components
             if (obj != null)
             {
                 _activeObjects.Add(obj);
-                _requestAction(obj);
+                RequestAction(obj);
             }
 
             return obj;
         }
 
-        public void Dispose()
+        protected virtual GameObject PreloadFunc(T poolItem, GameObjectsContainer container = null)
         {
-            _objectsQueue = null;
-            _activeObjects = null;
-            _poolSettings = null;
+            GameObject prefab = poolItem as GameObject;
+
+            GameObject createdObj = UnityEngine.Object.Instantiate(prefab);
+            createdObj.name = $"{prefab.name}".Replace(" ", "_");
+
+            if (container != null)
+            {
+                createdObj.transform.parent = container.transform;
+            }
+
+            return createdObj;
+        }
+
+        protected virtual void RequestAction(T obj)
+        {
+
+        }
+
+        protected virtual void ReturnAction(GameObject obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException($"# Returning the null object to the object pool! - {nameof(ReturnAction)}");
+            }
         }
 
         private T TryPreloadElement()
         {
             if (CanExtend)
             {
-                T obj = _preloadFunc();
+                T obj = PreloadFunc(_poolItem, _container) as T;
                 return obj;
             }
             return null;

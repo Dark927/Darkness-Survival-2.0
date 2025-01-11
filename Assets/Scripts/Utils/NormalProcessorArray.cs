@@ -7,6 +7,8 @@ using UnityEngine.Rendering;
 public class NormalProcessorArray : System.IDisposable
 {
     private ComputeShader computeShader;
+    private RenderTexture inputRT;
+    private RenderTexture tempTexture;
     private RenderTexture outputTexture;
 
     public NormalProcessorArray()
@@ -20,7 +22,7 @@ public class NormalProcessorArray : System.IDisposable
         int sobel = computeShader.FindKernel("NormalKernel");
 
         // Create input and output textures
-        RenderTexture inputRT = new(inputTexture.width, inputTexture.height, inputTexture.depth, RenderTextureFormat.ARGBFloat)
+        inputRT = new(inputTexture.width, inputTexture.height, inputTexture.depth, RenderTextureFormat.ARGBFloat)
         {
             enableRandomWrite = true,
             dimension = UnityEngine.Rendering.TextureDimension.Tex2DArray, // Set as 2D texture array
@@ -29,8 +31,7 @@ public class NormalProcessorArray : System.IDisposable
         inputRT.Create();
         Graphics.Blit(inputTexture, inputRT);
 
-
-        RenderTexture tempTexture = new(inputTexture.width, inputTexture.height, inputTexture.depth, RenderTextureFormat.RFloat)
+        tempTexture = new(inputTexture.width, inputTexture.height, inputTexture.depth, RenderTextureFormat.RFloat)
         {
             enableRandomWrite = true,
             dimension = UnityEngine.Rendering.TextureDimension.Tex2DArray, // Set as 2D texture array
@@ -55,16 +56,16 @@ public class NormalProcessorArray : System.IDisposable
         computeShader.SetFloat("_Smoothness", smoothness);
         computeShader.SetFloat("_Intensity", intensity);
 
-        // Execute the compute shader
-        int threadGroupsX = Mathf.CeilToInt(inputTexture.width / 8.0f);
-        int threadGroupsY = Mathf.CeilToInt(inputTexture.height / 8.0f);
-        //int threadGroupsY = Mathf.CeilToInt(inputTexture.depth / 8.0f);
+        int threadGroupsX = Mathf.CeilToInt(inputTexture.width /2 / 8.0f);
+        int threadGroupsY = Mathf.CeilToInt(inputTexture.height/2 / 8.0f);
 
+        //1st pass: gaussian blur
         computeShader.SetTexture(gaussian, "InputTexture", inputRT);
         computeShader.SetTexture(gaussian, "TempTexture", tempTexture);
         computeShader.SetTexture(gaussian, "OutputTexture", outputTexture);
         computeShader.Dispatch(gaussian, threadGroupsX, threadGroupsY, inputTexture.depth);
 
+        //2nd pass: normals by sobel
         computeShader.SetTexture(sobel, "InputTexture", inputRT);
         computeShader.SetTexture(sobel, "TempTexture", tempTexture);
         computeShader.SetTexture(sobel, "OutputTexture", outputTexture);
@@ -90,6 +91,15 @@ public class NormalProcessorArray : System.IDisposable
 
     public void Dispose()
     {
+        //Unity objects should not use null propagation.UNT0008
+        if(inputRT != null)
+        {
+            inputRT.Release();
+        }
+        if(tempTexture != null)
+        {
+            tempTexture.Release();
+        }
         if (outputTexture != null)
         {
             outputTexture.Release();

@@ -30,7 +30,7 @@ void GaussianBlur(uint3 id : SV_DispatchThreadID) {
     if (id.x >= _Width || id.y >= _Height) return;
 
 
-    _Smoothness = 5;
+    //_Smoothness = 5;
     // Kernel radius for Gaussian blur
     int kernelRadius = (int)(3.0 * _Smoothness);
     float sigmaSq = _Smoothness * _Smoothness;
@@ -66,7 +66,7 @@ void NormalKernel(uint3 id : SV_DispatchThreadID) {
 
     // Sobel operator kernels
     float c[3][3];
-    _Intensity = 3.8;
+   // _Intensity = 3.8;
     [unroll]
     for (int i = 0; i < 3; i++) {
         [unroll]

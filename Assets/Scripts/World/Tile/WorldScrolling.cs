@@ -1,6 +1,8 @@
-﻿using Dark.Utils;
+﻿using Dark.Tile;
+using Dark.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using World.Components;
 
@@ -16,6 +18,11 @@ namespace World.Tile
         private Vector2Int _playerTilePosition;
 
         private GameObjectsContainer _tilesContainer;
+
+        // Ordered generation
+
+        private List<GameObject> _prefabsToCreate;
+        private Func<GameObject> _getChunkPrefab;
 
         #endregion
 
@@ -43,6 +50,7 @@ namespace World.Tile
             _loadedTilesDict = new Dictionary<Vector2Int, DarkTileMapDraw>(new Vector2ShortEqualityComparer());
             _currentPlayerTilePosition = _playerTilePosition;
 
+            ConfigureScrolling();
         }
 
         public void InitContainer(GameObjectsContainer container)
@@ -51,8 +59,19 @@ namespace World.Tile
 
             if (_tilesContainer == null)
             {
-                GameObject containerObj = new GameObject("Tiles_Container", typeof(GameObjectsContainer));
+                GameObject containerObj = new GameObject("World_Chunk_Container", typeof(GameObjectsContainer));
                 _tilesContainer = containerObj.GetComponent<GameObjectsContainer>();
+            }
+        }
+
+        private void ConfigureScrolling()
+        {
+            _getChunkPrefab = Settings.UseRandomChunkLayout ? GetRandomChunkPrefab : GetNextAvailableChunkPrefab;
+
+            if(!Settings.UseRandomChunkLayout)
+            {
+                _prefabsToCreate = new List<GameObject>(Settings.TileChunkPrefabs.Count);
+                _prefabsToCreate.AddRange(Settings.TileChunkPrefabs);
             }
         }
 
@@ -113,16 +132,46 @@ namespace World.Tile
                 return tileObj;
             }
 
-            //random choice and save
-            var randomChunkPrefab = Settings.TileChunkPrefabs[UnityEngine.Random.Range(0, Settings.TileChunkPrefabs.Count)];
-            var obj = GameObject.Instantiate(randomChunkPrefab, _tilesContainer.transform);
-            obj.name = randomChunkPrefab.name;
+            // Create new chunk 
+
+            DarkTileMapDraw chunkTileMap = null;
+            GameObject chunkPrefab = _getChunkPrefab();
+
+            chunkTileMap = CreateChunk(chunkPrefab);
+            if (chunkTileMap != null)
+            {
+                _loadedTilesDict.Add(pos, chunkTileMap);
+            }
+
+            return chunkTileMap;
+        }
+
+        private DarkTileMapDraw CreateChunk(GameObject chunkPrefab)
+        {
+            if (chunkPrefab == null)
+            {
+                return null;
+            }
+
+            var obj = GameObject.Instantiate(chunkPrefab, _tilesContainer.transform);
+            obj.name = chunkPrefab.name;
 
             var chunkTileMap = obj.GetComponent<DarkTileMapDraw>() ?? throw new Exception("There's a prefab without renderer script");
 
-            _loadedTilesDict.Add(pos, chunkTileMap);
-
             return chunkTileMap;
+        }
+
+        private GameObject GetRandomChunkPrefab()
+        {
+            return Settings.TileChunkPrefabs[UnityEngine.Random.Range(0, Settings.TileChunkPrefabs.Count)];
+        }
+
+        private GameObject GetNextAvailableChunkPrefab()
+        {
+            var chunkPrefab = _prefabsToCreate.FirstOrDefault();
+            _prefabsToCreate.Remove(chunkPrefab);
+
+            return chunkPrefab;
         }
 
 

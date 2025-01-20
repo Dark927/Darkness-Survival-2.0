@@ -635,7 +635,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 9fff1e48214294c488433becb6e92683, type: 3}
+      name: _NormalMap
     nameFileIdTable:
       AncientWarrior_all_256_0: 63383246
       AncientWarrior_all_256_1: 151029656

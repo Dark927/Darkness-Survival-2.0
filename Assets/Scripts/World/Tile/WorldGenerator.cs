@@ -1,11 +1,19 @@
+using System;
 using UnityEngine;
+using World.Components;
 using World.Tile;
 using Zenject;
 
 public class WorldGenerator : MonoBehaviour
 {
+    #region Fields 
+
     private GenerationStrategy _generationStrategy;
 
+    #endregion
+
+
+    #region Methods
 
     [Inject]
     public void Construct(GenerationStrategy generationStrategy)
@@ -15,7 +23,15 @@ public class WorldGenerator : MonoBehaviour
 
     private void Awake()
     {
-        _generationStrategy.Init();
+        try
+        {
+            _generationStrategy.Init();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            gameObject.SetActive(false);
+        }
     }
 
     private void Start()
@@ -28,4 +44,6 @@ public class WorldGenerator : MonoBehaviour
     {
         _generationStrategy.TryUpdateTilesOnScreen();
     }
+
+    #endregion
 }

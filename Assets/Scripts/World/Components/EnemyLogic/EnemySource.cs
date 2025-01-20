@@ -10,7 +10,7 @@ namespace World.Components.EnemyLogic
         #region Fields
 
         private Dictionary<int, EnemyPool> _poolsDict;
-        private GameObjectsContainer _container;
+        private EnemyContainer _enemyContainer;
 
         private readonly DiContainer _diContainer;
 
@@ -21,10 +21,9 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemySource(DiContainer diContainer, List<EnemyData> enemyDataList, GameObjectsContainer container = null)
+        public EnemySource(DiContainer diContainer, List<EnemyData> enemyDataList, EnemyContainer container = null)
         {
-            InitObjectsContainer(container);
-
+            _enemyContainer = container;
             _diContainer = diContainer;
             CreatePools(enemyDataList);
         }
@@ -38,36 +37,14 @@ namespace World.Components.EnemyLogic
 
             foreach (EnemyData enemyData in enemyDataList)
             {
-                container = GetContainer(enemyData);
+                container = _enemyContainer.GetChildContainer(enemyData);
 
                 pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemyData, container });
                 _poolsDict.Add(enemyData.ID, pool);
             }
         }
 
-        private void InitObjectsContainer(GameObjectsContainer container)
-        {
-            if (container != null)
-            {
-                _container = container;
-                return;
-            }
-
-            GameObject obj = new GameObject("Default_Enemies_Container", typeof(GameObjectsContainer));
-            _container = obj.GetComponent<GameObjectsContainer>();
-        }
-
         #endregion
-
-
-        // ToDo : Move this logic to the separate script
-        public GameObjectsContainer GetContainer(EnemyData data)
-        {
-            string outerContainerName = ($"{data.Name} container").Replace(" ", "_");
-            string innerContainerName = ($"{data.Type}").Replace(" ", "_");
-
-            return _container.GetChild(outerContainerName, true).GetChild(innerContainerName, true);
-        }
 
         public GameObject GetEnemy(int enemyId)
         {

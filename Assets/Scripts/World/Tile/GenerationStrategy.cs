@@ -1,4 +1,5 @@
 ﻿using Dark.Utils;
+using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Zenject;
@@ -45,6 +46,15 @@ namespace World.Tile
         
         public virtual void Init()
         {
+            if (!Settings.UseRandomChunkLayout)
+            {
+                int subdivisionsSqr = Settings.Subdivisions * Settings.Subdivisions;
+
+                if (subdivisionsSqr != Settings.TileChunkPrefabs.Count)
+                {
+                    throw new ArgumentException("# Can not generate world, because there are not enough prefabs for NOT random generation. - " + this.ToString());
+                }
+            }
             _iterator = new PointGridIterator(Settings.FieldOfVisionWidth / 2, Settings.FieldOfVisionHeight / 2, Settings.Subdivisions);
         }
 

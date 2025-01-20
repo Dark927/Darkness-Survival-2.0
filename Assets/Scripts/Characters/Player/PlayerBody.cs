@@ -1,6 +1,10 @@
+using UnityEngine;
+
 public class PlayerBody : CharacterBody
 {
     #region Fields
+
+    [SerializeField] private float MaxSpeedMultiplier;
 
     private IPlayerLogic _playerLogic;
 
@@ -30,7 +34,7 @@ public class PlayerBody : CharacterBody
     protected override void InitMovement()
     {
         Movement = new PlayerMovement(this);
-        CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = 4, MaxSpeedMultiplier = 4 };
+        CharacterSpeed speed = new CharacterSpeed() { CurrentSpeedMultiplier = this.MaxSpeedMultiplier, MaxSpeedMultiplier = this.MaxSpeedMultiplier };
         Movement.Speed.Set(speed);
     }
 

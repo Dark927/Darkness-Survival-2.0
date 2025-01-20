@@ -13,10 +13,8 @@ namespace World.Components.EnemyLogic
     {
         #region Fields 
 
-        public const string ContainerDefaultName = "Enemies_Container";
-
         [SerializeField] private List<EnemySpawnData> _enemySpawnData;
-        [SerializeField] private GameObjectsContainer _objectsContainer;
+        private EnemyContainer _enemyContainer;
 
         private EnemySource _source;
         private GameTimer _timer;
@@ -35,17 +33,18 @@ namespace World.Components.EnemyLogic
         #region Init
 
         [Inject]
-        public void Construct(DiContainer diContainer, EnemySpawnSettings spawnSettings)
+        public void Construct(DiContainer diContainer, EnemySpawnSettings spawnSettings, GameTimer timer)
         {
             _diContainer = diContainer;
             _spawnSettings = spawnSettings;
+            _timer = timer;
         }
 
         private void Awake()
         {
             try
             {
-                InitTimer();
+                CheckTimer();
                 TryInitContainer();
                 InitEnemySource();
 
@@ -63,18 +62,16 @@ namespace World.Components.EnemyLogic
 
         private void TryInitContainer()
         {
-            if (_objectsContainer == null)
+            if (_enemyContainer == null)
             {
-                GameObject obj = new GameObject(ContainerDefaultName, typeof(GameObjectsContainer));
+                GameObject obj = new GameObject(EnemyContainer.ContainerDefaultName, typeof(GameObjectsContainer));
                 obj.transform.parent = transform;
-                _objectsContainer = obj.GetComponent<GameObjectsContainer>();
+                _enemyContainer = new EnemyContainer(obj.GetComponent<GameObjectsContainer>());
             }
         }
 
-        private void InitTimer()
+        private void CheckTimer()
         {
-            _timer = FindAnyObjectByType<GameTimer>();
-
             if (_timer == null)
             {
                 throw new NullReferenceException($"{_timer} is null! Can not spawn enemies using {nameof(EnemySpawnData)}!");
@@ -84,9 +81,8 @@ namespace World.Components.EnemyLogic
         private void InitEnemySource()
         {
             FilterSpawnData();
-            _source = _diContainer.Instantiate<EnemySource>(new object[] { _enemySpawnData.Select(spawnData => spawnData.EnemyData).ToList(), _objectsContainer });
+            _source = _diContainer.Instantiate<EnemySource>(new object[] { _enemySpawnData.Select(spawnData => spawnData.EnemyData).ToList(), _enemyContainer });
         }
-
 
         #endregion
 
@@ -130,7 +126,7 @@ namespace World.Components.EnemyLogic
 
         public void Dispose()
         {
-            _objectsContainer = null;
+            _enemyContainer = null;
             _source = null;
             _timer.OnTimeChanged -= TrySpawnEnemy;
         }

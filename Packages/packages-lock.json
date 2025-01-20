@@ -293,6 +293,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.sudohub.normalprocessor": {
+      "version": "file:D:/Projects/Darkness Survival 2.0/Project/Packages/normalprocessor-main/normalprocessor-main",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

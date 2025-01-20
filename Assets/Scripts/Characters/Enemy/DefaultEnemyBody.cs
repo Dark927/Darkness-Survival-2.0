@@ -138,7 +138,7 @@ namespace Characters.Enemy
 
         // Debug 
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             _targetDetector = new TargetDetector(transform);
             _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>(_targetDetectionDistance, _targetDetectionAreaWidth);

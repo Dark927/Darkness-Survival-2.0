@@ -16,6 +16,8 @@ namespace World.Tile
         public int FieldOfVisionWidth = 3;
         public int Subdivisions = 3;
 
+        [Space, Header("Extra Settings")]
+        public bool UseRandomChunkLayout = true;
 
         [Space, Header("Unused Settings")]
 

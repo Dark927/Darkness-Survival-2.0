@@ -9,6 +9,7 @@ public abstract class CharacterVisual : MonoBehaviour
 
     #endregion
 
+    public SpriteRenderer Renderer => _spriteRenderer;
     public Sprite CharacterSprite { get => _spriteRenderer.sprite; set { _spriteRenderer.sprite = value; } }
     public bool HasAnimation { get => GetAnimatorController() != null; }
     public bool IsVisibleForCamera { get => _spriteRenderer.isVisible; }

@@ -1,27 +1,28 @@
-﻿
+﻿using Characters.Player.Animation;
 using UnityEngine;
 
-public class PlayerVisual : CharacterVisual
+namespace Characters.Player
 {
-    public PlayerAnimatorController PlayerAnimController { get; set; }
-
-    protected override void Init()
+    public class PlayerVisual : CharacterVisual
     {
-        base.Init();
+        public CharacterAnimatorController PlayerAnimController { get; set; }
 
-        InitAnimation();
-    }
+        protected override void Init()
+        {
+            base.Init();
 
-    private void InitAnimation()
-    {
-        Animator animator = GetComponent<Animator>();
-        PlayerAnimController = new PlayerAnimatorController(animator, new PlayerAnimatorParameters());
-    }
+            InitAnimation();
+        }
 
-    public override AnimatorController GetAnimatorController()
-    {
-        return PlayerAnimController;
+        private void InitAnimation()
+        {
+            Animator animator = GetComponent<Animator>();
+            PlayerAnimController = new CharacterAnimatorController(animator, new PlayerAnimatorParameters());
+        }
+
+        public override AnimatorController GetAnimatorController()
+        {
+            return PlayerAnimController;
+        }
     }
 }
-
-

@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: SimbiotDefault
   m_EditorClassIdentifier: 
   Name: Simbiot
+  _stats:
+    Health: 50
+    Speed: 1
+    Damage: 4
+    InvincibilityTime: 0.5
+    InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
+  _id: -132823208
   Type: 0
   Prefab: {fileID: 4214410797849948183, guid: 34dfe1e7b99ee9f4ea26277cc6370d85, type: 3}
-  Stats:
-    Hp: 25
-    Speed: 3
-    Damage: 10

@@ -1,4 +1,7 @@
 
+using Characters.Health;
+using Characters.Interfaces;
+using System;
 using UnityEngine;
 using Utilities.Characters;
 
@@ -9,6 +12,11 @@ public abstract class CharacterBody : MonoBehaviour
     private ICharacterMovement _movement;
     private ICharacterView _view;
     private CharacterVisual _visual;
+    private IHealth _characterHealth;
+    public IInvincibility _characterInvincibility;
+
+    public event EventHandler OnBodyDeath;
+    public event Action OnBodyDamaged;
 
     #endregion
 
@@ -18,6 +26,9 @@ public abstract class CharacterBody : MonoBehaviour
     public ICharacterMovement Movement { get => _movement; protected set => _movement = value; }
     public ICharacterView View { get => _view; protected set => _view = value; }
     public CharacterVisual Visual { get => _visual; protected set => _visual = value; }
+    public IHealth Health { get => _characterHealth; protected set => _characterHealth = value; }
+    public IInvincibility Invincibility { get => _characterInvincibility; protected set => _characterInvincibility = value; }
+
 
     #endregion
 
@@ -67,6 +78,16 @@ public abstract class CharacterBody : MonoBehaviour
     protected void OnDisable()
     {
         ClearReferences();
+    }
+
+    protected void RaiseOnBodyDeath()
+    {
+        OnBodyDeath?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected void RaiseOnBodyDamaged()
+    {
+        OnBodyDamaged?.Invoke();
     }
 
     #endregion

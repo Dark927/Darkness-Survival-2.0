@@ -1,3 +1,4 @@
+using Characters.Enemy.Data;
 using Settings;
 using System;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
         {
             TryLoadGameConfig();
             BindSettings();
-            TryBindContainer();
+            TryBindDiContainer();
         }
         catch (Exception e)
         {
@@ -36,23 +37,41 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
 
     private void BindSettings()
     {
+        BindContainers();
+        BindEnemySettings();
+        BindWorldSettings();
+    }
+
+    private void BindContainers()
+    {
         Container
             .Bind<ObjectPoolSettings>()
             .FromScriptableObject(_gameConfig.PoolsSettings)
             .AsSingle();
+    }
 
+    private void BindEnemySettings()
+    {
         Container
             .Bind<EnemySpawnSettings>()
             .FromScriptableObject(_gameConfig.EnemySpawnSettings)
             .AsSingle();
 
         Container
+            .Bind<EnemySettings>()
+            .FromScriptableObject(_gameConfig.EnemySettings)
+            .AsSingle();
+    }
+
+    private void BindWorldSettings()
+    {
+        Container
             .Bind<GenerationSettings>()
             .FromScriptableObject(_gameConfig.WorldGenerationSettings)
             .AsSingle();
     }
 
-    private void TryBindContainer()
+    private void TryBindDiContainer()
     {
         if (!Container.HasBinding<DiContainer>())
         {

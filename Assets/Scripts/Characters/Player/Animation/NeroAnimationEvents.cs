@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
 
-public class NeroAnimationEvents : MonoBehaviour
+namespace Characters.Player.Animation
 {
-    public event EventHandler AttackFinished;
-
-    public void OnAttackFinished()
+    public class NeroAnimationEvents : MonoBehaviour
     {
-        AttackFinished?.Invoke(this, EventArgs.Empty);
+        public event EventHandler AttackFinished;
+
+        public void OnAttackFinished()
+        {
+            AttackFinished?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

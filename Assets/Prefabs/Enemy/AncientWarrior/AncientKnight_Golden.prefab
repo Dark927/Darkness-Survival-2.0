@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1191460317430628475, guid: ecc3ce57d680b254b8500abc7c52310a, type: 3}
+      propertyPath: _data
+      value: 
+      objectReference: {fileID: 11400000, guid: c521cff070a5aa74eab4ec04a5695aee, type: 2}
     - target: {fileID: 6374089917486914929, guid: ecc3ce57d680b254b8500abc7c52310a, type: 3}
       propertyPath: m_Name
-      value: AncientWarrior_Golden
+      value: AncientKnight_Golden
       objectReference: {fileID: 0}
     - target: {fileID: 6614347300432140704, guid: ecc3ce57d680b254b8500abc7c52310a, type: 3}
       propertyPath: m_Controller

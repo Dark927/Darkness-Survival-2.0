@@ -1,5 +1,7 @@
-
-public interface IAttackable
+namespace Characters.Interfaces
 {
-    public void Attack();
+    public interface IAttackable
+    {
+        public void Attack();
+    }
 }

@@ -1,11 +1,12 @@
+using Characters.Player;
 using Zenject;
 
-public class CharactersInstaller : MonoInstaller
+public sealed class CharactersInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
         Container
-            .Bind<IPlayerLogic>()
+            .Bind<ICharacterLogic>()
             .To<Nero>()
             .FromComponentInHierarchy()
             .AsSingle();

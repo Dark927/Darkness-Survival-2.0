@@ -38,7 +38,7 @@ namespace World.Tile
 
         #region Init
 
-        public GenerationStrategy(GenerationSettings settings, IPlayerLogic player)
+        public GenerationStrategy(GenerationSettings settings, ICharacterLogic player)
         {
             _settings = settings;
             _playerTransform = (player as MonoBehaviour).transform;

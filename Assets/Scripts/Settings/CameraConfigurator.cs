@@ -4,12 +4,12 @@ using Zenject;
 
 public sealed class CameraConfigurator : MonoBehaviour
 {
-    private IPlayerLogic _playerLogic;
+    private ICharacterLogic _playerLogic;
     private CinemachineVirtualCamera _virtualCamera;
 
 
     [Inject]
-    public void Construct(IPlayerLogic playerLogic, CinemachineVirtualCamera virtualCamera)
+    public void Construct(ICharacterLogic playerLogic, CinemachineVirtualCamera virtualCamera)
     {
         _playerLogic = playerLogic;
         _virtualCamera = virtualCamera;

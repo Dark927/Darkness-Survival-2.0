@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
+  m_Name: AncientKnightDefault
+  m_EditorClassIdentifier: 
+  Name: Ancient Knight
+  _stats:
+    Health: 10
+    Speed: 2.5
+    Damage: 1
+    InvincibilityTime: 0.5
+    InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
+  _id: 908550262
+  Type: 0
+  Prefab: {fileID: 6551645017656049088, guid: 4d71ee0369259f6478880daffda367fa, type: 3}

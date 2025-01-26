@@ -1,22 +1,24 @@
-
-public class PlayerAnimatorParameters : IAnimatorParameters
+namespace Characters.Player.Animation
 {
-    #region Fields
+    public class PlayerAnimatorParameters : IAnimatorParameters
+    {
+        #region Fields
 
-    private string _speedFieldName = "Speed";
-    private string _attackTypeFieldName = "AttackType";
-    private string _attackTriggerName = "Attack";
-    private string _deathTriggerName = "Die";
+        private string _speedFieldName = "Speed";
+        private string _attackTypeFieldName = "AttackType";
+        private string _attackTriggerName = "Attack";
+        private string _deathTriggerName = "Die";
 
-    #endregion
+        #endregion
 
 
-    #region Properties
+        #region Properties
 
-    public string SpeedFieldName => _speedFieldName;
-    public string AttackTypeFieldName => _attackTypeFieldName;
-    public string AttackTriggerName => _attackTriggerName;
-    public string DeathTriggerName => _deathTriggerName;
+        public string SpeedFieldName => _speedFieldName;
+        public string AttackTypeFieldName => _attackTypeFieldName;
+        public string AttackTriggerName => _attackTriggerName;
+        public string DeathTriggerName => _deathTriggerName;
 
-    #endregion
+        #endregion
+    }
 }

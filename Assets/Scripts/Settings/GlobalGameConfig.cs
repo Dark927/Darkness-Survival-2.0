@@ -11,7 +11,11 @@ namespace Settings
 
         [Header("Gameplay Settings")]
         [SerializeField] private ObjectPoolSettings _poolSettings;
+
+        [Space, Header("Enemy Settings")]
         [SerializeField] private EnemySpawnSettings _enemySpawnSettings;
+        [SerializeField] private EnemySettings _enemySettings;
+
 
         [Space, Header("World Settings")]
 
@@ -24,6 +28,7 @@ namespace Settings
 
         public ObjectPoolSettings PoolsSettings => _poolSettings;
         public EnemySpawnSettings EnemySpawnSettings => _enemySpawnSettings;
+        public EnemySettings EnemySettings => _enemySettings;
         public GenerationSettings WorldGenerationSettings => _worldGenerationSettings;
 
         #endregion

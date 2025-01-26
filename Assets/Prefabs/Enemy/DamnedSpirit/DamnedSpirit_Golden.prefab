@@ -60,9 +60,13 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5671548271367060828, guid: 63158773b31573a41b95a8068f314822, type: 3}
+      propertyPath: _data
+      value: 
+      objectReference: {fileID: 11400000, guid: 75c3e0e74c4bbd04fa85ca82c291a416, type: 2}
     - target: {fileID: 8029206424917050415, guid: 63158773b31573a41b95a8068f314822, type: 3}
       propertyPath: m_Name
-      value: DamnedSpirit_Golden Variant
+      value: DamnedSpirit_Golden
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,62 +1,67 @@
+using Characters.Interfaces;
+using Characters.Player.Attacks;
 using UnityEngine;
 
-public class PlayerInput
+namespace Characters.Player.Controls
 {
-    private InputHandler _inputHandler;
-    private PlayerMovement _playerMovement;
-    private PlayerBasicAttack _playerBasicAttack;
-
-    public PlayerInput(InputHandler inputHandler)
+    public class PlayerInput
     {
-        _inputHandler = inputHandler;
-    }
+        private InputHandler _inputHandler;
+        private PlayerMovement _playerMovement;
+        private CharacterBasicAttack _playerBasicAttack;
 
-    public void SetMovement(ICharacterMovement playerMovement)
-    {
-        if (playerMovement is PlayerMovement movement)
+        public PlayerInput(InputHandler inputHandler)
         {
-            if (_playerMovement != null)
+            _inputHandler = inputHandler;
+        }
+
+        public void SetMovement(ICharacterMovement playerMovement)
+        {
+            if (playerMovement is PlayerMovement movement)
             {
-                RemoveMovement();
+                if (_playerMovement != null)
+                {
+                    RemoveMovement();
+                }
+
+                _inputHandler.SubscribeOnActionPerformed(InputType.Movement, movement.MovementPerformedListener);
+                _inputHandler.SubscribeOnActionCanceled(InputType.Movement, movement.MovementStoppedListener);
+                _playerMovement = movement;
             }
-
-            _inputHandler.SubscribeOnActionPerformed(InputType.Movement, movement.MovementPerformedListener);
-            _inputHandler.SubscribeOnActionCanceled(InputType.Movement, movement.MovementStoppedListener);
-            _playerMovement = movement;
+            else
+            {
+                Debug.LogWarning($"# Player movement can not be set. {playerMovement} has different type, expected : {nameof(PlayerMovement)}");
+            }
         }
-        else
+
+        public void SetBasicAttacks(CharacterBasicAttack attack)
         {
-            Debug.LogWarning($"# Player movement can not be set. {playerMovement} has different type, expected : {nameof(PlayerMovement)}");
+            _playerBasicAttack = attack;
+            _inputHandler.SubscribeOnActionPerformed(InputType.Attack, _playerBasicAttack.AttackPerformedListener);
         }
-    }
 
-    public void SetBasicAttacks(PlayerBasicAttack attack)
-    {
-        _playerBasicAttack = attack;
-        _inputHandler.SubscribeOnActionPerformed(InputType.Attack, _playerBasicAttack.AttackPerformedListener);
-    }
+        public void RemoveMovement()
+        {
+            _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Performed, _playerMovement.MovementPerformedListener);
+            _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Canceled, _playerMovement.MovementStoppedListener);
+            _playerMovement = null;
+        }
 
-    public void RemoveMovement()
-    {
-        _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Performed, _playerMovement.MovementPerformedListener);
-        _inputHandler.RemoveSubscriber(InputType.Movement, InputHandler.ActionState.Canceled, _playerMovement.MovementStoppedListener);
-        _playerMovement = null;
-    }
+        public void RemoveBasicAttacks()
+        {
+            _inputHandler.RemoveSubscriber(InputType.Attack, InputHandler.ActionState.Performed, _playerBasicAttack.AttackPerformedListener);
 
-    public void RemoveBasicAttacks()
-    {
-        _inputHandler.RemoveSubscriber(InputType.Attack, InputHandler.ActionState.Performed, _playerBasicAttack.AttackPerformedListener);
+        }
 
-    }
+        public void RemoveReferences()
+        {
+            RemoveMovement();
+            RemoveBasicAttacks();
+        }
 
-    public void RemoveReferences()
-    {
-        RemoveMovement();
-        RemoveBasicAttacks();
-    }
-
-    public void Disable()
-    {
-        _inputHandler.Disable();
+        public void Disable()
+        {
+            _inputHandler.Disable();
+        }
     }
 }

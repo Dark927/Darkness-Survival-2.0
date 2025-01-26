@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
+  m_Name: OcultistGolden
+  m_EditorClassIdentifier: 
+  Name: Ocultist
+  _stats:
+    Health: 15
+    Speed: 0.5
+    Damage: 2
+    InvincibilityTime: 0.5
+    InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
+  _id: -1320012382
+  Type: 3
+  Prefab: {fileID: 3823977527615610619, guid: fb1d865d2c9e14a49bfadd91ea3f0fc6, type: 3}

@@ -1,6 +1,8 @@
 
+using Characters.Stats;
 using System;
 using Unity.Collections;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 namespace Characters.Enemy.Data
@@ -13,22 +15,17 @@ namespace Characters.Enemy.Data
         Golden = 3,
     }
 
-    [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Game/Characters/Enemy/MainData")]
-    public class EnemyData : ScriptableObject
+    [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Game/Characters/Data/EnemyData")]
+    public class EnemyData : Stats.CharacterBaseData
     {
         [SerializeField, ReadOnly] private int _id;
         public int ID { get => _id; private set => _id = value; }
 
         [Header("Main Info")]
 
-        public string Name;
         public EnemyType Type;
         public GameObject Prefab;
 
-        [Space]
-        [Header("Stats")]
-
-        public EnemyStats Stats;
 
         #region Methods
 

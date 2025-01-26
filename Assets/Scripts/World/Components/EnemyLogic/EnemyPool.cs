@@ -37,7 +37,7 @@ namespace World.Components.EnemyLogic
 
         protected override GameObject PreloadFunc(GameObject prefab, GameObjectsContainer container = null)
         {
-            GameObject createdObj = UnityEngine.Object.Instantiate(_enemyData.Prefab);
+            GameObject createdObj = GameObject.Instantiate<GameObject>(_enemyData.Prefab);
             createdObj.name = $"{_enemyData.Name} {_enemyData.Type}".Replace(" ", "_");
 
             if (container != null)

@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: DriedSoulDefault
   m_EditorClassIdentifier: 
   Name: Dried Soul
+  _stats:
+    Health: 5
+    Speed: 1.5
+    Damage: 0.5
+    InvincibilityTime: 0.5
+    InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
+  _id: 45908632
   Type: 0
   Prefab: {fileID: 4454807117558708294, guid: a06428d1c32daa24e9948164232cf94d, type: 3}
-  Stats:
-    Hp: 25
-    Speed: 3
-    Damage: 10

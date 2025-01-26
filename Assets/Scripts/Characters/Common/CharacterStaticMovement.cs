@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Characters.Interfaces;
+using UnityEngine;
 
 public class CharacterStaticMovement : ICharacterMovement
 {

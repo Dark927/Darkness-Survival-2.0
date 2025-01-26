@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5938695483225964785}
   - component: {fileID: 9058086450931735013}
   - component: {fileID: 4634844881543012924}
+  - component: {fileID: 1296385881667804904}
   m_Layer: 0
   m_Name: Simbiot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a91b092a9d299a4aa76f548a454ddc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 5a189e271870fd646854d9dace422c71, type: 2}
 --- !u!114 &4634844881543012924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,10 +124,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb6b18e52c1e724e94915992ad52f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sideSwitchDelayInMs: 0
+  _sideSwitchDelayInMs: 100
   _accelerationTimeInMs: 500
-  _targetDetectionDistance: 10
-  _targetDetectionAreaWidth: 1.1
+  _sideSwitchDetectionData: {fileID: 11400000, guid: e9d726185b57c1e40ad783c41cf664fe, type: 2}
+--- !u!114 &1296385881667804904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214410797849948183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dcc7edd8487454f93769d3f5fbcfbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4574752388136063668
 GameObject:
   m_ObjectHideFlags: 0

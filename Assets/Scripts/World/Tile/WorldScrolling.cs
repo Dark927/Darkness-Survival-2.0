@@ -31,7 +31,7 @@ namespace World.Tile
 
         #region Init
 
-        public WorldScrolling(GenerationSettings settings, IPlayerLogic player, GameObjectsContainer container = null) : base(settings, player)
+        public WorldScrolling(GenerationSettings settings, ICharacterLogic player, GameObjectsContainer container = null) : base(settings, player)
         {
             InitContainer(container);
         }

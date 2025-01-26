@@ -10,8 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 877816916649359972, guid: 55ca8fab23de5ad44909d9d4fb72efe5, type: 3}
       propertyPath: m_Name
-      value: Ocultist_Bloody Variant
+      value: Ocultist_Bloody
       objectReference: {fileID: 0}
+    - target: {fileID: 1792064835569641051, guid: 55ca8fab23de5ad44909d9d4fb72efe5, type: 3}
+      propertyPath: _data
+      value: 
+      objectReference: {fileID: 11400000, guid: 57202d1aef4763548904b0d3d7332fc5, type: 2}
     - target: {fileID: 3450499906550759623, guid: 55ca8fab23de5ad44909d9d4fb72efe5, type: 3}
       propertyPath: m_Controller
       value: 

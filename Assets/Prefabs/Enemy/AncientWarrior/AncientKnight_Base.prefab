@@ -164,9 +164,10 @@ GameObject:
   - component: {fileID: 2249473969987001026}
   - component: {fileID: 1191460317430628475}
   - component: {fileID: 7022780121879203508}
+  - component: {fileID: 8615039786676877738}
   m_Layer: 0
   m_Name: AncientKnight_Base
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -261,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a91b092a9d299a4aa76f548a454ddc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 11400000, guid: 79d6fa3661d8d464eb8974f8c8dc7d84, type: 2}
 --- !u!114 &7022780121879203508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,5 +277,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sideSwitchDelayInMs: 25
   _accelerationTimeInMs: 500
-  _targetDetectionDistance: 10
-  _targetDetectionAreaWidth: 1.35
+  _sideSwitchDetectionData: {fileID: 11400000, guid: 508ec113f3626044fa5475e935957f83, type: 2}
+  _sideSwitchDetectionSettings:
+    Distance: 0
+    AreaWidth: 0
+    LayerIndex: 0
+--- !u!114 &8615039786676877738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6374089917486914929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70dcc7edd8487454f93769d3f5fbcfbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

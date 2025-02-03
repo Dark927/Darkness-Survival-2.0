@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using World.Tile;
 
+#if UNITY_EDITOR
 namespace Dark.Tile
 {
-
     public class DarkTileEdit : EditorWindow
     {
         private int _gridSize = 8; // Number of textures per row
@@ -161,3 +161,4 @@ namespace Dark.Tile
         #endregion
     }
 }
+#endif

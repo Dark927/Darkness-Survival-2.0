@@ -14,16 +14,15 @@ namespace World.Tile
         public Vector2Int Size => tileMapAsset.Size;
 
         [HideInInspector]
-        private uint[] gavno;
+        private uint[] _ubo;
 
         [HideInInspector]
         public uint[] UBO
         {
             get
             {
-                if (gavno == null)
-                    gavno = (uint[])tileMapAsset.UniformBuffer.Clone();
-                return gavno;
+                _ubo ??= (uint[])tileMapAsset.UniformBuffer.Clone();
+                return _ubo;
             }
         }
 
@@ -40,8 +39,8 @@ namespace World.Tile
         [ExecuteAlways]
         private void Awake()
         {
-            //UBO = (uint[])tileMapAsset.UniformBuffer.Clone();
             meshRenderer = this.GetComponent<Renderer>();
+            UpdateGPUData();
         }
 
         private void OnDrawGizmosSelected()
@@ -70,6 +69,7 @@ namespace World.Tile
 #endif
         }
 
+#if UNITY_EDITOR
         public void OnDarkTileEdit(RaycastHit hit, int textureIndex)
         {
             Vector3 localHitPoint = meshRenderer.transform.InverseTransformPoint(hit.point) + new Vector3(0.5f, 0.5f, 0.5f);
@@ -81,16 +81,29 @@ namespace World.Tile
             Undo.RecordObject(tileMapAsset, "Draw Tile");//enable ctrl-z
             tileMapAsset.UniformBuffer[(yIndex + 1) * (Size.x + 2) + (xIndex + 1)] = (uint)textureIndex;//TODO: replace with my span
 
+
             // Mark as dirty so Unity updates it
             EditorUtility.SetDirty(tileMapAsset);
+
             //PrefabUtility.RecordPrefabInstancePropertyModifications(tileMapAsset);
             //AssetDatabase.SaveAssets();
             //send to the GPU
-            gavno = null;
+            _ubo = null;
             tilebuf.SetData(UBO);
         }
+#endif
 
+#if UNITY_EDITOR
         private void OnRenderObject()
+        {
+            if (!Application.isPlaying)
+            {
+                UpdateGPUData();
+            }
+        }
+#endif
+
+        internal void UpdateGPUData()
         {
             try
             {
@@ -99,7 +112,7 @@ namespace World.Tile
 
                 // Pass the tile indices to the shader
                 tilebuf.SetData(UBO);
-                mpb.SetVector("_GridSize", new Vector4(Size.x, Size.y, 0, 0));//TODO:
+                mpb.SetVector("_GridSize", new Vector4(Size.x, Size.y, 0, 0));
                 mpb.SetBuffer("_TileIndices", tilebuf);
 
                 if (meshRenderer == null)
@@ -108,13 +121,14 @@ namespace World.Tile
             }
             catch (Exception e)
             {
-                tilebuf.Dispose();
+                tilebuf?.Dispose();
                 tilebuf = null;
                 mpb = null;
                 meshRenderer = null;
                 Debug.Log("Exception in OnRenderObject: " + e.Message);
             }
         }
+
 
         private void OnDestroy()
         {

@@ -58,6 +58,7 @@ namespace Dark.Tile
             }
         }
 
+#if UNITY_EDITOR
         public void SavePreviewImage(Texture2D texture)
         {
             if (texture == null)
@@ -72,6 +73,7 @@ namespace Dark.Tile
             {
                 previewImageData = pngData;
                 previewImage = texture;
+
                 // Mark the ScriptableObject as dirty so changes are saved
                 EditorUtility.SetDirty(this);
                 // Save the asset to persist changes
@@ -82,5 +84,6 @@ namespace Dark.Tile
                 Debug.LogError("Failed to encode the texture to PNG!");
             }
         }
+#endif
     }
 }

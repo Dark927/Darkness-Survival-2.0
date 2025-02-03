@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5069042129464851250}
   - component: {fileID: 889460521701627987}
   m_Layer: 0
-  m_Name: Nero
+  m_Name: Nero_visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1085055352683630366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cc72f795f1d16c4db02bac64bdda185, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c4869cf4e7f0194b90888f850217a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &889460521701627987
@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a72700a17bfe2a4a94c33ca5e2b72b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterData: {fileID: 0}
 --- !u!114 &2057875600993417546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,10 +290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b25739c02aeeb4794d1fa5bfca34d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeedMultiplier: 3
-  _maxHp: 30
-  _invincibleTime: 30
-  _invincibleColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1741456745381354177
 MonoBehaviour:
   m_ObjectHideFlags: 0

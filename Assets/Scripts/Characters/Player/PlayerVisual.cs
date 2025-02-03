@@ -16,8 +16,10 @@ namespace Characters.Player
 
         private void InitAnimation()
         {
+            CharacterAnimationEvents animationEvents = GetComponent<CharacterAnimationEvents>();    
             Animator animator = GetComponent<Animator>();
-            PlayerAnimController = new CharacterAnimatorController(animator, new PlayerAnimatorParameters());
+
+            PlayerAnimController = new CharacterAnimatorController(animator, new CharacterAnimatorParameters(), animationEvents);
         }
 
         public override AnimatorController GetAnimatorController()

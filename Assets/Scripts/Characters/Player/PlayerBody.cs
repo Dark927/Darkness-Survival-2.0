@@ -48,8 +48,16 @@ namespace Characters.Player
 
         protected override void InitReferences()
         {
-            Movement.Speed.OnActualSpeedChanged += (Visual.GetAnimatorController() as CharacterAnimatorController).SpeedUpdateListener;
-            OnBodyDamaged += Invincibility.Enable;
+            try
+            {
+
+                Movement.Speed.OnActualSpeedChanged += (Visual.GetAnimatorController() as CharacterAnimatorController).SpeedUpdateListener;
+                OnBodyDamaged += Invincibility.Enable;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
+            }
         }
 
         protected override void ClearReferences()

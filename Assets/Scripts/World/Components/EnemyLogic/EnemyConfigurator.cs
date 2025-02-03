@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Characters.Enemy;
+using UnityEngine;
 using Utilities.World;
 
 namespace World.Components.EnemyLogic
@@ -26,9 +27,21 @@ namespace World.Components.EnemyLogic
             _spawnPositionRange = spawnPositionRange;
         }
 
-        public void Configure(GameObject enemyObj)
+        public void Configure(GameObject enemyObj, Transform target = null)
         {
             enemyObj.transform.position = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
+           
+            if(target == null)
+            {
+                return;
+            }
+            
+            IEnemyLogic enemyLogic = enemyObj.GetComponent<IEnemyLogic>();
+
+            if(enemyLogic != null)
+            {
+                (enemyLogic.Body as DefaultEnemyBody).SetTarget(target);
+            }
         }
     }
 }

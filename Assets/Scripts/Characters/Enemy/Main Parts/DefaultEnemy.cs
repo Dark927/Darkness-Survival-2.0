@@ -13,7 +13,7 @@ namespace Characters.Enemy
         
         private CharacterBody _body;
         public CharacterStats Stats => _data.Stats;
-
+        public CharacterBody Body => _body;
 
         private void Awake()
         {

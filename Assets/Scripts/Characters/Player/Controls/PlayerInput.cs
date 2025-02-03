@@ -1,10 +1,11 @@
 using Characters.Interfaces;
 using Characters.Player.Attacks;
+using System;
 using UnityEngine;
 
 namespace Characters.Player.Controls
 {
-    public class PlayerInput
+    public class PlayerInput : IDisposable
     {
         private InputHandler _inputHandler;
         private PlayerMovement _playerMovement;
@@ -62,6 +63,13 @@ namespace Characters.Player.Controls
         public void Disable()
         {
             _inputHandler.Disable();
+        }
+
+        public void Dispose()
+        {
+            _playerMovement.Dispose();
+            RemoveMovement();
+            Disable();
         }
     }
 }

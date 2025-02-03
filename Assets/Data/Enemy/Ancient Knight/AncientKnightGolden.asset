@@ -19,6 +19,6 @@ MonoBehaviour:
     Damage: 1
     InvincibilityTime: 0.5
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
-  _id: -288425267
+  _id: -704299772
   Type: 3
-  Prefab: {fileID: 9150275073599328351, guid: bfcb263046cd6b24085215bd5a7268fd, type: 3}
+  Prefab: {fileID: 496996125020602330, guid: d8e6b95a093ae5842a535845ff9a6be4, type: 3}

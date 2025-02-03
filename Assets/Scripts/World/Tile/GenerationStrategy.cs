@@ -20,7 +20,10 @@ namespace World.Tile
 
         #region Properties
 
+        public bool HasTarget => _playerTransform != null;
         public Vector2 PlayerPosition => _playerTransform.position;
+        
+
         public GenerationSettings Settings => _settings;
         public PointGridIterator Iterator => _iterator;
 
@@ -38,10 +41,15 @@ namespace World.Tile
 
         #region Init
 
-        public GenerationStrategy(GenerationSettings settings, ICharacterLogic player)
+        public GenerationStrategy(GenerationSettings settings)
         {
             _settings = settings;
-            _playerTransform = (player as MonoBehaviour).transform;
+        }  
+
+        public GenerationStrategy(GenerationSettings settings, Transform targetTransform)
+        {
+            _settings = settings;
+            _playerTransform = targetTransform;
         }  
         
         public virtual void Init()
@@ -59,6 +67,11 @@ namespace World.Tile
         }
 
         #endregion
+
+        public void SetTarget(Transform targetTransform)
+        {
+            _playerTransform = targetTransform;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected Vector3 IndexToTilePosition(Vector2Int pos)

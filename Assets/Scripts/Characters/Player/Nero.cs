@@ -1,4 +1,3 @@
-using Characters.Health;
 using Characters.Player.Animation;
 using Characters.Player.Attacks;
 using Characters.Player.Data;
@@ -15,6 +14,7 @@ namespace Characters.Player
         [SerializeField] private PlayerCharacterData _characterData;
 
         private bool _configured = false;
+
         private CharacterBody _body;
         private CharacterBasicAttack _attacks;
         private CharacterAnimatorController _animatorController;
@@ -61,12 +61,26 @@ namespace Characters.Player
         {
             // ToDo : Move this logic to the another place.
             _animatorController = _body.Visual.GetAnimatorController() as CharacterAnimatorController;
+
             _attacks.OnFastAttack += _animatorController.TriggerFastAttack;
             _attacks.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
-
-
+            _body.OnBodyDeath += _animatorController.TriggerDeath;
+            _animatorController.Events.OnAttackFinished += _attacks.FinishAttack;
+            _animatorController.Events.OnDeathFinished += GameplayUI.Instance.ActivateGameOverPanel;
 
             _configured = true;
+        }
+
+        private void ClearReferences()
+        {
+            _attacks.OnFastAttack -= _animatorController.TriggerFastAttack;
+            _attacks.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
+            _body.OnBodyDeath -= _animatorController.TriggerDeath;
+            _animatorController.Events.OnAttackFinished -= _attacks.FinishAttack;
+            _animatorController.Events.OnDeathFinished -= GameplayUI.Instance.ActivateGameOverPanel;
+
+            _animatorController = null;
+            _configured = false;
         }
 
         #endregion
@@ -76,7 +90,7 @@ namespace Characters.Player
             throw new System.NotImplementedException();
         }
 
-        private void OnEnable()
+        public void Enable()
         {
             if (!_configured)
             {
@@ -84,18 +98,9 @@ namespace Characters.Player
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             ClearReferences();
-        }
-
-        private void ClearReferences()
-        {
-            _attacks.OnFastAttack -= _animatorController.TriggerFastAttack;
-            _attacks.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
-            _animatorController = null;
-
-            _configured = false;
         }
 
         #endregion

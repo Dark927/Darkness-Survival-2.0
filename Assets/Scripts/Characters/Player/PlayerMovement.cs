@@ -1,4 +1,5 @@
 using Characters.Interfaces;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace Characters.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerMovement : ICharacterMovement
+    public class PlayerMovement : ICharacterMovement, IDisposable
     {
         #region Fields 
 
@@ -43,9 +44,8 @@ namespace Characters.Player
                 // Init components which depends on Player firstly.
 
                 _playerTransform = playerMonoBehaviour.transform;
-
                 InitComponents();
-                _speed.OnVelocityUpdate += VelocityUpdateListener;
+                InitReferences();
             }
             else
             {
@@ -58,6 +58,16 @@ namespace Characters.Player
             _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
             _blockLogic = new CharacterMovementBlock(this);
             _speed = new CharacterSpeed();
+        }
+
+        private void InitReferences()
+        {
+            _speed.OnVelocityUpdate += VelocityUpdateListener;
+        }
+
+        public void Dispose()
+        {
+            _speed.OnVelocityUpdate -= VelocityUpdateListener;
         }
 
         #endregion

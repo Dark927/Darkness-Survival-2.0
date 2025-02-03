@@ -15,7 +15,7 @@ public abstract class CharacterBody : MonoBehaviour
     private IHealth _characterHealth;
     public IInvincibility _characterInvincibility;
 
-    public event EventHandler OnBodyDeath;
+    public event Action OnBodyDeath;
     public event Action OnBodyDamaged;
 
     #endregion
@@ -37,19 +37,21 @@ public abstract class CharacterBody : MonoBehaviour
 
     #region Init
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Init();
         InitMovement();
         InitView();
-
-        InitReferences();
 
 #if UNITY_EDITOR
         CharacterSettingsValidator.CheckCharacterBodyStatus(this);
 #endif
     }
 
+    protected virtual void Start()
+    {
+        InitReferences();
+    }
 
     protected abstract void Init();
 
@@ -75,14 +77,14 @@ public abstract class CharacterBody : MonoBehaviour
 
     }
 
-    protected void OnDisable()
+    protected void OnDestroy()
     {
         ClearReferences();
     }
 
     protected void RaiseOnBodyDeath()
     {
-        OnBodyDeath?.Invoke(this, EventArgs.Empty);
+        OnBodyDeath?.Invoke();
     }
 
     protected void RaiseOnBodyDamaged()

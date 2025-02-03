@@ -1,12 +1,8 @@
 using Characters.Enemy.Data;
 using Characters.Health;
-using Characters.Player;
 using Characters.TargetDetection;
-using Cysharp.Threading.Tasks;
-using Settings;
-using System.Threading;
+using System;
 using UnityEngine;
-using Zenject;
 
 namespace Characters.Enemy
 {
@@ -18,7 +14,7 @@ namespace Characters.Enemy
         private EnemyLookSideController _sideController;
         private EnemyBodyStats _bodyStats;
 
-        private PlayerBody _targetPlayer;
+        private Transform _targetTransform;
 
         [Header("Target Detection")]
         [SerializeField] private TargetDetectionData _sideSwitchDetectionData;
@@ -29,7 +25,7 @@ namespace Characters.Enemy
         #region Properties
 
         public EnemyBodyStats Stats => _bodyStats;
-        public PlayerBody TargetPlayer => _targetPlayer;
+        public Transform TargetTransform => _targetTransform;
 
         #endregion
 
@@ -42,19 +38,11 @@ namespace Characters.Enemy
         {
             _enemyLogic = GetComponent<IEnemyLogic>();
 
-            // ToDo : Get player for another place. Maybe create global singletone to save all players (?)
-            _targetPlayer = FindObjectOfType<PlayerBody>();
-
-            // ToDo : Do not use singleton maybe (?)
-            _bodyStats = GlobalEnemyData.Instance.EnemySettings.BodyStats;
-            InitSideController();
 
             Visual = GetComponentInChildren<EnemyVisual>();
-            Health = new CharacterHealth(_enemyLogic.Stats.Health);
-            Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
         }
 
-        private void InitSideController()
+        private void CreateSideController()
         {
             TargetDetector sideControlTargetDetector = new TargetDetector(transform, _sideSwitchDetectionData.Settings);
             _sideController = new EnemyLookSideController(this, sideControlTargetDetector, Stats.SideSwitchDelayInMs, Stats.AccelerationTimeInMs);
@@ -67,10 +55,21 @@ namespace Characters.Enemy
 
         protected override void InitMovement()
         {
-            Movement = new EnemyMovement(this, _targetPlayer);
+            Movement = new EnemyMovement(transform);
             CharacterSpeed speed = new CharacterSpeed() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed };
             speed.SetMaxSpeedMultiplier();
             Movement.Speed.Set(speed);
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            _bodyStats = GlobalEnemyData.Instance.RequestDefaultBodyStats();
+
+            CreateSideController();
+            Health = new CharacterHealth(_enemyLogic.Stats.Health);
+            Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
         }
 
         protected override void InitReferences()
@@ -84,6 +83,12 @@ namespace Characters.Enemy
         }
 
         #endregion
+
+        public void SetTarget(Transform targetTransform)
+        {
+            _targetTransform = targetTransform;
+            (Movement as EnemyMovement).SetTarget(targetTransform);
+        }
 
         private void FixedUpdate()
         {
@@ -111,13 +116,19 @@ namespace Characters.Enemy
         }
 
 
-
         // Debug 
 
         private void OnDrawGizmosSelected()
         {
-            InitSideController();
-            _sideController.ShowDebug();
+            try
+            {
+                CreateSideController();
+                _sideController.ShowDebug();
+            }
+            catch
+            {
+                // Just ignore this if we can not init side controller (to avoid error messages while configuring).
+            }
         }
 
         #endregion

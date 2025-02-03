@@ -1,8 +1,5 @@
 
-using Characters.Stats;
-using System;
-using Unity.Collections;
-using UnityEditor.U2D.Animation;
+using System;using Unity.Collections;
 using UnityEngine;
 
 namespace Characters.Enemy.Data

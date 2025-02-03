@@ -18,12 +18,5 @@ namespace World.Tile
 
         [Space, Header("Extra Settings")]
         public bool UseRandomChunkLayout = true;
-
-        [Space, Header("Unused Settings")]
-
-        // ToDo : Remove these parameters if they are unused!
-        public int BlockTileHorizontalCount;
-        public int blockTileVerticalCount;
-
     }
 }

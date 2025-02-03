@@ -3,6 +3,7 @@ using Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using World.Data;
 using Zenject;
@@ -19,6 +20,7 @@ namespace World.Components.EnemyLogic
         private EnemySource _source;
         private GameTimer _timer;
         private List<UniTask> _actualSpawnTasks;
+        private CancellationTokenSource _cancellationTokenSource;
 
         private EnemySpawnSettings _spawnSettings;
         private ICharacterConfigurator _configurator;
@@ -49,7 +51,6 @@ namespace World.Components.EnemyLogic
                 InitEnemySource();
 
                 _actualSpawnTasks = new List<UniTask>();
-                _timer.OnTimeChanged += TrySpawnEnemy;
                 _configurator = new DefaultEnemyConfigurator(_spawnSettings.SpawnPositionRange, _spawnSettings.SpawnPositionOffset);
             }
             catch (Exception ex)
@@ -58,6 +59,12 @@ namespace World.Components.EnemyLogic
                 Dispose();
                 gameObject.SetActive(false);
             }
+        }
+
+        private void Start()
+        {
+            _cancellationTokenSource = new CancellationTokenSource();
+            _timer.OnTimeChanged += TrySpawnEnemy;
         }
 
         private void TryInitContainer()
@@ -93,30 +100,46 @@ namespace World.Components.EnemyLogic
                 .Where(data => data.SpawnTime <= _timer.CurrentTime);
 
             // Add tasks for the filtered data
-            _actualSpawnTasks.AddRange(markedToSpawn.Select(data => SpawnEnemyTask(data)));
+            _actualSpawnTasks.AddRange(markedToSpawn.Select(data => SpawnEnemyTask(data, _cancellationTokenSource.Token)));
 
             // Remove all used enemy spawn data
             _enemySpawnData.RemoveAll(data => markedToSpawn.Contains(data));
         }
 
-        private async UniTask SpawnEnemyTask(EnemySpawnData data)
+        private async UniTask SpawnEnemyTask(EnemySpawnData data, CancellationToken token)
         {
-            GameObject enemyObj;
+            Transform targetPlayer = PlayerManager.Instance.GetCharacterTransform();
+
+            if(targetPlayer == null)
+            {
+                return;
+            }
+            
+
             int count = data.Count;
             float spawnInterval = (data.SpawnDuration / (float)count);
+            GameObject enemyObj;
 
-            while (count > 0)
+            while ((count > 0))
             {
                 enemyObj = _source.GetEnemy(data.EnemyData.ID);
 
-                if (enemyObj != null)
+                if ((enemyObj != null))
                 {
-                    _configurator.Configure(enemyObj);
+                    _configurator.Configure(enemyObj, targetPlayer);
                     enemyObj.SetActive(true);
                 }
                 count--;
-                await UniTask.WaitForSeconds(spawnInterval);
+                await UniTask.WaitForSeconds(spawnInterval, cancellationToken : token);
             }
+            return;
+        }
+
+        private void StopAllSpawnTasks()
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = null;
+            _actualSpawnTasks.Clear();
         }
 
         private void FilterSpawnData()
@@ -126,9 +149,15 @@ namespace World.Components.EnemyLogic
 
         public void Dispose()
         {
+            StopAllSpawnTasks();
             _enemyContainer = null;
             _source = null;
             _timer.OnTimeChanged -= TrySpawnEnemy;
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
 
         #endregion

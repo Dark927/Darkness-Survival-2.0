@@ -314,6 +314,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.sudohub.normalprocessor": {
+      "version": "git@github.com:sudohubdev/normalprocessor.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "5620df909867345ea6f3f2c750afe3f89933b1b3"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

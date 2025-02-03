@@ -21,18 +21,6 @@ public enum BezelState
 
 public ref struct BezelData<T>
 {
-    /*
-    public override string ToString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"[{ CornerLT }]{ Top.ToString() }[{ CornerRT }]");
-        var l = Left.ToList();
-        var r = Right.ToList();
-        for (int y = 1; y <= innerSize; y++)
-            sb.AppendLine($"[{ Left[y] }]{ new string('.', innerSize) }[{ r[y] }]");
-        sb.AppendLine($"[{ CornerLB }]{ Bottom.ToString() }[{ CornerRB }]");
-        return sb.ToString();
-    }*/
     //indexing order is left to right, top to bottom
     /* size = 4, innerSize = 2
         0123

@@ -6,8 +6,7 @@ public sealed class CharactersInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container
-            .Bind<ICharacterLogic>()
-            .To<Nero>()
+            .Bind<Player>()
             .FromComponentInHierarchy()
             .AsSingle();
     }

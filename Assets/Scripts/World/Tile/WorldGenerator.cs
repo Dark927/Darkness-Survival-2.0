@@ -4,46 +4,74 @@ using World.Components;
 using World.Tile;
 using Zenject;
 
-public class WorldGenerator : MonoBehaviour
+namespace World.Generation
 {
-    #region Fields 
-
-    private GenerationStrategy _generationStrategy;
-
-    #endregion
-
-
-    #region Methods
-
-    [Inject]
-    public void Construct(GenerationStrategy generationStrategy)
+    public enum WorldGeneration
     {
-        _generationStrategy = generationStrategy;
+        Static = 0,
+        Scrolling,
     }
 
-    private void Awake()
+    public class WorldGenerator : MonoBehaviour
     {
-        try
+        #region Fields 
+
+        private GenerationStrategy _generationStrategy;
+
+        #endregion
+
+
+        #region Methods
+
+        public static Type GetGenerationStrategyType(WorldGeneration generationType)
         {
-            _generationStrategy.Init();
+            return generationType switch
+            {
+                WorldGeneration.Scrolling => typeof(WorldScrolling),
+                _ => throw new NotImplementedException(),
+            };
         }
-        catch (Exception ex)
+
+        #region Init
+
+        [Inject]
+        public void Construct(GenerationStrategy generationStrategy)
         {
-            Debug.LogError(ex.Message);
-            gameObject.SetActive(false);
+            _generationStrategy = generationStrategy;
         }
+
+        private void Awake()
+        {
+            try
+            {
+                _generationStrategy.Init();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void Start()
+        {
+            bool canSetTarget = !_generationStrategy.HasTarget && (PlayerManager.Instance != null);
+
+            if (canSetTarget)
+            {
+                _generationStrategy.SetTarget(PlayerManager.Instance.GetCharacterTransform());
+            }
+
+            _generationStrategy.UpdateTilesOnScreen();
+        }
+
+        #endregion
+
+        private void Update()
+        {
+            _generationStrategy.TryUpdateTilesOnScreen();
+        }
+
+        #endregion
     }
-
-    private void Start()
-    {
-
-        _generationStrategy.UpdateTilesOnScreen();
-    }
-
-    private void Update()
-    {
-        _generationStrategy.TryUpdateTilesOnScreen();
-    }
-
-    #endregion
 }

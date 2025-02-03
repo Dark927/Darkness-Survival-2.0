@@ -9,7 +9,8 @@ namespace Characters.Player.Animation
 
         #region Properties
 
-        public new PlayerAnimatorParameters Parameters { get => base.Parameters as PlayerAnimatorParameters; }
+        public new CharacterAnimatorParameters Parameters { get => base.Parameters as CharacterAnimatorParameters; }
+        public new CharacterAnimationEvents Events { get => base.Events as CharacterAnimationEvents; protected set => base.Events = value; }
 
         public float Speed
         {
@@ -30,7 +31,11 @@ namespace Characters.Player.Animation
 
         #region Init
 
-        public CharacterAnimatorController(Animator characterAnimator, PlayerAnimatorParameters parameters) : base(characterAnimator, parameters)
+        public CharacterAnimatorController(Animator characterAnimator, CharacterAnimatorParameters parameters) : base(characterAnimator, parameters)
+        {
+        }
+
+        public CharacterAnimatorController(Animator characterAnimator, CharacterAnimatorParameters parameters, CharacterAnimationEvents events) : base(characterAnimator, parameters, events)
         {
         }
 
@@ -51,12 +56,17 @@ namespace Characters.Player.Animation
 
         public void TriggerDeath()
         {
-            Animator.SetTrigger(Parameters.AttackTriggerName);
+            Animator.SetTrigger(Parameters.DeathTriggerName);
         }
 
         public void SpeedUpdateListener(object sender, SpeedChangedArgs args)
         {
             Speed = args.CurrentSpeed;
+        }
+
+        public void SetEvents(CharacterAnimationEvents events)
+        {
+            Events = events;
         }
 
         #endregion

@@ -1,10 +1,12 @@
-﻿using Dark.Tile;
+﻿using Characters.Player;
+using Dark.Tile;
 using Dark.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using World.Components;
+using Zenject;
 
 namespace World.Tile
 {
@@ -31,7 +33,8 @@ namespace World.Tile
 
         #region Init
 
-        public WorldScrolling(GenerationSettings settings, ICharacterLogic player, GameObjectsContainer container = null) : base(settings, player)
+        [Inject]
+        public WorldScrolling(GenerationSettings settings, Transform targetTransform = null, GameObjectsContainer container = null) : base(settings, targetTransform)
         {
             InitContainer(container);
         }
@@ -68,7 +71,7 @@ namespace World.Tile
         {
             _getChunkPrefab = Settings.UseRandomChunkLayout ? GetRandomChunkPrefab : GetNextAvailableChunkPrefab;
 
-            if(!Settings.UseRandomChunkLayout)
+            if (!Settings.UseRandomChunkLayout)
             {
                 _prefabsToCreate = new List<GameObject>(Settings.TileChunkPrefabs.Count);
                 _prefabsToCreate.AddRange(Settings.TileChunkPrefabs);
@@ -79,6 +82,11 @@ namespace World.Tile
 
         public override void TryUpdateTilesOnScreen()
         {
+            if (!HasTarget)
+            {
+                return;
+            }
+
             _playerTilePosition = Vector2Int.RoundToInt(PlayerPosition / Settings.BlockSize);
 
             if (_currentPlayerTilePosition != _playerTilePosition)
@@ -259,6 +267,8 @@ namespace World.Tile
                 state |= BezelState.CornerRB;
                 bezel.CornerRB = RB.BezelData.Center[0, 0];
             }
+
+            center.UpdateGPUData();
         }
 
 

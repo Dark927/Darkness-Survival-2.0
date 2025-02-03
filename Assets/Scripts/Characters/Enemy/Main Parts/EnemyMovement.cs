@@ -32,12 +32,17 @@ namespace Characters.Enemy
 
         #region Init
 
-        public EnemyMovement(CharacterBody body, CharacterBody targetPlayer)
+        public EnemyMovement(Transform bodyTransform, Transform targetTransform = null)
+        {
+            Init(bodyTransform, targetTransform);
+        }
+
+        private void Init(Transform bodyTransform, Transform targetTransform)
         {
             try
             {
-                TrySetBody(body);
-                TrySetTarget(targetPlayer);
+                _transform = bodyTransform;
+                SetTarget(targetTransform);
             }
             catch (Exception e)
             {
@@ -63,18 +68,6 @@ namespace Characters.Enemy
 
         #endregion
 
-        public void TrySetTarget(CharacterBody targetPlayer)
-        {
-            if (targetPlayer is MonoBehaviour monoBehaviourPlayer)
-            {
-                SetTarget(monoBehaviourPlayer.transform);
-            }
-            else
-            {
-                throw new NullReferenceException($"{nameof(targetPlayer)} does not implement {nameof(MonoBehaviour)}. Target is null! - {ToString()}");
-            }
-        }
-
         public void SetTarget(Transform target)
         {
             _targetTransform = target;
@@ -82,9 +75,9 @@ namespace Characters.Enemy
 
         public void Move()
         {
-            if (!_blockLogic.IsBlocked)
+            if (!_blockLogic.IsBlocked && (_targetTransform != null))
             {
-                FollowPlayer();
+                FollowTarget();
             }
         }
 
@@ -106,28 +99,12 @@ namespace Characters.Enemy
             _blockLogic.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
         }
 
-        private void FollowPlayer()
+        private void FollowTarget()
         {
             _targetDirection = (_targetTransform.position - _transform.position).normalized;
             _speed.TryUpdateVelocity(_targetDirection);
         }
 
-        private void TrySetBody(CharacterBody body)
-        {
-            if (body is MonoBehaviour monoBehaviourEnemy)
-            {
-                SetBody(monoBehaviourEnemy.transform);
-            }
-            else
-            {
-                throw new NullReferenceException($"{nameof(body)} does not implement {nameof(MonoBehaviour)}. Source is null! - {ToString()}");
-            }
-        }
-
-        private void SetBody(Transform body)
-        {
-            _transform = body;
-        }
 
         private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
         {

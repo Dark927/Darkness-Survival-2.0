@@ -39,7 +39,6 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
     {
         BindContainers();
         BindEnemySettings();
-        BindWorldSettings();
     }
 
     private void BindContainers()
@@ -63,13 +62,6 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
             .AsSingle();
     }
 
-    private void BindWorldSettings()
-    {
-        Container
-            .Bind<GenerationSettings>()
-            .FromScriptableObject(_gameConfig.WorldGenerationSettings)
-            .AsSingle();
-    }
 
     private void TryBindDiContainer()
     {

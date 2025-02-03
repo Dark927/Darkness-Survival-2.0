@@ -43,7 +43,7 @@ namespace Characters.Enemy
         public void TrySwitchSide()
         {
             bool needSideSwitch = !_body.View.IsLookingForward(_body.Movement.Direction)
-                && !_targetDetector.IsTargetFoundOnVerticalAxis(_body.TargetPlayer.transform);
+                && !_targetDetector.IsTargetFoundOnVerticalAxis(_body.TargetTransform);
 
             if (needSideSwitch)
             {

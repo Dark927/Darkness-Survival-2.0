@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Characters.Player
 {
-    public class PlayerBody : CharacterBody, IDamageable
+    public class PlayerBody : CharacterBodyBase, IDamageable
     {
         #region Fields
 
@@ -50,9 +50,13 @@ namespace Characters.Player
         {
             try
             {
+                CharacterAnimatorController animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
 
-                Movement.Speed.OnActualSpeedChanged += (Visual.GetAnimatorController() as CharacterAnimatorController).SpeedUpdateListener;
+                Movement.Speed.OnActualSpeedChanged += animatorController.SpeedUpdateListener;
                 OnBodyDamaged += Invincibility.Enable;
+
+                OnBodyDeath += animatorController.TriggerDeath;
+                OnBodyDeath += Movement.Block;
             }
             catch (Exception ex)
             {
@@ -60,10 +64,14 @@ namespace Characters.Player
             }
         }
 
-        protected override void ClearReferences()
+        public override void Dispose()
         {
-            Movement.Speed.OnActualSpeedChanged -= (Visual.GetAnimatorController() as CharacterAnimatorController).SpeedUpdateListener;
+            CharacterAnimatorController animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
+
+            Movement.Speed.OnActualSpeedChanged -= animatorController.SpeedUpdateListener;
             OnBodyDamaged -= Invincibility.Enable;
+            OnBodyDeath -= animatorController.TriggerDeath;
+            OnBodyDeath -= Movement.Block;
         }
 
         #endregion

@@ -75,6 +75,8 @@ namespace Settings.SceneManagement
         public void UnloadAll()
         {
             _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
 
             if (!_needClean)
             {

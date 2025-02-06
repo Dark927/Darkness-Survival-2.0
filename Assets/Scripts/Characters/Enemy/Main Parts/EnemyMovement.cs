@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 namespace Characters.Enemy
 {
-    public class EnemyMovement : ICharacterMovement, IDisposable
+    public class EnemyMovement : CharacterMovementBase
     {
         #region Fields 
 
@@ -14,16 +14,16 @@ namespace Characters.Enemy
         private Vector2 _targetDirection;
 
         private CharacterSpeed _speed;
-        private CharacterMovementBlock _blockLogic;
+        private CharacterActionBlock _movementBlock;
 
         #endregion
 
 
         #region Properties
 
-        public ref CharacterSpeed Speed => ref _speed;
-        public bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
-        public Vector2 Direction => _targetDirection;
+        public override CharacterSpeed Speed => _speed;
+        public override bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
+        public override Vector2 Direction => _targetDirection;
 
         #endregion
 
@@ -56,14 +56,14 @@ namespace Characters.Enemy
         private void InitComponents()
         {
             _rigidbody = _transform.GetComponent<Rigidbody2D>();
-            _blockLogic = new CharacterMovementBlock(this);
+            _movementBlock = new CharacterActionBlock();
             _speed = new CharacterSpeed();
         }
 
         private void InitReferences()
         {
             _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
-            _blockLogic.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
+            _movementBlock.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
         }
 
         #endregion
@@ -73,30 +73,31 @@ namespace Characters.Enemy
             _targetTransform = target;
         }
 
-        public void Move()
+        public override void Move()
         {
-            if (!_blockLogic.IsBlocked && (_targetTransform != null))
+            if (!_movementBlock.IsBlocked && (_targetTransform != null))
             {
                 FollowTarget();
             }
         }
 
-        public void Stop()
+        public override void Stop()
         {
             _speed.Stop();
             _speed.ClearDirection();
         }
 
-        public void BlockMovement(int timeInMs)
+        public override void Block(int timeInMs)
         {
-            _blockLogic.BlockMovement(timeInMs);
+            Stop();
+            _movementBlock.Block(timeInMs);
         }
 
 
-        public void Dispose()
+        public override void Dispose()
         {
             _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
-            _blockLogic.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
+            _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
         }
 
         private void FollowTarget()

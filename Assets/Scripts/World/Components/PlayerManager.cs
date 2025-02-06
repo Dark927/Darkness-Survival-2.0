@@ -1,38 +1,51 @@
 using Characters.Player;
-using Settings.Abstract;
 using UnityEngine;
-using Zenject;
 using System.Collections.Generic;
 using System.Linq;
+using Settings.Global;
+using System;
 
-public sealed class PlayerManager : SingletonBase<PlayerManager>
+public sealed class PlayerManager : IService
 {
-    private List<Player> _players;
+    #region Fields 
 
-    [Inject]
-    public void Construct(Player player)
+    public event Action<Player> OnPlayerReady;
+    private HashSet<Player> _players;
+
+    #endregion
+
+
+    #region Methods
+
+    #region Init
+
+    public void Init()
     {
-        _players = new List<Player>
+        _players = new HashSet<Player>();
+    }
+
+    #endregion
+
+    public void AddPlayer(Player player)
+    {
+        if (player != null)
         {
-            player
-        };
+            _players.Add(player);
+            OnPlayerReady?.Invoke(player);
+        }
     }
 
-    private void Awake()
+    public void RemovePlayer(Player player)
     {
-        InitInstance();
+        _players.Remove(player);
     }
-
-    private void Start()
-    {
-        GameManager.Instance.SetPlayers(_players);
-    }
-
 
     public ICharacterLogic GetCharacter()
     {
         // ToDo : implement the logic for several players in the future.
-        return _players.FirstOrDefault().Character;
+
+        Player player = _players.FirstOrDefault();
+        return (player != null) ? player.Character : null;
     }
 
     public Transform GetCharacterTransform()
@@ -47,4 +60,6 @@ public sealed class PlayerManager : SingletonBase<PlayerManager>
 
         return characterTransform;
     }
+
+    #endregion
 }

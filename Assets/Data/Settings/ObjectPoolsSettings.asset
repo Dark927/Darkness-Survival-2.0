@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ObjectPoolsSettings
   m_EditorClassIdentifier: 
   _preloadInstancesCount: 10
-  _maxPoolCapacity: 600
+  _maxPoolCapacity: 100

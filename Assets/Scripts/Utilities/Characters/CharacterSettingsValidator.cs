@@ -4,7 +4,7 @@ namespace Utilities.Characters
 {
     public static class CharacterSettingsValidator
     {
-        public static void CheckCharacterBodyStatus(CharacterBody body)
+        public static void CheckCharacterBodyStatus(CharacterBodyBase body)
         {
             if (body.View == null)
             {

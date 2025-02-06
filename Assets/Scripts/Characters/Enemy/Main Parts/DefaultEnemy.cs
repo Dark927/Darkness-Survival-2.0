@@ -11,9 +11,9 @@ namespace Characters.Enemy
         [Header("Settings")]
         [SerializeField] private EnemyData _data;
         
-        private CharacterBody _body;
+        private CharacterBodyBase _body;
         public CharacterStats Stats => _data.Stats;
-        public CharacterBody Body => _body;
+        public CharacterBodyBase Body => _body;
 
         private void Awake()
         {
@@ -22,7 +22,7 @@ namespace Characters.Enemy
 
         private void InitComponents()
         {
-            _body = GetComponent<CharacterBody>();
+            _body = GetComponent<CharacterBodyBase>();
         }
 
 

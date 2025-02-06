@@ -69,6 +69,18 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1257784969828566354, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_Intensity
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257784969828566354, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_PointLightInnerRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257784969828566354, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2057875600993417546, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: _maxHp
       value: 10

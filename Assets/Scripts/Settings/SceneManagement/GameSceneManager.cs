@@ -55,7 +55,8 @@ namespace Settings.SceneManagement
             AddressableSceneLoader.UnloadAll();
             DefaultSceneLoader.UnloadAllAdditiveScenes();
 
-            DefaultSceneLoader.LoadScenes(_mainSceneNames.GlobalScene, _mainSceneNames.GameplayEssentialsScene);
+            DefaultSceneLoader.LoadSingleScene(_mainSceneNames.GlobalScene);
+            DefaultSceneLoader.LoadAdditiveScene(_mainSceneNames.GameplayEssentialsScene, false);
 
             foreach (var scene in _stageScenesReferences)
             {

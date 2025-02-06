@@ -1,35 +1,38 @@
 
 using UnityEngine;
 
-public class CameraFollowLogic : MonoBehaviour
+namespace Settings.CameraManagement
 {
-    [SerializeField] private Transform _targetToFollow;
-    private Camera _camera;
-
-    private Vector3 _roundPosition;
-
-    private void Awake()
+    public sealed class CameraFollowLogic : MonoBehaviour
     {
-        _camera = GetComponent<Camera>();
-    }
+        [SerializeField] private Transform _targetToFollow;
+        private Camera _camera;
 
-    private void FixedUpdate()
-    {
-        DefaultFollow();
-    }
+        private Vector3 _roundPosition;
 
-    private void PixelPerfectFollow()
-    {
-        _roundPosition = new Vector3(
-        PixelCalculator.RoundToNearestPixel(_targetToFollow.position.x, _camera),
-        PixelCalculator.RoundToNearestPixel(_targetToFollow.position.y, _camera),
-        transform.position.z);
+        private void Awake()
+        {
+            _camera = GetComponent<Camera>();
+        }
 
-        transform.position = _roundPosition;
-    }
+        private void FixedUpdate()
+        {
+            DefaultFollow();
+        }
 
-    private void DefaultFollow()
-    {
-        transform.position = new Vector3(_targetToFollow.position.x, _targetToFollow.position.y, transform.position.z);
+        private void PixelPerfectFollow()
+        {
+            _roundPosition = new Vector3(
+            PixelCalculator.RoundToNearestPixel(_targetToFollow.position.x, _camera),
+            PixelCalculator.RoundToNearestPixel(_targetToFollow.position.y, _camera),
+            transform.position.z);
+
+            transform.position = _roundPosition;
+        }
+
+        private void DefaultFollow()
+        {
+            transform.position = new Vector3(_targetToFollow.position.x, _targetToFollow.position.y, transform.position.z);
+        }
     }
 }

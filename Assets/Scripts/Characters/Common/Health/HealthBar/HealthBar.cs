@@ -20,7 +20,7 @@ namespace Characters.Health.HealthBar
 
         private Vector2 _initialScale;
         private bool _isVisible = true;
-        private CharacterBody _characterBody;
+        private CharacterBodyBase _characterBody;
         private HealthBarHp _hpVisual;
         private HealthBarBackground _backgroundVisual;
 
@@ -34,7 +34,7 @@ namespace Characters.Health.HealthBar
         private void Awake()
         {
             _initialScale = transform.localScale;
-            _characterBody = GetComponentInParent<CharacterBody>();
+            _characterBody = GetComponentInParent<CharacterBodyBase>();
             _hpVisual = GetComponentInChildren<HealthBarHp>();
             _backgroundVisual = GetComponentInChildren<HealthBarBackground>();
         }
@@ -53,6 +53,8 @@ namespace Characters.Health.HealthBar
 
         private void Update()
         {
+
+            // ToDo : Remove this input (it is for tests only)
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.P))
             {

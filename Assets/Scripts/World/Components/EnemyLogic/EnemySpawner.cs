@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Settings;
+using Settings.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,7 +109,7 @@ namespace World.Components.EnemyLogic
 
         private async UniTask SpawnEnemyTask(EnemySpawnData data, CancellationToken token)
         {
-            Transform targetPlayer = PlayerManager.Instance.GetCharacterTransform();
+            Transform targetPlayer = ServiceLocator.Current.Get<PlayerManager>()?.GetCharacterTransform();
 
             if(targetPlayer == null)
             {
@@ -137,7 +138,8 @@ namespace World.Components.EnemyLogic
 
         private void StopAllSpawnTasks()
         {
-            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
             _actualSpawnTasks.Clear();
         }

@@ -6,8 +6,8 @@ using Characters.Stats;
 
 public interface ICharacterLogic : IAttackable
 {
-    public CharacterBody Body { get; }
+    public CharacterBodyBase Body { get; }
     public CharacterBasicAttack BasicAttacks { get; }
+    public CharacterBaseData Data { get; }
     public CharacterStats Stats { get; }
-
 }

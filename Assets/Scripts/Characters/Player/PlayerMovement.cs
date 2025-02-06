@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace Characters.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerMovement : ICharacterMovement, IDisposable
+    public class PlayerMovement : CharacterMovementBase
     {
         #region Fields 
 
@@ -15,20 +15,20 @@ namespace Characters.Player
         private Rigidbody2D _rigidbody;
 
         private Vector2 _direction;
+        private Vector2 _savedDirection;
         private CharacterSpeed _speed;
 
-        private CharacterMovementBlock _blockLogic;
+        private CharacterActionBlock _movementBlock;
 
         #endregion
 
 
         #region Properties 
 
-        public bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
-
-        public Vector2 Direction => _direction;
-        public ref CharacterSpeed Speed => ref _speed;
-
+        public override bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
+        public override Vector2 Direction => _direction;
+        public override CharacterSpeed Speed => _speed;
+        public override bool IsBlocked => (_movementBlock != null) && _movementBlock.IsBlocked;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace Characters.Player
 
         #region Init
 
-        public PlayerMovement(CharacterBody playerBody)
+        public PlayerMovement(CharacterBodyBase playerBody)
         {
             if (playerBody is MonoBehaviour playerMonoBehaviour)
             {
@@ -56,7 +56,7 @@ namespace Characters.Player
         private void InitComponents()
         {
             _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
-            _blockLogic = new CharacterMovementBlock(this);
+            _movementBlock = new CharacterActionBlock();
             _speed = new CharacterSpeed();
         }
 
@@ -65,36 +65,56 @@ namespace Characters.Player
             _speed.OnVelocityUpdate += VelocityUpdateListener;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             _speed.OnVelocityUpdate -= VelocityUpdateListener;
         }
 
         #endregion
 
-        public void Move()
+        public override void Move()
         {
-            if (_blockLogic.IsBlocked)
+            if (_movementBlock.IsBlocked)
             {
                 return;
             }
             _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
         }
 
-        public void Stop()
+        public override void Stop()
         {
             _speed.Stop();
         }
 
-        public void BlockMovement(int timeInMs)
+        public override void Block(int timeInMs)
         {
-            _blockLogic.BlockMovement(timeInMs);
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.isKinematic = true;
+            _movementBlock.Block(timeInMs);
+        }
+
+        public override void Block()
+        {
+            Block(int.MaxValue);
+        }
+
+        public override void Unblock()
+        {
+            // ToDo : Test this isKinematic, coz it conflicts with Player Death IsKinematic!
+            _rigidbody.isKinematic = false;
+            _direction = _savedDirection;
+            _movementBlock.Unblock();
         }
 
         public void MovementPerformedListener(InputAction.CallbackContext context)
         {
-            _direction = context.ReadValue<Vector2>();
             _speed.SetMaxSpeedMultiplier();
+            _savedDirection = context.ReadValue<Vector2>();
+
+            if (!IsBlocked)
+            {
+                _direction = _savedDirection;
+            }
         }
 
         public void MovementStoppedListener(InputAction.CallbackContext context)
@@ -105,11 +125,6 @@ namespace Characters.Player
         private void VelocityUpdateListener(object sender, Vector2 velocity)
         {
             _rigidbody.velocity = velocity;
-        }
-
-        private void ResetFields()
-        {
-            Stop();
         }
 
         #endregion

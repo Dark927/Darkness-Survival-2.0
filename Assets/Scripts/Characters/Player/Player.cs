@@ -1,5 +1,6 @@
 using Characters.Health.HealthBar;
 using Characters.Player.Controls;
+using Settings.Global;
 using System;
 using UnityEngine;
 
@@ -38,10 +39,12 @@ namespace Characters.Player
 
         private void Start()
         {
+            ServiceLocator.Current.Get<PlayerManager>()?.AddPlayer(this);
+
             _input.SetMovement(_character.Body.Movement);
             _input.SetBasicAttacks(_character.BasicAttacks);
 
-            _character.Body.OnBodyDeath += PlayerLost;
+            _character.Body.OnBodyDeath += PlayerCharacterDie;
         }
 
         private void InitInput()
@@ -53,22 +56,16 @@ namespace Characters.Player
 
         public void Dispose()
         {
-            _input.Dispose();
+            _character.Body.OnBodyDeath -= PlayerCharacterDie;
+            _input?.Dispose();
         }
 
         #endregion
 
-        private void PlayerLost()
+        private void PlayerCharacterDie()
         {
             _healthBar.Hide();
             _input.Disable();
-
-            if (_character is MonoBehaviour _characterComponent)
-            {
-                Rigidbody2D _rigidbody = _characterComponent.GetComponent<Rigidbody2D>();
-                _rigidbody.isKinematic = true;
-                Character.Body.Movement.Stop();
-            }
         }
 
         private void OnDestroy()

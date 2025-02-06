@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class DefaultEnemyBody : CharacterBody
+    public class DefaultEnemyBody : CharacterBodyBase
     {
         #region Fields
 
@@ -77,9 +77,9 @@ namespace Characters.Enemy
 
         }
 
-        protected override void ClearReferences()
+        public override void Dispose()
         {
-
+            _sideController?.Dispose();
         }
 
         #endregion
@@ -116,7 +116,7 @@ namespace Characters.Enemy
         }
 
 
-        // Debug 
+        #region Debug 
 
         private void OnDrawGizmosSelected()
         {
@@ -127,9 +127,11 @@ namespace Characters.Enemy
             }
             catch
             {
-                // Just ignore this if we can not init side controller (to avoid error messages while configuring).
+                // # Just ignore this if we can not init side controller (to avoid error messages while configuring).
             }
         }
+
+        #endregion
 
         #endregion
     }

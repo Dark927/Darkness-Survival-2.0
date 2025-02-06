@@ -22,9 +22,7 @@ namespace Characters.Player
             PlayerAnimController = new CharacterAnimatorController(animator, new CharacterAnimatorParameters(), animationEvents);
         }
 
-        public override AnimatorController GetAnimatorController()
-        {
-            return PlayerAnimController;
-        }
+        public override AnimatorController GetAnimatorController() => PlayerAnimController;
+        public override T GetAnimatorController<T>() => PlayerAnimController as T;
     }
 }

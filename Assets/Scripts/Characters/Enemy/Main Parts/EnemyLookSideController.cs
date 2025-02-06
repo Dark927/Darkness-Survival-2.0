@@ -2,17 +2,14 @@
 using Characters.TargetDetection;
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 
 namespace Characters.Enemy
 {
-    public sealed class EnemyLookSideController
+    public sealed class EnemyLookSideController : IDisposable
     {
+        #region Fields 
+
         private UniTask _activeSideSwitch;
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -24,6 +21,8 @@ namespace Characters.Enemy
 
         private bool _isWaiting = false;
 
+        #endregion
+
 
         #region Properties
 
@@ -32,6 +31,10 @@ namespace Characters.Enemy
         #endregion
 
 
+        #region Methods
+
+        #region Init
+
         public EnemyLookSideController(DefaultEnemyBody enemyBody, TargetDetector detector, int sideSwitchDelayInMs, int accelerationTimeInMs)
         {
             _body = enemyBody;
@@ -39,6 +42,13 @@ namespace Characters.Enemy
             _sideSwitchDelayInMs = sideSwitchDelayInMs;
             _accelerationTimeInMs = accelerationTimeInMs;
         }
+
+        public void Dispose()
+        {
+            InterruptCurrentSideSwitch();
+        }
+
+        #endregion
 
         public void TrySwitchSide()
         {
@@ -49,11 +59,6 @@ namespace Characters.Enemy
             {
                 RequestSideSwitch();
             }
-        }
-
-        public void ShowDebug()
-        {
-            _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>();
         }
 
         private void RequestSideSwitch()
@@ -71,7 +76,7 @@ namespace Characters.Enemy
         private async UniTask SideSwitch(int delayInMs)
         {
             Waiting = true;
-            _body.Movement.BlockMovement(delayInMs);
+            _body.Movement.Block(delayInMs);
 
             _cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = _cancellationTokenSource.Token;
@@ -96,5 +101,17 @@ namespace Characters.Enemy
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
         }
+
+        #region Debug 
+
+        public void ShowDebug()
+        {
+            _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>();
+        }
+
+        #endregion
+
+        #endregion
+
     }
 }

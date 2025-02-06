@@ -1,4 +1,7 @@
+using Characters.Player;
+using Settings.Global;
 using System;
+using System.Reflection;
 using UnityEngine;
 using World.Components;
 using World.Tile;
@@ -12,7 +15,7 @@ namespace World.Generation
         Scrolling,
     }
 
-    public class WorldGenerator : MonoBehaviour
+    public class WorldGenerator : MonoBehaviour, IDisposable
     {
         #region Fields 
 
@@ -55,14 +58,18 @@ namespace World.Generation
 
         private void Start()
         {
-            bool canSetTarget = !_generationStrategy.HasTarget && (PlayerManager.Instance != null);
+            TryFindTarget();
 
-            if (canSetTarget)
+            if (!_generationStrategy.HasTarget)
             {
-                _generationStrategy.SetTarget(PlayerManager.Instance.GetCharacterTransform());
+                ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady += PlayerReadyListener;
             }
 
             _generationStrategy.UpdateTilesOnScreen();
+        }
+
+        public void Dispose()
+        {
         }
 
         #endregion
@@ -70,6 +77,33 @@ namespace World.Generation
         private void Update()
         {
             _generationStrategy.TryUpdateTilesOnScreen();
+        }
+
+        private void PlayerReadyListener(Player player)
+        {
+            bool canSetTarget = !_generationStrategy.HasTarget && (player != null);
+
+            if (canSetTarget)
+            {
+                _generationStrategy.SetTarget(player.Character.Body.transform);
+                ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady -= PlayerReadyListener;
+            }
+        }
+
+        private void TryFindTarget()
+        {
+            PlayerManager playerManager = ServiceLocator.Current.Get<PlayerManager>();
+            bool canSetTarget = !_generationStrategy.HasTarget && (playerManager != null);
+
+            if (canSetTarget)
+            {
+                _generationStrategy.SetTarget(playerManager.GetCharacterTransform());
+            }
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
 
         #endregion

@@ -16,7 +16,7 @@ namespace Characters.Player.Controls
             _inputHandler = inputHandler;
         }
 
-        public void SetMovement(ICharacterMovement playerMovement)
+        public void SetMovement(CharacterMovementBase playerMovement)
         {
             if (playerMovement is PlayerMovement movement)
             {

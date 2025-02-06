@@ -1,22 +1,11 @@
 using Characters.Player.Animation;
-using Characters.Player.Attacks;
-using Characters.Player.Data;
-using Characters.Stats;
-using UnityEngine;
 
 namespace Characters.Player
 {
-    [RequireComponent(typeof(CharacterBody))]
-    public class Nero : MonoBehaviour, ICharacterLogic
+    public class Nero : PlayerCharacterLogic
     {
         #region Fields
 
-        [SerializeField] private PlayerCharacterData _characterData;
-
-        private bool _configured = false;
-
-        private CharacterBody _body;
-        private CharacterBasicAttack _attacks;
         private CharacterAnimatorController _animatorController;
 
         #endregion
@@ -24,9 +13,6 @@ namespace Characters.Player
 
         #region Properties
 
-        public CharacterBody Body => _body;
-        public CharacterBasicAttack BasicAttacks => _attacks;
-        public CharacterStats Stats => _characterData.Stats;
 
         #endregion
 
@@ -35,73 +21,56 @@ namespace Characters.Player
 
         #region Init
 
-        private void Awake()
+
+        protected override void InitComponents()
         {
-            InitComponents();
-            InitBasicAttacks();
+            base.InitComponents();
         }
 
-        private void Start()
+        protected override void InitBasicAttacks()
         {
-            SetReferences();
+            base.InitBasicAttacks();
         }
 
-        private void InitComponents()
+        protected override void SetReferences()
         {
-            _body = GetComponent<CharacterBody>();
+            base.SetReferences();
+            _animatorController = Body.Visual.GetAnimatorController() as CharacterAnimatorController;
 
-        }
+            // -----------
+            // # This logic can be unique for each character, so we do not subscribe inside the player body.
+            // -----------
 
-        private void InitBasicAttacks()
-        {
-            _attacks = new CharacterBasicAttack();
-        }
+            BasicAttacks.OnAnyAttackStarted += Body.Movement.Block;
 
-        private void SetReferences()
-        {
-            // ToDo : Move this logic to the another place.
-            _animatorController = _body.Visual.GetAnimatorController() as CharacterAnimatorController;
+            // ToDo : CONFLICTS WITH PlayerDeath event!!!
+            BasicAttacks.OnAttackFinished += Body.Movement.Unblock;
 
-            _attacks.OnFastAttack += _animatorController.TriggerFastAttack;
-            _attacks.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
-            _body.OnBodyDeath += _animatorController.TriggerDeath;
-            _animatorController.Events.OnAttackFinished += _attacks.FinishAttack;
+            // -----------
+
+            // ToDo : Move this logic to another place
             _animatorController.Events.OnDeathFinished += GameplayUI.Instance.ActivateGameOverPanel;
-
-            _configured = true;
         }
 
-        private void ClearReferences()
+        protected override void Dispose()
         {
-            _attacks.OnFastAttack -= _animatorController.TriggerFastAttack;
-            _attacks.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
-            _body.OnBodyDeath -= _animatorController.TriggerDeath;
-            _animatorController.Events.OnAttackFinished -= _attacks.FinishAttack;
+            BasicAttacks.OnAnyAttackStarted -= Body.Movement.Block;
+            BasicAttacks.OnAttackFinished -= Body.Movement.Unblock;
+            BasicAttacks.Dispose();
+
+            // ToDo : Move this logic to another place
             _animatorController.Events.OnDeathFinished -= GameplayUI.Instance.ActivateGameOverPanel;
 
             _animatorController = null;
-            _configured = false;
         }
 
         #endregion
 
-        public void Attack()
+        public override void Attack()
         {
             throw new System.NotImplementedException();
         }
 
-        public void Enable()
-        {
-            if (!_configured)
-            {
-                SetReferences();
-            }
-        }
-
-        private void OnDestroy()
-        {
-            ClearReferences();
-        }
 
         #endregion
     }

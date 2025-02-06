@@ -17,6 +17,7 @@ public abstract class CharacterVisual : MonoBehaviour
 
     #region Methods
     public abstract AnimatorController GetAnimatorController();
+    public abstract T GetAnimatorController<T>() where T : AnimatorController;
 
     private void Awake()
     {

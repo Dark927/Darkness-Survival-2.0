@@ -18,9 +18,9 @@ namespace Characters.Player.Animation
             set => Animator.SetFloat(Parameters.SpeedFieldName, value);
         }
 
-        public PlayerAttackType AttackType
+        public CharacterBasicAttack.Type AttackType
         {
-            get => (PlayerAttackType)Animator.GetInteger(Parameters.AttackTypeFieldName);
+            get => (CharacterBasicAttack.Type)Animator.GetInteger(Parameters.AttackTypeFieldName);
             set => Animator.SetInteger(Parameters.AttackTypeFieldName, (int)value);
         }
 
@@ -42,15 +42,9 @@ namespace Characters.Player.Animation
         #endregion
 
 
-        public void TriggerFastAttack(object sender, EventArgs args)
+        public void TriggerAttack(CharacterBasicAttack.Type type)
         {
-            AttackType = PlayerAttackType.Fast;
-            Animator.SetTrigger(Parameters.AttackTriggerName);
-        }
-
-        public void TriggerHeavyAttack(object sender, EventArgs args)
-        {
-            AttackType = PlayerAttackType.Heavy;
+            AttackType = type;
             Animator.SetTrigger(Parameters.AttackTriggerName);
         }
 

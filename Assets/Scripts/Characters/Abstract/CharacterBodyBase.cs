@@ -5,11 +5,11 @@ using System;
 using UnityEngine;
 using Utilities.Characters;
 
-public abstract class CharacterBody : MonoBehaviour
+public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
 {
     #region Fields
 
-    private ICharacterMovement _movement;
+    private CharacterMovementBase _movement;
     private ICharacterView _view;
     private CharacterVisual _visual;
     private IHealth _characterHealth;
@@ -23,7 +23,7 @@ public abstract class CharacterBody : MonoBehaviour
 
     #region Properties
 
-    public ICharacterMovement Movement { get => _movement; protected set => _movement = value; }
+    public CharacterMovementBase Movement { get => _movement; protected set => _movement = value; }
     public ICharacterView View { get => _view; protected set => _view = value; }
     public CharacterVisual Visual { get => _visual; protected set => _visual = value; }
     public IHealth Health { get => _characterHealth; protected set => _characterHealth = value; }
@@ -72,14 +72,14 @@ public abstract class CharacterBody : MonoBehaviour
 
     #endregion
 
-    protected virtual void ClearReferences()
+    public virtual void Dispose()
     {
 
     }
 
     protected void OnDestroy()
     {
-        ClearReferences();
+        Dispose();
     }
 
     protected void RaiseOnBodyDeath()

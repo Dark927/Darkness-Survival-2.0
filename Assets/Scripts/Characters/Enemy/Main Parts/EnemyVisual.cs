@@ -19,9 +19,7 @@ namespace Characters.Enemy
             AnimController = new EnemyAnimatorController(animator, new EnemyAnimatorParameters());
         }
 
-        public override AnimatorController GetAnimatorController()
-        {
-            return AnimController;
-        }
+        public override AnimatorController GetAnimatorController() => AnimController;
+        public override T GetAnimatorController<T>() => AnimController as T;
     }
 }

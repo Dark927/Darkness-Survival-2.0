@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8979144007290447676}
   - component: {fileID: 1800716631611273865}
   - component: {fileID: 4984262956316461542}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Heavy_trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711c6e656ce6937418f133c88d8992c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _copyBodyColliderSettings: 0
   _attackType: 2
 --- !u!1 &3825033947004516889
 GameObject:
@@ -101,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5454827383736974348}
   - component: {fileID: 5905878523843600981}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NeroSword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,19 +138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponAttackData: {fileID: 11400000, guid: f49b0c2b14aedcf4e817f6ab75f7e1cd, type: 2}
-  _swordAttackSettings:
-    _triggerActivityTimeSec: 0
-    _fullDurationTimeSec: 0
-    _reloadTimeSec: 0
-    _hasImpact: 0
-    _fastShakeSettings:
-      m_Amplitude: 0
-      m_Frequency: 0
-      m_Time: 0
-    _heavyShakeSettings:
-      m_Amplitude: 0
-      m_Frequency: 0
-      m_Time: 0
 --- !u!1 &6161270125322290101
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5535461304935065190}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AttackTriggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +182,7 @@ GameObject:
   - component: {fileID: 6445656199308863609}
   - component: {fileID: 3393194228849466652}
   - component: {fileID: 6223583222354407350}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fast_trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,4 +261,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 711c6e656ce6937418f133c88d8992c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _copyBodyColliderSettings: 0
   _attackType: 1

@@ -12,13 +12,17 @@ PrefabInstance:
       propertyPath: _data
       value: 
       objectReference: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
+    - target: {fileID: 221698526174776448, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
+      propertyPath: _characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
     - target: {fileID: 2479750187742211506, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ab97de0a4308d0f43b578e3b077b3095, type: 2}
     - target: {fileID: 3178620566283024096, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: 3178620566283024096, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -56,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3876758178566607923, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
+      propertyPath: _characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
     - target: {fileID: 5739962189768537486, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_Size.x
       value: 2.56
@@ -74,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6100567923061243249, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_Name
-      value: AncientKnight_Base Variant
+      value: AncientKnight_Bloody
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

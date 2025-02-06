@@ -15,6 +15,13 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
     private IHealth _characterHealth;
     public IInvincibility _characterInvincibility;
 
+
+
+    #endregion
+
+
+    #region Events
+
     public event Action OnBodyDeath;
     public event Action OnBodyDamaged;
 
@@ -28,7 +35,7 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
     public CharacterVisual Visual { get => _visual; protected set => _visual = value; }
     public IHealth Health { get => _characterHealth; protected set => _characterHealth = value; }
     public IInvincibility Invincibility { get => _characterInvincibility; protected set => _characterInvincibility = value; }
-
+    public bool IsDead => (Health != null) && Health.IsEmpty;
 
     #endregion
 
@@ -50,7 +57,7 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
 
     protected virtual void Start()
     {
-        InitReferences();
+        SetReferences();
     }
 
     protected abstract void Init();
@@ -65,7 +72,12 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
 
     }
 
-    protected virtual void InitReferences()
+    protected virtual void SetReferences()
+    {
+
+    }
+
+    protected virtual void UnsetReferences()
     {
 
     }

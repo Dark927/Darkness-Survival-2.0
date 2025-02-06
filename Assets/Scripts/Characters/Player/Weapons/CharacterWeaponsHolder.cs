@@ -1,5 +1,7 @@
 ﻿using Characters.Common.Combat.Weapons;
+using Characters.Interfaces;
 using Characters.Player.Weapons.Data;
+using ModestTree;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +12,11 @@ namespace Characters.Player.Weapons
     {
         #region Fields
 
-        private ICharacterLogic _character;
+
+        private IEntityLogic _entityLogic;
         private GameObject _defaultWeaponContainer;
 
+        private string _weaponsContainerName;
         private List<CharacterWeaponBase> _activeWeapons;
 
         #endregion
@@ -21,6 +25,8 @@ namespace Characters.Player.Weapons
         #region Properties
 
         public List<CharacterWeaponBase> ActiveWeapons => _activeWeapons;
+        public string DefaultContainerName => $"{_entityLogic.Data.Name ?? "default"}_weapons";
+        public string WeaponsContainerName => _weaponsContainerName;
 
         #endregion
 
@@ -29,26 +35,34 @@ namespace Characters.Player.Weapons
 
         #region Init
 
-        public CharacterWeaponsHolder(ICharacterLogic characterLogic, GameObject weaponsContainer = null)
+        public CharacterWeaponsHolder(IEntityLogic entityLogic, string weaponsContainerName = null)
         {
-            _character = characterLogic;
-            _defaultWeaponContainer = weaponsContainer;
+            _entityLogic = entityLogic;
+            _weaponsContainerName = weaponsContainerName;
         }
 
         public void Init()
         {
             _activeWeapons = new List<CharacterWeaponBase>();
-            TryInitContainer();
+            TryInitContainer(_weaponsContainerName);
         }
 
-        private void TryInitContainer()
+        private void TryInitContainer(string name)
         {
             if (_defaultWeaponContainer != null)
             {
                 return;
             }
-            _defaultWeaponContainer = new GameObject($"{_character.Data.Name}_weapons");
-            _defaultWeaponContainer.transform.parent = _character.Body.transform;
+
+            string targetName = DefaultContainerName;
+
+            if (!String.IsNullOrEmpty(name))
+            {
+                targetName = name;
+            }
+
+            _defaultWeaponContainer = new GameObject(targetName);
+            _defaultWeaponContainer.transform.SetParent(_entityLogic.Body.transform, false);
         }
 
         #endregion
@@ -73,7 +87,7 @@ namespace Characters.Player.Weapons
 
         public void Dispose()
         {
-            foreach(var weapon in _activeWeapons)
+            foreach (var weapon in _activeWeapons)
             {
                 weapon.Dispose();
             }

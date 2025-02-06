@@ -12,13 +12,29 @@ PrefabInstance:
       propertyPath: _data
       value: 
       objectReference: {fileID: 11400000, guid: 8d6b0511bcbe347488cf1077e899b5f7, type: 2}
-    - target: {fileID: 2400321617970732138, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+    - target: {fileID: 1027028495411897866, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: _characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: edc8a8306d5a0de42b761cab8730db15, type: 2}
+    - target: {fileID: 1360638860509559976, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.25
       objectReference: {fileID: 0}
-    - target: {fileID: 2400321617970732138, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+    - target: {fileID: 1360638860509559976, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360638860509559976, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2400321617970732138, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2400321617970732138, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2400321617970732138, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,15 +78,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2400321617970732138, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4079731697918639801, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: _characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d6b0511bcbe347488cf1077e899b5f7, type: 2}
     - target: {fileID: 4472233538011631007, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: _sideSwitchDetectionData
+      value: 
+      objectReference: {fileID: 11400000, guid: de14500d0ec7b554ba56d4ded061e94b, type: 2}
+    - target: {fileID: 6469858864587082692, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: _sideSwitchDetectionData
       value: 
       objectReference: {fileID: 11400000, guid: de14500d0ec7b554ba56d4ded061e94b, type: 2}
     - target: {fileID: 6483652320573773819, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_Name
-      value: Enemy_Base Variant
+      value: DamnedSpirit_Base
       objectReference: {fileID: 0}
     - target: {fileID: 6944477016537417760, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_Radius
@@ -84,7 +108,24 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8880263502414871280, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880263502414871280, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880263502414871280, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6944477016537417760, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+    - {fileID: 1027028495411897866, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+    - {fileID: 4472233538011631007, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+    - {fileID: 3632532612550484955, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+    - {fileID: 4925358854141785271, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Settings.Global;
 using System;
+using Characters.Interfaces;
 
 public sealed class PlayerManager : IService
 {

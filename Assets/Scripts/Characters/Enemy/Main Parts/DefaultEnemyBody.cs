@@ -1,12 +1,12 @@
 using Characters.Enemy.Data;
 using Characters.Health;
+using Characters.Interfaces;
 using Characters.TargetDetection;
-using System;
 using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class DefaultEnemyBody : CharacterBodyBase
+    public class DefaultEnemyBody : CharacterBodyBase, IDamageable
     {
         #region Fields
 
@@ -38,8 +38,9 @@ namespace Characters.Enemy
         {
             _enemyLogic = GetComponent<IEnemyLogic>();
 
-
             Visual = GetComponentInChildren<EnemyVisual>();
+            Health = new CharacterHealth(_enemyLogic.Stats.Health);
+            Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
         }
 
         private void CreateSideController()
@@ -63,23 +64,40 @@ namespace Characters.Enemy
 
         protected override void Start()
         {
-            base.Start();
+            if (GlobalEnemyData.Instance != null)
+            {
+                _bodyStats = GlobalEnemyData.Instance.RequestDefaultBodyStats();
+                CreateSideController();
+            }
 
-            _bodyStats = GlobalEnemyData.Instance.RequestDefaultBodyStats();
-
-            CreateSideController();
             Health = new CharacterHealth(_enemyLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
+        
+            SetReferences();
         }
 
-        protected override void InitReferences()
+        protected override void SetReferences()
         {
+            OnBodyDeath += Movement.Block;
+            OnBodyDamaged += Invincibility.Enable;
+        }
 
+        protected override void UnsetReferences()
+        {
+            base.UnsetReferences();
+            OnBodyDamaged -= Invincibility.Enable;
+            OnBodyDeath -= Movement.Block;
         }
 
         public override void Dispose()
         {
-            _sideController?.Dispose();
+            _sideController?.Disable();
+        }
+
+        private void OnDisable()
+        {
+            UnsetReferences();
+            Invincibility?.Disable();
         }
 
         #endregion
@@ -92,7 +110,7 @@ namespace Characters.Enemy
 
         private void FixedUpdate()
         {
-            if (_sideController.Waiting)
+            if (_sideController == null || _sideController.Waiting)
             {
                 return;
             }
@@ -105,9 +123,20 @@ namespace Characters.Enemy
             }
         }
 
-        public void TakeDamage()
+        public void TakeDamage(float damage)
         {
+            if (Invincibility.IsActive || IsDead)
+            {
+                return;
+            }
 
+            Health.TakeDamage(damage);
+            RaiseOnBodyDamaged();
+
+            if (Health.IsEmpty)
+            {
+                RaiseOnBodyDeath();
+            }
         }
 
         public void Heal()

@@ -2,8 +2,8 @@
 
 namespace World.Components
 {
-    public interface ICharacterConfigurator
+    public interface ICharacterConfigurator<TCharacter>
     {
-        public void Configure(GameObject characterObj, Transform targetTransform = null);
+        public void Configure(TCharacter character, Transform targetTransform = null);
     }
 }

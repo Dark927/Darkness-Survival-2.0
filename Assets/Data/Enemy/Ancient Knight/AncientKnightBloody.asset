@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Ancient Knight
   _stats:
-    Health: 10
+    Health: 30
     Speed: 4
-    Damage: 5
     InvincibilityTime: 0.5
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
-  _id: 2132176454
+  _damageMultiplier: 1
+  _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
+  _id: -337360550
   Type: 2
   Prefab: {fileID: 748340546080213989, guid: ca75169a8804b8e4a99a0095322a3068, type: 3}

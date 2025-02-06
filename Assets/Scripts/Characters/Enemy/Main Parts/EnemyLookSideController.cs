@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Characters.Enemy
 {
-    public sealed class EnemyLookSideController : IDisposable
+    public sealed class EnemyLookSideController
     {
         #region Fields 
 
@@ -43,7 +43,7 @@ namespace Characters.Enemy
             _accelerationTimeInMs = accelerationTimeInMs;
         }
 
-        public void Dispose()
+        public void Disable()
         {
             InterruptCurrentSideSwitch();
         }
@@ -106,7 +106,7 @@ namespace Characters.Enemy
 
         public void ShowDebug()
         {
-            _targetDetector.IsTargetFoundOnVerticalAxis<PlayerBody>();
+            _targetDetector.IsTargetFoundOnVerticalAxis<PlayerCharacterBody>();
         }
 
         #endregion

@@ -5,12 +5,10 @@ namespace Characters.Stats
     [System.Serializable]
     public struct CharacterStats
     {
-        [Space, Header("Main Settings")]
+        [Header("Main Settings")]
 
         public float Health;
         public float Speed;
-        public float Damage;
-
 
         [Space, Header("Invincibility Settings")]
 
@@ -20,8 +18,7 @@ namespace Characters.Stats
         public override string ToString()
         {
             return $"HP : {Health}" +
-                $"\nSpeed : {Speed}" +
-                $"\nDamage : {Damage}";
+                $"\nSpeed : {Speed}";
         }
     }
 }

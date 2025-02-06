@@ -45,6 +45,11 @@ namespace World.Components.EnemyLogic
                 createdObj.transform.parent = container.transform;
             }
 
+            if (createdObj.TryGetComponent(out Enemy createdEnemy))
+            {
+                createdEnemy.SetTargetPool(this);
+            }
+
             return createdObj;
         }
 

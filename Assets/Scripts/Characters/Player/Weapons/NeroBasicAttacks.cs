@@ -1,5 +1,5 @@
 ﻿using Characters.Common.Combat.Weapons;
-using Characters.Player.Attacks;
+using Characters.Interfaces;
 using System;
 using System.Collections.Generic;
 

@@ -1,5 +1,5 @@
 using Characters.Interfaces;
-using Characters.Player.Attacks;
+using Characters.Player.Weapons;
 using System;
 using UnityEngine;
 
@@ -62,12 +62,12 @@ namespace Characters.Player.Controls
 
         public void Disable()
         {
-            _inputHandler.Disable();
+            _inputHandler?.Disable();
         }
 
         public void Dispose()
         {
-            _playerMovement.Dispose();
+            _playerMovement?.Dispose();
             RemoveMovement();
             Disable();
         }

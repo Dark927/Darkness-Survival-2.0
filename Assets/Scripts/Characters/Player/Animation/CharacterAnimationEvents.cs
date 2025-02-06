@@ -1,5 +1,5 @@
 using Characters.Animation;
-using Characters.Player.Attacks;
+using Characters.Player.Weapons;
 using System;
 using UnityEngine;
 

@@ -3,24 +3,25 @@ using Characters.Interfaces;
 using Characters.Player;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class EnemyCollisions : MonoBehaviour
 {
-    private DefaultEnemy _enemy;
+    private DefaultEnemyLogic _mainLogic;
 
     private void Awake()
     {
-        _enemy = GetComponent<DefaultEnemy>();
+        _mainLogic = GetComponent<DefaultEnemyLogic>();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         IDamageable target = collision.gameObject.GetComponent<IDamageable>();
 
-        if(target is PlayerBody)
+        if(target is PlayerCharacterBody)
         {
-            target.TakeDamage(_enemy.Stats.Damage);
+
         }
     }
 }

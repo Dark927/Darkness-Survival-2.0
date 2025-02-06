@@ -6,18 +6,17 @@ using UnityEngine;
 
 namespace Characters.Player
 {
-    public class PlayerBody : CharacterBodyBase, IDamageable
+    public class PlayerCharacterBody : CharacterBodyBase, IDamageable
     {
         #region Fields
 
         private ICharacterLogic _playerLogic;
+        private CharacterAnimatorController _animatorController;
 
         #endregion
 
-
         #region Properties
 
-        public bool IsDead => (Health != null) && Health.IsEmpty;
 
         #endregion
 
@@ -46,17 +45,12 @@ namespace Characters.Player
             Movement.Speed.Set(speed);
         }
 
-        protected override void InitReferences()
+        protected override void Start()
         {
             try
             {
-                CharacterAnimatorController animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
-
-                Movement.Speed.OnActualSpeedChanged += animatorController.SpeedUpdateListener;
-                OnBodyDamaged += Invincibility.Enable;
-
-                OnBodyDeath += animatorController.TriggerDeath;
-                OnBodyDeath += Movement.Block;
+                _animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
+                SetReferences();
             }
             catch (Exception ex)
             {
@@ -64,13 +58,22 @@ namespace Characters.Player
             }
         }
 
+        protected override void SetReferences()
+        {
+            Movement.Speed.OnActualSpeedChanged += _animatorController.SpeedUpdateListener;
+            OnBodyDamaged += Invincibility.Enable;
+
+            OnBodyDeath += _animatorController.TriggerDeath;
+            OnBodyDeath += Movement.Block;
+        }
+
+
         public override void Dispose()
         {
-            CharacterAnimatorController animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
-
-            Movement.Speed.OnActualSpeedChanged -= animatorController.SpeedUpdateListener;
+            Movement.Speed.OnActualSpeedChanged -= _animatorController.SpeedUpdateListener;
             OnBodyDamaged -= Invincibility.Enable;
-            OnBodyDeath -= animatorController.TriggerDeath;
+
+            OnBodyDeath -= _animatorController.TriggerDeath;
             OnBodyDeath -= Movement.Block;
         }
 
@@ -90,7 +93,7 @@ namespace Characters.Player
 
         public void TakeDamage(float damage)
         {
-            if(Invincibility.IsActive || IsDead)
+            if (Invincibility.IsActive || IsDead)
             {
                 return;
             }
@@ -105,8 +108,8 @@ namespace Characters.Player
         }
 
         public void Heal(float amount)
-        { 
-            if(IsDead)
+        {
+            if (IsDead)
             {
                 return;
             }

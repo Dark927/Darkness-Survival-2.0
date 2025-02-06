@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using Utilities;
 
 namespace Characters.Common.Combat
 {
@@ -13,9 +14,12 @@ namespace Characters.Common.Combat
     }
 
     [RequireComponent(typeof(Collider2D))]
-    public class AttackTrigger : MonoBehaviour,  IDisposable
+    public class AttackTrigger : MonoBehaviour, IDisposable
     {
         #region Fields 
+
+        [Header("Trigger Settings")]
+        [SerializeField] private bool _copyBodyColliderSettings = false;
 
         private Collider2D _collider;
         private UniTask _currentTriggerActivation;
@@ -39,8 +43,10 @@ namespace Characters.Common.Combat
 
         private void Awake()
         {
-            _collider = GetComponent<Collider2D>();
             _currentTriggerActivation = UniTask.CompletedTask;
+
+            _collider = GetComponent<Collider2D>();
+            TrySetBodyColliderSettings();
 
             if (!_collider.isTrigger)
             {
@@ -57,6 +63,11 @@ namespace Characters.Common.Combat
 
         #endregion
 
+        public void ScaleTriggerCollider(float scaleMultiplier)
+        {
+            TryScaleCollider(scaleMultiplier);
+        }
+
         public void Activate()
         {
             _collider.enabled = true;
@@ -64,7 +75,7 @@ namespace Characters.Common.Combat
 
         public void Activate(float timeInSec)
         {
-            if(_currentTriggerActivation.Status == UniTaskStatus.Pending)
+            if (_currentTriggerActivation.Status == UniTaskStatus.Pending)
             {
                 CancelActiveTask();
             }
@@ -76,7 +87,7 @@ namespace Characters.Common.Combat
 
         private async UniTask DeactivationDelay(float timeInSec, CancellationToken token)
         {
-            await UniTask.WaitForSeconds(timeInSec, cancellationToken : token);
+            await UniTask.WaitForSeconds(timeInSec, cancellationToken: token);
 
             Deactivate();
         }
@@ -123,6 +134,35 @@ namespace Characters.Common.Combat
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
+        }
+
+        private void TrySetBodyColliderSettings()
+        {
+            if (!_copyBodyColliderSettings)
+            {
+                return;
+            }
+
+            CharacterBodyBase characterBody = GetComponentInParent<CharacterBodyBase>();
+
+            if ((characterBody != null) && characterBody.TryGetComponent(out Collider2D bodyCollider))
+            {
+                _collider.CopyPropertiesFrom(bodyCollider);
+            }
+            else
+            {
+                Debug.LogWarning("# Can not find the body collider!");
+            }
+        }
+
+        private void TryScaleCollider(float scaleMultiplier)
+        {
+            if (scaleMultiplier <= 0)
+            {
+                return;
+            }
+
+            _collider.ScaleCollider2D(scaleMultiplier);
         }
 
         #endregion

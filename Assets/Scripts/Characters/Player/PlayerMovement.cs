@@ -88,14 +88,15 @@ namespace Characters.Player
 
         public override void Block(int timeInMs)
         {
-            _rigidbody.velocity = Vector2.zero;
-            _rigidbody.isKinematic = true;
+            SetStatic();
             _movementBlock.Block(timeInMs);
         }
 
+
         public override void Block()
         {
-            Block(int.MaxValue);
+            SetStatic();
+            _movementBlock.Block();
         }
 
         public override void Unblock()
@@ -125,6 +126,14 @@ namespace Characters.Player
         private void VelocityUpdateListener(object sender, Vector2 velocity)
         {
             _rigidbody.velocity = velocity;
+        }
+
+        private void SetStatic()
+        {
+            // do not use Stop method coz we want to save the speed velocity,
+            // to continue moving if the input button is not released
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.isKinematic = true;
         }
 
         #endregion

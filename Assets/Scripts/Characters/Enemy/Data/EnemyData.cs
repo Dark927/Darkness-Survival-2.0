@@ -1,5 +1,8 @@
 
-using System;using Unity.Collections;
+using Characters.Common.Combat.Weapons.Data;
+using Characters.Stats;
+using System;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Characters.Enemy.Data
@@ -13,12 +16,12 @@ namespace Characters.Enemy.Data
     }
 
     [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Game/Characters/Data/EnemyData")]
-    public class EnemyData : Stats.CharacterBaseData
+    public class EnemyData : AttackableCharacterData
     {
         [SerializeField, ReadOnly] private int _id;
         public int ID { get => _id; private set => _id = value; }
 
-        [Header("Main Info")]
+        [Header("Custom Enemy Settings")]
 
         public EnemyType Type;
         public GameObject Prefab;

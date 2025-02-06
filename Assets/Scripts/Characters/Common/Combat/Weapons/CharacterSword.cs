@@ -1,7 +1,9 @@
+using Characters.Interfaces;
 using Settings.CameraManagement.Shake;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
@@ -31,7 +33,7 @@ namespace Characters.Common.Combat.Weapons
 
 
         #region Properties
-        public SwordAttackSettings AttackSettings => _swordAttackSettings;
+        public SwordAttackSettings Settings => _swordAttackSettings;
 
         #endregion
 
@@ -53,12 +55,12 @@ namespace Characters.Common.Combat.Weapons
             }
 
             _attackTriggers = GetComponentsInChildren<SwordAttackTrigger>().ToList();
-            _fastAttackImpact = new ShakeImpact(AttackSettings.FastShakeSettings);
-            _heavyAttackImpact = new ShakeImpact(AttackSettings.HeavyShakeSettings);
+            _fastAttackImpact = new ShakeImpact(Settings.FastShakeSettings);
+            _heavyAttackImpact = new ShakeImpact(Settings.HeavyShakeSettings);
 
             foreach (SwordAttackTrigger trigger in _attackTriggers)
             {
-                trigger.OnTriggerEnter += HitEnemyListener;
+                trigger.OnTriggerEnter += HitTargetListener;
             }
         }
 
@@ -67,7 +69,7 @@ namespace Characters.Common.Combat.Weapons
             base.Dispose();
             foreach (SwordAttackTrigger trigger in _attackTriggers)
             {
-                trigger.OnTriggerEnter -= HitEnemyListener;
+                trigger.OnTriggerEnter -= HitTargetListener;
             }
         }
 
@@ -79,7 +81,7 @@ namespace Characters.Common.Combat.Weapons
 
             if (attackTrigger != null)
             {
-                attackTrigger.Activate(AttackSettings.TriggerActivityTimeSec);
+                attackTrigger.Activate(Settings.TriggerActivityTimeSec);
             }
 
             ActivateImpact(attackType);
@@ -104,15 +106,32 @@ namespace Characters.Common.Combat.Weapons
             }
         }
 
-        private void HitEnemyListener(object sender, EventArgs args)
+        protected override void HitTargetListener(object sender, EventArgs args)
         {
             SwordAttackTriggerArgs attackArgs = (SwordAttackTriggerArgs)args;
-            GameObject enemyObject = attackArgs.TargetCollider.gameObject;
+            GameObject targetObject = attackArgs.TargetCollider.gameObject;
 
-            Debug.Log("HIT -> " + enemyObject.name);
-            Destroy(enemyObject);
+            if(targetObject.TryGetComponent(out IDamageable target))
+            {
+                float damage = RequestDamage(attackArgs.AttackType);
+                target.TakeDamage(damage);
+            }
         }
 
+        private float RequestDamage(AttackType attackType)
+        {
+            return attackType switch
+            {
+                AttackType.Fast => CalculateDefaultDamage(),
+                AttackType.Heavy => CalculateHeavyDamage(),
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        private float CalculateHeavyDamage()
+        {
+            return CalculateDamage(Settings.HeavyDamageSettings.Min, Settings.HeavyDamageSettings.Max);
+        }
 
         #endregion
 

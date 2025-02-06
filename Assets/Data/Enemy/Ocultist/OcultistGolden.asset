@@ -16,9 +16,10 @@ MonoBehaviour:
   _stats:
     Health: 15
     Speed: 0.5
-    Damage: 2
     InvincibilityTime: 0.5
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
-  _id: -718547265
+  _damageMultiplier: 1
+  _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
+  _id: -135041931
   Type: 3
   Prefab: {fileID: 5471779191525873443, guid: 79ff90be291190648aea17691444e7f6, type: 3}

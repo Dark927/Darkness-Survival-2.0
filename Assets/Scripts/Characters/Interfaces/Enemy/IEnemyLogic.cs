@@ -1,10 +1,9 @@
-
-using Characters.Interfaces;
 using Characters.Stats;
 
-public interface IEnemyLogic : IAttackable
+namespace Characters.Interfaces
 {
-    public CharacterStats Stats { get; }
-    public CharacterBodyBase Body { get; }
+    public interface IEnemyLogic : IEntityLogic
+    {
 
+    }
 }

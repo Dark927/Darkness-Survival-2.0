@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: NeroSwordAttackData
   m_EditorClassIdentifier: 
   _swordAttackSettings:
+    _damageSettings:
+      _minDamage: 10
+      _maxDamage: 11
     _triggerActivityTimeSec: 0.1
     _fullDurationTimeSec: 0
     _reloadTimeSec: 0
+    _heavyDamageSettings:
+      _minDamage: 10
+      _maxDamage: 11
     _hasImpact: 1
     _fastShakeSettings:
       m_Amplitude: 2.5

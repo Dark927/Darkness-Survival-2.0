@@ -1,4 +1,5 @@
 using Characters.Health.HealthBar;
+using Characters.Interfaces;
 using Characters.Player.Controls;
 using Settings.Global;
 using System;
@@ -41,8 +42,10 @@ namespace Characters.Player
         {
             ServiceLocator.Current.Get<PlayerManager>()?.AddPlayer(this);
 
+            PlayerCharacterLogic playerCharacter = (PlayerCharacterLogic)_character; 
+
             _input.SetMovement(_character.Body.Movement);
-            _input.SetBasicAttacks(_character.BasicAttacks);
+            _input.SetBasicAttacks(playerCharacter.BasicAttacks);
 
             _character.Body.OnBodyDeath += PlayerCharacterDie;
         }

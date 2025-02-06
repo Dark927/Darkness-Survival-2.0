@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: _data
       value: 
       objectReference: {fileID: 11400000, guid: c521cff070a5aa74eab4ec04a5695aee, type: 2}
+    - target: {fileID: 221698526174776448, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
+      propertyPath: _characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: c521cff070a5aa74eab4ec04a5695aee, type: 2}
     - target: {fileID: 2479750187742211506, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_Controller
       value: 
@@ -74,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6100567923061243249, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
       propertyPath: m_Name
-      value: AncientKnight_Base (1) Variant
+      value: AncientKnight_Golden
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

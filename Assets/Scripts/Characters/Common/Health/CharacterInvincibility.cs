@@ -92,8 +92,7 @@ namespace Characters.Health
             }
 
             _cancellationTokenSource = new CancellationTokenSource();
-            CancellationToken token = _cancellationTokenSource.Token;
-            _activeEffectTask = ActivateEffect(time, token);
+            _activeEffectTask = ActivateEffect(time, _cancellationTokenSource.Token);
         }
 
         public void Disable()
@@ -111,18 +110,7 @@ namespace Characters.Health
 
         private async UniTask ActivateEffect(float time, CancellationToken token)
         {
-            try
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-            }
-            finally
-            {
-                Disable();
-            }
+            await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: token).SuppressCancellationThrow();
 
             return;
         }

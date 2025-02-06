@@ -1,16 +1,11 @@
 using Characters.Enemy.Data;
 using Settings;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Settings.Abstract;
 using Zenject;
 
-public sealed class GlobalEnemyData : MonoBehaviour
+public sealed class GlobalEnemyData : SingletonBase<GlobalEnemyData>
 {
-    private static GlobalEnemyData _instance;
     private EnemySettings _enemySettings;
-
-    public static GlobalEnemyData Instance => _instance;
     public EnemySettings EnemySettings => _enemySettings;
 
     [Inject]
@@ -21,14 +16,7 @@ public sealed class GlobalEnemyData : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        InitInstance();
     }
 
     public EnemyBodyStats RequestDefaultBodyStats()

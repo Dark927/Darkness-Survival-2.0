@@ -66,6 +66,12 @@ namespace Characters.Enemy
             _movementBlock.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
         }
 
+        public override void Dispose()
+        {
+            _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
+            _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
+        }
+
         #endregion
 
         public void SetTarget(Transform target)
@@ -93,11 +99,10 @@ namespace Characters.Enemy
             _movementBlock.Block(timeInMs);
         }
 
-
-        public override void Dispose()
+        public override void Block()
         {
-            _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
-            _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
+            Stop();
+            _movementBlock.Block();
         }
 
         private void FollowTarget()

@@ -1,3 +1,4 @@
+using Characters.Interfaces;
 using Characters.Player.Animation;
 
 namespace Characters.Player
@@ -65,12 +66,6 @@ namespace Characters.Player
         }
 
         #endregion
-
-        public override void Attack()
-        {
-            throw new System.NotImplementedException();
-        }
-
 
         #endregion
     }

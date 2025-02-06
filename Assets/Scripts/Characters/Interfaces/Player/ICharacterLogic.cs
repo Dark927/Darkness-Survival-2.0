@@ -1,13 +1,9 @@
 
-using Characters.Health;
-using Characters.Interfaces;
-using Characters.Player.Attacks;
 using Characters.Stats;
 
-public interface ICharacterLogic : IAttackable
+namespace Characters.Interfaces
 {
-    public CharacterBodyBase Body { get; }
-    public CharacterBasicAttack BasicAttacks { get; }
-    public CharacterBaseData Data { get; }
-    public CharacterStats Stats { get; }
+    public interface ICharacterLogic : IEntityLogic
+    {
+    }
 }

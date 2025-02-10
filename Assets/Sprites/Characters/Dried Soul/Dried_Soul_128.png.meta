@@ -236,7 +236,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: e6d2db260a36f0f4d9cc0e16c9747f1c, type: 3}
+      name: _NormalMap
     nameFileIdTable:
       Dried_Soul_128_0: 3811189650495295426
       Dried_Soul_128_1: 1276812905

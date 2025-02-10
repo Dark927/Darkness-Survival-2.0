@@ -1,5 +1,11 @@
+using Characters.Common.Combat.Weapons;
+using Characters.Player.Weapons;
 
-public interface IAttackable
+namespace Characters.Interfaces
 {
-    public void Attack();
+    public interface IAttackable<out T> where T : BasicAttack
+    {
+        public CharacterWeaponsHolder Weapons { get; }
+        public T BasicAttacks { get; }
+    }
 }

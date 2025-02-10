@@ -1,7 +1,7 @@
 ﻿
 using System;
+using Characters.Interfaces;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
 public class CharacterLookDirection : ICharacterView
 {

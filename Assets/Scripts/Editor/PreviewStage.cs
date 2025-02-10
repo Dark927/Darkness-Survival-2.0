@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using World.Tile;
 
 namespace Dark.Tile
 {
@@ -51,7 +52,7 @@ namespace Dark.Tile
             DarkTileMapDraw mapDraw = previewQuad.AddComponent<DarkTileMapDraw>();
             mapDraw.tileMapAsset = tileMapData;
             //add quad to scene
-            SceneManager.MoveGameObjectToScene(previewQuad, scene);
+            UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(previewQuad, scene);
             addCamera();
             //CaptureScreenshot();
         }
@@ -59,7 +60,7 @@ namespace Dark.Tile
         private void addCamera()
         {
             GameObject cameraObject = new GameObject("Preview Camera (for thumbnails)");
-            SceneManager.MoveGameObjectToScene(cameraObject, scene);
+            UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(cameraObject, scene);
             previewCamera = cameraObject.AddComponent<Camera>();
             previewCamera.scene = scene;
             previewCamera.transform.position = new Vector3(0, 0, -5); // Position the camera to see the quad

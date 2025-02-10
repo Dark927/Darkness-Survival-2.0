@@ -1,5 +1,7 @@
-
-public interface IEnemyLogic : IAttackable
+namespace Characters.Interfaces
 {
+    public interface IEnemyLogic : IEntityLogic
+    {
 
+    }
 }

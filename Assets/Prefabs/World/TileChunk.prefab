@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMapAsset: {fileID: 11400000, guid: 7d46573f7cd2ac24583aa6cab9cf586a, type: 2}
+  bezelState: 0
 --- !u!1 &5565402015968572961
 GameObject:
   m_ObjectHideFlags: 0

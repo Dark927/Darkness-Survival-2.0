@@ -39,8 +39,6 @@ public class InputHandler
     {
         _controlLayout = controlLayout;
         InitActionsCollection();
-
-
     }
 
     private void InitActionsCollection()
@@ -50,6 +48,11 @@ public class InputHandler
             [InputType.Movement] = _controlLayout.PlayerMovement,
             [InputType.Attack] = _controlLayout.PlayerBasicAttacks,
         };
+    }
+
+    public void Disable()
+    {
+        _controlLayout.DisableInputs();
     }
 
 

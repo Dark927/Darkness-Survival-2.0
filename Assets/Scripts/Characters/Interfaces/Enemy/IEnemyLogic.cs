@@ -1,0 +1,5 @@
+
+public interface IEnemyLogic : IAttackable
+{
+
+}

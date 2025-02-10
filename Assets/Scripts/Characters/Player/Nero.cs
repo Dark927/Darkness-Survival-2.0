@@ -1,53 +1,47 @@
 using UnityEngine;
 
-
-public class Nero : MonoBehaviour, IPlayer
+[RequireComponent(typeof(CharacterBody))]
+public class Nero : MonoBehaviour, IPlayerLogic
 {
     #region Fields
 
-    private ICharacterMovement _movement;
+    private PlayerData _stats;
+
+    private bool _started = false;
+    private CharacterBody _body;
     private PlayerBasicAttack _attack;
     private PlayerInput _playerInput;
-
-    private Animator _animator;
-    private CharacterAnimatorController _animatorController;
-    CharacterLookDirection _lookDirection;
+    private PlayerAnimatorController _animatorController;
 
     #endregion
 
 
     #region Methods
 
-    #region Init Methods
+    #region Init
 
     private void Awake()
     {
-        InitAnimation();
+        InitComponents();
         InitInput();
-        InitMovement();
-        InitLookDirection();
         InitBasicAttacks();
     }
 
-    private void InitAnimation()
+    private void Start()
     {
-        _animator = GetComponentInChildren<Animator>();
-        _animatorController = new CharacterAnimatorController(_animator, new PlayerAnimatorParameters());
+        SetReferences();
+        _started = true;
     }
 
-    private void InitMovement()
+    private void InitComponents()
     {
-        _movement = new PlayerMovement(this);
-        _movement.OnSpeedChanged += _animatorController.SpeedUpdateListener;
-        _playerInput.SetMovement(_movement);
+        _body = GetComponent<CharacterBody>();
     }
+
 
     private void InitBasicAttacks()
     {
         _attack = new PlayerBasicAttack();
-        _playerInput.SetBasicAttacks(_attack);
-        _attack.OnFastAttack += _animatorController.TriggerFastAttack;
-        _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
     }
 
     private void InitInput()
@@ -57,27 +51,45 @@ public class Nero : MonoBehaviour, IPlayer
         _playerInput = new PlayerInput(inputHandler);
     }
 
-    private void InitLookDirection()
+    private void SetReferences()
     {
-        _lookDirection = new CharacterLookDirection(transform);
+        _playerInput.SetMovement(_body.Movement);
+        _playerInput.SetBasicAttacks(_attack);
+
+        // ToDo : Move this logic to the another place.
+        _animatorController = _body.Visual.GetAnimatorController() as PlayerAnimatorController;
+        _attack.OnFastAttack += _animatorController.TriggerFastAttack;
+        _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
     }
 
     #endregion
 
-    private void FixedUpdate()
-    {
-        Move();
-    }
-
-    public void Move()
-    {
-        _movement?.Move();
-        _lookDirection?.LookForward(_movement.Direction);
-    }
-
     public void Attack()
     {
         throw new System.NotImplementedException();
+    }
+
+    private void OnEnable()
+    {
+        // ToDo : Implement another logic to avoid OnEnable before Start executed.
+
+        if (_started)
+        {
+            SetReferences();
+        }
+    }
+
+    private void OnDisable()
+    {
+        ClearReferences();
+    }
+
+    private void ClearReferences()
+    {
+        _playerInput.RemoveReferences();
+        _attack.OnFastAttack -= _animatorController.TriggerFastAttack;
+        _attack.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
+        _animatorController = null;
     }
 
     #endregion

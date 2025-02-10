@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class DefaultEnemy : MonoBehaviour, IEnemy
+public class DefaultEnemy : MonoBehaviour, IEnemyLogic
 {
+    private CharacterBody _body;
     private ICharacterMovement _movement;
     private CharacterLookDirection _lookDirection;
 
     private void Awake()
     {
-        _movement = new EnemyMovement(this, FindObjectOfType<Nero>());
-        _lookDirection = new CharacterLookDirection(transform);
+        InitComponents();
     }
 
-    private void FixedUpdate()
+    private void InitComponents()
     {
-        _movement.Move();
-        _lookDirection.LookForward(_movement.Direction);
+        _body = GetComponent<CharacterBody>();
     }
+
 
     public void Attack()
     {

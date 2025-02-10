@@ -1,10 +1,11 @@
+using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UnityEngine;
 
-public class EnemyMovement : ICharacterMovement
+public class EnemyMovement : ICharacterMovement, IDisposable
 {
-    private float _currentSpeed;
-    private float _maxSpeed = 2;
+    #region Fields 
 
     private Transform _transform;
     private Rigidbody2D _rigidbody;
@@ -12,18 +13,30 @@ public class EnemyMovement : ICharacterMovement
     private Transform _targetTransform;
     private Vector2 _targetDirection;
 
-    public bool IsAFK => !(CurrentSpeed > 0f);
-    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
+    private CharacterSpeed _speed;
+    private CharacterMovementBlock _blockLogic;
+
+    #endregion
+
+
+    #region Properties
+
+    public ref CharacterSpeed Speed => ref _speed;
+    public bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
     public Vector2 Direction => _targetDirection;
 
-    public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
+    #endregion
 
 
-    public EnemyMovement(IEnemy source, IPlayer targetPlayer)
+    #region Methods
+
+    #region Init
+
+    public EnemyMovement(CharacterBody body, CharacterBody targetPlayer)
     {
         try
         {
-            TrySetSource(source);
+            TrySetBody(body);
             TrySetTarget(targetPlayer);
         }
         catch (Exception e)
@@ -32,10 +45,25 @@ public class EnemyMovement : ICharacterMovement
         }
 
         InitComponents();
-        CurrentSpeed = _maxSpeed;
+        InitReferences();
     }
 
-    public void TrySetTarget(IPlayer targetPlayer)
+    private void InitComponents()
+    {
+        _rigidbody = _transform.GetComponent<Rigidbody2D>();
+        _blockLogic = new CharacterMovementBlock(this);
+        _speed = new CharacterSpeed();
+    }
+
+    private void InitReferences()
+    {
+        _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
+        _blockLogic.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
+    }
+
+    #endregion
+
+    public void TrySetTarget(CharacterBody targetPlayer)
     {
         if (targetPlayer is MonoBehaviour monoBehaviourPlayer)
         {
@@ -54,7 +82,7 @@ public class EnemyMovement : ICharacterMovement
 
     public void Move()
     {
-        if (!IsAFK)
+        if (!_blockLogic.IsBlocked)
         {
             FollowPlayer();
         }
@@ -62,34 +90,49 @@ public class EnemyMovement : ICharacterMovement
 
     public void Stop()
     {
-        throw new NotImplementedException();
+        _speed.Stop();
+        _speed.ClearDirection();
+    }
+
+    public void BlockMovement(int timeInMs)
+    {
+        _blockLogic.BlockMovement(timeInMs);
+    }
+
+
+    public void Dispose()
+    {
+        _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
+        _blockLogic.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
     }
 
     private void FollowPlayer()
     {
         _targetDirection = (_targetTransform.position - _transform.position).normalized;
-        _rigidbody.MovePosition(_rigidbody.position + (CurrentSpeed * Time.fixedDeltaTime * _targetDirection));
+        _speed.TryUpdateVelocity(_targetDirection);
     }
 
-    private void TrySetSource(IEnemy source)
+    private void TrySetBody(CharacterBody body)
     {
-        if (source is MonoBehaviour monoBehaviourEnemy)
+        if (body is MonoBehaviour monoBehaviourEnemy)
         {
-            SetSource(monoBehaviourEnemy.transform);
+            SetBody(monoBehaviourEnemy.transform);
         }
         else
         {
-            throw new NullReferenceException($"{nameof(source)} does not implement {nameof(MonoBehaviour)}. Source is null! - {ToString()}");
+            throw new NullReferenceException($"{nameof(body)} does not implement {nameof(MonoBehaviour)}. Source is null! - {ToString()}");
         }
     }
 
-    private void SetSource(Transform source)
+    private void SetBody(Transform body)
     {
-        _transform = source;
+        _transform = body;
     }
 
-    private void InitComponents()
+    private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
     {
-        _rigidbody = _transform.GetComponent<Rigidbody2D>();
+        _rigidbody.velocity = _speed.Velocity;
     }
+
+    #endregion
 }

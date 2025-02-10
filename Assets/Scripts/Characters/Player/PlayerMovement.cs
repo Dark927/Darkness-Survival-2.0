@@ -1,4 +1,8 @@
+using Cysharp.Threading.Tasks;
 using System;
+using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,35 +14,20 @@ public class PlayerMovement : ICharacterMovement
     private Transform _playerTransform;
     private Rigidbody2D _rigidbody;
 
-    private float _actualSpeed;
-    private float _maxSpeed = 3f;
     private Vector2 _direction;
+    private CharacterSpeed _speed;
 
-    private bool _isMovementBlocked;
-
-    public event EventHandler<SpeedChangedArgs> OnSpeedChanged;
+    private CharacterMovementBlock _blockLogic;
 
     #endregion
 
 
     #region Properties 
 
-    public bool IsAFK { get => !(CurrentSpeed > 0f); }
-
-    public float CurrentSpeed
-    {
-        get => _actualSpeed;
-        private set
-        {
-            if (_actualSpeed != value)
-            {
-                _actualSpeed = value;
-                OnSpeedChanged?.Invoke(this, new SpeedChangedArgs(_actualSpeed, _maxSpeed));
-            }
-        }
-    }
+    public bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
 
     public Vector2 Direction => _direction;
+    public ref CharacterSpeed Speed => ref _speed; 
 
 
     #endregion
@@ -48,15 +37,16 @@ public class PlayerMovement : ICharacterMovement
 
     #region Init
 
-    public PlayerMovement(IPlayer player)
+    public PlayerMovement(CharacterBody playerBody)
     {
-        if (player is MonoBehaviour playerMonoBehaviour)
+        if (playerBody is MonoBehaviour playerMonoBehaviour)
         {
             // Init components which depends on Player firstly.
+
             _playerTransform = playerMonoBehaviour.transform;
 
-            ResetFields();
             InitComponents();
+            _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
         }
         else
         {
@@ -67,39 +57,35 @@ public class PlayerMovement : ICharacterMovement
     private void InitComponents()
     {
         _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
+        _blockLogic = new CharacterMovementBlock(this);
+        _speed = new CharacterSpeed();
     }
 
     #endregion
 
-    private void ResetFields()
-    {
-        _actualSpeed = 0;
-        _isMovementBlocked = false;
-    }
-
     public void Move()
     {
-        if (IsAFK || _isMovementBlocked)
+        if (_blockLogic.IsBlocked)
         {
             return;
         }
-
-        Vector2 position = CalculatePosition();
-        _rigidbody.MovePosition(position);
-
-        // ToDo : Test movement and remove this line of code in the future
-        //_playerTransform.Translate(CurrentSpeed * Time.fixedDeltaTime * _direction.normalized);
+        _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
     }
 
     public void Stop()
     {
-        CurrentSpeed = 0;
+        _speed.Stop();
+    }
+
+    public void BlockMovement(int timeInMs)
+    {
+        _blockLogic.BlockMovement(timeInMs);
     }
 
     public void MovementPerformedListener(InputAction.CallbackContext context)
     {
         _direction = context.ReadValue<Vector2>();
-        CurrentSpeed = _maxSpeed;
+        _speed.SetMaxSpeedMultiplier();
     }
 
     public void MovementStoppedListener(InputAction.CallbackContext context)
@@ -107,12 +93,14 @@ public class PlayerMovement : ICharacterMovement
         Stop();
     }
 
-    private Vector2 CalculatePosition()
+    private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
     {
-        Vector2 movementDirection = new Vector2(_direction.x, _direction.y).normalized;
+        _rigidbody.velocity = _speed.Velocity;
+    }
 
-        return new Vector2(_playerTransform.position.x + (movementDirection.x * CurrentSpeed * Time.fixedDeltaTime),
-                           _playerTransform.position.y + (movementDirection.y * CurrentSpeed * Time.fixedDeltaTime));
+    private void ResetFields()
+    {
+        Stop();
     }
 
     #endregion

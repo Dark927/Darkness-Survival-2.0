@@ -1,197 +1,207 @@
-// This shader draws a texture on the mesh.
-Shader "Custom/TileShader"
+Shader "Darkness/tile_chunk_unlit"
 {
-    // The _BaseMap variable is visible in the Material's Inspector, as a field
-    // called Base Map.
     Properties
     {
-        _MainTex ("Tile Atlas", 2D) = "white" {}
+        _MainTex("Tile Atlas", 2DArray) = "white" {}
         // x: Grid width, y: Grid height, z: Atlas width, w: Atlas height
         _GridSize("Grid Size", Vector) = (9,9,2,2)
+        _EdgeFactor("Edge Factor", Range(0.5, 1)) = 0.85
+        
+        [Header(Features)]
+        [Toggle] _USE_INTERPOLATION ("Use interpolation", Float) = 1
+        [Toggle] _USE_SMOOTHSTEP ("Use smoothstep", Float) = 1
+        [Toggle] _USE_TILE_PADDING ("Use invisible tile padding", Float) = 1
+        [Toggle] _USE_EDGE_DEBUG ("Debug tile bounds", Float) = 0
     }
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "Queue" = "Geometry"}
+        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
+
+        Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
+        ZWrite Off
 
         Pass
         {
+            Tags { "LightMode" = "Universal2D" }
+
             HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            //#include "UnityCG.cginc"
+            #if defined(DEBUG_DISPLAY)
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/InputData2D.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/SurfaceData2D.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Debug/Debugging2D.hlsl"
+            #endif
 
-            struct appdata
+            #pragma vertex UnlitVertex
+            #pragma fragment UnlitFragment
+
+            #pragma multi_compile _ DEBUG_DISPLAY
+            //
+            #pragma shader_feature _USE_SMOOTHSTEP_ON
+            #pragma shader_feature _USE_INTERPOLATION_ON
+            #pragma shader_feature _USE_EDGE_DEBUG_ON
+            #pragma shader_feature _USE_TILE_PADDING_ON
+
+            struct Attributes
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float3 positionOS   : POSITION;
+                float4 color        : COLOR;
+                float2 uv           : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
-            struct v2f
+            struct Varyings
             {
-                float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float4  positionCS  : SV_POSITION;
+                half4   color       : COLOR;
+                float2  uv          : TEXCOORD0;
+                #if defined(DEBUG_DISPLAY)
+                float3  positionWS  : TEXCOORD2;
+                #endif
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
-            float4 _GridSize; // x: Grid width, y: Grid height, z: Atlas width, w: Atlas height
-
-            
+            TEXTURE2D_ARRAY(_MainTex);
+            SAMPLER(sampler_MainTex);
+            half4 _MainTex_ST;
+            //
+            float _EdgeFactor;
+            float4 _GridSize;
             StructuredBuffer<uint> _TileIndices;
 
-            //CBUFFER_START(UnityPerMaterial)
-            //    uint _TileIndices[81]; // 9x9 tile indices, for simplicity using 81 elements
-            //CBUFFER_END
+            #include "Assets/Materials/Shaders/TileSmoothLib.hlsl"
 
-            //pizda
-            float2 tile(float x, float y){
-                return float2(x, -y);
-            }
-            float2 tile(float2 coord){
-                return float2(coord.x, -coord.y);
-            }
-            //endpizda
-
-            float2 tileuvgrid(float2 tileUV){
-                tileUV /= _GridSize.zw;
-                tileUV.y = 1 - tileUV.y;
-                return tileUV;
-            }
-
-            float2 atlasLookup(uint tileIndex){
-                float2 atlasUV = float2(
-                    tileIndex % (uint)_GridSize.z,
-                    tileIndex / (uint)_GridSize.z
-                );
-
-                atlasUV /= _GridSize.zw; // Normalize to atlas coordinates
-                return tile(atlasUV);
-            }
-
-
-            uint indexate(uint x, uint y)
+            Varyings UnlitVertex(Attributes v)
             {
-                return _TileIndices[y * (uint)_GridSize.x + x];
-            }
+                Varyings o = (Varyings)0;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-            ///
-
-
-            v2f vert(appdata v)
-            {
-                v2f o;
-                o.pos = TransformObjectToHClip(v.vertex);
-                o.uv = v.uv;
+                o.positionCS = TransformObjectToHClip(v.positionOS);
+                #if defined(DEBUG_DISPLAY)
+                o.positionWS = TransformObjectToWorld(v.positionOS);
+                #endif
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.color = v.color;
                 return o;
             }
 
-            float4 goodlerp(float4 a, float4 b, float t)
+            half4 UnlitFragment(Varyings i) : SV_Target
             {
-                return lerp(a,b,smoothstep(0.0,1.0,t));
+                float4 mainTex = i.color * TileSmooth(i.uv);
+
+                #if defined(DEBUG_DISPLAY)
+                SurfaceData2D surfaceData;
+                InputData2D inputData;
+                half4 debugColor = 0;
+
+                InitializeSurfaceData(mainTex.rgb, mainTex.a, surfaceData);
+                InitializeInputData(i.uv, inputData);
+                SETUP_DEBUG_DATA_2D(inputData, i.positionWS);
+
+                if(CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
+                {
+                    return debugColor;
+                }
+                #endif
+
+                return mainTex;
+            }
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Tags { "LightMode" = "UniversalForward" "Queue"="Transparent" "RenderType"="Transparent"}
+
+            HLSLPROGRAM
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #if defined(DEBUG_DISPLAY)
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/InputData2D.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/SurfaceData2D.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Debug/Debugging2D.hlsl"
+            #endif
+
+            #pragma vertex UnlitVertex
+            #pragma fragment UnlitFragment
+
+            #pragma multi_compile_fragment _ DEBUG_DISPLAY
+            //
+            #pragma shader_feature _USE_SMOOTHSTEP_ON
+            #pragma shader_feature _USE_INTERPOLATION_ON
+            #pragma shader_feature _USE_EDGE_DEBUG_ON
+            #pragma shader_feature _USE_TILE_PADDING_ON
+
+            struct Attributes
+            {
+                float3 positionOS   : POSITION;
+                float4 color        : COLOR;
+                float2 uv           : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct Varyings
+            {
+                float4  positionCS      : SV_POSITION;
+                float4  color           : COLOR;
+                float2  uv              : TEXCOORD0;
+                #if defined(DEBUG_DISPLAY)
+                float3  positionWS      : TEXCOORD2;
+                #endif
+                UNITY_VERTEX_OUTPUT_STEREO
+            };
+
+            TEXTURE2D_ARRAY(_MainTex);
+            SAMPLER(sampler_MainTex);
+            float4 _MainTex_ST;
+            //
+            float _EdgeFactor;
+            float4 _GridSize;
+            StructuredBuffer<uint> _TileIndices;
+
+            #include "Assets/Materials/Shaders/TileSmoothLib.hlsl"
+
+            Varyings UnlitVertex(Attributes attributes)
+            {
+                Varyings o = (Varyings)0;
+                UNITY_SETUP_INSTANCE_ID(attributes);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+                o.positionCS = TransformObjectToHClip(attributes.positionOS);
+                #if defined(DEBUG_DISPLAY)
+                o.positionWS = TransformObjectToWorld(attributes.positionOS);
+                #endif
+                o.uv = TRANSFORM_TEX(attributes.uv, _MainTex);
+                o.color = attributes.color;
+                return o;
             }
 
-            float4 frag(v2f i) : SV_Target
+            float4 UnlitFragment(Varyings i) : SV_Target
             {
-                // Map vertex UV to the grid
-                float2 gridUV = i.uv * _GridSize.xy;
+                float4 mainTex = i.color * TileSmooth(i.uv);
 
-                // Determine the tile index (flattened array lookup)
-                uint x = (uint)floor(gridUV.x);
-                uint y = (uint)floor(gridUV.y);
-                uint tileIndex = indexate(x, y);
+                #if defined(DEBUG_DISPLAY)
+                SurfaceData2D surfaceData;
+                InputData2D inputData;
+                half4 debugColor = 0;
 
-                //calculate 9x9 tile
-                float2 tileUV_fullrange = fmod(i.uv * _GridSize.xy,1); 
-                float2 tileUV = tileuvgrid(tileUV_fullrange);
+                InitializeSurfaceData(mainTex.rgb, mainTex.a, surfaceData);
+                InitializeInputData(i.uv, inputData);
+                SETUP_DEBUG_DATA_2D(inputData, i.positionWS);
 
-                // Calculate tile atlas UVs
-
-                float2 atlasUV =   tileUV + atlasLookup(tileIndex);
-
-                float2 atlasUV_L = tileUV + atlasLookup(indexate(x-1, y));
-                float2 atlasUV_T = tileUV + atlasLookup(indexate(x,   y-1));
-                float2 atlasUV_R = tileUV + atlasLookup(indexate(x+1, y));
-                float2 atlasUV_B = tileUV + atlasLookup(indexate(x,   y+1));
-
-                float2 atlasUV_LT = tileUV + atlasLookup(indexate(x-1, y-1));
-                float2 atlasUV_RT = tileUV + atlasLookup(indexate(x+1, y-1));
-                float2 atlasUV_LB = tileUV + atlasLookup(indexate(x-1, y+1));
-                float2 atlasUV_RB = tileUV + atlasLookup(indexate(x+1, y+1));
-
-
-                float4 color = tex2D(_MainTex, atlasUV); 
-                float4 colorL = tex2D(_MainTex, atlasUV_L);
-                float4 colorT = tex2D(_MainTex, atlasUV_T);
-                float4 colorR = tex2D(_MainTex, atlasUV_R);
-                float4 colorB = tex2D(_MainTex, atlasUV_B);
-
-                float4 colorRB = tex2D(_MainTex, atlasUV_LT); //RB
-                float4 colorLB = tex2D(_MainTex, atlasUV_RT); //LB
-                float4 colorRT = tex2D(_MainTex, atlasUV_LB); //RT
-                float4 colorLT = tex2D(_MainTex, atlasUV_RB); //LT
-
-                float4 mixcolor = color;
-                float2 one_Minus_tileUV = 1 - tileUV_fullrange;
-
-                float2 sm = smoothstep(tileUV_fullrange.x,0.9,1.0);
-                float2 smInv = smoothstep(1-tileUV_fullrange.x,0.9,1.0);
-
-
-                float edging = 0.9;
-                float Iedging = 1 - edging;
-                
-                float2 clipUV =  clamp( (      tileUV_fullrange  - edging) / Iedging, 0.0, 1.0) * 0.5; //0.5 because we lerp both sides
-                float2 IclipUV = clamp( ( (1.0-tileUV_fullrange) - edging) / Iedging, 0.0, 1.0) * 0.5;
-
-                
-                mixcolor = lerp(mixcolor, colorL, IclipUV.x); 
-                mixcolor = lerp(mixcolor, colorT, IclipUV.y); 
-                mixcolor = lerp(mixcolor, colorR, clipUV.x); 
-                mixcolor = lerp(mixcolor, colorB, clipUV.y); 
-                
-                
-                // Separate corner weights to resolve overlaps
-                float cornerWeightTL = min(IclipUV.x, IclipUV.y); // Top-Left corner
-                float cornerWeightTR = min(clipUV.x, IclipUV.y);  // Top-Right corner
-                float cornerWeightBL = min(IclipUV.x, clipUV.y);  // Bottom-Left corner
-                float cornerWeightBR = min(clipUV.x, clipUV.y);  // Bottom-Right corner
-
-                // Add corner contributions
-                //mixcolor = lerp(mixcolor, color, cornerWeightTL); // Top-Left influence
-                //mixcolor = lerp(mixcolor, color, cornerWeightTR); // Top-Right influence
-                //mixcolor = lerp(mixcolor, color, cornerWeightBL); // Bottom-Left influence
-                //mixcolor = lerp(mixcolor, color, cornerWeightBR); // Bottom-Right influence
-
-                //mixcolor = lerp(color,mixcolor, 0.8); 
-
-                
-                //draw rectangle outline based on tileUV_fullrange
-                if(1==1){
-
+                if(CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
+                {
+                    return debugColor;
                 }
-                else if(tileUV_fullrange.x > 0.996f && tileUV_fullrange.y < 0.996f){
-                    mixcolor = float4(0,0,1,1); 
-                }
-                else if(tileUV_fullrange.x < 0.996f && tileUV_fullrange.y > 0.996f){
-                    mixcolor = float4(0,1,0,1); 
-                }
-                //*/
-                
+                #endif
 
-
-
-
-
-                //return float4(clipUV.xy,0,1);
-                return mixcolor;
-
+                return mainTex;
             }
-
             ENDHLSL
         }
     }
+
+    Fallback "Sprites/Default"
 }

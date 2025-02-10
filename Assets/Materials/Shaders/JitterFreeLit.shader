@@ -4,10 +4,14 @@ Shader "Sprites/JitterFreeLit"
     {
         _MainTex("Diffuse", 2D) = "white" {}
         _MaskTex("Mask", 2D) = "white" {}
+        _ColorMaskTex("Color Mask", 2D) = "white" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
 
+        [Header(Mask Tint)]
+        [Gamma] _Gamma("Gamma", Range(0.0, 3)) = 2.2
+        _Color("Tint", Color) = (1,1,1,1)
+
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
-        [HideInInspector] _Color("Tint", Color) = (1,1,1,1)
         [HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
         [HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
         [HideInInspector] _AlphaTex("External Alpha", 2D) = "white" {}
@@ -62,8 +66,11 @@ Shader "Sprites/JitterFreeLit"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
+            TEXTURE2D(_ColorMaskTex);
+            SAMPLER(sampler_ColorMaskTex);
             TEXTURE2D(_MaskTex);
             SAMPLER(sampler_MaskTex);
+            float _Gamma;
             half4 _MainTex_ST;
             float4 _MainTex_TexelSize;
             float4 _Color;
@@ -120,7 +127,17 @@ Shader "Sprites/JitterFreeLit"
             half4 CombinedShapeLightFragment(Varyings i) : SV_Target
             {
                 float2 smoothUV = texturePointSmoothUV(i.uv);
-                const half4 main = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
+
+                float colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV).r;
+                float4 unlit = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
+                
+                float4 unlitLinear = pow(unlit, _Gamma);
+                float4 colorLinear = pow(i.color, _Gamma);
+                
+                float4 main = lerp(unlitLinear, unlitLinear*colorLinear, colormaskCoef);
+                
+                main.rgb = pow(main.rgb, 1.0 / _Gamma);
+
                 const half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, smoothUV);
                 SurfaceData2D surfaceData;
                 InputData2D inputData;

@@ -3,12 +3,11 @@ using Settings.CameraManagement.Shake;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class CharacterSword : CharacterWeaponBase
+    public class CharacterSword : WeaponBase
     {
         #region Enums
 
@@ -111,9 +110,9 @@ namespace Characters.Common.Combat.Weapons
             SwordAttackTriggerArgs attackArgs = (SwordAttackTriggerArgs)args;
             GameObject targetObject = attackArgs.TargetCollider.gameObject;
 
-            if(targetObject.TryGetComponent(out IDamageable target))
+            if (targetObject.TryGetComponent(out IDamageable target))
             {
-                float damage = RequestDamage(attackArgs.AttackType);
+                var damage = RequestDamage(attackArgs.AttackType);
                 target.TakeDamage(damage);
             }
         }

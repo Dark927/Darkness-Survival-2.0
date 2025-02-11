@@ -1,22 +1,24 @@
-﻿using Characters.Player.Animation;
+﻿using Characters.Common.Visual;
+using Characters.Player.Animation;
+using System;
 using UnityEngine;
 
 namespace Characters.Player
 {
-    public class PlayerVisual : CharacterVisual
+    public class PlayerCharacterVisual : EntityVisualBase
     {
         public CharacterAnimatorController PlayerAnimController { get; set; }
 
-        protected override void Init()
+        public override void Initialize()
         {
-            base.Init();
+            base.Initialize();
 
             InitAnimation();
         }
 
         private void InitAnimation()
         {
-            CharacterAnimationEvents animationEvents = GetComponent<CharacterAnimationEvents>();    
+            CharacterAnimationEvents animationEvents = GetComponent<CharacterAnimationEvents>();
             Animator animator = GetComponent<Animator>();
 
             PlayerAnimController = new CharacterAnimatorController(animator, new CharacterAnimatorParameters(), animationEvents);

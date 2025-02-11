@@ -1,9 +1,7 @@
 using Characters.Player;
 using Settings.Global;
 using System;
-using System.Reflection;
 using UnityEngine;
-using World.Components;
 using World.Tile;
 using Zenject;
 
@@ -79,13 +77,13 @@ namespace World.Generation
             _generationStrategy.TryUpdateTilesOnScreen();
         }
 
-        private void PlayerReadyListener(Player player)
+        private void PlayerReadyListener(PlayerCharacterController player)
         {
             bool canSetTarget = !_generationStrategy.HasTarget && (player != null);
 
             if (canSetTarget)
             {
-                _generationStrategy.SetTarget(player.Character.Body.transform);
+                _generationStrategy.SetTarget(player.Character.Body.Transform);
                 ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady -= PlayerReadyListener;
             }
         }

@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using Zenject;
 
 namespace World.Tile
 {
@@ -22,7 +21,7 @@ namespace World.Tile
 
         public bool HasTarget => _playerTransform != null;
         public Vector2 PlayerPosition => _playerTransform.position;
-        
+
 
         public GenerationSettings Settings => _settings;
         public PointGridIterator Iterator => _iterator;
@@ -44,14 +43,14 @@ namespace World.Tile
         public GenerationStrategy(GenerationSettings settings)
         {
             _settings = settings;
-        }  
+        }
 
         public GenerationStrategy(GenerationSettings settings, Transform targetTransform)
         {
             _settings = settings;
             _playerTransform = targetTransform;
-        }  
-        
+        }
+
         public virtual void Init()
         {
             if (!Settings.UseRandomChunkLayout)

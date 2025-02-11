@@ -1,6 +1,3 @@
-using Characters.Enemy;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters.Player

@@ -1,3 +1,4 @@
+using Characters.Common.Visual;
 using UnityEngine;
 
 namespace Characters.Enemy.Animation

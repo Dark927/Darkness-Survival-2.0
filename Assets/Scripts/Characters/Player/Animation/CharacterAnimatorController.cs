@@ -1,5 +1,5 @@
+using Characters.Common.Visual;
 using Characters.Player.Weapons;
-using System;
 using UnityEngine;
 
 namespace Characters.Player.Animation

@@ -46,11 +46,12 @@ namespace World.Components.EnemyLogic
 
         #endregion
 
-        public GameObject GetEnemy(int enemyId)
+        public EnemyController GetEnemy(int enemyId)
         {
             if (_poolsDict.ContainsKey(enemyId))
             {
-                return _poolsDict[enemyId].RequestObject();
+                GameObject requestedObj = _poolsDict[enemyId].RequestObject();
+                return requestedObj != null ? requestedObj.GetComponent<EnemyController>() : null;
             }
             return null;
         }

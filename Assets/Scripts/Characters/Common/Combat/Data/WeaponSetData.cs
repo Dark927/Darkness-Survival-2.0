@@ -1,9 +1,4 @@
-﻿using Characters.Player.Weapons.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons.Data
@@ -14,9 +9,9 @@ namespace Characters.Common.Combat.Weapons.Data
         [Space, Header("Main Settings")]
 
         [SerializeField] private string _weaponsContainerName;
-        [SerializeField] private List<CharacterWeaponData> _basicWeapons;
+        [SerializeField] private List<EntityWeaponData> _basicWeapons;
 
         public string ContainerName => _weaponsContainerName;
-        public List<CharacterWeaponData> BasicWeapons => _basicWeapons;
+        public List<EntityWeaponData> BasicWeapons => _basicWeapons;
     }
 }

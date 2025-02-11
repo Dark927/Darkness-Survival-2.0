@@ -15,14 +15,14 @@ namespace Characters.Common
         [SerializeField] protected AttackableCharacterData _characterData;
         private CharacterWeaponsHolder _weaponHolder;
         private BasicAttack _attacks;
-        private CharacterBodyBase _body;
+        private ICharacterBody _body;
 
         #endregion
 
 
         #region Properties
 
-        public CharacterBodyBase Body => _body;
+        public ICharacterBody Body => _body;
         public CharacterBaseData Data => _characterData;
         public CharacterWeaponsHolder Weapons => _weaponHolder;
         public BasicAttack BasicAttacks => _attacks;
@@ -37,26 +37,31 @@ namespace Characters.Common
 
         protected virtual void Awake()
         {
-            InitComponents();
+            SetComponents();
         }
 
-        protected virtual void Start()
+        public virtual void Initialize()
         {
+            InitWeaponHolder();
             InitBasicAttacks();
             SetReferences();
         }
 
-        protected virtual void InitComponents()
+        protected virtual void SetComponents()
         {
-            _body = GetComponent<CharacterBodyBase>();
             _weaponHolder = new CharacterWeaponsHolder(this, _characterData.WeaponsSetData.ContainerName);
-            _weaponHolder.Init();
-            _weaponHolder.GiveMultipleWeapons(_characterData.WeaponsSetData.BasicWeapons);
+            _body = GetComponent<ICharacterBody>();
+        }
+
+        private void InitWeaponHolder()
+        {
+            _weaponHolder?.Init();
+            _weaponHolder?.GiveMultipleWeapons(_characterData.WeaponsSetData.BasicWeapons);
         }
 
         protected virtual void InitBasicAttacks()
         {
-            BasicAttacks.Init();
+            BasicAttacks?.Init();
         }
 
         protected virtual void SetReferences()
@@ -69,6 +74,21 @@ namespace Characters.Common
             _configured = false;
         }
 
+        public virtual void ConfigureEventLinks()
+        {
+            Body?.ConfigureEventLinks();
+        }
+
+        public virtual void RemoveEventLinks()
+        {
+            Body?.RemoveEventLinks();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
         #endregion
 
         public void Enable()
@@ -79,14 +99,14 @@ namespace Characters.Common
             }
         }
 
+        public void ResetState()
+        {
+            Body.ResetState();
+        }
+
         protected void SetBasicAttacks(BasicAttack attacks)
         {
             _attacks = attacks;
-        }
-
-        private void OnDestroy()
-        {
-            Dispose();
         }
 
         #endregion

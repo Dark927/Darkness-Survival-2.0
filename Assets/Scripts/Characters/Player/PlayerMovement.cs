@@ -1,5 +1,4 @@
-using Characters.Interfaces;
-using System;
+﻿using Characters.Common.Movement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,7 +44,6 @@ namespace Characters.Player
 
                 _playerTransform = playerMonoBehaviour.transform;
                 InitComponents();
-                InitReferences();
             }
             else
             {
@@ -60,12 +58,13 @@ namespace Characters.Player
             _speed = new CharacterSpeed();
         }
 
-        private void InitReferences()
+        public override void ConfigureEventLinks()
         {
             _speed.OnVelocityUpdate += VelocityUpdateListener;
         }
 
-        public override void Dispose()
+        public override void RemoveEventLinks()
+
         {
             _speed.OnVelocityUpdate -= VelocityUpdateListener;
         }
@@ -101,6 +100,11 @@ namespace Characters.Player
 
         public override void Unblock()
         {
+            if (!_movementBlock.IsBlocked)
+            {
+                return;
+            }
+
             // ToDo : Test this isKinematic, coz it conflicts with Player Death IsKinematic!
             _rigidbody.isKinematic = false;
             _direction = _savedDirection;

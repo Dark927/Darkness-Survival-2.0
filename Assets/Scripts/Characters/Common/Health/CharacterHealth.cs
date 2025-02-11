@@ -69,6 +69,11 @@ namespace Characters.Health
             OnCurrentHpPercentChanged?.Invoke(CurrentHpPercent);
         }
 
+        public void ResetState()
+        {
+            Heal(MaxHp);
+        }
+
         #endregion
     }
 }

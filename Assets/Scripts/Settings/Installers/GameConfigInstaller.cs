@@ -1,9 +1,7 @@
-using Characters.Enemy.Data;
 using Settings;
 using System;
 using UnityEngine;
 using Utilities.ErrorHandling;
-using World.Tile;
 using Zenject;
 
 [CreateAssetMenu(fileName = "GameSettingsInstaller", menuName = "Installers/GameSettingsInstaller")]

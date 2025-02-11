@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace World.Tile
 {
-    [CreateAssetMenu(fileName ="NewWorldGenerationSettings", menuName = "Game/World/Tile/Generation Settings")]
+    [CreateAssetMenu(fileName = "NewWorldGenerationSettings", menuName = "Game/World/Tile/Generation Settings")]
     public class GenerationSettings : ScriptableObject
     {
         [Header("Main Settings")]

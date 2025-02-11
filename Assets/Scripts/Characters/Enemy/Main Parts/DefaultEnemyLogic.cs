@@ -1,4 +1,4 @@
-using Characters.Common;
+﻿using Characters.Common;
 using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
 using UnityEngine;
@@ -16,6 +16,7 @@ namespace Characters.Enemy
 
         #region Properties
 
+
         #endregion
 
 
@@ -23,15 +24,13 @@ namespace Characters.Enemy
 
         #region Init
 
-        protected override void InitComponents()
+        protected override void InitBasicAttacks()
         {
-            base.InitComponents();
             SetBasicAttacks(new BasicAttack(Body, Weapons.ActiveWeapons));
+            base.InitBasicAttacks();
         }
 
         #endregion
-
-
 
         #endregion
     }

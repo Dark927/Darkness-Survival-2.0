@@ -18,7 +18,7 @@ namespace Characters.Common.Combat
         public DamageSettings Damage => _damageSettings;
         public float TriggerActivityTimeSec => _triggerActivityTimeSec;
         public float FullDurationTimeSec => _fullDurationTimeSec;
-        public float ReloadTimeSec => _reloadTimeSec;  
+        public float ReloadTimeSec => _reloadTimeSec;
 
     }
 }

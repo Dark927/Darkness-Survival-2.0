@@ -1,8 +1,8 @@
+using Characters.Common.Movement;
 using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Animation;
 using System;
-using UnityEngine;
 
 namespace Characters.Player
 {
@@ -18,6 +18,7 @@ namespace Characters.Player
         #region Properties
 
 
+
         #endregion
 
 
@@ -28,7 +29,8 @@ namespace Characters.Player
         protected override void Init()
         {
             _playerLogic = GetComponent<ICharacterLogic>();
-            Visual = GetComponentInChildren<PlayerVisual>();
+            Visual = GetComponentInChildren<PlayerCharacterVisual>();
+
             Health = new CharacterHealth(_playerLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _playerLogic.Stats.InvincibilityTime, _playerLogic.Stats.InvincibilityColor);
         }
@@ -41,40 +43,37 @@ namespace Characters.Player
         protected override void InitMovement()
         {
             Movement = new PlayerMovement(this);
-            CharacterSpeed speed = new CharacterSpeed() { MaxSpeedMultiplier = _playerLogic.Stats.Speed };
-            Movement.Speed.Set(speed);
+            Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _playerLogic.Stats.Speed }, true);
         }
 
-        protected override void Start()
+        protected override void PostInit()
         {
-            try
-            {
-                _animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
-                SetReferences();
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-            }
+            _animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
         }
 
-        protected override void SetReferences()
+        public override void ConfigureEventLinks()
         {
+            base.ConfigureEventLinks();
+
             Movement.Speed.OnActualSpeedChanged += _animatorController.SpeedUpdateListener;
             OnBodyDamaged += Invincibility.Enable;
 
-            OnBodyDeath += _animatorController.TriggerDeath;
-            OnBodyDeath += Movement.Block;
+            OnBodyDies += _animatorController.TriggerDeath;
+            OnBodyDies += Movement.Block;
+
         }
 
-
-        public override void Dispose()
+        public override void RemoveEventLinks()
         {
+            base.RemoveEventLinks();
+
             Movement.Speed.OnActualSpeedChanged -= _animatorController.SpeedUpdateListener;
             OnBodyDamaged -= Invincibility.Enable;
 
-            OnBodyDeath -= _animatorController.TriggerDeath;
-            OnBodyDeath -= Movement.Block;
+            OnBodyDies -= _animatorController.TriggerDeath;
+            OnBodyDies -= Movement.Block;
+
+            _animatorController.Events.OnDeathFinished -= RaiseOnBodyCompletelyDied;
         }
 
         #endregion
@@ -103,7 +102,8 @@ namespace Characters.Player
 
             if (Health.IsEmpty)
             {
-                RaiseOnBodyDeath();
+                RaiseOnBodyDies();
+                _animatorController.Events.OnDeathFinished += RaiseOnBodyCompletelyDied;
             }
         }
 

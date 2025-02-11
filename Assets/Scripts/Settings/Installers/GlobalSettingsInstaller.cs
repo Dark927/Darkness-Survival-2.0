@@ -36,13 +36,13 @@ public class GlobalSettingsInstaller : MonoInstaller
         Container
             .Bind<GameManager>()
             .FromInstance(_gameManager)
-            .AsSingle();          
-        
+            .AsSingle();
+
         Container
             .Bind<PlayerManager>()
             .FromInstance(_playerManager)
-            .AsSingle();   
-        
+            .AsSingle();
+
         Container
             .Bind<CameraController>()
             .FromInstance(_cameraController)

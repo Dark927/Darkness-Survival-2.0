@@ -5,7 +5,7 @@ using Utilities.World;
 
 namespace World.Components.EnemyLogic
 {
-    public class DefaultEnemyConfigurator : ICharacterConfigurator<Enemy>
+    public class DefaultEnemyConfigurator : ICharacterConfigurator<EnemyController>
     {
         private Vector2 _spawnPositionOffset = Vector2.zero;
         private Vector2 _spawnPositionRange = Vector2.zero;
@@ -28,21 +28,24 @@ namespace World.Components.EnemyLogic
             _spawnPositionRange = spawnPositionRange;
         }
 
-        public void Configure(Enemy enemy, Transform target = null)
+        public void Configure(EnemyController enemy, Transform target = null)
         {
             enemy.transform.position = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
-           
-            if(target == null)
+
+            if (target == null)
             {
                 return;
             }
-            
+
             IEnemyLogic enemyLogic = enemy.GetComponentInChildren<IEnemyLogic>();
 
-            if(enemyLogic != null)
+            if (enemyLogic != null)
             {
                 (enemyLogic.Body as DefaultEnemyBody).SetTarget(target);
             }
+
+            enemy.ResetCharacter();
+            enemy.ConfigureEventLinks();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
@@ -143,9 +144,9 @@ namespace Characters.Common.Combat
                 return;
             }
 
-            CharacterBodyBase characterBody = GetComponentInParent<CharacterBodyBase>();
+            ICharacterBody characterBody = GetComponentInParent<ICharacterBody>();
 
-            if ((characterBody != null) && characterBody.TryGetComponent(out Collider2D bodyCollider))
+            if ((characterBody != null) && characterBody.Transform.TryGetComponent(out Collider2D bodyCollider))
             {
                 _collider.CopyPropertiesFrom(bodyCollider);
             }

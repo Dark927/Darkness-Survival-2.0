@@ -1,15 +1,15 @@
 ﻿using Characters.Common.Combat.Weapons;
 using UnityEngine;
 
-namespace Characters.Player.Weapons.Data
+namespace Characters.Common.Combat.Weapons.Data
 {
     [CreateAssetMenu(fileName = "NewWeaponData", menuName = "Game/Characters/Data/Weapons/WeaponData")]
-    public class CharacterWeaponData : ScriptableObject
+    public class EntityWeaponData : ScriptableObject
     {
         #region Fields 
 
         [SerializeField] private string _weaponName;
-        [SerializeField] private CharacterWeaponBase _weapon;
+        [SerializeField] private WeaponBase _weapon;
 
         #endregion
 
@@ -24,8 +24,8 @@ namespace Characters.Player.Weapons.Data
                 return _weaponName;
             }
         }
-        public CharacterWeaponBase Weapon => _weapon;
-        
+        public WeaponBase Weapon => _weapon;
+
         #endregion
 
 

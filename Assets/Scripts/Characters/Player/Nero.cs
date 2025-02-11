@@ -1,5 +1,5 @@
-using Characters.Interfaces;
 using Characters.Player.Animation;
+using Characters.Player.Weapons;
 
 namespace Characters.Player
 {
@@ -8,6 +8,7 @@ namespace Characters.Player
         #region Fields
 
         private CharacterAnimatorController _animatorController;
+        private bool _hasConfiguredLinks = false;
 
         #endregion
 
@@ -22,21 +23,20 @@ namespace Characters.Player
 
         #region Init
 
-
-        protected override void InitComponents()
-        {
-            base.InitComponents();
-        }
-
         protected override void InitBasicAttacks()
         {
+            SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveWeapons));
             base.InitBasicAttacks();
         }
 
-        protected override void SetReferences()
+        public override void ConfigureEventLinks()
         {
-            base.SetReferences();
-            _animatorController = Body.Visual.GetAnimatorController() as CharacterAnimatorController;
+            if (_hasConfiguredLinks)
+            {
+                return;
+            }
+
+            base.ConfigureEventLinks();
 
             // -----------
             // # This logic can be unique for each character, so we do not subscribe inside the player body.
@@ -49,19 +49,34 @@ namespace Characters.Player
 
             // -----------
 
-            // ToDo : Move this logic to another place
-            _animatorController.Events.OnDeathFinished += GameplayUI.Instance.ActivateGameOverPanel;
+            _hasConfiguredLinks = true;
+        }
+
+        public override void RemoveEventLinks()
+        {
+            if (!_hasConfiguredLinks)
+            {
+                return;
+            }
+
+            base.RemoveEventLinks();
+            BasicAttacks.OnAnyAttackStarted -= Body.Movement.Block;
+            BasicAttacks.OnAttackFinished -= Body.Movement.Unblock;
+
+            _hasConfiguredLinks = false;
+        }
+
+        protected override void SetReferences()
+        {
+            base.SetReferences();
+            _animatorController = Body.Visual.GetAnimatorController() as CharacterAnimatorController;
         }
 
         protected override void Dispose()
         {
-            BasicAttacks.OnAnyAttackStarted -= Body.Movement.Block;
-            BasicAttacks.OnAttackFinished -= Body.Movement.Unblock;
-            BasicAttacks.Dispose();
-
-            // ToDo : Move this logic to another place
-            _animatorController.Events.OnDeathFinished -= GameplayUI.Instance.ActivateGameOverPanel;
-
+            base.Dispose();
+            RemoveEventLinks();
+            BasicAttacks?.Dispose();
             _animatorController = null;
         }
 

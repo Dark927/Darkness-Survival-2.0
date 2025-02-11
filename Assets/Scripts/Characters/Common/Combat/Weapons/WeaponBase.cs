@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public abstract class CharacterWeaponBase : MonoBehaviour, IWeapon, IDisposable
+    public abstract class WeaponBase : MonoBehaviour, IWeapon, IDisposable
     {
         [SerializeField] private WeaponAttackData _weaponAttackData;
 

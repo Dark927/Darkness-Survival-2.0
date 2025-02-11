@@ -1,3 +1,5 @@
+using Characters.Common.Visual;
+
 namespace Characters.Enemy.Animation
 {
     public class EnemyAnimatorParameters : IAnimatorParameters

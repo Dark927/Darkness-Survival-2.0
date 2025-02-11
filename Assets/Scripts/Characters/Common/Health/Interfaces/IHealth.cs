@@ -1,14 +1,10 @@
 ﻿using Characters.Interfaces;
+using Settings.Global;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 
 namespace Characters.Health
 {
-    public interface IHealth : IDamageable
+    public interface IHealth : IDamageable, IResetable
     {
         #region Properties
 

@@ -22,13 +22,8 @@ namespace Characters.Player
 
         #region Methods
 
-        #region Init
 
-        protected override void InitComponents()
-        {
-            base.InitComponents();
-            SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveWeapons));
-        }
+        #region Init
 
         #endregion
 

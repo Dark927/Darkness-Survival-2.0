@@ -1,3 +1,4 @@
+﻿using Characters.Common.Movement;
 using Characters.Enemy.Data;
 using Characters.Health;
 using Characters.Interfaces;
@@ -57,9 +58,7 @@ namespace Characters.Enemy
         protected override void InitMovement()
         {
             Movement = new EnemyMovement(transform);
-            CharacterSpeed speed = new CharacterSpeed() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed };
-            speed.SetMaxSpeedMultiplier();
-            Movement.Speed.Set(speed);
+            Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 
         protected override void Start()
@@ -72,21 +71,22 @@ namespace Characters.Enemy
 
             Health = new CharacterHealth(_enemyLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
-        
-            SetReferences();
         }
 
-        protected override void SetReferences()
+        public override void ConfigureEventLinks()
         {
-            OnBodyDeath += Movement.Block;
+            base.ConfigureEventLinks();
+
             OnBodyDamaged += Invincibility.Enable;
+            OnBodyDies += Movement.Block;
         }
 
-        protected override void UnsetReferences()
+        public override void RemoveEventLinks()
         {
-            base.UnsetReferences();
+            base.RemoveEventLinks();
+
             OnBodyDamaged -= Invincibility.Enable;
-            OnBodyDeath -= Movement.Block;
+            OnBodyDies -= Movement.Block;
         }
 
         public override void Dispose()
@@ -94,10 +94,12 @@ namespace Characters.Enemy
             _sideController?.Disable();
         }
 
-        private void OnDisable()
+        public override void ResetState()
         {
-            UnsetReferences();
+            base.ResetState();
+
             Invincibility?.Disable();
+            Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 
         #endregion
@@ -135,7 +137,7 @@ namespace Characters.Enemy
 
             if (Health.IsEmpty)
             {
-                RaiseOnBodyDeath();
+                RaiseOnBodyDies();
             }
         }
 

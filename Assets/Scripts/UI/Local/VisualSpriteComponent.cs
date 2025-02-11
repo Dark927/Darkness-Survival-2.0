@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 using Utilities.ErrorHandling;
 
-namespace Characters.Health.HealthBar
+namespace UI.Local
 {
     [ExecuteAlways]
-    public abstract class HealthBarVisual : MonoBehaviour
+    public abstract class VisualSpriteComponent : MonoBehaviour
     {
         #region Fields
 

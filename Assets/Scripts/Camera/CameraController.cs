@@ -1,6 +1,5 @@
 using Characters.Player;
 using Cinemachine;
-using Cysharp.Threading.Tasks;
 using Settings.Global;
 using System;
 
@@ -40,11 +39,11 @@ namespace Settings.CameraManagement
 
         #endregion
 
-        public void FollowPlayer(Player player)
+        public void FollowPlayer(PlayerCharacterController player)
         {
             if (_virtualCamera != null)
             {
-                _virtualCamera.Follow = player.Character.Body.transform;
+                _virtualCamera.Follow = player.Character.Body.Transform;
             }
         }
 

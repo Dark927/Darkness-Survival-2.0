@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Characters.Interfaces;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,16 +22,16 @@ namespace Characters.Common.Combat.Weapons
 
         private bool _isAttacking = false;
 
-        private readonly CharacterBodyBase _characterBody;
-        private List<CharacterWeaponBase> _basicWeapons;
+        private readonly ICharacterBody _characterBody;
+        private List<WeaponBase> _basicWeapons;
 
         #endregion
 
 
         #region Properties
 
-        protected CharacterBodyBase CharacterBody => _characterBody;
-        public List<CharacterWeaponBase> BasicWeapons => _basicWeapons;
+        protected ICharacterBody CharacterBody => _characterBody;
+        public List<WeaponBase> BasicWeapons => _basicWeapons;
 
         #endregion
 
@@ -39,7 +40,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init 
 
-        public BasicAttack(CharacterBodyBase characterBody, List<CharacterWeaponBase> basicWeapons)
+        public BasicAttack(ICharacterBody characterBody, List<WeaponBase> basicWeapons)
         {
             _characterBody = characterBody;
             _basicWeapons = basicWeapons;

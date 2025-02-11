@@ -1,4 +1,3 @@
-using Cinemachine;
 using System;
 using UnityEngine;
 using World.Components;

@@ -1,5 +1,3 @@
-
-using Characters.Common.Combat.Weapons.Data;
 using Characters.Stats;
 using System;
 using Unity.Collections;
@@ -18,13 +16,24 @@ namespace Characters.Enemy.Data
     [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Game/Characters/Data/EnemyData")]
     public class EnemyData : AttackableCharacterData
     {
+        #region Fields 
+
         [SerializeField, ReadOnly] private int _id;
-        public int ID { get => _id; private set => _id = value; }
 
         [Header("Custom Enemy Settings")]
 
-        public EnemyType Type;
-        public GameObject Prefab;
+        [SerializeField] private EnemyType _type;
+        [SerializeField] private GameObject _enemyPrefab;
+
+        #endregion
+
+
+        #region Properties
+        public int ID { get => _id; private set => _id = value; }
+        public EnemyType Type => _type;
+        public GameObject EnemyPrefab => _enemyPrefab;
+
+        #endregion
 
 
         #region Methods
@@ -39,7 +48,7 @@ namespace Characters.Enemy.Data
             int hash = HashCode.Combine(
                 Name != null ? Name.GetHashCode() : 0,
                 Type.GetHashCode(),
-                Prefab != null ? Prefab.GetHashCode() : 0,
+                EnemyPrefab != null ? EnemyPrefab.GetHashCode() : 0,
                 Stats.GetHashCode()
             );
             return hash;
@@ -52,7 +61,7 @@ namespace Characters.Enemy.Data
 
             return Name == other.Name &&
                    Type == other.Type &&
-                   Prefab == other.Prefab &&
+                   EnemyPrefab == other.EnemyPrefab &&
                    Stats.Equals(other.Stats);
         }
 

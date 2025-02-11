@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using static Unity.VisualScripting.Member;
 
 namespace Utilities
 {

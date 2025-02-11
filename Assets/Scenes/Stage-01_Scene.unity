@@ -713,7 +713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1061828242
 Transform:
   m_ObjectHideFlags: 0
@@ -806,7 +806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1220798432
 Transform:
   m_ObjectHideFlags: 0
@@ -835,7 +835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemySpawnData:
-  - {fileID: 11400000, guid: c30b72dfec457444aad8a23542325341, type: 2}
+  - {fileID: 11400000, guid: 7f4a047abe0bfa742a28de45bda1f468, type: 2}
 --- !u!1 &1354400977
 GameObject:
   m_ObjectHideFlags: 0

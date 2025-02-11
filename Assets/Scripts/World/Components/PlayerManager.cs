@@ -1,17 +1,18 @@
+using Characters.Interfaces;
 using Characters.Player;
-using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
 using Settings.Global;
 using System;
-using Characters.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public sealed class PlayerManager : IService
 {
     #region Fields 
 
-    public event Action<Player> OnPlayerReady;
-    private HashSet<Player> _players;
+    public event Action<PlayerCharacterController> OnPlayerReady;
+    private HashSet<PlayerCharacterController> _players;
 
     #endregion
 
@@ -22,21 +23,24 @@ public sealed class PlayerManager : IService
 
     public void Init()
     {
-        _players = new HashSet<Player>();
+        _players = new HashSet<PlayerCharacterController>();
     }
 
     #endregion
 
-    public void AddPlayer(Player player)
+    public void AddPlayer(PlayerCharacterController player)
     {
         if (player != null)
         {
             _players.Add(player);
             OnPlayerReady?.Invoke(player);
+
+            // ToDo : move this logic to the another manager
+            GameplayUI.Instance.Initialize(player);
         }
     }
 
-    public void RemovePlayer(Player player)
+    public void RemovePlayer(PlayerCharacterController player)
     {
         _players.Remove(player);
     }
@@ -45,7 +49,7 @@ public sealed class PlayerManager : IService
     {
         // ToDo : implement the logic for several players in the future.
 
-        Player player = _players.FirstOrDefault();
+        PlayerCharacterController player = _players.FirstOrDefault();
         return (player != null) ? player.Character : null;
     }
 
@@ -56,7 +60,7 @@ public sealed class PlayerManager : IService
 
         if (character != null)
         {
-            characterTransform = (character.Body != null) ? character.Body.transform : null;
+            characterTransform = (character.Body != null) ? character.Body.Transform : null;
         }
 
         return characterTransform;

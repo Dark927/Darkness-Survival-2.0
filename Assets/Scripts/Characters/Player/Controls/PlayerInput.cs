@@ -1,4 +1,4 @@
-using Characters.Interfaces;
+using Characters.Common.Movement;
 using Characters.Player.Weapons;
 using System;
 using UnityEngine;
@@ -67,7 +67,6 @@ namespace Characters.Player.Controls
 
         public void Dispose()
         {
-            _playerMovement?.Dispose();
             RemoveMovement();
             Disable();
         }

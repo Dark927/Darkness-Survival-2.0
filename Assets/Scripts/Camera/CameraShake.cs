@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using Settings.CameraManagement.Shake;
 using System.Threading;
-using UnityEngine;
 using Utilities.ErrorHandling;
 
 namespace Settings.CameraManagement
@@ -72,7 +71,7 @@ namespace Settings.CameraManagement
 
             _cameraPerlin.m_AmplitudeGain -= amplitude;
 
-            if(_cameraPerlin.m_AmplitudeGain < 0)
+            if (_cameraPerlin.m_AmplitudeGain < 0)
             {
                 _cameraPerlin.m_AmplitudeGain = 0;
             }

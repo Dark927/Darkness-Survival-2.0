@@ -1,8 +1,4 @@
-using Characters.Player;
-using Settings.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Settings.Global
 {

@@ -1,9 +1,8 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Common.Movement;
 using UnityEngine;
 
 public class CharacterStaticMovement : CharacterMovementBase
 {
     public override bool IsMoving => false;
     public override Vector2 Direction => Vector2.zero;
-
 }

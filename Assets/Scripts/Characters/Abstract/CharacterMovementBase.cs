@@ -1,10 +1,9 @@
-
-using System;
+﻿using Settings.Global;
 using UnityEngine;
 
-namespace Characters.Interfaces
+namespace Characters.Common.Movement
 {
-    public abstract class CharacterMovementBase : IDisposable
+    public abstract class CharacterMovementBase : IEventListener
     {
         public virtual bool IsMoving { get; }
         public virtual Vector2 Direction { get; }
@@ -15,6 +14,17 @@ namespace Characters.Interfaces
         public virtual void Move()
         {
 
+        }
+
+        public virtual void UpdateSpeedSettings(SpeedSettings settings, bool moveWithMaxSpeed = false)
+        {
+            Speed.SetSettings(settings);
+
+            if (moveWithMaxSpeed)
+            {
+                Unblock();
+                Speed.SetMaxSpeedMultiplier();
+            }
         }
 
         /// <summary>
@@ -51,7 +61,13 @@ namespace Characters.Interfaces
 
         }
 
-        public virtual void Dispose()
+
+        public virtual void ConfigureEventLinks()
+        {
+
+        }
+
+        public virtual void RemoveEventLinks()
         {
 
         }

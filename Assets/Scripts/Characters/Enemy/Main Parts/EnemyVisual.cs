@@ -1,15 +1,16 @@
-﻿using Characters.Enemy.Animation;
+﻿using Characters.Common.Visual;
+using Characters.Enemy.Animation;
 using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class EnemyVisual : CharacterVisual
+    public class EnemyVisual : EntityVisualBase
     {
         public EnemyAnimatorController AnimController { get; set; }
 
-        protected override void Init()
+        public override void Initialize()
         {
-            base.Init();
+            base.Initialize();
             InitAnimation();
         }
 

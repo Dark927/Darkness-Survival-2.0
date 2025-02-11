@@ -1,28 +1,29 @@
 
+using Characters.Common.Movement;
+using Characters.Common.Visual;
 using Characters.Health;
 using Characters.Interfaces;
 using System;
 using UnityEngine;
 using Utilities.Characters;
 
-public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
+public abstract class CharacterBodyBase : MonoBehaviour, ICharacterBody
 {
     #region Fields
 
     private CharacterMovementBase _movement;
     private ICharacterView _view;
-    private CharacterVisual _visual;
+    private EntityVisualBase _visual;
     private IHealth _characterHealth;
     public IInvincibility _characterInvincibility;
-
-
 
     #endregion
 
 
     #region Events
 
-    public event Action OnBodyDeath;
+    public event Action OnBodyDies;
+    public event Action OnBodyDied;
     public event Action OnBodyDamaged;
 
     #endregion
@@ -30,12 +31,14 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
 
     #region Properties
 
+    public Transform Transform => transform;
     public CharacterMovementBase Movement { get => _movement; protected set => _movement = value; }
     public ICharacterView View { get => _view; protected set => _view = value; }
-    public CharacterVisual Visual { get => _visual; protected set => _visual = value; }
+    public EntityVisualBase Visual { get => _visual; protected set => _visual = value; }
     public IHealth Health { get => _characterHealth; protected set => _characterHealth = value; }
     public IInvincibility Invincibility { get => _characterInvincibility; protected set => _characterInvincibility = value; }
     public bool IsDead => (Health != null) && Health.IsEmpty;
+
 
     #endregion
 
@@ -48,7 +51,9 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
     {
         Init();
         InitMovement();
+        Visual.Initialize();
         InitView();
+        PostInit();
 
 #if UNITY_EDITOR
         CharacterSettingsValidator.CheckCharacterBodyStatus(this);
@@ -57,7 +62,7 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
 
     protected virtual void Start()
     {
-        SetReferences();
+
     }
 
     protected abstract void Init();
@@ -72,17 +77,20 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
 
     }
 
-    protected virtual void SetReferences()
+    protected virtual void PostInit()
     {
 
     }
 
-    protected virtual void UnsetReferences()
+    public virtual void ConfigureEventLinks()
     {
-
+        Movement?.ConfigureEventLinks();
     }
 
-    #endregion
+    public virtual void RemoveEventLinks()
+    {
+        Movement?.RemoveEventLinks();
+    }
 
     public virtual void Dispose()
     {
@@ -94,9 +102,21 @@ public abstract class CharacterBodyBase : MonoBehaviour, IDisposable
         Dispose();
     }
 
-    protected void RaiseOnBodyDeath()
+    #endregion
+
+    public virtual void ResetState()
     {
-        OnBodyDeath?.Invoke();
+        Health.ResetState();
+    }
+
+    protected void RaiseOnBodyDies()
+    {
+        OnBodyDies?.Invoke();
+    }
+
+    protected void RaiseOnBodyCompletelyDied()
+    {
+        OnBodyDied?.Invoke();
     }
 
     protected void RaiseOnBodyDamaged()

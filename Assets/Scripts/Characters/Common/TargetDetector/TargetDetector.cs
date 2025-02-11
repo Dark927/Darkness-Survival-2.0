@@ -66,8 +66,8 @@ namespace Characters.TargetDetection
         public bool IsTargetFoundOnVerticalAxis(Transform target)
         {
             return IsTargetFoundInBox(target.position, Vector2.up, _settings) || IsTargetFoundInBox(target.position, Vector2.down, _settings);
-        } 
-        
+        }
+
         public bool IsTargetFoundOnVerticalAxis(Transform target, TargetDetectionSettings settings)
         {
             return IsTargetFoundInBox(target.position, Vector2.up, settings) || IsTargetFoundInBox(target.position, Vector2.down, settings);

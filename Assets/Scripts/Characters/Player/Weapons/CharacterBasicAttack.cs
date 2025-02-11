@@ -1,5 +1,6 @@
 
 using Characters.Common.Combat.Weapons;
+using Characters.Interfaces;
 using Characters.Player.Animation;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
@@ -26,7 +27,7 @@ namespace Characters.Player.Weapons
 
         #region Init 
 
-        public CharacterBasicAttack(CharacterBodyBase characterBody, List<CharacterWeaponBase> basicWeapons) : base(characterBody, basicWeapons) 
+        public CharacterBasicAttack(ICharacterBody characterBody, List<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
         {
 
         }

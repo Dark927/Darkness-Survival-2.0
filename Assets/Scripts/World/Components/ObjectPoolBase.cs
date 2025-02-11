@@ -124,9 +124,9 @@ namespace World.Components
         protected virtual GameObject PreloadFunc(T poolItem, GameObjectsContainer container = null)
         {
             GameObject prefab = poolItem as GameObject;
-
             GameObject createdObj = UnityEngine.Object.Instantiate(prefab);
-            createdObj.name = $"{prefab.name}".Replace(" ", "_");
+
+            createdObj.name = GenerateDefaultItemName(poolItem);
 
             if (container != null)
             {
@@ -139,6 +139,12 @@ namespace World.Components
         protected virtual void RequestAction(T obj)
         {
 
+        }
+
+        protected virtual string GenerateDefaultItemName(T poolItem)
+        {
+            GameObject obj = poolItem as GameObject;
+            return $"{obj.name}".Replace(" ", "_");
         }
 
         protected virtual void ReturnAction(GameObject obj)

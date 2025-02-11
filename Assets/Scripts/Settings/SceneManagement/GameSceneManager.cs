@@ -36,7 +36,7 @@ namespace Settings.SceneManagement
             InitComponents();
             InitInstance(true);
 
-            if(_mainSceneNames == null)
+            if (_mainSceneNames == null)
             {
                 Debug.LogWarning($"{nameof(_mainSceneNames)} is null!");
             }

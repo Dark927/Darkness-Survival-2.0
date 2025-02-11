@@ -1,5 +1,4 @@
-﻿using Cinemachine;
-using Settings.CameraManagement;
+﻿using Settings.CameraManagement;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

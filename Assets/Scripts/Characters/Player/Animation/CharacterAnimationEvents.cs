@@ -25,7 +25,7 @@ namespace Characters.Player.Animation
         {
             OnAttackHit?.Invoke(CharacterBasicAttack.Type.Fast);
         }
-        
+
         private void HeavyAttackHit()
         {
             OnAttackHit?.Invoke(CharacterBasicAttack.Type.Heavy);

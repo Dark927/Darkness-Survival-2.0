@@ -1,9 +1,6 @@
 using Characters.Enemy;
 using Characters.Interfaces;
 using Characters.Player;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class EnemyCollisions : MonoBehaviour
@@ -19,7 +16,7 @@ public class EnemyCollisions : MonoBehaviour
     {
         IDamageable target = collision.gameObject.GetComponent<IDamageable>();
 
-        if(target is PlayerCharacterBody)
+        if (target is PlayerCharacterBody)
         {
 
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class DefaultEnemyWeapon : CharacterWeaponBase
+    public class DefaultEnemyWeapon : WeaponBase
     {
         #region Fields 
 

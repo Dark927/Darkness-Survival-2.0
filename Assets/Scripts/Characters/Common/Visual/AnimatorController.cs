@@ -1,44 +1,47 @@
 using Characters.Animation;
 using UnityEngine;
 
-public class AnimatorController
+namespace Characters.Common.Visual
 {
-    #region Fields 
-
-    private IAnimatorParameters _parameters;
-    private IAnimationEvents _events;
-    private Animator _animator;
-
-    #endregion
-
-
-    #region Properties
-
-    public Animator Animator { get => _animator; private set => _animator = value; }
-    public IAnimatorParameters Parameters { get => _parameters; private set => _parameters = value; }
-    public IAnimationEvents Events { get => _events; protected set => _events = value; }
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-
-    public AnimatorController(Animator characterAnimator, IAnimatorParameters parameters)
+    public class AnimatorController
     {
-        Animator = characterAnimator;
-        Parameters = parameters;
+        #region Fields 
+
+        private IAnimatorParameters _parameters;
+        private IAnimationEvents _events;
+        private Animator _animator;
+
+        #endregion
+
+
+        #region Properties
+
+        public Animator Animator { get => _animator; private set => _animator = value; }
+        public IAnimatorParameters Parameters { get => _parameters; private set => _parameters = value; }
+        public IAnimationEvents Events { get => _events; protected set => _events = value; }
+
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+
+        public AnimatorController(Animator characterAnimator, IAnimatorParameters parameters)
+        {
+            Animator = characterAnimator;
+            Parameters = parameters;
+        }
+
+        public AnimatorController(Animator characterAnimator, IAnimatorParameters parameters, IAnimationEvents events)
+        {
+            Animator = characterAnimator;
+            Parameters = parameters;
+            Events = events;
+        }
+
+        #endregion
+
+        #endregion
     }
-
-    public AnimatorController(Animator characterAnimator, IAnimatorParameters parameters, IAnimationEvents events)
-    {
-        Animator = characterAnimator;
-        Parameters = parameters;
-        Events = events;
-    }
-
-    #endregion
-
-    #endregion
 }

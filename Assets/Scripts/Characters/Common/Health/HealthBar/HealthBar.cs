@@ -1,10 +1,11 @@
+﻿using Characters.Interfaces;
 using System;
 using UnityEngine;
 
-namespace Characters.Health.HealthBar
+namespace UI.Local.Health
 {
     [ExecuteAlways]
-    public class HealthBar : MonoBehaviour, IHealthBar, IDisposable
+    public class HealthBar : MonoBehaviour, IHealthBar
     {
         #region Fields 
 
@@ -19,10 +20,10 @@ namespace Characters.Health.HealthBar
         #endregion
 
         private Vector2 _initialScale;
-        private bool _isVisible = true;
-        private CharacterBodyBase _characterBody;
-        private HealthBarHp _hpVisual;
-        private HealthBarBackground _backgroundVisual;
+        private bool _isVisible;
+        private ICharacterBody _characterBody;
+        private Slider _hpVisual;
+        private BackgroundSprite _backgroundVisual;
 
         #endregion
 
@@ -33,34 +34,40 @@ namespace Characters.Health.HealthBar
 
         private void Awake()
         {
+            _hpVisual = GetComponentInChildren<Slider>();
+            _backgroundVisual = GetComponentInChildren<BackgroundSprite>();
+
+            _isVisible = false;
+        }
+
+        private void OnEnable()
+        {
+            if (!_isVisible)
+            {
+                return;
+            }
+
+            ConfigureEventLinks();
+        }
+
+        public void Initialize(ICharacterBody characterBody)
+        {
             _initialScale = transform.localScale;
-            _characterBody = GetComponentInParent<CharacterBodyBase>();
-            _hpVisual = GetComponentInChildren<HealthBarHp>();
-            _backgroundVisual = GetComponentInChildren<HealthBarBackground>();
-        }
+            SetCharacter(characterBody);
 
-        private void Start()
-        {
             ConfigureBarVisual();
-
-            if (Application.isPlaying)
-            {
-                _characterBody.View.OnSideSwitch += CharacterScaleChangedListener;
-                _characterBody.Health.OnCurrentHpPercentChanged += UpdateActualHp;
-                Hide();
-            }
+            Hide();
         }
 
-        private void Update()
+        public void SetCharacter(ICharacterBody characterBody)
         {
-
-            // ToDo : Remove this input (it is for tests only)
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.P))
+            if (_characterBody != null)
             {
-                Show();
+                RemoveEventLinks();
             }
-#endif
+
+            _characterBody = characterBody;
+            ConfigureEventLinks();
         }
 
         private void CharacterScaleChangedListener(object sender, EventArgs args)
@@ -92,6 +99,28 @@ namespace Characters.Health.HealthBar
             _backgroundVisual.Renderer.color = _backgroundColor;
         }
 
+        public void ConfigureEventLinks()
+        {
+            _characterBody.View.OnSideSwitch += CharacterScaleChangedListener;
+            _characterBody.Health.OnCurrentHpPercentChanged += UpdateActualHp;
+        }
+
+        public void RemoveEventLinks()
+        {
+            _characterBody.View.OnSideSwitch -= CharacterScaleChangedListener;
+            _characterBody.Health.OnCurrentHpPercentChanged -= UpdateActualHp;
+        }
+
+        private void OnDisable()
+        {
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
+            RemoveEventLinks();
+        }
+
         #endregion
 
         public void Hide()
@@ -110,19 +139,13 @@ namespace Characters.Health.HealthBar
 
         public void UpdateActualHp(float actualHpPercent)
         {
-            if(!_isVisible)
+            if (!_isVisible)
             {
                 Show();
             }
 
             actualHpPercent = Mathf.Clamp(actualHpPercent, 0, 100);
-            _hpVisual.UpdateActualHp(actualHpPercent);
-        }
-
-        public void Dispose()
-        {
-            _characterBody.View.OnSideSwitch -= CharacterScaleChangedListener;
-            _characterBody.Health.OnCurrentHpPercentChanged -= UpdateActualHp;
+            _hpVisual.UpdateActualValue(actualHpPercent);
         }
 
         private void OnValidate()

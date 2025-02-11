@@ -24,7 +24,7 @@ namespace World.Components.EnemyLogic
         private CancellationTokenSource _cancellationTokenSource;
 
         private EnemySpawnSettings _spawnSettings;
-        private ICharacterConfigurator<Enemy> _configurator;
+        private ICharacterConfigurator<EnemyController> _configurator;
 
         private DiContainer _diContainer;
 
@@ -111,27 +111,26 @@ namespace World.Components.EnemyLogic
         {
             Transform targetPlayer = ServiceLocator.Current.Get<PlayerManager>()?.GetCharacterTransform();
 
-            if(targetPlayer == null)
+            if (targetPlayer == null)
             {
                 return;
             }
-            
+
             int count = data.Count;
             float spawnInterval = (data.SpawnDuration / (float)count);
-            GameObject enemyObj;
+            EnemyController enemy;
 
             while (count > 0)
             {
-                enemyObj = _source.GetEnemy(data.EnemyData.ID);
+                enemy = _source.GetEnemy(data.EnemyData.ID);
 
-                if (enemyObj != null)
+                if (enemy != null)
                 {
-                    Enemy enemy = enemyObj.GetComponent<Enemy>();
                     _configurator.Configure(enemy, targetPlayer);
-                    enemyObj.SetActive(true);
+                    enemy.gameObject.SetActive(true);
                 }
                 count--;
-                await UniTask.WaitForSeconds(spawnInterval, cancellationToken : token);
+                await UniTask.WaitForSeconds(spawnInterval, cancellationToken: token);
             }
             return;
         }

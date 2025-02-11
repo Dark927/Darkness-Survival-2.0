@@ -1,7 +1,4 @@
-﻿using Characters.Common.Combat.Weapons.Data;
-using Characters.Player.Weapons.Data;
-using Characters.Stats;
-using System.Collections.Generic;
+﻿using Characters.Stats;
 using UnityEngine;
 
 namespace Characters.Player.Data

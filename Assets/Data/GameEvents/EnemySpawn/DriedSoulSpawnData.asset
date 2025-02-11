@@ -16,7 +16,7 @@ MonoBehaviour:
   Count: 400
   SpawnTime:
     Minutes: 0
-    Seconds: 0
+    Seconds: 3
   SpawnDuration:
     Minutes: 7
     Seconds: 0

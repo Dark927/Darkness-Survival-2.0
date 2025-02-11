@@ -10,7 +10,7 @@ namespace Characters.TargetDetection
 
         public float Distance;
         public float AreaWidth;
-        public int LayerIndex; 
+        public int LayerIndex;
 
         #endregion
 

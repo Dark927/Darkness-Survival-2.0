@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Settings.Global
+﻿namespace Settings.Global
 {
     /// <summary>
     /// Use to mark all game services (for ServiceLocator exactly)

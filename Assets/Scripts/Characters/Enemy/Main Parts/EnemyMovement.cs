@@ -1,6 +1,7 @@
-using Characters.Interfaces;
+using Characters.Common.Movement;
 using System;
 using UnityEngine;
+
 namespace Characters.Enemy
 {
     public class EnemyMovement : CharacterMovementBase
@@ -35,6 +36,7 @@ namespace Characters.Enemy
         public EnemyMovement(Transform bodyTransform, Transform targetTransform = null)
         {
             Init(bodyTransform, targetTransform);
+            _speed = new CharacterSpeed();
         }
 
         private void Init(Transform bodyTransform, Transform targetTransform)
@@ -50,7 +52,6 @@ namespace Characters.Enemy
             }
 
             InitComponents();
-            InitReferences();
         }
 
         private void InitComponents()
@@ -60,13 +61,13 @@ namespace Characters.Enemy
             _speed = new CharacterSpeed();
         }
 
-        private void InitReferences()
+        public override void ConfigureEventLinks()
         {
             _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
             _movementBlock.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
         }
 
-        public override void Dispose()
+        public override void RemoveEventLinks()
         {
             _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
             _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
@@ -103,6 +104,12 @@ namespace Characters.Enemy
         {
             Stop();
             _movementBlock.Block();
+        }
+
+        public override void Unblock()
+        {
+            base.Unblock();
+            _movementBlock.Unblock();
         }
 
         private void FollowTarget()

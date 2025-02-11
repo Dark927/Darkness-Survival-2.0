@@ -1,7 +1,6 @@
 ﻿using Characters.Common.Combat.Weapons;
+using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
-using Characters.Player.Weapons.Data;
-using ModestTree;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,14 +16,14 @@ namespace Characters.Player.Weapons
         private GameObject _defaultWeaponContainer;
 
         private string _weaponsContainerName;
-        private List<CharacterWeaponBase> _activeWeapons;
+        private List<WeaponBase> _activeWeapons;
 
         #endregion
 
 
         #region Properties
 
-        public List<CharacterWeaponBase> ActiveWeapons => _activeWeapons;
+        public List<WeaponBase> ActiveWeapons => _activeWeapons;
         public string DefaultContainerName => $"{_entityLogic.Data.Name ?? "default"}_weapons";
         public string WeaponsContainerName => _weaponsContainerName;
 
@@ -43,7 +42,7 @@ namespace Characters.Player.Weapons
 
         public void Init()
         {
-            _activeWeapons = new List<CharacterWeaponBase>();
+            _activeWeapons = new List<WeaponBase>();
             TryInitContainer(_weaponsContainerName);
         }
 
@@ -62,12 +61,12 @@ namespace Characters.Player.Weapons
             }
 
             _defaultWeaponContainer = new GameObject(targetName);
-            _defaultWeaponContainer.transform.SetParent(_entityLogic.Body.transform, false);
+            _defaultWeaponContainer.transform.SetParent(_entityLogic.Body.Transform, false);
         }
 
         #endregion
 
-        public void GiveMultipleWeapons(List<CharacterWeaponData> weaponsDataList, GameObject weaponContainer = null)
+        public void GiveMultipleWeapons(List<EntityWeaponData> weaponsDataList, GameObject weaponContainer = null)
         {
             foreach (var weaponData in weaponsDataList)
             {
@@ -75,11 +74,11 @@ namespace Characters.Player.Weapons
             }
         }
 
-        public void GiveWeapon(CharacterWeaponData weaponData, GameObject weaponContainer = null)
+        public void GiveWeapon(EntityWeaponData weaponData, GameObject weaponContainer = null)
         {
             GameObject container = weaponContainer != null ? weaponContainer : _defaultWeaponContainer;
 
-            CharacterWeaponBase weapon = GameObject.Instantiate(weaponData.Weapon, container.transform.position, Quaternion.identity, container.transform);
+            WeaponBase weapon = GameObject.Instantiate(weaponData.Weapon, container.transform.position, Quaternion.identity, container.transform);
             weapon.gameObject.name = weaponData.WeaponName;
 
             _activeWeapons.Add(weapon);

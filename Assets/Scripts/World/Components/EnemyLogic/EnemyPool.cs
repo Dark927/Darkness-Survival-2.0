@@ -19,7 +19,7 @@ namespace World.Components.EnemyLogic
         #region Init
 
         public EnemyPool(ObjectPoolSettings poolSettings, EnemyData data, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
-            base(poolSettings, data.Prefab)
+            base(poolSettings, data.EnemyPrefab)
         {
             _enemyData = data;
             InitPool(preloadCount);
@@ -27,7 +27,7 @@ namespace World.Components.EnemyLogic
 
         [Inject]
         public EnemyPool(ObjectPoolSettings poolSettings, EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
-            base(poolSettings, data.Prefab, container)
+            base(poolSettings, data.EnemyPrefab, container)
         {
             _enemyData = data;
             InitPool(preloadCount);
@@ -35,22 +35,21 @@ namespace World.Components.EnemyLogic
 
         #endregion
 
-        protected override GameObject PreloadFunc(GameObject prefab, GameObjectsContainer container = null)
+        protected override GameObject PreloadFunc(GameObject enemyPrefab, GameObjectsContainer container = null)
         {
-            GameObject createdObj = GameObject.Instantiate<GameObject>(_enemyData.Prefab);
-            createdObj.name = $"{_enemyData.Name} {_enemyData.Type}".Replace(" ", "_");
+            GameObject createdObj = base.PreloadFunc(enemyPrefab, container);
 
-            if (container != null)
-            {
-                createdObj.transform.parent = container.transform;
-            }
-
-            if (createdObj.TryGetComponent(out Enemy createdEnemy))
+            if (createdObj.TryGetComponent(out EnemyController createdEnemy))
             {
                 createdEnemy.SetTargetPool(this);
             }
 
             return createdObj;
+        }
+
+        protected override string GenerateDefaultItemName(GameObject enemyPrefab)
+        {
+            return $"{_enemyData.Name} {_enemyData.Type}".Replace(" ", "_");
         }
 
         protected override void ReturnAction(GameObject obj)

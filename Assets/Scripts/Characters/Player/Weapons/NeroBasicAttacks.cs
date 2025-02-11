@@ -9,7 +9,7 @@ namespace Characters.Player.Weapons
     {
         private CharacterSword _sword;
 
-        public NeroBasicAttacks(ICharacterLogic characterLogic, List<CharacterWeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
+        public NeroBasicAttacks(ICharacterLogic characterLogic, List<WeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
         {
             foreach (var weapon in BasicWeapons)
             {
@@ -30,7 +30,7 @@ namespace Characters.Player.Weapons
 
         private void TriggerAttack(Type type)
         {
-            if(_sword == null)
+            if (_sword == null)
             {
                 return;
             }

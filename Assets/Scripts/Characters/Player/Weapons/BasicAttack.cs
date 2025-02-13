@@ -1,11 +1,12 @@
 ﻿using Characters.Interfaces;
+using Settings.Global;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class BasicAttack : IDisposable
+    public class BasicAttack : IEventListener
     {
         public enum Type
         {
@@ -22,7 +23,7 @@ namespace Characters.Common.Combat.Weapons
 
         private bool _isAttacking = false;
 
-        private readonly ICharacterBody _characterBody;
+        private readonly IEntityBody _entityBody;
         private List<WeaponBase> _basicWeapons;
 
         #endregion
@@ -30,7 +31,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Properties
 
-        protected ICharacterBody CharacterBody => _characterBody;
+        protected IEntityBody EntityBody => _entityBody;
         public List<WeaponBase> BasicWeapons => _basicWeapons;
 
         #endregion
@@ -40,9 +41,9 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init 
 
-        public BasicAttack(ICharacterBody characterBody, List<WeaponBase> basicWeapons)
+        public BasicAttack(IEntityBody characterBody, List<WeaponBase> basicWeapons)
         {
-            _characterBody = characterBody;
+            _entityBody = characterBody;
             _basicWeapons = basicWeapons;
         }
 
@@ -51,7 +52,12 @@ namespace Characters.Common.Combat.Weapons
 
         }
 
-        public virtual void Dispose()
+        public virtual void ConfigureEventLinks()
+        {
+
+        }
+
+        public virtual void RemoveEventLinks()
         {
 
         }
@@ -88,12 +94,24 @@ namespace Characters.Common.Combat.Weapons
                     break;
             }
             OnAnyAttackStarted?.Invoke();
+            AnyAttackStarted();
         }
 
-        protected void FinishAttack()
+        protected void RaiseAttackFinished()
         {
             OnAttackFinished?.Invoke();
             _isAttacking = false;
+            AttackFinished();
+        }
+
+        protected virtual void AnyAttackStarted()
+        {
+
+        }        
+        
+        protected virtual void AttackFinished()
+        {
+
         }
 
         #endregion

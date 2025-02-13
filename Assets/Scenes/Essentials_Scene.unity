@@ -2554,10 +2554,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2838475455275012638, guid: 97a766c07274bda4a9ed6b0b9b402234, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4114824868038369942, guid: 97a766c07274bda4a9ed6b0b9b402234, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2596,6 +2592,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4114824868038369942, guid: 97a766c07274bda4a9ed6b0b9b402234, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8629233726174148127, guid: 97a766c07274bda4a9ed6b0b9b402234, type: 3}
+      propertyPath: _entityFeaturesDataAsset.m_AssetGUID
+      value: 74a57ea120317d34083585ded912c3a9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8629233726174148127, guid: 97a766c07274bda4a9ed6b0b9b402234, type: 3}
+      propertyPath: _entityFeaturesDataAsset.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

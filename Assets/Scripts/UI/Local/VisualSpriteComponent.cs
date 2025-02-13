@@ -24,7 +24,7 @@ namespace UI.Local
 
         #region Init
 
-        private void Awake()
+        public void Initialize()
         {
             _renderer = TryGetSpriteRenderer();
 

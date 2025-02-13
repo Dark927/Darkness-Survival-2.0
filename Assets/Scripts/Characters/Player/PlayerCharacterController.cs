@@ -3,7 +3,7 @@ using Characters.Interfaces;
 using Characters.Player.Controls;
 using Settings.Global;
 using System;
-using UI.Local.Health;
+using Cysharp.Threading.Tasks;
 
 namespace Characters.Player
 {
@@ -12,8 +12,6 @@ namespace Characters.Player
         #region Fields 
 
         private PlayerInput _input;
-        private ICharacterLogic _character;
-        private IHealthBar _healthBar;
 
         #endregion
 
@@ -21,7 +19,7 @@ namespace Characters.Player
         #region Properties
 
         public PlayerInput Input => _input;
-        public ICharacterLogic Character => _character;
+        public ICharacterLogic Character => EntityLogic as ICharacterLogic;
 
         #endregion
 
@@ -37,12 +35,12 @@ namespace Characters.Player
 
         #region Init 
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             InitInput();
-
-            _character = GetComponentInChildren<ICharacterLogic>();
-            _healthBar = GetComponentInChildren<IHealthBar>();
+            ConfigureCharacter();
+            InitFeaturesAsync().Forget();
         }
 
         protected override void Start()
@@ -50,19 +48,17 @@ namespace Characters.Player
             base.Start();
             ServiceLocator.Current.Get<PlayerManager>()?.AddPlayer(this);
 
-            ConfigureCharacter();
             ConfigureEventLinks();
-            _healthBar.Initialize(Character.Body);
         }
 
         private void ConfigureCharacter()
         {
-            _character.Initialize();
-            _character.ConfigureEventLinks();
+            EntityLogic.Initialize();
+            EntityLogic.ConfigureEventLinks();
 
-            PlayerCharacterLogic playerCharacter = (PlayerCharacterLogic)_character;
+            PlayerCharacterLogic playerCharacter = (PlayerCharacterLogic)EntityLogic;
 
-            _input.SetMovement(_character.Body.Movement);
+            _input.SetMovement(EntityLogic.Body.Movement);
             _input.SetBasicAttacks(playerCharacter.BasicAttacks);
         }
 
@@ -70,11 +66,11 @@ namespace Characters.Player
         {
             base.ConfigureEventLinks();
 
-            PlayerCharacterVisual visual = (Character.Body.Visual as PlayerCharacterVisual);
+            PlayerCharacterVisual visual = (EntityLogic.Body.Visual as PlayerCharacterVisual);
 
-            _character.ConfigureEventLinks();
-            _character.Body.OnBodyDies += PlayerCharacterDies;
-            _character.Body.OnBodyDied += NotifyCharacterCompletelyDied;
+            EntityLogic.ConfigureEventLinks();
+            EntityLogic.Body.OnBodyDies += PlayerCharacterDies;
+            EntityLogic.Body.OnBodyDied += NotifyCharacterCompletelyDied;
         }
 
         private void InitInput()
@@ -87,9 +83,9 @@ namespace Characters.Player
         public override void RemoveEventLinks()
         {
             base.RemoveEventLinks();
-            _character.RemoveEventLinks();
-            _character.Body.OnBodyDies -= PlayerCharacterDies;
-            _character.Body.OnBodyDied -= NotifyCharacterCompletelyDied;
+            EntityLogic.RemoveEventLinks();
+            EntityLogic.Body.OnBodyDies -= PlayerCharacterDies;
+            EntityLogic.Body.OnBodyDied -= NotifyCharacterCompletelyDied;
         }
 
         public override void Dispose()
@@ -102,7 +98,6 @@ namespace Characters.Player
 
         private void PlayerCharacterDies()
         {
-            _healthBar.Hide();
             _input.Disable();
         }
 

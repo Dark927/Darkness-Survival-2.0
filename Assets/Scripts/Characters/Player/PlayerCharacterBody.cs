@@ -1,3 +1,4 @@
+using Characters.Common;
 using Characters.Common.Movement;
 using Characters.Health;
 using Characters.Interfaces;
@@ -6,7 +7,7 @@ using System;
 
 namespace Characters.Player
 {
-    public class PlayerCharacterBody : CharacterBodyBase, IDamageable
+    public class PlayerCharacterBody : EntityBodyBase, IDamageable
     {
         #region Fields
 
@@ -17,8 +18,6 @@ namespace Characters.Player
 
         #region Properties
 
-
-
         #endregion
 
 
@@ -26,12 +25,12 @@ namespace Characters.Player
 
         #region Init
 
-        protected override void Init()
+        protected override void InitComponents()
         {
             _playerLogic = GetComponent<ICharacterLogic>();
             Visual = GetComponentInChildren<PlayerCharacterVisual>();
 
-            Health = new CharacterHealth(_playerLogic.Stats.Health);
+            Health = new EntityHealth(_playerLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _playerLogic.Stats.InvincibilityTime, _playerLogic.Stats.InvincibilityColor);
         }
 
@@ -42,7 +41,7 @@ namespace Characters.Player
 
         protected override void InitMovement()
         {
-            Movement = new PlayerMovement(this);
+            Movement = new PlayerCharacterMovement(this);
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _playerLogic.Stats.Speed }, true);
         }
 

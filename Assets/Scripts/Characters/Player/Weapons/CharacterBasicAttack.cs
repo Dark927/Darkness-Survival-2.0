@@ -27,7 +27,7 @@ namespace Characters.Player.Weapons
 
         #region Init 
 
-        public CharacterBasicAttack(ICharacterBody characterBody, List<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
+        public CharacterBasicAttack(IEntityBody characterBody, List<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
         {
 
         }
@@ -35,16 +35,20 @@ namespace Characters.Player.Weapons
         public override void Init()
         {
             base.Init();
-            _animatorController = CharacterBody.Visual.GetAnimatorController<CharacterAnimatorController>();
-            OnAttackOfTypeStarted += _animatorController.TriggerAttack;
-            AnimatorController.Events.OnAttackFinished += FinishAttack;
+            _animatorController = EntityBody.Visual.GetAnimatorController<CharacterAnimatorController>();
         }
 
-        public override void Dispose()
+
+        public override void ConfigureEventLinks()
         {
-            base.Dispose();
+            OnAttackOfTypeStarted += _animatorController.TriggerAttack;
+            AnimatorController.Events.OnAttackFinished += RaiseAttackFinished;
+        }
+
+        public override void RemoveEventLinks()
+        {
             OnAttackOfTypeStarted -= _animatorController.TriggerAttack;
-            AnimatorController.Events.OnAttackFinished -= FinishAttack;
+            AnimatorController.Events.OnAttackFinished -= RaiseAttackFinished;
         }
 
         #endregion

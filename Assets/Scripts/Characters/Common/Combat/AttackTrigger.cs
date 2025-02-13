@@ -144,7 +144,7 @@ namespace Characters.Common.Combat
                 return;
             }
 
-            ICharacterBody characterBody = GetComponentInParent<ICharacterBody>();
+            IEntityBody characterBody = GetComponentInParent<IEntityBody>();
 
             if ((characterBody != null) && characterBody.Transform.TryGetComponent(out Collider2D bodyCollider))
             {

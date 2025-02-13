@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Characters.Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class DefaultEnemyLogic : AttackableCharacterBase, IEnemyLogic, IAttackable<BasicAttack>
+    public class DefaultEnemyLogic : AttackableEntityLogic, IEnemyLogic, IAttackable<BasicAttack>
     {
         #region Fields 
 

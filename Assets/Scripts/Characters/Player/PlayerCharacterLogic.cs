@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Characters.Player
 {
-    [RequireComponent(typeof(CharacterBodyBase))]
-    public class PlayerCharacterLogic : AttackableCharacterBase, ICharacterLogic
+    [RequireComponent(typeof(EntityBodyBase))]
+    public class PlayerCharacterLogic : AttackableEntityLogic, ICharacterLogic
     {
         #region Fields
 

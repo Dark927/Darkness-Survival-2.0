@@ -1,4 +1,5 @@
-﻿using Characters.Common.Movement;
+﻿using Characters.Common;
+using Characters.Common.Movement;
 using Characters.Enemy.Data;
 using Characters.Health;
 using Characters.Interfaces;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class DefaultEnemyBody : CharacterBodyBase, IDamageable
+    public class DefaultEnemyBody : EntityBodyBase, IDamageable
     {
         #region Fields
 
@@ -35,13 +36,16 @@ namespace Characters.Enemy
 
         #region Init
 
-        protected override void Init()
+        protected override void InitComponents()
         {
             _enemyLogic = GetComponent<IEnemyLogic>();
 
             Visual = GetComponentInChildren<EnemyVisual>();
-            Health = new CharacterHealth(_enemyLogic.Stats.Health);
+            Health = new EntityHealth(_enemyLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
+
+            _bodyStats = GlobalEnemyDataManager.Instance.RequestDefaultBodyStats();
+            CreateSideController();
         }
 
         private void CreateSideController()
@@ -59,18 +63,6 @@ namespace Characters.Enemy
         {
             Movement = new EnemyMovement(transform);
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
-        }
-
-        protected override void Start()
-        {
-            if (GlobalEnemyData.Instance != null)
-            {
-                _bodyStats = GlobalEnemyData.Instance.RequestDefaultBodyStats();
-                CreateSideController();
-            }
-
-            Health = new CharacterHealth(_enemyLogic.Stats.Health);
-            Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
         }
 
         public override void ConfigureEventLinks()

@@ -1,14 +1,14 @@
 ﻿using Characters.Common;
 using Characters.Interfaces;
-using System.Diagnostics;
 using World.Components.EnemyLogic;
+using Cysharp.Threading.Tasks;
 
 public class EnemyController : EntityController
 {
     #region Fields 
 
     private EnemyPool _targetPool;
-    private IEnemyLogic _logic;
+    private IEntityLogic _enemyLogic;
 
     #endregion
 
@@ -24,15 +24,19 @@ public class EnemyController : EntityController
 
     #region Init
 
-    private void Awake()
+    protected override void Awake()
     {
-        _logic = GetComponentInChildren<IEnemyLogic>();
+        base.Awake();
+
+        // TODO : Remove this testing field later 
+        _enemyLogic = EntityLogic;
+        _enemyLogic.Initialize();
+        InitFeaturesAsync().Forget();
     }
 
     protected override void Start()
     {
         base.Start();
-        _logic.Initialize();
     }
 
     protected override void OnEnable()
@@ -45,21 +49,21 @@ public class EnemyController : EntityController
     {
         base.ConfigureEventLinks();
 
-        _logic.ConfigureEventLinks();
-        _logic.Body.OnBodyDies += OnCharacterDeath;
+        _enemyLogic.ConfigureEventLinks();
+        _enemyLogic.Body.OnBodyDies += OnCharacterDeath;
     }
 
     public override void RemoveEventLinks()
     {
         base.ConfigureEventLinks();
 
-        _logic.Body.OnBodyDies -= OnCharacterDeath;
-        _logic.RemoveEventLinks();
+        _enemyLogic.Body.OnBodyDies -= OnCharacterDeath;
+        _enemyLogic.RemoveEventLinks();
     }
 
     public void ResetCharacter()
     {
-        _logic.ResetState();
+        _enemyLogic.ResetState();
     }
 
     #endregion

@@ -18,7 +18,6 @@ namespace Characters.Enemy.Data
     {
         #region Fields 
 
-        [SerializeField, ReadOnly] private int _id;
 
         [Header("Custom Enemy Settings")]
 
@@ -29,7 +28,7 @@ namespace Characters.Enemy.Data
 
 
         #region Properties
-        public int ID { get => _id; private set => _id = value; }
+
         public EnemyType Type => _type;
         public GameObject EnemyPrefab => _enemyPrefab;
 
@@ -37,11 +36,6 @@ namespace Characters.Enemy.Data
 
 
         #region Methods
-
-        private void OnValidate()
-        {
-            ID = GetHashCode();
-        }
 
         public override int GetHashCode()
         {

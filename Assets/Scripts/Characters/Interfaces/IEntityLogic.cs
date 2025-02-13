@@ -6,7 +6,7 @@ namespace Characters.Interfaces
 {
     public interface IEntityLogic : IEventListener, IResetable, IInitializable
     {
-        public ICharacterBody Body { get; }
+        public IEntityBody Body { get; }
         public CharacterBaseData Data { get; }
         public CharacterStats Stats { get; }
     }

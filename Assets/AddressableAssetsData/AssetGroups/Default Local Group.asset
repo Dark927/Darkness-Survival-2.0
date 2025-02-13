@@ -17,8 +17,23 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_SerializeEntries:
-  - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
-    m_Address: Assets/Scenes/Stage-01_Scene.unity
+  - m_GUID: 29b6cb2244482f6499aa264a5f821770
+    m_Address: Assets/Scripts/Characters/Common/Features/EnemyFeaturesData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74a57ea120317d34083585ded912c3a9
+    m_Address: Assets/Scripts/Characters/Common/Features/CharacterFeaturesData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8551185e2733731429da5a933e644733
+    m_Address: Assets/Prefabs/Entities/Features/DefaultHealthBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e63b8693779213448b1e59e15a985f5
+    m_Address: Assets/Prefabs/Entities/Features/EnemyHealthBar.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

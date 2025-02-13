@@ -7,7 +7,16 @@ namespace Characters.Player.Weapons
 {
     public class NeroBasicAttacks : CharacterBasicAttack
     {
+        #region Fields 
+
         private CharacterSword _sword;
+
+        #endregion
+
+
+        #region Methods
+
+        #region Init
 
         public NeroBasicAttacks(ICharacterLogic characterLogic, List<WeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
         {
@@ -21,12 +30,19 @@ namespace Characters.Player.Weapons
             }
         }
 
-        public override void Init()
+        public override void ConfigureEventLinks()
         {
-            base.Init();
-
+            base.ConfigureEventLinks();
             AnimatorController.Events.OnAttackHit += TriggerAttack;
         }
+
+        public override void RemoveEventLinks()
+        {
+            base.RemoveEventLinks();
+            AnimatorController.Events.OnAttackHit -= TriggerAttack;
+        }
+
+        #endregion
 
         private void TriggerAttack(Type type)
         {
@@ -60,11 +76,26 @@ namespace Characters.Player.Weapons
             _sword.TriggerAttack(CharacterSword.AttackType.Heavy);
         }
 
-        public override void Dispose()
+        protected override void AnyAttackStarted()
         {
-            AnimatorController.Events.OnAttackHit -= TriggerAttack;
+            base.AnyAttackStarted();
 
-            base.Dispose();
+            if (!EntityBody.IsDead)
+            {
+                EntityBody.Movement.Block();
+            }
         }
+
+        protected override void AttackFinished()
+        {
+            base.AttackFinished();
+
+            if (!EntityBody.IsDead)
+            {
+                EntityBody.Movement.Unblock();
+            }
+        }
+
+        #endregion
     }
 }

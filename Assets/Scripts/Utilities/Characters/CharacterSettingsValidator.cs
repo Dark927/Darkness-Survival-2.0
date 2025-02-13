@@ -1,10 +1,11 @@
-﻿using Utilities.ErrorHandling;
+﻿using Characters.Common;
+using Utilities.ErrorHandling;
 
 namespace Utilities.Characters
 {
     public static class CharacterSettingsValidator
     {
-        public static void CheckCharacterBodyStatus(CharacterBodyBase body)
+        public static void CheckCharacterBodyStatus(EntityBodyBase body)
         {
             if (body.View == null)
             {

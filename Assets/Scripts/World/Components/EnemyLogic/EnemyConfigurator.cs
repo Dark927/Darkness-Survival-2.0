@@ -2,6 +2,7 @@
 using Characters.Interfaces;
 using UnityEngine;
 using Utilities.World;
+using Cysharp.Threading.Tasks;
 
 namespace World.Components.EnemyLogic
 {

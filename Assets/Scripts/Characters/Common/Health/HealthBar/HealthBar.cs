@@ -1,4 +1,6 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Common.Features;
+using Characters.Interfaces;
+using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -11,6 +13,10 @@ namespace UI.Local.Health
 
         #region Inspector
 
+        [Header("Settings")]
+        [SerializeField] private IEntityFeature.TargetEntityPart _entityConnectionPart;
+
+        [Header("Visual")]
         [Header("Actual Hp - Settings")]
         [SerializeField] private Color _actualHpColor = Color.red;
 
@@ -19,11 +25,23 @@ namespace UI.Local.Health
 
         #endregion
 
-        private Vector2 _initialScale;
+        private bool _isReady;
         private bool _isVisible;
-        private ICharacterBody _characterBody;
+        private Vector2 _initialScale;
+        private IEntityBody _entityBody;
         private Slider _hpVisual;
         private BackgroundSprite _backgroundVisual;
+
+        private UniTaskVoid _configureEventsTask;
+
+        #endregion
+
+
+        #region Properties 
+
+        public IEntityFeature.TargetEntityPart EntityConnectionPart => _entityConnectionPart;
+        public bool IsReady => _isReady;
+        public GameObject RootObject => gameObject;
 
         #endregion
 
@@ -34,39 +52,36 @@ namespace UI.Local.Health
 
         private void Awake()
         {
-            _hpVisual = GetComponentInChildren<Slider>();
-            _backgroundVisual = GetComponentInChildren<BackgroundSprite>();
-
-            _isVisible = false;
+            _initialScale = transform.localScale;
+            _isReady = false;
         }
 
-        private void OnEnable()
-        {
-            if (!_isVisible)
-            {
-                return;
-            }
-
-            ConfigureEventLinks();
-        }
-
-        public void Initialize(ICharacterBody characterBody)
+        public void Initialize(IEntityLogic entityLogic)
         {
             _initialScale = transform.localScale;
-            SetCharacter(characterBody);
+            InitVisualParts();
 
+            SetCharacterBody(entityLogic.Body);
             ConfigureBarVisual();
-            Hide();
+            //Hide();
+            _configureEventsTask = TryConfigureEventsAsync();
         }
 
-        public void SetCharacter(ICharacterBody characterBody)
+        public void SetCharacterBody(IEntityBody entityBody)
         {
-            if (_characterBody != null)
+            if (_entityBody != null)
             {
                 RemoveEventLinks();
             }
 
-            _characterBody = characterBody;
+            _entityBody = entityBody;
+
+        }
+
+        public async UniTaskVoid TryConfigureEventsAsync()
+        {
+            await UniTask.WaitUntil(() => _entityBody.IsReady);
+
             ConfigureEventLinks();
         }
 
@@ -75,6 +90,16 @@ namespace UI.Local.Health
             _initialScale.x *= -1;
             transform.localScale = _initialScale;
         }
+
+        private void InitVisualParts()
+        {
+            _hpVisual = GetComponentInChildren<Slider>();
+            _backgroundVisual = GetComponentInChildren<BackgroundSprite>();
+
+            _hpVisual.Initialize();
+            _backgroundVisual.Initialize();
+        }
+
 
         private void ConfigureBarVisual()
         {
@@ -101,24 +126,16 @@ namespace UI.Local.Health
 
         public void ConfigureEventLinks()
         {
-            _characterBody.View.OnSideSwitch += CharacterScaleChangedListener;
-            _characterBody.Health.OnCurrentHpPercentChanged += UpdateActualHp;
+            _entityBody.OnBodyDies += Hide;
+            _entityBody.View.OnSideSwitch += CharacterScaleChangedListener;
+            _entityBody.Health.OnCurrentHpPercentChanged += UpdateActualHp;
         }
 
         public void RemoveEventLinks()
         {
-            _characterBody.View.OnSideSwitch -= CharacterScaleChangedListener;
-            _characterBody.Health.OnCurrentHpPercentChanged -= UpdateActualHp;
-        }
-
-        private void OnDisable()
-        {
-            if (!Application.isPlaying)
-            {
-                return;
-            }
-
-            RemoveEventLinks();
+            _entityBody.OnBodyDies -= Hide;
+            _entityBody.View.OnSideSwitch -= CharacterScaleChangedListener;
+            _entityBody.Health.OnCurrentHpPercentChanged -= UpdateActualHp;
         }
 
         #endregion
@@ -146,6 +163,11 @@ namespace UI.Local.Health
 
             actualHpPercent = Mathf.Clamp(actualHpPercent, 0, 100);
             _hpVisual.UpdateActualValue(actualHpPercent);
+        }
+
+        public void Dispose()
+        {
+            RemoveEventLinks();
         }
 
         private void OnValidate()

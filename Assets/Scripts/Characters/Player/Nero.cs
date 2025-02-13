@@ -26,7 +26,7 @@ namespace Characters.Player
         protected override void InitBasicAttacks()
         {
             SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveWeapons));
-            base.InitBasicAttacks();
+            base.InitBasicAttacks(); 
         }
 
         public override void ConfigureEventLinks()
@@ -37,17 +37,7 @@ namespace Characters.Player
             }
 
             base.ConfigureEventLinks();
-
-            // -----------
-            // # This logic can be unique for each character, so we do not subscribe inside the player body.
-            // -----------
-
-            BasicAttacks.OnAnyAttackStarted += Body.Movement.Block;
-
-            // ToDo : CONFLICTS WITH PlayerDeath event!!!
-            BasicAttacks.OnAttackFinished += Body.Movement.Unblock;
-
-            // -----------
+            BasicAttacks?.ConfigureEventLinks();
 
             _hasConfiguredLinks = true;
         }
@@ -60,8 +50,7 @@ namespace Characters.Player
             }
 
             base.RemoveEventLinks();
-            BasicAttacks.OnAnyAttackStarted -= Body.Movement.Block;
-            BasicAttacks.OnAttackFinished -= Body.Movement.Unblock;
+            BasicAttacks?.RemoveEventLinks();
 
             _hasConfiguredLinks = false;
         }
@@ -76,7 +65,6 @@ namespace Characters.Player
         {
             base.Dispose();
             RemoveEventLinks();
-            BasicAttacks?.Dispose();
             _animatorController = null;
         }
 

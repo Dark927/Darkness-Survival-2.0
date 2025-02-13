@@ -8,7 +8,7 @@ namespace Characters.Player.Controls
     public class PlayerInput : IDisposable
     {
         private InputHandler _inputHandler;
-        private PlayerMovement _playerMovement;
+        private PlayerCharacterMovement _playerMovement;
         private CharacterBasicAttack _playerBasicAttack;
 
         public PlayerInput(InputHandler inputHandler)
@@ -18,7 +18,7 @@ namespace Characters.Player.Controls
 
         public void SetMovement(CharacterMovementBase playerMovement)
         {
-            if (playerMovement is PlayerMovement movement)
+            if (playerMovement is PlayerCharacterMovement movement)
             {
                 if (_playerMovement != null)
                 {
@@ -31,7 +31,7 @@ namespace Characters.Player.Controls
             }
             else
             {
-                Debug.LogWarning($"# Player movement can not be set. {playerMovement} has different type, expected : {nameof(PlayerMovement)}");
+                Debug.LogWarning($"# Player movement can not be set. {playerMovement} has different type, expected : {nameof(PlayerCharacterMovement)}");
             }
         }
 

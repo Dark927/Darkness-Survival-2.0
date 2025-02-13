@@ -1,16 +1,18 @@
-
-public class EnemyAnimatorParameters : IAnimatorParameters
+namespace Characters.Enemy.Animation
 {
-    #region Fields
+    public class EnemyAnimatorParameters : IAnimatorParameters
+    {
+        #region Fields
 
-    private string _speedFieldName = "Speed";
+        private string _speedFieldName = "Speed";
 
-    #endregion
+        #endregion
 
 
-    #region Properties
+        #region Properties
 
-    public string SpeedFieldName => _speedFieldName;
+        public string SpeedFieldName => _speedFieldName;
 
-    #endregion
+        #endregion
+    }
 }

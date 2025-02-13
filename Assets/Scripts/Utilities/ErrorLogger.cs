@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ErrorHandling
+namespace Utilities.ErrorHandling
 {
     public enum LogOutputType
     {
@@ -19,7 +19,7 @@ namespace ErrorHandling
                     Debug.LogError($"{objectName} has {componentName} component == null");
                     break;
 
-                default: 
+                default:
                     throw new NotImplementedException();
             }
 

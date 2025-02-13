@@ -1,14 +1,15 @@
-﻿
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-public static class PixelCalculator
+namespace Settings.CameraManagement
 {
-    public static float RoundToNearestPixel(float unityUnits, Camera viewingCamera)
+    public static class PixelCalculator
     {
-        float valueInPixels = (Screen.height / (viewingCamera.orthographicSize * 2)) * unityUnits;
-        valueInPixels = Mathf.Round(valueInPixels);
-        float adjustedUnityUnits = valueInPixels / (Screen.height / (viewingCamera.orthographicSize * 2));
-        return adjustedUnityUnits;
+        public static float RoundToNearestPixel(float unityUnits, Camera viewingCamera)
+        {
+            float valueInPixels = (Screen.height / (viewingCamera.orthographicSize * 2)) * unityUnits;
+            valueInPixels = Mathf.Round(valueInPixels);
+            float adjustedUnityUnits = valueInPixels / (Screen.height / (viewingCamera.orthographicSize * 2));
+            return adjustedUnityUnits;
+        }
     }
 }

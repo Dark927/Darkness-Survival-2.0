@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Darkness-Survival-2.0.sln"
+    "dotnet.defaultSolution": "Darkness-Survival-2.0.sln",
+    "dotnet.preferCSharpExtension": true
 }

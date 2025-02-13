@@ -1,96 +1,72 @@
-using UnityEngine;
+using Characters.Player.Animation;
 
-[RequireComponent(typeof(CharacterBody))]
-public class Nero : MonoBehaviour, IPlayerLogic
+namespace Characters.Player
 {
-    #region Fields
-
-    private PlayerData _stats;
-
-    private bool _started = false;
-    private CharacterBody _body;
-    private PlayerBasicAttack _attack;
-    private PlayerInput _playerInput;
-    private PlayerAnimatorController _animatorController;
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-
-    private void Awake()
+    public class Nero : PlayerCharacterLogic
     {
-        InitComponents();
-        InitInput();
-        InitBasicAttacks();
-    }
+        #region Fields
 
-    private void Start()
-    {
-        SetReferences();
-        _started = true;
-    }
+        private CharacterAnimatorController _animatorController;
 
-    private void InitComponents()
-    {
-        _body = GetComponent<CharacterBody>();
-    }
+        #endregion
 
 
-    private void InitBasicAttacks()
-    {
-        _attack = new PlayerBasicAttack();
-    }
+        #region Properties
 
-    private void InitInput()
-    {
-        IControlLayout controlLayout = new DefaultControlLayout();
-        InputHandler inputHandler = new InputHandler(controlLayout);
-        _playerInput = new PlayerInput(inputHandler);
-    }
 
-    private void SetReferences()
-    {
-        _playerInput.SetMovement(_body.Movement);
-        _playerInput.SetBasicAttacks(_attack);
+        #endregion
 
-        // ToDo : Move this logic to the another place.
-        _animatorController = _body.Visual.GetAnimatorController() as PlayerAnimatorController;
-        _attack.OnFastAttack += _animatorController.TriggerFastAttack;
-        _attack.OnHeavyAttack += _animatorController.TriggerHeavyAttack;
-    }
 
-    #endregion
+        #region Methods
 
-    public void Attack()
-    {
-        throw new System.NotImplementedException();
-    }
+        #region Init
 
-    private void OnEnable()
-    {
-        // ToDo : Implement another logic to avoid OnEnable before Start executed.
 
-        if (_started)
+        protected override void InitComponents()
         {
-            SetReferences();
+            base.InitComponents();
         }
-    }
 
-    private void OnDisable()
-    {
-        ClearReferences();
-    }
+        protected override void InitBasicAttacks()
+        {
+            base.InitBasicAttacks();
+        }
 
-    private void ClearReferences()
-    {
-        _playerInput.RemoveReferences();
-        _attack.OnFastAttack -= _animatorController.TriggerFastAttack;
-        _attack.OnHeavyAttack -= _animatorController.TriggerHeavyAttack;
-        _animatorController = null;
-    }
+        protected override void SetReferences()
+        {
+            base.SetReferences();
+            _animatorController = Body.Visual.GetAnimatorController() as CharacterAnimatorController;
 
-    #endregion
+            // -----------
+            // # This logic can be unique for each character, so we do not subscribe inside the player body.
+            // -----------
+
+            BasicAttacks.OnAnyAttackStarted += Body.Movement.Block;
+
+            // ToDo : CONFLICTS WITH PlayerDeath event!!!
+            BasicAttacks.OnAttackFinished += Body.Movement.Unblock;
+
+            // -----------
+
+            // ToDo : Move this logic to another place
+            _animatorController.Events.OnDeathFinished += GameplayUI.Instance.ActivateGameOverPanel;
+        }
+
+        protected override void Dispose()
+        {
+            BasicAttacks.OnAnyAttackStarted -= Body.Movement.Block;
+            BasicAttacks.OnAttackFinished -= Body.Movement.Unblock;
+            BasicAttacks.Dispose();
+
+            // ToDo : Move this logic to another place
+            _animatorController.Events.OnDeathFinished -= GameplayUI.Instance.ActivateGameOverPanel;
+
+            _animatorController = null;
+        }
+
+        #endregion
+
+        #endregion
+    }
 }
+

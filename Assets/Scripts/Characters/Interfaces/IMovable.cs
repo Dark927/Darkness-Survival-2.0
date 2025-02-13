@@ -1,5 +1,8 @@
 
-public interface IMovable
+namespace Characters.Interfaces
 {
-    public void Move();
+    public interface IMovable
+    {
+        public void Move();
+    }
 }

@@ -1,8 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
 using System.Threading;
-using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class CharacterSpeed
 {
@@ -20,6 +19,7 @@ public class CharacterSpeed
     private float _maxSpeedMultiplier;
 
     public event EventHandler<SpeedChangedArgs> OnActualSpeedChanged;
+    public event EventHandler<Vector2> OnVelocityUpdate;
 
     #endregion
 
@@ -45,7 +45,7 @@ public class CharacterSpeed
     public void Stop()
     {
         CurrentSpeedMultiplier = 0;
-        TryUpdateVelocity();
+        UpdateVelocity(_direction);
     }
 
     public void ClearDirection()
@@ -59,18 +59,16 @@ public class CharacterSpeed
         UpdateVelocity(_direction);
     }
 
-    public void TryUpdateVelocity()
+    public void UpdateVelocity(Vector2 direction)
     {
-        UpdateVelocity(_direction);
-    }
+        Vector2 calculatedVelocity = direction * CurrentSpeedMultiplier;
+        bool speedChanged = calculatedVelocity.sqrMagnitude != Velocity.sqrMagnitude;
 
-    private void UpdateVelocity(Vector2 direction)
-    {
-        Vector2 calculatedVelocity = _direction * CurrentSpeedMultiplier;
+        Velocity = calculatedVelocity;
+        OnVelocityUpdate?.Invoke(this, Velocity);
 
-        if (Velocity != calculatedVelocity)
+        if (speedChanged)
         {
-            Velocity = calculatedVelocity;
             OnActualSpeedChanged?.Invoke(this, new SpeedChangedArgs(ActualSpeed, MaxSpeedMultiplier));
         }
     }

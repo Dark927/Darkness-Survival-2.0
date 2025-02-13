@@ -1,30 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAnimatorController : AnimatorController
+namespace Characters.Enemy.Animation
 {
-    #region Properties
-
-    public new EnemyAnimatorParameters Parameters { get => base.Parameters as EnemyAnimatorParameters; }
-
-    public float Speed
+    public class EnemyAnimatorController : AnimatorController
     {
-        get => Animator.GetFloat(Parameters.SpeedFieldName);
-        set => Animator.SetFloat(Parameters.SpeedFieldName, value);
+        #region Properties
+
+        public new EnemyAnimatorParameters Parameters { get => base.Parameters as EnemyAnimatorParameters; }
+
+        public float Speed
+        {
+            get => Animator.GetFloat(Parameters.SpeedFieldName);
+            set => Animator.SetFloat(Parameters.SpeedFieldName, value);
+        }
+
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+        public EnemyAnimatorController(Animator characterAnimator, EnemyAnimatorParameters parameters) : base(characterAnimator, parameters)
+        {
+        }
+
+        #endregion
+
+        #endregion
     }
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-    public EnemyAnimatorController(Animator characterAnimator, EnemyAnimatorParameters parameters) : base(characterAnimator, parameters)
-    {
-    }
-
-    #endregion
-
-    #endregion
 }

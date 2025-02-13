@@ -129,14 +129,10 @@ Shader "Sprites/JitterFreeLit"
                 float2 smoothUV = texturePointSmoothUV(i.uv);
 
                 float colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV).r;
-                float4 unlit = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
+                float4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
                 
-                float4 unlitLinear = pow(unlit, _Gamma);
-                float4 colorLinear = pow(i.color, _Gamma);
-                
-                float4 main = lerp(unlitLinear, unlitLinear*colorLinear, colormaskCoef);
-                
-                main.rgb = pow(main.rgb, 1.0 / _Gamma);
+                float3 tinted = pow(main.rgb * i.color.rgb, _Gamma);
+                main.rgb = lerp(main.rgb, tinted, colormaskCoef);
 
                 const half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, smoothUV);
                 SurfaceData2D surfaceData;

@@ -2,18 +2,22 @@
 using Characters.Interfaces;
 using Characters.Player.Weapons;
 using Characters.Stats;
+using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
 namespace Characters.Common
 {
-    public abstract class AttackableEntityLogic : MonoBehaviour, IEntityLogic, IAttackable<BasicAttack>
+    public abstract class AttackableEntityLogic : MonoBehaviour, IEntityLogic, IAttackable<BasicAttack>, IDisposable
     {
         #region Fields
+
+        public event Action<BasicAttack> OnBasicAttacksReady;
 
         private bool _configured = false;
 
         [SerializeField] protected AttackableCharacterData _characterData;
-        private CharacterWeaponsHolder _weaponHolder;
+        private EntityWeaponsHolder _weaponHolder;
         private BasicAttack _attacks;
         private IEntityBody _body;
 
@@ -24,7 +28,7 @@ namespace Characters.Common
 
         public IEntityBody Body => _body;
         public CharacterBaseData Data => _characterData;
-        public CharacterWeaponsHolder Weapons => _weaponHolder;
+        public EntityWeaponsHolder Weapons => _weaponHolder;
         public BasicAttack BasicAttacks => _attacks;
         public CharacterStats Stats => Data.Stats;
 
@@ -39,14 +43,13 @@ namespace Characters.Common
         {
             SetComponents();
             InitBody();
-            InitWeaponHolder();
-            InitBasicAttacks();
+            InitWeaponsAsync();
             SetReferences();
         }
 
         protected virtual void SetComponents()
         {
-            _weaponHolder = new CharacterWeaponsHolder(this, _characterData.WeaponsSetData.ContainerName);
+            _weaponHolder = new EntityWeaponsHolder(this, _characterData.WeaponsSetData.ContainerName);
         }
 
         private void InitBody()
@@ -55,15 +58,23 @@ namespace Characters.Common
             _body.Initialize();
         }
 
-        private void InitWeaponHolder()
+        private void InitWeaponsAsync()
         {
-            _weaponHolder?.Init();
-            _weaponHolder?.GiveMultipleWeapons(_characterData.WeaponsSetData.BasicWeapons);
+            Weapons?.Initialize();
+
+            Weapons?.GiveMultipleFeaturesAsync(_characterData.WeaponsSetData.BasicWeapons)
+                .ContinueWith(InitBasicAttacks)
+                .Forget();
         }
 
         protected virtual void InitBasicAttacks()
         {
             BasicAttacks?.Init();
+
+            if (BasicAttacks != null)
+            {
+                OnBasicAttacksReady?.Invoke(_attacks);
+            }
         }
 
         protected virtual void SetReferences()
@@ -71,8 +82,9 @@ namespace Characters.Common
             _configured = true;
         }
 
-        protected virtual void Dispose()
+        public virtual void Dispose()
         {
+            Weapons?.Dispose();
             _configured = false;
         }
 

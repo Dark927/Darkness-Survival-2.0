@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons.Data
 {
-    [CreateAssetMenu(fileName = "NewWeaponSetData", menuName = "Game/Characters/Data/Weapons/WeaponSetData")]
+    [CreateAssetMenu(fileName = "NewWeaponSetData", menuName = "Game/Combat/Data/Weapons/WeaponSetData")]
     public class WeaponSetData : ScriptableObject
     {
         [Space, Header("Main Settings")]

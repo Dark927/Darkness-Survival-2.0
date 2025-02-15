@@ -19,7 +19,7 @@ namespace Characters.Interfaces
         /// <summary>
         /// Used to notify that the character's body is comletely dead.
         /// </summary>
-        public event Action OnBodyDied;
+        public event Action OnBodyDiedCompletely;
 
         public event Action OnBodyDamaged;
 

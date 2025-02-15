@@ -59,7 +59,7 @@ namespace Characters.Player
 
             OnBodyDies += _animatorController.TriggerDeath;
             OnBodyDies += Movement.Block;
-
+            OnBodyDies += Health.CancelHpRegeneration;
         }
 
         public override void RemoveEventLinks()
@@ -71,6 +71,7 @@ namespace Characters.Player
 
             OnBodyDies -= _animatorController.TriggerDeath;
             OnBodyDies -= Movement.Block;
+            OnBodyDies -= Health.CancelHpRegeneration;
 
             _animatorController.Events.OnDeathFinished -= RaiseOnBodyCompletelyDied;
         }

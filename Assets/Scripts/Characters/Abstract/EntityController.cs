@@ -20,16 +20,16 @@ namespace Characters.Common
         // Features
 
         [Header("Features Settings")]
-        [SerializeField] private AssetReference _entityFeaturesDataAsset;
-        private EntityFeaturesHolder _featuresHolder;
-        private AsyncOperationHandle<EntityFeaturesData> _asyncOperationHandle;
+        [SerializeField] private AssetReferenceSO _featuresSetDataRef;
+        private EntityCustomFeaturesHolder _featuresHolder;
+        private AsyncOperationHandle<FeatureSetData> _asyncOperationHandle;
 
         #endregion
 
 
         #region Properties 
 
-        public EntityFeaturesHolder FeaturesHolder => _featuresHolder;
+        public EntityCustomFeaturesHolder FeaturesHolder => _featuresHolder;
         public IEntityLogic EntityLogic => _entityLogic;
 
         #endregion
@@ -46,17 +46,16 @@ namespace Characters.Common
 
         public async UniTask InitFeaturesAsync()
         {
-            if (!AddressableAssetsLoader.IsAssetRefValid(_entityFeaturesDataAsset))
+            if (!AddressableAssetsLoader.IsAssetRefValid(_featuresSetDataRef))
             {
                 return;
             }
 
-            _asyncOperationHandle = AddressableAssetsLoader.Instance.LoadAssetAsync<EntityFeaturesData>(_entityFeaturesDataAsset);
+            _asyncOperationHandle = AddressableAssetsLoader.Instance.LoadAssetAsync<FeatureSetData>(_featuresSetDataRef);
             await _asyncOperationHandle;
 
-            _featuresHolder = new EntityFeaturesHolder(_entityLogic, _asyncOperationHandle.Result);
-            await _featuresHolder.PreloadFeaturesAsync();
-            _featuresHolder.InitializeFeatures();
+            _featuresHolder = new EntityCustomFeaturesHolder(_entityLogic);
+            _featuresHolder.GiveMultipleFeaturesAsync(_asyncOperationHandle.Result.FeatureAssetList).Forget();
         }
 
 

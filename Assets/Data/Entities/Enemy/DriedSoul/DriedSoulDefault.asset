@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DriedSoulDefault
   m_EditorClassIdentifier: 
   _name: Dried Soul
-  _id: -2014068653
+  _id: -647331818
   _stats:
-    Health: 14
-    Speed: 6
+    Health: 20
+    Speed: 2
     InvincibilityTime: 0.15
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
   _damageMultiplier: 5

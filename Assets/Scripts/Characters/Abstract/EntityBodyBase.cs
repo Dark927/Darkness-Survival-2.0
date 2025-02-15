@@ -26,7 +26,7 @@ namespace Characters.Common
         #region Events
 
         public event Action OnBodyDies;
-        public event Action OnBodyDied;
+        public event Action OnBodyDiedCompletely;
         public event Action OnBodyDamaged;
 
         #endregion
@@ -120,7 +120,7 @@ namespace Characters.Common
 
         protected void RaiseOnBodyCompletelyDied()
         {
-            OnBodyDied?.Invoke();
+            OnBodyDiedCompletely?.Invoke();
         }
 
         protected void RaiseOnBodyDamaged()

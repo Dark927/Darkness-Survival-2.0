@@ -27,7 +27,7 @@ namespace Characters.Player.Weapons
 
         #region Init 
 
-        public CharacterBasicAttack(IEntityBody characterBody, List<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
+        public CharacterBasicAttack(IEntityBody characterBody, IEnumerable<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
         {
 
         }
@@ -56,7 +56,7 @@ namespace Characters.Player.Weapons
         public void AttackPerformedListener(InputAction.CallbackContext context)
         {
             int contextValue = (int)context.ReadValue<float>();
-            TryPerformAttack((Type)contextValue);
+            TryPerformAttack((LocalType)contextValue);
         }
     }
 

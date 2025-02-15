@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NeroData
   m_EditorClassIdentifier: 
   _name: Nero
-  _id: 1965047515
+  _id: 1497174098
   _stats:
     Health: 100
     Speed: 5

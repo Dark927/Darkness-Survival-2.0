@@ -2,7 +2,7 @@
 
 namespace Characters.Common.Combat.Weapons.Data
 {
-    [CreateAssetMenu(fileName = "NewDefaultAttackData", menuName = "Game/Characters/Data/Weapons/DefaultAttackData")]
+    [CreateAssetMenu(fileName = "NewDefaultAttackData", menuName = "Game/Combat/Data/Attacks/DefaultAttackData")]
 
     public class DefaultAttackData : WeaponAttackData
     {

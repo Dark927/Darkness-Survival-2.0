@@ -30,7 +30,7 @@ namespace World.Components.EnemyLogic
             base(poolSettings, data.EnemyPrefab, container)
         {
             _enemyData = data;
-            InitPool(preloadCount);
+            InitPool(preloadCount); 
         }
 
         #endregion

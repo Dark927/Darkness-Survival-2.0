@@ -17,13 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_SerializeEntries:
-  - m_GUID: 29b6cb2244482f6499aa264a5f821770
-    m_Address: Assets/Scripts/Characters/Common/Features/EnemyFeaturesData.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 74a57ea120317d34083585ded912c3a9
-    m_Address: Assets/Scripts/Characters/Common/Features/CharacterFeaturesData.asset
+  - m_GUID: 5c96f1a7c862f0e4bae77854c71a9259
+    m_Address: Assets/Data/Entities/Features/CharacterFeatureSet.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,6 +29,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e63b8693779213448b1e59e15a985f5
     m_Address: Assets/Prefabs/Entities/Features/EnemyHealthBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8fa77fbf61244341b8d611174eae9d4
+    m_Address: Assets/Data/Entities/Features/EnemyFeatureSet.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

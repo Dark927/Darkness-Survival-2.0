@@ -15,13 +15,12 @@ namespace Characters.Player
 
         #region Properties
 
-        public new CharacterBasicAttack BasicAttacks => base.BasicAttacks as CharacterBasicAttack;
+        public CharacterBasicAttack BasicAttack => base.BasicAttacks as CharacterBasicAttack;
 
         #endregion
 
 
         #region Methods
-
 
         #region Init
 

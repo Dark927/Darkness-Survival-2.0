@@ -1,3 +1,4 @@
+using Characters.Common.Combat.Weapons;
 using Characters.Common.Movement;
 using Characters.Player.Weapons;
 using System;
@@ -35,9 +36,9 @@ namespace Characters.Player.Controls
             }
         }
 
-        public void SetBasicAttacks(CharacterBasicAttack attack)
+        public void SetBasicAttacks(BasicAttack attack)
         {
-            _playerBasicAttack = attack;
+            _playerBasicAttack = attack as CharacterBasicAttack;
             _inputHandler.SubscribeOnActionPerformed(InputType.Attack, _playerBasicAttack.AttackPerformedListener);
         }
 

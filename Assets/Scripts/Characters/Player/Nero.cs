@@ -1,3 +1,4 @@
+using Characters.Common.Combat.Weapons;
 using Characters.Player.Animation;
 using Characters.Player.Weapons;
 
@@ -26,7 +27,7 @@ namespace Characters.Player
         protected override void InitBasicAttacks()
         {
             SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveWeapons));
-            base.InitBasicAttacks(); 
+            base.InitBasicAttacks();
         }
 
         public override void ConfigureEventLinks()
@@ -37,9 +38,23 @@ namespace Characters.Player
             }
 
             base.ConfigureEventLinks();
-            BasicAttacks?.ConfigureEventLinks();
+
+            if (BasicAttack != null)
+            {
+                BasicAttack.ConfigureEventLinks();
+            }
+            else
+            {
+                OnBasicAttacksReady += ConfigureBasicAttacksEventListener;
+            }
 
             _hasConfiguredLinks = true;
+        }
+
+        private void ConfigureBasicAttacksEventListener(BasicAttack attack)
+        {
+            OnBasicAttacksReady -= ConfigureBasicAttacksEventListener;
+            attack.ConfigureEventLinks();
         }
 
         public override void RemoveEventLinks()
@@ -50,7 +65,7 @@ namespace Characters.Player
             }
 
             base.RemoveEventLinks();
-            BasicAttacks?.RemoveEventLinks();
+            BasicAttack?.RemoveEventLinks();
 
             _hasConfiguredLinks = false;
         }
@@ -61,7 +76,7 @@ namespace Characters.Player
             _animatorController = Body.Visual.GetAnimatorController() as CharacterAnimatorController;
         }
 
-        protected override void Dispose()
+        public override void Dispose()
         {
             base.Dispose();
             RemoveEventLinks();

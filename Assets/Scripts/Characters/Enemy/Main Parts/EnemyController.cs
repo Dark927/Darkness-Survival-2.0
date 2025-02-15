@@ -8,7 +8,6 @@ public class EnemyController : EntityController
     #region Fields 
 
     private EnemyPool _targetPool;
-    private IEntityLogic _enemyLogic;
 
     #endregion
 
@@ -28,9 +27,7 @@ public class EnemyController : EntityController
     {
         base.Awake();
 
-        // TODO : Remove this testing field later 
-        _enemyLogic = EntityLogic;
-        _enemyLogic.Initialize();
+        EntityLogic.Initialize();
         InitFeaturesAsync().Forget();
     }
 
@@ -49,21 +46,21 @@ public class EnemyController : EntityController
     {
         base.ConfigureEventLinks();
 
-        _enemyLogic.ConfigureEventLinks();
-        _enemyLogic.Body.OnBodyDies += OnCharacterDeath;
+        EntityLogic.ConfigureEventLinks();
+        EntityLogic.Body.OnBodyDies += OnCharacterDeath;
     }
 
     public override void RemoveEventLinks()
     {
         base.ConfigureEventLinks();
 
-        _enemyLogic.Body.OnBodyDies -= OnCharacterDeath;
-        _enemyLogic.RemoveEventLinks();
+        EntityLogic.Body.OnBodyDies -= OnCharacterDeath;
+        EntityLogic.RemoveEventLinks();
     }
 
     public void ResetCharacter()
     {
-        _enemyLogic.ResetState();
+        EntityLogic.ResetState();
     }
 
     #endregion

@@ -65,6 +65,14 @@ namespace Settings.AssetsManagement
 
         // - Unload 
 
+        public void TryUnloadAsset(AsyncOperationHandle handle)
+        {
+            if(handle.IsValid())
+            {
+                UnloadAsset(handle);
+            }
+        }
+
         public void UnloadAsset(AsyncOperationHandle handle)
         {
             Addressables.Release(handle);

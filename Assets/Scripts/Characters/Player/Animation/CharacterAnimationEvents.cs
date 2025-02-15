@@ -10,7 +10,7 @@ namespace Characters.Player.Animation
         #region Events 
 
         public event Action OnAttackFinished;
-        public event Action<CharacterBasicAttack.Type> OnAttackHit;
+        public event Action<CharacterBasicAttack.LocalType> OnAttackHit;
 
         public event Action OnDeathFinished;
 
@@ -23,12 +23,12 @@ namespace Characters.Player.Animation
 
         private void FastAttackHit()
         {
-            OnAttackHit?.Invoke(CharacterBasicAttack.Type.Fast);
+            OnAttackHit?.Invoke(CharacterBasicAttack.LocalType.Fast);
         }
 
         private void HeavyAttackHit()
         {
-            OnAttackHit?.Invoke(CharacterBasicAttack.Type.Heavy);
+            OnAttackHit?.Invoke(CharacterBasicAttack.LocalType.Heavy);
         }
 
         private void FinishAttack()

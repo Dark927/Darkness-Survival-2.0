@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 29031c3867b7568408cc42c280ef6183
   m_SerializeEntries:
-  - m_GUID: 430f8d60607b154408485b25cda1c673
-    m_Address: Assets/Prefabs/Entities/Enemy/Weapons/EnemyDefaultWeapon.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
     m_Address: Assets/Scenes/Stage-01_Scene.unity
     m_ReadOnly: 0

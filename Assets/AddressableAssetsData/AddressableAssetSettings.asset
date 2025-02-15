@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_currentHash:
     serializedVersion: 2
-    Hash: 98e64855d4701dd5dfbca502a983b2ca
+    Hash: 00b05eb743f47471dbd029fc74e9ccae
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee070adebcb0aa8458a376a19c452d6b, type: 2}
   - {fileID: 11400000, guid: f59a5ac8b49785743aa6b60ce78bc7c0, type: 2}
   - {fileID: 11400000, guid: 7c86e402d579cdb42b9d82ce4a0fada9, type: 2}
+  - {fileID: 11400000, guid: 0fdfa9e4aacc50d41b2f658305e92dc7, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -88,6 +89,12 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Prefab
+    - Data
+    - Character
+    - Enemy
+    - Weapon
+    - Attack
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a233e0350e86ee24a818d2c084f67219, type: 2}

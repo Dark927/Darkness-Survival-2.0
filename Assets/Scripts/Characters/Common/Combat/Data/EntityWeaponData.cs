@@ -1,15 +1,16 @@
-﻿using Characters.Common.Combat.Weapons;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Characters.Common.Combat.Weapons.Data
 {
-    [CreateAssetMenu(fileName = "NewWeaponData", menuName = "Game/Characters/Data/Weapons/WeaponData")]
+    [CreateAssetMenu(fileName = "NewWeaponData", menuName = "Game/Combat/Data/Weapons/WeaponData")]
     public class EntityWeaponData : ScriptableObject
     {
         #region Fields 
 
         [SerializeField] private string _weaponName;
-        [SerializeField] private WeaponBase _weapon;
+        [SerializeField] private AssetReferenceGameObject _weaponAsset;
+        [SerializeField] private WeaponAttackData _attackData;
 
         #endregion
 
@@ -24,7 +25,9 @@ namespace Characters.Common.Combat.Weapons.Data
                 return _weaponName;
             }
         }
-        public WeaponBase Weapon => _weapon;
+
+        public AssetReferenceGameObject WeaponAsset => _weaponAsset;
+        public WeaponAttackData AttackData => _attackData;
 
         #endregion
 
@@ -33,15 +36,15 @@ namespace Characters.Common.Combat.Weapons.Data
 
         private void TrySetDefaultWeaponName()
         {
-            if (string.IsNullOrEmpty(_weaponName) && (_weapon != null))
+            if (string.IsNullOrEmpty(_weaponName) && (_weaponAsset != null))
             {
-                _weaponName = _weapon.gameObject.name;
+                _weaponName = "entity_weapon_without_name";
             }
         }
 
         private void OnValidate()
         {
-            //SetDefaultWeaponName();
+            //TrySetDefaultWeaponName();
         }
 
         #endregion

@@ -4,6 +4,8 @@ using Characters.Player.Controls;
 using Settings.Global;
 using System;
 using Cysharp.Threading.Tasks;
+using Characters.Common.Combat.Weapons;
+using System.Diagnostics;
 
 namespace Characters.Player
 {
@@ -59,7 +61,13 @@ namespace Characters.Player
             PlayerCharacterLogic playerCharacter = (PlayerCharacterLogic)EntityLogic;
 
             _input.SetMovement(EntityLogic.Body.Movement);
-            _input.SetBasicAttacks(playerCharacter.BasicAttacks);
+            Character.OnBasicAttacksReady += ConfigureBasicWeaponInput;
+        }
+
+        private void ConfigureBasicWeaponInput(BasicAttack attack)
+        {
+            Character.OnBasicAttacksReady -= ConfigureBasicWeaponInput;
+            _input.SetBasicAttacks(attack);
         }
 
         public override void ConfigureEventLinks()
@@ -70,7 +78,7 @@ namespace Characters.Player
 
             EntityLogic.ConfigureEventLinks();
             EntityLogic.Body.OnBodyDies += PlayerCharacterDies;
-            EntityLogic.Body.OnBodyDied += NotifyCharacterCompletelyDied;
+            EntityLogic.Body.OnBodyDiedCompletely += NotifyCharacterCompletelyDied;
         }
 
         private void InitInput()
@@ -85,7 +93,7 @@ namespace Characters.Player
             base.RemoveEventLinks();
             EntityLogic.RemoveEventLinks();
             EntityLogic.Body.OnBodyDies -= PlayerCharacterDies;
-            EntityLogic.Body.OnBodyDied -= NotifyCharacterCompletelyDied;
+            EntityLogic.Body.OnBodyDiedCompletely -= NotifyCharacterCompletelyDied;
         }
 
         public override void Dispose()

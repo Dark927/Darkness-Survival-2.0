@@ -1,3 +1,4 @@
+using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
 using Settings.CameraManagement.Shake;
 using System;
@@ -24,8 +25,8 @@ namespace Characters.Common.Combat.Weapons
 
         private List<SwordAttackTrigger> _attackTriggers;
 
-        private ShakeImpact _fastAttackImpact;
-        private ShakeImpact _heavyAttackImpact;
+        private ShakeImpact _fastAttackImpactShake;
+        private ShakeImpact _heavyAttackImpactShake;
         private SwordAttackSettings _swordAttackSettings;
 
         #endregion
@@ -41,8 +42,11 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init
 
-        private void Awake()
+        public override void Initialize(WeaponAttackData attackData)
         {
+            base.Initialize(attackData);
+
+#if UNITY_EDITOR
             try
             {
                 _swordAttackSettings = (SwordAttackSettings)AttackData.AttackSettings;
@@ -52,10 +56,15 @@ namespace Characters.Common.Combat.Weapons
                 Debug.LogError($"# Can not convert the {(AttackData.AttackSettings.GetType())} to {nameof(SwordAttackSettings)}! Settings is NULL!");
                 Debug.LogException(ex);
             }
+#endif
+
+            _swordAttackSettings = (SwordAttackSettings)AttackData.AttackSettings;
 
             _attackTriggers = GetComponentsInChildren<SwordAttackTrigger>().ToList();
-            _fastAttackImpact = new ShakeImpact(Settings.FastShakeSettings);
-            _heavyAttackImpact = new ShakeImpact(Settings.HeavyShakeSettings);
+            _attackTriggers.ForEach(attackTrigger => attackTrigger.Initialize());
+
+            _fastAttackImpactShake = new ShakeImpact(Settings.ImpactSettings.ShakeSettings);
+            _heavyAttackImpactShake = new ShakeImpact(Settings.HeavyImpactSettings.ShakeSettings);
 
             foreach (SwordAttackTrigger trigger in _attackTriggers)
             {
@@ -83,26 +92,17 @@ namespace Characters.Common.Combat.Weapons
                 attackTrigger.Activate(Settings.TriggerActivityTimeSec);
             }
 
-            ActivateImpact(attackType);
+            GetImpact(attackType)?.Invoke();
         }
 
-        private void ActivateImpact(AttackType attackType)
+        private Action GetImpact(AttackType attackType)
         {
-            switch (attackType)
+            return attackType switch
             {
-                case AttackType.Fast:
-                    _fastAttackImpact.Activate();
-                    break;
-
-
-                case AttackType.Heavy:
-                    _heavyAttackImpact.Activate();
-                    break;
-
-
-                default:
-                    throw new NotImplementedException();
-            }
+                AttackType.Fast => Settings.ImpactSettings.UseImpact ? FastImpact : null,
+                AttackType.Heavy => Settings.HeavyImpactSettings.UseImpact ? HeavyImpact : null,
+                _ => null,
+            };
         }
 
         protected override void HitTargetListener(object sender, EventArgs args)
@@ -115,6 +115,16 @@ namespace Characters.Common.Combat.Weapons
                 var damage = RequestDamage(attackArgs.AttackType);
                 target.TakeDamage(damage);
             }
+        }
+
+        private void FastImpact()
+        {
+            _fastAttackImpactShake.Activate();
+        }
+
+        private void HeavyImpact()
+        {
+            _heavyAttackImpactShake.Activate();
         }
 
         private float RequestDamage(AttackType attackType)

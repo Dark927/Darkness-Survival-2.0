@@ -2,6 +2,7 @@
 using Characters.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Characters.Player.Weapons
 {
@@ -18,7 +19,7 @@ namespace Characters.Player.Weapons
 
         #region Init
 
-        public NeroBasicAttacks(ICharacterLogic characterLogic, List<WeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
+        public NeroBasicAttacks(ICharacterLogic characterLogic, IEnumerable<WeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
         {
             foreach (var weapon in BasicWeapons)
             {
@@ -44,7 +45,7 @@ namespace Characters.Player.Weapons
 
         #endregion
 
-        private void TriggerAttack(Type type)
+        private void TriggerAttack(LocalType type)
         {
             if (_sword == null)
             {
@@ -53,11 +54,11 @@ namespace Characters.Player.Weapons
 
             switch (type)
             {
-                case Type.Fast:
+                case LocalType.Fast:
                     TriggerFastAttack();
                     break;
 
-                case Type.Heavy:
+                case LocalType.Heavy:
                     TriggerHeavyAttack();
                     break;
 

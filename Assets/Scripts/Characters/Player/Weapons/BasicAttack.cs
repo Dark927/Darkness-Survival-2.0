@@ -2,13 +2,14 @@
 using Settings.Global;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
     public class BasicAttack : IEventListener
     {
-        public enum Type
+        public enum LocalType
         {
             Default = 0,
             Fast,
@@ -17,14 +18,14 @@ namespace Characters.Common.Combat.Weapons
 
         #region Fields 
 
-        public event Action<Type> OnAttackOfTypeStarted;
+        public event Action<BasicAttack.LocalType> OnAttackOfTypeStarted;
         public event Action OnAnyAttackStarted;
         public event Action OnAttackFinished;
 
         private bool _isAttacking = false;
 
         private readonly IEntityBody _entityBody;
-        private List<WeaponBase> _basicWeapons;
+        private IEnumerable<WeaponBase> _basicWeapons;
 
         #endregion
 
@@ -32,7 +33,7 @@ namespace Characters.Common.Combat.Weapons
         #region Properties
 
         protected IEntityBody EntityBody => _entityBody;
-        public List<WeaponBase> BasicWeapons => _basicWeapons;
+        public IEnumerable<WeaponBase> BasicWeapons => _basicWeapons;
 
         #endregion
 
@@ -41,7 +42,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init 
 
-        public BasicAttack(IEntityBody characterBody, List<WeaponBase> basicWeapons)
+        public BasicAttack(IEntityBody characterBody, IEnumerable<WeaponBase> basicWeapons)
         {
             _entityBody = characterBody;
             _basicWeapons = basicWeapons;
@@ -64,9 +65,9 @@ namespace Characters.Common.Combat.Weapons
 
         #endregion
 
-        protected void TryPerformAttack(Type type)
+        protected void TryPerformAttack(LocalType type)
         {
-            if (_isAttacking || (BasicWeapons.Count == 0))
+            if (_isAttacking || (BasicWeapons.Count() == 0))
             {
                 return;
             }
@@ -74,19 +75,19 @@ namespace Characters.Common.Combat.Weapons
             PerformAttack(type);
         }
 
-        protected void PerformAttack(Type type)
+        protected void PerformAttack(LocalType type)
         {
             _isAttacking = true;
 
             switch (type)
             {
-                case Type.Default:
-                case Type.Fast:
-                    OnAttackOfTypeStarted?.Invoke(Type.Fast);
+                case LocalType.Default:
+                case LocalType.Fast:
+                    OnAttackOfTypeStarted?.Invoke(LocalType.Fast);
                     break;
 
-                case Type.Heavy:
-                    OnAttackOfTypeStarted?.Invoke(Type.Heavy);
+                case LocalType.Heavy:
+                    OnAttackOfTypeStarted?.Invoke(LocalType.Heavy);
                     break;
 
                 default:

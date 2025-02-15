@@ -1,4 +1,5 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Common.Combat.Weapons.Data;
+using Characters.Interfaces;
 using Characters.Player;
 using System;
 using UnityEngine;
@@ -25,23 +26,25 @@ namespace Characters.Common.Combat.Weapons
 
         #region Methods
 
-        private void Awake()
+        public override void Initialize(WeaponAttackData attackData)
         {
+            base.Initialize(attackData);
             _attackTrigger = GetComponentInChildren<AttackTrigger>();
-        }
+            _attackTrigger.Initialize();
 
-        private void Start()
-        {
             _attackTrigger.ScaleTriggerCollider(_triggerScaleMultiplier);
-            _attackTrigger.OnTriggerStay += HitTargetListener;
             _attackTrigger.Activate();
+
+            _attackTrigger.OnTriggerStay += HitTargetListener;
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            _attackTrigger.OnTriggerStay -= HitTargetListener;
+            _attackTrigger.ScaleTriggerCollider(1f/_triggerScaleMultiplier);
             _attackTrigger.Deactivate();
+
+            _attackTrigger.OnTriggerStay -= HitTargetListener;
         }
 
         protected override void HitTargetListener(object sender, EventArgs args)

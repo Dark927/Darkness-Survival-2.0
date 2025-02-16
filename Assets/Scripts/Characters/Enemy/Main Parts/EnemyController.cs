@@ -3,7 +3,7 @@ using Characters.Interfaces;
 using World.Components.EnemyLogic;
 using Cysharp.Threading.Tasks;
 
-public class EnemyController : EntityController
+public class EnemyController : EntityControllerBase
 {
     #region Fields 
 

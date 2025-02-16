@@ -32,7 +32,7 @@ namespace World.Tile
         #region Init
 
         [Inject]
-        public WorldScrolling(GenerationSettings settings, Transform targetTransform = null, GameObjectsContainer container = null) : base(settings, targetTransform)
+        public WorldScrolling(WorldGenerationData settings, Transform targetTransform = null, GameObjectsContainer container = null) : base(settings, targetTransform)
         {
             InitContainer(container);
         }

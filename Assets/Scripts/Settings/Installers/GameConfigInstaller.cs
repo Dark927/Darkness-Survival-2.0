@@ -42,7 +42,7 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
     private void BindContainers()
     {
         Container
-            .Bind<ObjectPoolSettings>()
+            .Bind<ObjectPoolData>()
             .FromScriptableObject(_gameConfig.PoolsSettings)
             .AsSingle();
     }
@@ -50,12 +50,12 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
     private void BindEnemySettings()
     {
         Container
-            .Bind<EnemySpawnSettings>()
+            .Bind<EnemySpawnerSettingsData>()
             .FromScriptableObject(_gameConfig.EnemySpawnSettings)
             .AsSingle();
 
         Container
-            .Bind<EnemySettings>()
+            .Bind<EnemyGlobalData>()
             .FromScriptableObject(_gameConfig.EnemySettings)
             .AsSingle();
     }

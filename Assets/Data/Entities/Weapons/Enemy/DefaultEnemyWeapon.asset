@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40dc737fe8f1d6a4ca7567fa8996e3cb, type: 3}
+  m_Script: {fileID: 11500000, guid: c25376cf9829fa948b3ee8f9d758d23f, type: 3}
   m_Name: DefaultEnemyWeapon
   m_EditorClassIdentifier: 
-  _weaponName: EnemyDefaultWeapon
+  _weaponName: DefaultEnemyWeapon
   _weaponAsset:
     m_AssetGUID: 430f8d60607b154408485b25cda1c673
     m_SubObjectName: 
     m_SubObjectType: 
-    m_EditorAssetChanged: 1
+    m_EditorAssetChanged: 0
   _attackData: {fileID: 11400000, guid: 0080cf5636874be43b2ab79a0179e2b7, type: 2}

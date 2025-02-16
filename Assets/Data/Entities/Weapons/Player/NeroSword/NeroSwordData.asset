@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40dc737fe8f1d6a4ca7567fa8996e3cb, type: 3}
+  m_Script: {fileID: 11500000, guid: c25376cf9829fa948b3ee8f9d758d23f, type: 3}
   m_Name: NeroSwordData
   m_EditorClassIdentifier: 
-  _weaponName: Nero Sword
+  _weaponName: NeroSword
   _weaponAsset:
     m_AssetGUID: 678ad20c8e822e349b435b7f94b1face
     m_SubObjectName: 
     m_SubObjectType: 
-    m_EditorAssetChanged: 1
+    m_EditorAssetChanged: 0
   _attackData: {fileID: 11400000, guid: f49b0c2b14aedcf4e817f6ab75f7e1cd, type: 2}

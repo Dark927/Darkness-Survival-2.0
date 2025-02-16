@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4114824868038369942}
   - component: {fileID: 8629233726174148127}
+  - component: {fileID: 9053780044762284656}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -45,11 +46,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5947ad6b6343efb4fa31e2f67d2d6215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entityFeaturesDataAsset:
-    m_AssetGUID: 74a57ea120317d34083585ded912c3a9
+  _featuresSetDataRef:
+    m_AssetGUID: 5c96f1a7c862f0e4bae77854c71a9259
     m_SubObjectName: 
     m_SubObjectType: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
+--- !u!114 &9053780044762284656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795527976360001243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: f4515f74171d3ab44bca29ac9f41d289, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8629233726174148127}
+        m_TargetAssemblyTypeName: Characters.Player.PlayerCharacterController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0dd26ba-091e-4abc-be79-c633c05dcfc0
+    m_ActionName: PlayerActions/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8629233726174148127}
+        m_TargetAssemblyTypeName: Characters.Player.PlayerCharacterController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5b4e883e-e95c-45ae-b905-5664a0582fb3
+    m_ActionName: PlayerActions/Attacks[/Mouse/leftButton,/Mouse/rightButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerActions
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &6813526850882821064
 PrefabInstance:
   m_ObjectHideFlags: 0

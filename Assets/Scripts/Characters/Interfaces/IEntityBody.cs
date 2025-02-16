@@ -24,8 +24,8 @@ namespace Characters.Interfaces
         public event Action OnBodyDamaged;
 
         public Transform Transform { get; }
-        public CharacterMovementBase Movement { get; }
-        public ICharacterView View { get; }
+        public EntityMovementBase Movement { get; }
+        public IEntityView View { get; }
         public EntityVisualBase Visual { get; }
         public IHealth Health { get; }
         public IInvincibility Invincibility { get; }

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b688a9f7ab21b1d45893d9bcd3d6817e, type: 3}
+  m_Script: {fileID: 11500000, guid: a34aca422db56884e90bf4b7219a9f82, type: 3}
   m_Name: NeroWeaponSetData
   m_EditorClassIdentifier: 
-  _weaponsContainerName: NeroWeapons
+  _weaponsContainerName: 
   _basicWeapons:
   - {fileID: 11400000, guid: 00de543b5d604234da0e35c27202ef9d, type: 2}

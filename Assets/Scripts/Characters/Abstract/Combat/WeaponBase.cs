@@ -8,15 +8,15 @@ namespace Characters.Common.Combat.Weapons
 {
     public abstract class WeaponBase : MonoBehaviour, IWeapon, IDisposable
     {
-        private WeaponAttackData _weaponAttackData;
-        public WeaponAttackData AttackData => _weaponAttackData;
+        private WeaponAttackDataBase _weaponAttackData;
+        public WeaponAttackDataBase AttackData => _weaponAttackData;
 
 
         #region Methods
 
         #region Init
 
-        public virtual void Initialize(WeaponAttackData attackData)
+        public virtual void Initialize(WeaponAttackDataBase attackData)
         {
             _weaponAttackData = attackData;
         }

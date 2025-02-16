@@ -42,7 +42,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init
 
-        public override void Initialize(WeaponAttackData attackData)
+        public override void Initialize(WeaponAttackDataBase attackData)
         {
             base.Initialize(attackData);
 

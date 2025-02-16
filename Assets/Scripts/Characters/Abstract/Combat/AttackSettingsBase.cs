@@ -8,7 +8,7 @@ namespace Characters.Common.Combat
     {
         [Space, Header("Main Settings")]
 
-        [SerializeField] private AttackNegativeStatus _attackNegativeStatus;
+        [SerializeField] private AttackNegativeStatusData _attackNegativeStatus;
         [SerializeField] private DamageSettings _damageSettings;
         [Space]
         [SerializeField] private ImpactSettings _impactSettings;

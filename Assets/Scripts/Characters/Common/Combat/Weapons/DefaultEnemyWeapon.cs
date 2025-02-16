@@ -26,7 +26,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Methods
 
-        public override void Initialize(WeaponAttackData attackData)
+        public override void Initialize(WeaponAttackDataBase attackData)
         {
             base.Initialize(attackData);
             _attackTrigger = GetComponentInChildren<AttackTrigger>();

@@ -18,7 +18,7 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemyPool(ObjectPoolSettings poolSettings, EnemyData data, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
+        public EnemyPool(ObjectPoolData poolSettings, EnemyData data, int preloadCount = ObjectPoolData.NotIdentifiedPreloadCount) :
             base(poolSettings, data.EnemyPrefab)
         {
             _enemyData = data;
@@ -26,7 +26,7 @@ namespace World.Components.EnemyLogic
         }
 
         [Inject]
-        public EnemyPool(ObjectPoolSettings poolSettings, EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount) :
+        public EnemyPool(ObjectPoolData poolSettings, EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolData.NotIdentifiedPreloadCount) :
             base(poolSettings, data.EnemyPrefab, container)
         {
             _enemyData = data;

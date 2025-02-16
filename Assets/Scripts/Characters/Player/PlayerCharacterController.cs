@@ -1,15 +1,16 @@
 using Characters.Common;
 using Characters.Interfaces;
-using Characters.Player.Controls;
 using Settings.Global;
 using System;
 using Cysharp.Threading.Tasks;
 using Characters.Common.Combat.Weapons;
-using System.Diagnostics;
+using UnityEngine.InputSystem;
+using UnityEngine;
+using Characters.Player.Controls;
 
 namespace Characters.Player
 {
-    public class PlayerCharacterController : EntityController
+    public class PlayerCharacterController : EntityControllerBase
     {
         #region Fields 
 
@@ -20,7 +21,6 @@ namespace Characters.Player
 
         #region Properties
 
-        public PlayerInput Input => _input;
         public ICharacterLogic Character => EntityLogic as ICharacterLogic;
 
         #endregion
@@ -57,17 +57,6 @@ namespace Characters.Player
         {
             EntityLogic.Initialize();
             EntityLogic.ConfigureEventLinks();
-
-            PlayerCharacterLogic playerCharacter = (PlayerCharacterLogic)EntityLogic;
-
-            _input.SetMovement(EntityLogic.Body.Movement);
-            Character.OnBasicAttacksReady += ConfigureBasicWeaponInput;
-        }
-
-        private void ConfigureBasicWeaponInput(BasicAttack attack)
-        {
-            Character.OnBasicAttacksReady -= ConfigureBasicWeaponInput;
-            _input.SetBasicAttacks(attack);
         }
 
         public override void ConfigureEventLinks()
@@ -83,9 +72,7 @@ namespace Characters.Player
 
         private void InitInput()
         {
-            IControlLayout controlLayout = new DefaultControlLayout();
-            InputHandler inputHandler = new InputHandler(controlLayout);
-            _input = new PlayerInput(inputHandler);
+            _input = GetComponent<PlayerInput>();
         }
 
         public override void RemoveEventLinks()
@@ -99,14 +86,46 @@ namespace Characters.Player
         public override void Dispose()
         {
             base.Dispose();
-            _input?.Dispose();
         }
 
         #endregion
 
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            if (Character.Body.Movement == null)
+            {
+                return;
+            }
+
+            if (context.performed)
+            {
+                Vector2 direction = context.ReadValue<Vector2>();
+                Character.Body.Movement.MoveAsync(direction).Forget();
+
+                if (!Character.Body.Movement.IsBlocked)
+                {
+                    Character.Body.View.LookForward(direction);
+                }
+            }
+
+            if (context.canceled)
+            {
+                Character.Body.Movement.Stop();
+            }
+        }
+
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                int contextValue = (int)context.ReadValue<float>();
+                Character.PerformBasicAttack((BasicAttack.LocalType)contextValue);
+            }
+        }
+
         private void PlayerCharacterDies()
         {
-            _input.Disable();
+            _input.DeactivateInput();
         }
 
         private void NotifyCharacterCompletelyDied()

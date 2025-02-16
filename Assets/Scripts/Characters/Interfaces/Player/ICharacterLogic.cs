@@ -1,6 +1,5 @@
 using Characters.Common.Combat.Weapons;
 using Characters.Player.Weapons;
-using Characters.Stats;
 using System;
 
 namespace Characters.Interfaces
@@ -9,5 +8,7 @@ namespace Characters.Interfaces
     {
         public event Action<BasicAttack> OnBasicAttacksReady;
         public EntityWeaponsHolder Weapons { get; }
+
+        public void PerformBasicAttack(BasicAttack.LocalType type);
     }
 }

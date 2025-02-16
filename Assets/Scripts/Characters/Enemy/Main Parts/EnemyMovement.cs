@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class EnemyMovement : CharacterMovementBase
+    public class EnemyMovement : EntityMovementBase
     {
         #region Fields 
 
@@ -15,7 +15,7 @@ namespace Characters.Enemy
         private Vector2 _targetDirection;
 
         private CharacterSpeed _speed;
-        private CharacterActionBlock _movementBlock;
+        private EntityActionBlock _movementBlock;
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Characters.Enemy
         private void InitComponents()
         {
             _rigidbody = _transform.GetComponent<Rigidbody2D>();
-            _movementBlock = new CharacterActionBlock();
+            _movementBlock = new EntityActionBlock();
             _speed = new CharacterSpeed();
         }
 
@@ -80,12 +80,14 @@ namespace Characters.Enemy
             _targetTransform = target;
         }
 
-        public override void Move()
+        public override void Move(Vector2 direction)
         {
-            if (!_movementBlock.IsBlocked && (_targetTransform != null))
+            if (_movementBlock.IsBlocked)
             {
-                FollowTarget();
+                return;
             }
+
+            _speed.TryUpdateVelocity(direction);
         }
 
         public override void Stop()
@@ -112,10 +114,10 @@ namespace Characters.Enemy
             _movementBlock.Unblock();
         }
 
-        private void FollowTarget()
+        public void FollowTarget()
         {
             _targetDirection = (_targetTransform.position - _transform.position).normalized;
-            _speed.TryUpdateVelocity(_targetDirection);
+            Move(_targetDirection);
         }
 
 

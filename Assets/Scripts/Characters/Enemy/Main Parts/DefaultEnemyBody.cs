@@ -3,8 +3,8 @@ using Characters.Common.Movement;
 using Characters.Enemy.Data;
 using Characters.Health;
 using Characters.Interfaces;
-using Characters.TargetDetection;
 using UnityEngine;
+using World.Components.TargetDetection;
 
 namespace Characters.Enemy
 {
@@ -15,6 +15,7 @@ namespace Characters.Enemy
         private IEnemyLogic _enemyLogic;
         private EnemyLookSideController _sideController;
         private EnemyBodyStats _bodyStats;
+        private EnemyMovement _enemyMovement;
 
         private Transform _targetTransform;
 
@@ -28,6 +29,7 @@ namespace Characters.Enemy
 
         public EnemyBodyStats Stats => _bodyStats;
         public Transform TargetTransform => _targetTransform;
+        public new EnemyMovement Movement => _enemyMovement;
 
         #endregion
 
@@ -56,12 +58,13 @@ namespace Characters.Enemy
 
         protected override void InitView()
         {
-            View = new CharacterLookDirection(transform);
+            View = new EntityLookDirection(transform);
         }
 
         protected override void InitMovement()
         {
-            Movement = new EnemyMovement(transform);
+            _enemyMovement = new EnemyMovement(transform);
+            base.Movement = _enemyMovement;
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 
@@ -99,7 +102,7 @@ namespace Characters.Enemy
         public void SetTarget(Transform targetTransform)
         {
             _targetTransform = targetTransform;
-            (Movement as EnemyMovement).SetTarget(targetTransform);
+            Movement.SetTarget(targetTransform);
         }
 
         private void FixedUpdate()
@@ -109,7 +112,7 @@ namespace Characters.Enemy
                 return;
             }
 
-            Movement.Move();
+            Movement.FollowTarget();
 
             if (Visual.IsVisibleForCamera)
             {

@@ -5,12 +5,12 @@ using Zenject;
 
 public sealed class GlobalEnemyDataManager : LazySingleton<GlobalEnemyDataManager>
 {
-    private EnemySettings _enemySettings;
+    private EnemyGlobalData _enemySettings;
 
-    public EnemySettings EnemySettings => _enemySettings;
+    public EnemyGlobalData EnemySettings => _enemySettings;
 
     [Inject]
-    public void Construct(EnemySettings settings)
+    public void Construct(EnemyGlobalData settings)
     {
         _enemySettings = settings;
     }

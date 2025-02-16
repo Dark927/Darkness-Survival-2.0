@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2839df2f810391543b34378b87a513f1, type: 3}
+  m_Script: {fileID: 11500000, guid: edebd2c58ac995946a83d5d133230c8f, type: 3}
   m_Name: ObjectPoolsSettings
   m_EditorClassIdentifier: 
   _preloadInstancesCount: 100

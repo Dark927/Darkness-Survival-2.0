@@ -9,23 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7ea5937c8e83a34c899fac3bab5ceb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e16da3a165684b4fb89002f8012f81e, type: 3}
   m_Name: WorldGenerationData
   m_EditorClassIdentifier: 
   TileChunkPrefabs:
-  - {fileID: 4897126700113656223, guid: 4b723728caccd864e97c968e2ac35d75, type: 3}
-  - {fileID: 6378429583919836301, guid: c1140c21d34230045916d2f6e351db94, type: 3}
-  - {fileID: 6378429583919836301, guid: c1140c21d34230045916d2f6e351db94, type: 3}
-  - {fileID: 3799317072183573572, guid: f804e0ec9d49dca47b16f7fa62d89ea3, type: 3}
-  - {fileID: 4897126700113656223, guid: 4b723728caccd864e97c968e2ac35d75, type: 3}
   - {fileID: 3799317072183573572, guid: f804e0ec9d49dca47b16f7fa62d89ea3, type: 3}
   - {fileID: 6378429583919836301, guid: c1140c21d34230045916d2f6e351db94, type: 3}
   - {fileID: 1278272595854002749, guid: dfda7fb26ccc85a4587c8aa41f98849b, type: 3}
-  - {fileID: 6378429583919836301, guid: c1140c21d34230045916d2f6e351db94, type: 3}
   BlockSize: 36
   FieldOfVisionHeight: 3
   FieldOfVisionWidth: 3
   Subdivisions: 3
-  UseRandomChunkLayout: 0
-  BlockTileHorizontalCount: 0
-  blockTileVerticalCount: 0
+  UseRandomChunkLayout: 1

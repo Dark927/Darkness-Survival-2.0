@@ -11,7 +11,7 @@ namespace Settings.SceneManagement
 
         [SerializeField] private List<AssetReference> _stageScenesReferences;
 
-        [SerializeField] private SceneNames _mainSceneNames;
+        [SerializeField] private SceneNamesData _mainSceneNames;
 
         private DefaultSceneLoader _defaultSceneLoader;
         private AddressableSceneLoader _addressableSceneLoader;

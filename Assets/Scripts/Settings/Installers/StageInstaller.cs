@@ -9,7 +9,7 @@ public class StageInstaller : MonoInstaller
 {
     [Header("Main parameters")]
     [SerializeField] private WorldGeneration _worldGenerationType = WorldGeneration.Scrolling;
-    [SerializeField] private GenerationSettings _worldGenerationSettings;
+    [SerializeField] private WorldGenerationData _worldGenerationSettings;
     [SerializeField] private GameObjectsContainer _worldChunksContainer;
 
     public override void InstallBindings()
@@ -27,7 +27,7 @@ public class StageInstaller : MonoInstaller
         ConfigureChunksContainer();
 
         Container
-            .Bind<GenerationSettings>()
+            .Bind<WorldGenerationData>()
             .FromScriptableObject(_worldGenerationSettings)
             .AsSingle();
 

@@ -52,12 +52,6 @@ namespace Characters.Player.Weapons
         }
 
         #endregion
-
-        public void AttackPerformedListener(InputAction.CallbackContext context)
-        {
-            int contextValue = (int)context.ReadValue<float>();
-            TryPerformAttack((LocalType)contextValue);
-        }
     }
 
     #endregion

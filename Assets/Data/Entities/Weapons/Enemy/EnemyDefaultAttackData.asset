@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ef0a895f68a1b44381c1408ddea2f4a, type: 3}
+  m_Script: {fileID: 11500000, guid: f4005e23c4506ea41a8906ea711dfac4, type: 3}
   m_Name: EnemyDefaultAttackData
   m_EditorClassIdentifier: 
   _defaultAttackSettings:
     _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
     _damageSettings:
-      _minDamage: 2
+      _minDamage: 4
       _maxDamage: 5
     _impactSettings:
       _useImpact: 0

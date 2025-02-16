@@ -1,7 +1,7 @@
 using Characters.Player;
-using Characters.TargetDetection;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using World.Components.TargetDetection;
 
 namespace Characters.Enemy
 {

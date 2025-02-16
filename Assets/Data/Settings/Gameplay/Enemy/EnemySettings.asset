@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90b92496d336cef4388fb837af9d933f, type: 3}
+  m_Script: {fileID: 11500000, guid: e45411ee6846db04ba1443ac8fc7185a, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
   _bodyStats:
-    _sideSwitchDelayInMs: 75
+    _sideSwitchDelayInMs: 3
     _accelerationTimeInMs: 500

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3dff57ba460b7241852374a13fbf478, type: 3}
+  m_Script: {fileID: 11500000, guid: 823ced31f39ac1f40b7b7efcabc00453, type: 3}
   m_Name: EnemySpawnSettings
   m_EditorClassIdentifier: 
-  _spawnPositionRange: {x: 15, y: 15}
-  _spawnPositionOffset: {x: 5, y: 5}
+  _spawnPositionRange: {x: 5, y: 5}
+  _spawnPositionOffset: {x: 0, y: 0}

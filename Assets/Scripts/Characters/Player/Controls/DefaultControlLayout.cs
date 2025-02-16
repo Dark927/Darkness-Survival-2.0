@@ -31,14 +31,12 @@ namespace Characters.Player.Controls
 
         public void EnableInputs()
         {
-            _playerMovement.Enable();
-            _playerBasicAttacks.Enable();
+            _inputActions.Enable();
         }
 
         public void DisableInputs()
         {
-            _playerMovement.Disable();
-            _playerBasicAttacks.Disable();
+            _inputActions.Disable();
         }
 
         private void InitInputActions()

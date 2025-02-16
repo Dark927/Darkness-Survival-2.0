@@ -105,6 +105,11 @@ namespace Characters.Common
 
         #endregion
 
+        public virtual void PerformBasicAttack(BasicAttack.LocalType type)
+        {
+            BasicAttacks?.TryPerformAttack(type);
+        }
+
         public void Enable()
         {
             if (!_configured)

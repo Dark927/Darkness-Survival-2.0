@@ -15,7 +15,7 @@ namespace World.Components.EnemyLogic
     {
         #region Fields 
 
-        [SerializeField] private List<EnemySpawnData> _enemySpawnData;
+        [SerializeField] private List<Data.EnemySpawnData> _enemySpawnData;
         private EnemyContainer _enemyContainer;
 
         private EnemySource _source;
@@ -23,7 +23,7 @@ namespace World.Components.EnemyLogic
         private List<UniTask> _actualSpawnTasks;
         private CancellationTokenSource _cancellationTokenSource;
 
-        private EnemySpawnSettings _spawnSettings;
+        private Settings.EnemySpawnerSettingsData _spawnSettings;
         private ICharacterConfigurator<EnemyController> _configurator;
 
         private DiContainer _diContainer;
@@ -36,7 +36,7 @@ namespace World.Components.EnemyLogic
         #region Init
 
         [Inject]
-        public void Construct(DiContainer diContainer, EnemySpawnSettings spawnSettings, GameTimer timer)
+        public void Construct(DiContainer diContainer, Settings.EnemySpawnerSettingsData spawnSettings, GameTimer timer)
         {
             _diContainer = diContainer;
             _spawnSettings = spawnSettings;
@@ -107,7 +107,7 @@ namespace World.Components.EnemyLogic
             _enemySpawnData.RemoveAll(data => markedToSpawn.Contains(data));
         }
 
-        private async UniTask SpawnEnemyTask(EnemySpawnData data, CancellationToken token)
+        private async UniTask SpawnEnemyTask(Data.EnemySpawnData data, CancellationToken token)
         {
             Transform targetPlayer = ServiceLocator.Current.Get<PlayerManager>()?.GetCharacterTransform();
 

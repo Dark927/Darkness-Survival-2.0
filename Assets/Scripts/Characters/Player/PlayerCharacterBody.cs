@@ -4,6 +4,9 @@ using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Animation;
 using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 namespace Characters.Player
 {
@@ -36,7 +39,7 @@ namespace Characters.Player
 
         protected override void InitView()
         {
-            View = new CharacterLookDirection(transform);
+            View = new EntityLookDirection(transform);
         }
 
         protected override void InitMovement()
@@ -77,18 +80,6 @@ namespace Characters.Player
         }
 
         #endregion
-
-
-        private void FixedUpdate()
-        {
-            MoveForward();
-        }
-
-        private void MoveForward()
-        {
-            Movement?.Move();
-            View?.LookForward(Movement.Direction);
-        }
 
         public void TakeDamage(float damage)
         {

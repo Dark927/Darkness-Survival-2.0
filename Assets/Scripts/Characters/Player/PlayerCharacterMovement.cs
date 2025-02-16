@@ -1,5 +1,7 @@
 ﻿using Characters.Common;
 using Characters.Common.Movement;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,18 +9,18 @@ using UnityEngine.InputSystem;
 namespace Characters.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerCharacterMovement : CharacterMovementBase
+    public class PlayerCharacterMovement : EntityMovementBase
     {
         #region Fields 
 
         private Transform _playerTransform;
         private Rigidbody2D _rigidbody;
+        private Vector2 _direction = Vector2.zero;
 
-        private Vector2 _direction;
-        private Vector2 _savedDirection;
         private CharacterSpeed _speed;
+        private EntityActionBlock _movementBlock;
 
-        private CharacterActionBlock _movementBlock;
+        private CancellationTokenSource _movementCts;
 
         #endregion
 
@@ -55,7 +57,7 @@ namespace Characters.Player
         private void InitComponents()
         {
             _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
-            _movementBlock = new CharacterActionBlock();
+            _movementBlock = new EntityActionBlock();
             _speed = new CharacterSpeed();
         }
 
@@ -72,17 +74,46 @@ namespace Characters.Player
 
         #endregion
 
-        public override void Move()
+        public override async UniTaskVoid MoveAsync(Vector2 direction)
         {
+            StopMovementTask();
+            _movementCts = new CancellationTokenSource();
+
+            while (!_movementCts.Token.IsCancellationRequested)
+            {
+                Move(direction);
+                await UniTask.WaitForFixedUpdate(_movementCts.Token);
+            }
+        }
+
+        public override void Move(Vector2 direction)
+        {
+            _speed.SetMaxSpeedMultiplier();
+            _direction = direction;
+
             if (_movementBlock.IsBlocked)
             {
                 return;
             }
+
             _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
+        }
+
+        private void StopMovementTask()
+        {
+            if (_movementCts == null)
+            {
+                return;
+            }
+
+            _movementCts.Cancel();
+            _movementCts.Dispose();
+            _movementCts = null;
         }
 
         public override void Stop()
         {
+            StopMovementTask();
             _speed.Stop();
         }
 
@@ -91,7 +122,6 @@ namespace Characters.Player
             SetStatic();
             _movementBlock.Block(timeInMs);
         }
-
 
         public override void Block()
         {
@@ -106,26 +136,9 @@ namespace Characters.Player
                 return;
             }
 
-            // ToDo : Test this isKinematic, coz it conflicts with Player Death IsKinematic!
             _rigidbody.isKinematic = false;
-            _direction = _savedDirection;
             _movementBlock.Unblock();
-        }
-
-        public void MovementPerformedListener(InputAction.CallbackContext context)
-        {
-            _speed.SetMaxSpeedMultiplier();
-            _savedDirection = context.ReadValue<Vector2>();
-
-            if (!IsBlocked)
-            {
-                _direction = _savedDirection;
-            }
-        }
-
-        public void MovementStoppedListener(InputAction.CallbackContext context)
-        {
-            Stop();
+            _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
         }
 
         private void VelocityUpdateListener(object sender, Vector2 velocity)
@@ -137,6 +150,7 @@ namespace Characters.Player
         {
             // do not use Stop method coz we want to save the speed velocity,
             // to continue moving if the input button is not released
+            Speed.TryUpdateVelocity(Vector2.zero);
             _rigidbody.velocity = Vector2.zero;
             _rigidbody.isKinematic = true;
         }

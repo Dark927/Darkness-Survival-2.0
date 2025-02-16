@@ -94,6 +94,7 @@ namespace Characters.Player.Weapons
             if (!EntityBody.IsDead)
             {
                 EntityBody.Movement.Unblock();
+                EntityBody.View.LookForward(EntityBody.Movement.Direction);
             }
         }
 

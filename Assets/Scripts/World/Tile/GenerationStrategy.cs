@@ -10,7 +10,7 @@ namespace World.Tile
         #region Fields 
 
         private PointGridIterator _iterator;
-        private GenerationSettings _settings;
+        private WorldGenerationData _settings;
 
         private Transform _playerTransform;
 
@@ -23,7 +23,7 @@ namespace World.Tile
         public Vector2 PlayerPosition => _playerTransform.position;
 
 
-        public GenerationSettings Settings => _settings;
+        public WorldGenerationData Settings => _settings;
         public PointGridIterator Iterator => _iterator;
 
         #endregion
@@ -40,12 +40,12 @@ namespace World.Tile
 
         #region Init
 
-        public GenerationStrategy(GenerationSettings settings)
+        public GenerationStrategy(WorldGenerationData settings)
         {
             _settings = settings;
         }
 
-        public GenerationStrategy(GenerationSettings settings, Transform targetTransform)
+        public GenerationStrategy(WorldGenerationData settings, Transform targetTransform)
         {
             _settings = settings;
             _playerTransform = targetTransform;

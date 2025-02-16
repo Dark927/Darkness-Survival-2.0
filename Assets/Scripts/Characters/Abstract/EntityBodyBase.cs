@@ -13,8 +13,8 @@ namespace Characters.Common
     {
         #region Fields
 
-        private CharacterMovementBase _movement;
-        private ICharacterView _view;
+        private EntityMovementBase _movement;
+        private IEntityView _view;
         private EntityVisualBase _visual;
         private IHealth _characterHealth;
         private IInvincibility _characterInvincibility;
@@ -35,8 +35,8 @@ namespace Characters.Common
         #region Properties
 
         public Transform Transform => transform;
-        public CharacterMovementBase Movement { get => _movement; protected set => _movement = value; }
-        public ICharacterView View { get => _view; protected set => _view = value; }
+        public EntityMovementBase Movement { get => _movement; protected set => _movement = value; }
+        public IEntityView View { get => _view; protected set => _view = value; }
         public EntityVisualBase Visual { get => _visual; protected set => _visual = value; }
         public IHealth Health { get => _characterHealth; protected set => _characterHealth = value; }
         public IInvincibility Invincibility { get => _characterInvincibility; protected set => _characterInvincibility = value; }

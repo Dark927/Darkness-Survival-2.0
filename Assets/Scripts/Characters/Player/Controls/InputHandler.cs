@@ -64,7 +64,7 @@ namespace Characters.Player.Controls
         }
 
 
-        private InputAction GetInputAction(InputType type)
+        public InputAction GetInputAction(InputType type)
         {
             if (_actions.TryGetValue(type, out InputAction value))
             {

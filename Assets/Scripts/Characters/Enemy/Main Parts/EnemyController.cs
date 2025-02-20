@@ -1,13 +1,15 @@
 ﻿using Characters.Common;
-using Characters.Interfaces;
 using World.Components.EnemyLogic;
 using Cysharp.Threading.Tasks;
+using Characters.Enemy.Data;
+using Characters.Stats;
 
 public class EnemyController : EntityControllerBase
 {
     #region Fields 
 
     private EnemyPool _targetPool;
+    private EnemyData _enemyData;
 
     #endregion
 
@@ -15,6 +17,7 @@ public class EnemyController : EntityControllerBase
     #region Properties
 
     public EnemyPool TargetPool => _targetPool;
+    public EnemyData Data => _enemyData;
 
     #endregion
 
@@ -23,17 +26,13 @@ public class EnemyController : EntityControllerBase
 
     #region Init
 
-    protected override void Awake()
+    public override void Initialize(IEntityData data)
     {
-        base.Awake();
+        base.Initialize(data);
+        _enemyData = data as EnemyData;
 
-        EntityLogic.Initialize();
+        EntityLogic.Initialize(Data);
         InitFeaturesAsync().Forget();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
     }
 
     protected override void OnEnable()
@@ -81,6 +80,11 @@ public class EnemyController : EntityControllerBase
     public void SetTargetPool(EnemyPool targetPool)
     {
         _targetPool = targetPool;
+    }
+
+    public void SetData(EnemyData data)
+    {
+        _enemyData = data;
     }
 
     #endregion

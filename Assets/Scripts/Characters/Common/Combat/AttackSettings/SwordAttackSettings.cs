@@ -12,7 +12,7 @@ namespace Characters.Common.Combat
         [Space]
         [SerializeField] private ImpactSettings _heavyImpactSettings;
 
-        public DamageSettings HeavyDamageSettings => _heavyDamageSettings;
-        public ImpactSettings HeavyImpactSettings => _heavyImpactSettings;
+        public DamageSettings HeavyDamage => _heavyDamageSettings;
+        public ImpactSettings HeavyImpact => _heavyImpactSettings;
     }
 }

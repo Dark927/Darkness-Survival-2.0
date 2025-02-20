@@ -1,6 +1,7 @@
 using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Characters.Common.Combat
     }
 
     [RequireComponent(typeof(Collider2D))]
-    public class AttackTrigger : MonoBehaviour, IDisposable, IInitializable
+    public class AttackTrigger : MonoBehaviour,  IAttackTrigger
     {
         #region Fields 
 
@@ -35,6 +36,7 @@ namespace Characters.Common.Combat
         public event EventHandler OnTriggerEnter;
         public event EventHandler OnTriggerStay;
         public event EventHandler OnTriggerExit;
+        public event Action<IAttackTrigger> OnTriggerDeactivation;
 
         #endregion
 
@@ -93,13 +95,13 @@ namespace Characters.Common.Combat
         private async UniTask DeactivationDelay(float timeInSec, CancellationToken token)
         {
             await UniTask.WaitForSeconds(timeInSec, cancellationToken: token);
-
             Deactivate();
         }
 
         public void Deactivate()
         {
             _collider.enabled = false;
+            OnTriggerDeactivation?.Invoke(this);
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)

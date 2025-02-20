@@ -23,6 +23,7 @@ namespace Characters.Health
         public float CurrentHp => _currentHp;
         public float CurrentHpPercent => CurrentHp / MaxHp * 100;
         public bool IsEmpty => (_currentHp <= 0);
+        public bool CanAcceptDamage => !IsEmpty;
 
         #endregion
 
@@ -57,7 +58,7 @@ namespace Characters.Health
 
         public void TakeDamage(float damage)
         {
-            if (!IsEmpty && (damage > 0))
+            if (CanAcceptDamage && (damage > 0))
             {
                 UpdateCurrentHp(-damage);
             }

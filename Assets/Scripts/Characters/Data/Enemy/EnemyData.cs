@@ -22,7 +22,6 @@ namespace Characters.Enemy.Data
         [Header("Custom Enemy Settings")]
 
         [SerializeField] private EnemyType _type;
-        [SerializeField] private GameObject _enemyPrefab;
 
         #endregion
 
@@ -30,7 +29,6 @@ namespace Characters.Enemy.Data
         #region Properties
 
         public EnemyType Type => _type;
-        public GameObject EnemyPrefab => _enemyPrefab;
 
         #endregion
 
@@ -42,7 +40,6 @@ namespace Characters.Enemy.Data
             int hash = HashCode.Combine(
                 Name != null ? Name.GetHashCode() : 0,
                 Type.GetHashCode(),
-                EnemyPrefab != null ? EnemyPrefab.GetHashCode() : 0,
                 Stats.GetHashCode()
             );
             return hash;
@@ -55,7 +52,6 @@ namespace Characters.Enemy.Data
 
             return Name == other.Name &&
                    Type == other.Type &&
-                   EnemyPrefab == other.EnemyPrefab &&
                    Stats.Equals(other.Stats);
         }
 

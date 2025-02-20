@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: df366cdb54d4c4647bd1779f9bef82b7, type: 2}
     - target: {fileID: 5636088789413430035, guid: fbe3876b06fc15341809a7d32441b082, type: 3}
       propertyPath: m_Name
-      value: Simbiot_Base Variant
+      value: Simbiot_Default
       objectReference: {fileID: 0}
     - target: {fileID: 6140248951605562348, guid: fbe3876b06fc15341809a7d32441b082, type: 3}
       propertyPath: m_Sprite
@@ -63,6 +63,14 @@ PrefabInstance:
     - target: {fileID: 6140248951605562348, guid: fbe3876b06fc15341809a7d32441b082, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8977464467651939950, guid: fbe3876b06fc15341809a7d32441b082, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.634
+      objectReference: {fileID: 0}
+    - target: {fileID: 8977464467651939950, guid: fbe3876b06fc15341809a7d32441b082, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -11,6 +11,6 @@ namespace Characters.Common.Combat.Weapons.Data
 
         [SerializeField] private SwordAttackSettings _swordAttackSettings;
 
-        public override AttackSettingsBase AttackSettings => _swordAttackSettings;
+        public override IAttackSettings Settings => _swordAttackSettings;
     }
 }

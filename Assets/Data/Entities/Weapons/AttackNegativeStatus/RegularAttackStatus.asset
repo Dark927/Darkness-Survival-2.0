@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Regular
   _description: 
-  _effectColor: {r: 1, g: 1, b: 1, a: 0}
-  _effectDurationInSec: 2
-  _effectSpeedInSec: 2
+  _effectColor: {r: 1, g: 0, b: 0.14725637, a: 1}
+  _effectDurationInSec: 0.5
+  _effectSpeedInSec: 0.1

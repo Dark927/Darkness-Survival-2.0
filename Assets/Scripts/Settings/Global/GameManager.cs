@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Settings.Global
 {
@@ -7,6 +8,7 @@ namespace Settings.Global
         #region Fields
 
         public event Action OnStageStarted;
+        public Material BlinkMaterial;
 
         #endregion
 

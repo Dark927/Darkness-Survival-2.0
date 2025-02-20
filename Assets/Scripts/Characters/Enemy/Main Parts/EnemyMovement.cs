@@ -14,7 +14,7 @@ namespace Characters.Enemy
         private Transform _targetTransform;
         private Vector2 _targetDirection;
 
-        private CharacterSpeed _speed;
+        private EntitySpeed _speed;
         private EntityActionBlock _movementBlock;
 
         #endregion
@@ -22,7 +22,7 @@ namespace Characters.Enemy
 
         #region Properties
 
-        public override CharacterSpeed Speed => _speed;
+        public override EntitySpeed Speed => _speed;
         public override bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
         public override Vector2 Direction => _targetDirection;
 
@@ -36,7 +36,7 @@ namespace Characters.Enemy
         public EnemyMovement(Transform bodyTransform, Transform targetTransform = null)
         {
             Init(bodyTransform, targetTransform);
-            _speed = new CharacterSpeed();
+            _speed = new EntitySpeed();
         }
 
         private void Init(Transform bodyTransform, Transform targetTransform)
@@ -58,18 +58,18 @@ namespace Characters.Enemy
         {
             _rigidbody = _transform.GetComponent<Rigidbody2D>();
             _movementBlock = new EntityActionBlock();
-            _speed = new CharacterSpeed();
+            _speed = new EntitySpeed();
         }
 
         public override void ConfigureEventLinks()
         {
-            _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
+            _speed.OnVelocityUpdate += VelocityUpdateListener;
             _movementBlock.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
         }
 
         public override void RemoveEventLinks()
         {
-            _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
+            _speed.OnVelocityUpdate -= VelocityUpdateListener;
             _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
         }
 
@@ -121,7 +121,7 @@ namespace Characters.Enemy
         }
 
 
-        private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
+        private void VelocityUpdateListener(object sender, Vector2 velocity)
         {
             _rigidbody.velocity = _speed.Velocity;
         }

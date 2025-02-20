@@ -42,7 +42,7 @@ namespace Characters.Player.Weapons
 
         #region Init
 
-        public EntityWeaponsHolder(IEntityLogic entityLogic, string weaponsContainerName = null) : base(entityLogic)
+        public EntityWeaponsHolder(IEntityDynamicLogic entityLogic, string weaponsContainerName = null) : base(entityLogic)
         {
             _weaponsContainerName = weaponsContainerName;
         }

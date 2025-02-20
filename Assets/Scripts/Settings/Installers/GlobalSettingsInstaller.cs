@@ -1,12 +1,15 @@
 using Cinemachine;
 using Settings.CameraManagement;
 using Settings.Global;
+using System;
+using UnityEngine;
 using Zenject;
 
 public class GlobalSettingsInstaller : MonoInstaller
 {
     #region Fields
 
+    [SerializeField] private Material _blinkMat;
     private GameManager _gameManager;
     private CameraController _cameraController;
     private PlayerManager _playerManager;
@@ -25,6 +28,7 @@ public class GlobalSettingsInstaller : MonoInstaller
     private void InitComponents()
     {
         _gameManager = new GameManager();
+        _gameManager.BlinkMaterial = _blinkMat;
         _playerManager = new PlayerManager();
 
         CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();

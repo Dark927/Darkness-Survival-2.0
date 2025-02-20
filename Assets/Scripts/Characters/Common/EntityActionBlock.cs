@@ -41,6 +41,7 @@ public class EntityActionBlock
         }
 
         Unblock();
+        Block();
 
         _cancellationTokenSource = new CancellationTokenSource();
         _activeBlockTask = BlockDelayTask(timeInMs, _cancellationTokenSource.Token);
@@ -57,6 +58,7 @@ public class EntityActionBlock
         {
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
         }
 
         _isBlocked = false;
@@ -64,7 +66,6 @@ public class EntityActionBlock
 
     private async UniTask BlockDelayTask(int timeInMs, CancellationToken token)
     {
-        Block();
         await Task.Delay(timeInMs, cancellationToken: token);
         OnBlockFinish?.Invoke();
 

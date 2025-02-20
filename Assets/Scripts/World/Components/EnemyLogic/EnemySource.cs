@@ -1,6 +1,7 @@
 using Characters.Enemy.Data;
 using System.Collections.Generic;
 using UnityEngine;
+using World.Data;
 using Zenject;
 
 namespace World.Components.EnemyLogic
@@ -21,26 +22,26 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemySource(DiContainer diContainer, List<EnemyData> enemyDataList, EnemyContainer container = null)
+        public EnemySource(DiContainer diContainer, List<EnemySpawnData> enemyDataList, EnemyContainer container = null)
         {
             _enemyContainer = container;
             _diContainer = diContainer;
             CreatePools(enemyDataList);
         }
 
-        private void CreatePools(List<EnemyData> enemyDataList)
+        private void CreatePools(List<EnemySpawnData> enemyDataList)
         {
             _poolsDict = new Dictionary<int, EnemyPool>();
 
             EnemyPool pool;
             GameObjectsContainer container;
 
-            foreach (EnemyData enemyData in enemyDataList)
+            foreach (var enemySpawnData in enemyDataList)
             {
-                container = _enemyContainer.GetChildContainer(enemyData);
+                container = _enemyContainer.GetChildContainer(enemySpawnData);
 
-                pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemyData, container });
-                _poolsDict.Add(enemyData.ID, pool);
+                pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemySpawnData, container });
+                _poolsDict.Add(enemySpawnData.EnemyData.ID, pool);
             }
         }
 

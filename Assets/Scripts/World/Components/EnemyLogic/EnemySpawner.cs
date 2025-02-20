@@ -15,7 +15,7 @@ namespace World.Components.EnemyLogic
     {
         #region Fields 
 
-        [SerializeField] private List<Data.EnemySpawnData> _enemySpawnData;
+        [SerializeField] private List<Data.EnemySpawnData> _enemySpawnDataList;
         private EnemyContainer _enemyContainer;
 
         private EnemySource _source;
@@ -89,7 +89,7 @@ namespace World.Components.EnemyLogic
         private void InitEnemySource()
         {
             FilterSpawnData();
-            _source = _diContainer.Instantiate<EnemySource>(new object[] { _enemySpawnData.Select(spawnData => spawnData.EnemyData).ToList(), _enemyContainer });
+            _source = _diContainer.Instantiate<EnemySource>(new object[] { _enemySpawnDataList, _enemyContainer });
         }
 
         #endregion
@@ -97,14 +97,14 @@ namespace World.Components.EnemyLogic
         private void TrySpawnEnemy(StageTime time)
         {
             // Filter enemy spawn data
-            var markedToSpawn = _enemySpawnData
-                .Where(data => data.SpawnTime <= _timer.CurrentTime);
+            var markedToSpawn = _enemySpawnDataList
+                .Where(data => data.SpawnStartTime <= _timer.CurrentTime);
 
             // Add tasks for the filtered data
             _actualSpawnTasks.AddRange(markedToSpawn.Select(data => SpawnEnemyTask(data, _cancellationTokenSource.Token)));
 
             // Remove all used enemy spawn data
-            _enemySpawnData.RemoveAll(data => markedToSpawn.Contains(data));
+            _enemySpawnDataList.RemoveAll(data => markedToSpawn.Contains(data));
         }
 
         private async UniTask SpawnEnemyTask(Data.EnemySpawnData data, CancellationToken token)
@@ -140,12 +140,12 @@ namespace World.Components.EnemyLogic
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
-            _actualSpawnTasks.Clear();
+            _actualSpawnTasks?.Clear();
         }
 
         private void FilterSpawnData()
         {
-            _enemySpawnData = _enemySpawnData.Distinct().OrderBy(data => data.SpawnTime).ToList();
+            _enemySpawnDataList = _enemySpawnDataList.Distinct().OrderBy(data => data.SpawnStartTime).ToList();
         }
 
         public void Dispose()

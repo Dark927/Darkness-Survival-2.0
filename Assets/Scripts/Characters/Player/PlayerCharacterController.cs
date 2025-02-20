@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using Characters.Common.Combat.Weapons;
 using UnityEngine.InputSystem;
 using UnityEngine;
-using Characters.Player.Controls;
+using Characters.Stats;
 
 namespace Characters.Player
 {
@@ -15,6 +15,7 @@ namespace Characters.Player
         #region Fields 
 
         private PlayerInput _input;
+        [SerializeField] private EntityBaseData _characterData;
 
         #endregion
 
@@ -37,11 +38,16 @@ namespace Characters.Player
 
         #region Init 
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
+            Initialize(_characterData);
+        }
+
+        public override void Initialize(IEntityData data)
+        {
+            base.Initialize(data);
             InitInput();
-            ConfigureCharacter();
+            ConfigureCharacter(data);
             InitFeaturesAsync().Forget();
         }
 
@@ -53,9 +59,9 @@ namespace Characters.Player
             ConfigureEventLinks();
         }
 
-        private void ConfigureCharacter()
+        private void ConfigureCharacter(IEntityData data)
         {
-            EntityLogic.Initialize();
+            EntityLogic.Initialize(data);
             EntityLogic.ConfigureEventLinks();
         }
 
@@ -101,11 +107,6 @@ namespace Characters.Player
             {
                 Vector2 direction = context.ReadValue<Vector2>();
                 Character.Body.Movement.MoveAsync(direction).Forget();
-
-                if (!Character.Body.Movement.IsBlocked)
-                {
-                    Character.Body.View.LookForward(direction);
-                }
             }
 
             if (context.canceled)
@@ -125,6 +126,7 @@ namespace Characters.Player
 
         private void PlayerCharacterDies()
         {
+            Character.Body.Physics.SetStatic();
             _input.DeactivateInput();
         }
 

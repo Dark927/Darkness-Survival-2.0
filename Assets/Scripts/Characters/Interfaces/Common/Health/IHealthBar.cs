@@ -8,7 +8,7 @@ namespace UI.Local.Health
     {
         public void Hide();
         public void Show();
-        public void SetCharacterBody(IEntityBody characterBody);
+        public void SetCharacterBody(IEntityPhysicsBody characterBody);
         public void UpdateActualHp(float actualHpPercent);
     }
 }

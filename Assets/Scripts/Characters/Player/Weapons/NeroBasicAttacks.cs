@@ -81,9 +81,10 @@ namespace Characters.Player.Weapons
         {
             base.AnyAttackStarted();
 
-            if (!EntityBody.IsDead)
+            if (!EntityBody.IsDying)
             {
                 EntityBody.Movement.Block();
+                EntityBody.Physics.SetStatic();
             }
         }
 
@@ -91,10 +92,10 @@ namespace Characters.Player.Weapons
         {
             base.AttackFinished();
 
-            if (!EntityBody.IsDead)
+            if (!EntityBody.IsDying)
             {
                 EntityBody.Movement.Unblock();
-                EntityBody.View.LookForward(EntityBody.Movement.Direction);
+                EntityBody.Physics.SetDynamic();
             }
         }
 

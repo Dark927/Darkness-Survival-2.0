@@ -10,17 +10,26 @@ namespace World.Data
     {
         [Header("Enemy Settings")]
 
-        public EnemyData EnemyData;
-        public int Count = 0;
+        [SerializeField] private EnemyData _enemyData;
+        [SerializeField] private GameObject _enemyPrefab;
 
         [Header("Time Settings")]
+        [Space]
+        [SerializeField] private int _count;
 
         [Tooltip("The time when enemies should be spawned.")]
-        public StageTime SpawnTime;
+        [SerializeField] private StageTime _spawnStartTime;
 
         [Space]
         [Tooltip("The time during which the enemies have to spawn.")]
-        public StageTime SpawnDuration = new StageTime() { Minutes = 0, Seconds = 1 };
+        [SerializeField] private StageTime _spawnDuration = new StageTime() { Minutes = 0, Seconds = 1 };
+
+        public EnemyData EnemyData => _enemyData;
+        public GameObject EnemyPrefab => _enemyPrefab;
+        public int Count => _count;
+        public StageTime SpawnStartTime => _spawnStartTime;
+        public StageTime SpawnDuration => _spawnDuration;
+
 
         public static implicit operator EnemyData(EnemySpawnData data)
         {

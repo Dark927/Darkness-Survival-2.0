@@ -7,6 +7,6 @@ namespace Characters.Common.Combat.Weapons.Data
     public class DefaultAttackData : WeaponAttackDataBase
     {
         [SerializeField] private AttackSettingsBase _defaultAttackSettings;
-        public override AttackSettingsBase AttackSettings => _defaultAttackSettings;
+        public override IAttackSettings Settings => _defaultAttackSettings;
     }
 }

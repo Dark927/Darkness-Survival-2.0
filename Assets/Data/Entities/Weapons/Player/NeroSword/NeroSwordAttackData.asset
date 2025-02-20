@@ -17,10 +17,12 @@ MonoBehaviour:
     _damageSettings:
       _minDamage: 6
       _maxDamage: 10
-    _impactSettings:
+    _impact:
       _useImpact: 1
-      _stunningDuration: 3
-      _pushForce: 5
+      _stunDurationMs: 500
+      _pushForce: 1
+      _reloadTimeMs: 2000
+      _chancePercent: 50
       _shakeSettings:
         m_Amplitude: 2
         m_Frequency: 1
@@ -32,9 +34,11 @@ MonoBehaviour:
       _minDamage: 9
       _maxDamage: 15
     _heavyImpactSettings:
-      _useImpact: 0
-      _stunningDuration: 3
-      _pushForce: 5
+      _useImpact: 1
+      _stunDurationMs: 1000
+      _pushForce: 4
+      _reloadTimeMs: 500
+      _chancePercent: 0
       _shakeSettings:
         m_Amplitude: 5
         m_Frequency: 1

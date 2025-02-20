@@ -1,6 +1,9 @@
-﻿using Characters.Enemy.Data;
+﻿using Characters.Common;
+using Characters.Enemy.Data;
+using Characters.Interfaces;
 using Settings;
 using UnityEngine;
+using World.Data;
 using Zenject;
 
 namespace World.Components.EnemyLogic
@@ -18,18 +21,18 @@ namespace World.Components.EnemyLogic
 
         #region Init
 
-        public EnemyPool(ObjectPoolData poolSettings, EnemyData data, int preloadCount = ObjectPoolData.NotIdentifiedPreloadCount) :
+        public EnemyPool(ObjectPoolData poolSettings, EnemySpawnData data, int preloadCount = ObjectPoolData.NotIdentifiedPreloadCount) :
             base(poolSettings, data.EnemyPrefab)
         {
-            _enemyData = data;
+            _enemyData = data.EnemyData;
             InitPool(preloadCount);
         }
 
         [Inject]
-        public EnemyPool(ObjectPoolData poolSettings, EnemyData data, GameObjectsContainer container, int preloadCount = ObjectPoolData.NotIdentifiedPreloadCount) :
+        public EnemyPool(ObjectPoolData poolSettings, EnemySpawnData data, GameObjectsContainer container, int preloadCount = ObjectPoolData.NotIdentifiedPreloadCount) :
             base(poolSettings, data.EnemyPrefab, container)
         {
-            _enemyData = data;
+            _enemyData = data.EnemyData;
             InitPool(preloadCount); 
         }
 
@@ -42,6 +45,8 @@ namespace World.Components.EnemyLogic
             if (createdObj.TryGetComponent(out EnemyController createdEnemy))
             {
                 createdEnemy.SetTargetPool(this);
+                createdEnemy.Initialize(_enemyData);
+                
             }
 
             return createdObj;
@@ -55,6 +60,10 @@ namespace World.Components.EnemyLogic
         protected override void ReturnAction(GameObject obj)
         {
             base.ReturnAction(obj);
+
+            EnemyController enemy = obj.GetComponent<EnemyController>();
+            enemy.ResetCharacter();
+
             obj.SetActive(false);
         }
 

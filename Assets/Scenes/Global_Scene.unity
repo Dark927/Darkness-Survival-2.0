@@ -720,6 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b718a9fe7b6a4b468fcd2b9f7b76d97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blinkMat: {fileID: 2100000, guid: e6e4e1c9f3788c245abcd96e29aefc04, type: 2}
 --- !u!1 &781532798
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Characters.Player
 {
-    [RequireComponent(typeof(EntityBodyBase))]
+    [RequireComponent(typeof(IEntityPhysicsBody))]
     public class PlayerCharacterLogic : AttackableEntityLogic, ICharacterLogic
     {
         #region Fields

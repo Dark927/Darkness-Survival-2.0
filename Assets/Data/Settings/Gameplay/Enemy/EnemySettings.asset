@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
   _bodyStats:
-    _sideSwitchDelayInMs: 3
-    _accelerationTimeInMs: 500
+    _sideSwitchDelayInMs: 50
+    _accelerationTimeInMs: 0

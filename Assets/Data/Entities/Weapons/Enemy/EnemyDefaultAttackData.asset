@@ -17,14 +17,16 @@ MonoBehaviour:
     _damageSettings:
       _minDamage: 4
       _maxDamage: 5
-    _impactSettings:
-      _useImpact: 0
-      _stunningDuration: 0
-      _pushForce: 0
+    _impact:
+      _useImpact: 1
+      _stunDurationMs: 600
+      _pushForce: 3
+      _reloadTimeMs: 3000
+      _chancePercent: 100
       _shakeSettings:
-        m_Amplitude: 0
-        m_Frequency: 0
-        m_Time: 0
+        m_Amplitude: 3
+        m_Frequency: 1
+        m_Time: 0.25
     _triggerActivityTimeSec: 0
     _fullDurationTimeSec: 0
     _reloadTimeSec: 0

@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 7846844453338433558, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
+      propertyPath: m_LinearDrag
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8880263502414871280, guid: 25ff7bb1dcd35604aac4a6ec86589543, type: 3}
       propertyPath: m_Radius
       value: 0.19

@@ -8,7 +8,7 @@ using World.Components.TargetDetection;
 
 namespace Characters.Enemy
 {
-    public class DefaultEnemyBody : EntityBodyBase, IDamageable
+    public class DefaultEnemyBody : EntityPhysicsBodyBase
     {
         #region Fields
 
@@ -40,6 +40,8 @@ namespace Characters.Enemy
 
         protected override void InitComponents()
         {
+            base.InitComponents();
+
             _enemyLogic = GetComponent<IEnemyLogic>();
 
             Visual = GetComponentInChildren<EnemyVisual>();
@@ -86,6 +88,7 @@ namespace Characters.Enemy
 
         public override void Dispose()
         {
+            base.Dispose();
             _sideController?.Disable();
         }
 
@@ -94,6 +97,7 @@ namespace Characters.Enemy
             base.ResetState();
 
             Invincibility?.Disable();
+            Visual?.DeactivateActualColorBlink();
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 
@@ -118,27 +122,6 @@ namespace Characters.Enemy
             {
                 _sideController.TrySwitchSide();
             }
-        }
-
-        public void TakeDamage(float damage)
-        {
-            if (Invincibility.IsActive || IsDead)
-            {
-                return;
-            }
-
-            Health.TakeDamage(damage);
-            RaiseOnBodyDamaged();
-
-            if (Health.IsEmpty)
-            {
-                RaiseOnBodyDies();
-            }
-        }
-
-        public void Heal()
-        {
-
         }
 
 

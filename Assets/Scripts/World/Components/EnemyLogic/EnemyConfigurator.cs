@@ -45,7 +45,6 @@ namespace World.Components.EnemyLogic
                 (enemyLogic.Body as DefaultEnemyBody).SetTarget(target);
             }
 
-            enemy.ResetCharacter();
             enemy.ConfigureEventLinks();
         }
     }

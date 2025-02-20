@@ -3,14 +3,10 @@ using Characters.Common.Movement;
 using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Animation;
-using System;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
 
 namespace Characters.Player
 {
-    public class PlayerCharacterBody : EntityBodyBase, IDamageable
+    public class PlayerCharacterBody : EntityPhysicsBodyBase
     {
         #region Fields
 
@@ -30,6 +26,8 @@ namespace Characters.Player
 
         protected override void InitComponents()
         {
+            base.InitComponents();
+
             _playerLogic = GetComponent<ICharacterLogic>();
             Visual = GetComponentInChildren<PlayerCharacterVisual>();
 
@@ -59,6 +57,7 @@ namespace Characters.Player
 
             Movement.Speed.OnActualSpeedChanged += _animatorController.SpeedUpdateListener;
             OnBodyDamaged += Invincibility.Enable;
+            Movement.OnMovementPerformed += View.LookForward;
 
             OnBodyDies += _animatorController.TriggerDeath;
             OnBodyDies += Movement.Block;
@@ -71,6 +70,7 @@ namespace Characters.Player
 
             Movement.Speed.OnActualSpeedChanged -= _animatorController.SpeedUpdateListener;
             OnBodyDamaged -= Invincibility.Enable;
+            Movement.OnMovementPerformed -= View.LookForward;
 
             OnBodyDies -= _animatorController.TriggerDeath;
             OnBodyDies -= Movement.Block;
@@ -81,26 +81,14 @@ namespace Characters.Player
 
         #endregion
 
-        public void TakeDamage(float damage)
+        protected override void StartBodyDieActions()
         {
-            if (Invincibility.IsActive || IsDead)
-            {
-                return;
-            }
-
-            Health.TakeDamage(damage);
-            RaiseOnBodyDamaged();
-
-            if (Health.IsEmpty)
-            {
-                RaiseOnBodyDies();
-                _animatorController.Events.OnDeathFinished += RaiseOnBodyCompletelyDied;
-            }
+            _animatorController.Events.OnDeathFinished += RaiseOnBodyCompletelyDied;
         }
 
         public void Heal(float amount)
         {
-            if (IsDead)
+            if (IsDying)
             {
                 return;
             }

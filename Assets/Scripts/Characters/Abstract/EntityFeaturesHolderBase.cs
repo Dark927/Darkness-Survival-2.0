@@ -14,14 +14,14 @@ namespace Characters.Common
         #region Fields 
 
         private Dictionary<TFeature, AsyncOperationHandle> _loadedFeaturesDict;
-        private IEntityLogic _entityLogic;
+        private IEntityDynamicLogic _entityLogic;
 
         #endregion
 
 
         #region Properties
 
-        public IEntityLogic EntityLogic => _entityLogic;
+        public IEntityDynamicLogic EntityLogic => _entityLogic;
         public Dictionary<TFeature, AsyncOperationHandle> LoadedFeaturesDict => _loadedFeaturesDict;
 
         #endregion
@@ -35,7 +35,7 @@ namespace Characters.Common
 
         #region Init
 
-        public EntityFeaturesHolderBase(IEntityLogic targetEntity)
+        public EntityFeaturesHolderBase(IEntityDynamicLogic targetEntity)
         {
             _entityLogic = targetEntity;
             _loadedFeaturesDict = new Dictionary<TFeature, AsyncOperationHandle>();
@@ -70,7 +70,7 @@ namespace Characters.Common
         protected virtual TFeature CreateFeature(GameObject featureAssetObj, string featureName, Transform parent)
         {
             var featureObj = GameObject.Instantiate(featureAssetObj);
-            featureObj.name = featureObj.name;
+            featureObj.name = featureName;
             featureObj.transform.SetParent(parent, false);
             return featureObj.GetComponent<TFeature>();
         }

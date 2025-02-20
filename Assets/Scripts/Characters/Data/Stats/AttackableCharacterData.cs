@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Characters.Stats
 {
-    public class AttackableCharacterData : CharacterBaseData
+    public class AttackableCharacterData : EntityBaseData
     {
         [Space, Header("Weapons Settings")]
 

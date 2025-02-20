@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: NeroData
   m_EditorClassIdentifier: 
   _name: Nero
-  _id: 1497174098
+  _id: 476344789
   _stats:
-    Health: 100
+    Health: 99
     Speed: 5
-    InvincibilityTime: 0.25
+    InvincibilityTime: 0.4
     InvincibilityColor: {r: 0.9056604, g: 0, b: 0, a: 1}
   _damageMultiplier: 1
   _weaponSetData: {fileID: 11400000, guid: c2bb5be7685787c409c43b6203a733fa, type: 2}

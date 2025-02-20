@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Characters.Common.Combat
 {
     [System.Serializable]
-    public class AttackSettingsBase
+    public class AttackSettingsBase : IAttackSettings
     {
         [Space, Header("Main Settings")]
 
         [SerializeField] private AttackNegativeStatusData _attackNegativeStatus;
         [SerializeField] private DamageSettings _damageSettings;
         [Space]
-        [SerializeField] private ImpactSettings _impactSettings;
+        [SerializeField] private ImpactSettings _impact;
 
 
         [Space, Header("Activation Settings")]
@@ -20,8 +20,9 @@ namespace Characters.Common.Combat
         [SerializeField] private float _fullDurationTimeSec;
         [SerializeField] private float _reloadTimeSec;
 
+        public AttackNegativeStatusData NegativeStatus => _attackNegativeStatus;
         public DamageSettings Damage => _damageSettings;
-        public ImpactSettings ImpactSettings => _impactSettings;
+        public ImpactSettings Impact => _impact;
         public float TriggerActivityTimeSec => _triggerActivityTimeSec;
         public float FullDurationTimeSec => _fullDurationTimeSec;
         public float ReloadTimeSec => _reloadTimeSec;

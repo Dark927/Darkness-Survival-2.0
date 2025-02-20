@@ -4,7 +4,7 @@ using System;
 
 namespace Characters.Interfaces
 {
-    public interface ICharacterLogic : IEntityLogic
+    public interface ICharacterLogic : IEntityDynamicLogic
     {
         public event Action<BasicAttack> OnBasicAttacksReady;
         public EntityWeaponsHolder Weapons { get; }

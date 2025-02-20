@@ -28,7 +28,7 @@ namespace UI.Local.Health
         private bool _isReady;
         private bool _isVisible;
         private Vector2 _initialScale;
-        private IEntityBody _entityBody;
+        private IEntityPhysicsBody _entityBody;
         private Slider _hpVisual;
         private BackgroundSprite _backgroundVisual;
 
@@ -56,18 +56,18 @@ namespace UI.Local.Health
             _isReady = false;
         }
 
-        public void Initialize(IEntityLogic entityLogic)
+        public void Initialize(IEntityDynamicLogic entityLogic)
         {
             _initialScale = transform.localScale;
             InitVisualParts();
 
             SetCharacterBody(entityLogic.Body);
             ConfigureBarVisual();
-            //Hide();
+            Hide();
             _configureEventsTask = TryConfigureEventsAsync();
         }
 
-        public void SetCharacterBody(IEntityBody entityBody)
+        public void SetCharacterBody(IEntityPhysicsBody entityBody)
         {
             if (_entityBody != null)
             {

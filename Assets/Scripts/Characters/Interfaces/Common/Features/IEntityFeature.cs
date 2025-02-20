@@ -15,7 +15,7 @@ namespace Characters.Common.Features
         }
 
         public bool IsReady { get; }
-        public void Initialize(IEntityLogic characterLogic);
+        public void Initialize(IEntityDynamicLogic characterLogic);
         public TargetEntityPart EntityConnectionPart { get; }
         public GameObject RootObject { get; }
     }

@@ -1,6 +1,6 @@
 namespace Characters.Interfaces
 {
-    public interface IEnemyLogic : IEntityLogic
+    public interface IEnemyLogic : IEntityDynamicLogic
     {
     }
 }

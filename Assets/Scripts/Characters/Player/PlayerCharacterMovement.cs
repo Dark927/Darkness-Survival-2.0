@@ -17,7 +17,7 @@ namespace Characters.Player
         private Rigidbody2D _rigidbody;
         private Vector2 _direction = Vector2.zero;
 
-        private CharacterSpeed _speed;
+        private EntitySpeed _speed;
         private EntityActionBlock _movementBlock;
 
         private CancellationTokenSource _movementCts;
@@ -29,7 +29,7 @@ namespace Characters.Player
 
         public override bool IsMoving { get => _rigidbody.velocity.sqrMagnitude > 0f; }
         public override Vector2 Direction => _direction;
-        public override CharacterSpeed Speed => _speed;
+        public override EntitySpeed Speed => _speed;
         public override bool IsBlocked => (_movementBlock != null) && _movementBlock.IsBlocked;
 
         #endregion
@@ -39,14 +39,14 @@ namespace Characters.Player
 
         #region Init
 
-        public PlayerCharacterMovement(EntityBodyBase playerBody)
+        public PlayerCharacterMovement(EntityPhysicsBodyBase playerBody)
         {
             if (playerBody is MonoBehaviour playerMonoBehaviour)
             {
                 // Init components which depends on Player firstly.
 
                 _playerTransform = playerMonoBehaviour.transform;
-                InitComponents();
+                InitComponents(playerBody);
             }
             else
             {
@@ -54,11 +54,11 @@ namespace Characters.Player
             }
         }
 
-        private void InitComponents()
+        private void InitComponents(EntityPhysicsBodyBase playerBody)
         {
-            _rigidbody = _playerTransform.gameObject.GetComponent<Rigidbody2D>();
+            _rigidbody = playerBody.Physics.Rigidbody2D;
             _movementBlock = new EntityActionBlock();
-            _speed = new CharacterSpeed();
+            _speed = new EntitySpeed();
         }
 
         public override void ConfigureEventLinks()
@@ -97,6 +97,7 @@ namespace Characters.Player
             }
 
             _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
+            RaiseMovementPerformed();
         }
 
         private void StopMovementTask()
@@ -119,13 +120,13 @@ namespace Characters.Player
 
         public override void Block(int timeInMs)
         {
-            SetStatic();
+            _speed.Stop();
             _movementBlock.Block(timeInMs);
         }
 
         public override void Block()
         {
-            SetStatic();
+            _speed.Stop();
             _movementBlock.Block();
         }
 
@@ -135,10 +136,7 @@ namespace Characters.Player
             {
                 return;
             }
-
-            _rigidbody.isKinematic = false;
             _movementBlock.Unblock();
-            _speed.TryUpdateVelocity(new Vector2(_direction.x, _direction.y).normalized);
         }
 
         private void VelocityUpdateListener(object sender, Vector2 velocity)
@@ -146,14 +144,6 @@ namespace Characters.Player
             _rigidbody.velocity = velocity;
         }
 
-        private void SetStatic()
-        {
-            // do not use Stop method coz we want to save the speed velocity,
-            // to continue moving if the input button is not released
-            Speed.TryUpdateVelocity(Vector2.zero);
-            _rigidbody.velocity = Vector2.zero;
-            _rigidbody.isKinematic = true;
-        }
 
         #endregion
     }

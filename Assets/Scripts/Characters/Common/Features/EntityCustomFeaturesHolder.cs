@@ -26,7 +26,7 @@ namespace Characters.Common.Features
         #region Methods
 
         #region Init
-        public EntityCustomFeaturesHolder(IEntityLogic targetEntity) : base(targetEntity)
+        public EntityCustomFeaturesHolder(IEntityDynamicLogic targetEntity) : base(targetEntity)
         {
         }
 

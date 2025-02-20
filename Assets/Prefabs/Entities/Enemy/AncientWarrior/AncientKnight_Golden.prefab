@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AncientKnight_Golden
       objectReference: {fileID: 0}
+    - target: {fileID: 7040967004326568604, guid: 253d239eb7f34d34297396e5bcfb95c3, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

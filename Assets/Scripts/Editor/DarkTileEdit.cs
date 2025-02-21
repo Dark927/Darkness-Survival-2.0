@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using World.Tile;
+using Gameplay.Tile;
 
 #if UNITY_EDITOR
 namespace Dark.Tile

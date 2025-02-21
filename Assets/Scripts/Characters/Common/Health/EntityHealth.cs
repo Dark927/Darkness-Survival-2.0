@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Characters.Common.Combat;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
@@ -56,11 +57,11 @@ namespace Characters.Health
 
         #endregion
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(Damage damage)
         {
-            if (CanAcceptDamage && (damage > 0))
+            if (CanAcceptDamage && (damage.Amount > 0))
             {
-                UpdateCurrentHp(-damage);
+                UpdateCurrentHp(-damage.Amount);
             }
         }
 

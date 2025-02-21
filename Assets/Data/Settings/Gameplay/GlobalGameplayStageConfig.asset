@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3afcd5b9da58d474fbec8294723fe28c, type: 3}
+  m_Name: GlobalGameplayStageConfig
+  m_EditorClassIdentifier: 
+  _enemyPoolData: {fileID: 11400000, guid: 858389fa9af47994486d6d950bc5e0c0, type: 2}
+  _enemySpawnerData: {fileID: 11400000, guid: 06ef901eab1b6a2429edd89ea69acbc0, type: 2}
+  _enemyCommonData: {fileID: 11400000, guid: a6bc03f1596661a4ba90908dca5c0510, type: 2}
+  _itemPoolData: {fileID: 11400000, guid: 53ba1b5fd53ced14486e04c88b07247c, type: 2}
+  _worldGenerationData: {fileID: 11400000, guid: 02924422fa4358c4a8048ad490324e98, type: 2}

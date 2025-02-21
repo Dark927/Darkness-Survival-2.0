@@ -100,7 +100,7 @@ namespace Characters.Common.Combat.Weapons
             impact.Shake?.Activate();
         }
 
-        protected override float RequestDamage()
+        protected override float RequestDamageAmount()
         {
             return _currentAttackType switch
             {

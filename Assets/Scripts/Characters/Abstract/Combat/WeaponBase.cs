@@ -13,7 +13,7 @@ namespace Characters.Common.Combat.Weapons
         #region Fields
 
         private WeaponAttackDataBase _weaponAttackData;
-        private float _damage;
+        private Damage _damage;
         private Collider2D _ownerCollidder;
 
         #endregion
@@ -38,6 +38,7 @@ namespace Characters.Common.Combat.Weapons
             IEntityPhysicsBody ownerBody = GetComponentInParent<IEntityPhysicsBody>(true);
             _ownerCollidder = ownerBody.Physics.Collider;
             _weaponAttackData = attackData;
+            _damage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
         }
 
         protected virtual AttackImpact InitImpact(ImpactSettings impactSettings)
@@ -75,9 +76,7 @@ namespace Characters.Common.Combat.Weapons
                 return;
             }
 
-            _damage = RequestDamage();
-
-
+            _damage.Amount = RequestDamageAmount();
             IEntityPhysicsBody targetBody = (target as IEntityPhysicsBody);
 
             if (target.CanAcceptDamage)
@@ -87,7 +86,7 @@ namespace Characters.Common.Combat.Weapons
             }
         }
 
-        protected virtual float RequestDamage()
+        protected virtual float RequestDamageAmount()
         {
             return CalculateDamage(AttackSettings.Damage);
         }
@@ -95,17 +94,17 @@ namespace Characters.Common.Combat.Weapons
         protected virtual void PerformPostDamageActions(Collider2D targetCollider)
         {
             PerformImpact(targetCollider);
-            FlashTarget(targetCollider, AttackSettings.NegativeStatus);
+            FlashTarget(targetCollider, _damage.NegativeStatus);
         }
 
-        protected virtual void FlashTarget(Collider2D targetCollider, AttackNegativeStatusData negativeStatus)
+        protected virtual void FlashTarget(Collider2D targetCollider, AttackNegativeStatus negativeStatus)
         {
-            if (negativeStatus == null)
+            if (negativeStatus.Equals(AttackNegativeStatus.Zero))
             {
                 return;
             }
 
-            if (targetCollider.TryGetComponent<IEntityPhysicsBody>(out IEntityPhysicsBody targetBody))
+            if (targetCollider.TryGetComponent(out IEntityPhysicsBody targetBody))
             {
                 targetBody.Visual.ActivateColorBlink(
                     negativeStatus.VisualColor,

@@ -13,20 +13,16 @@ namespace Characters.Common.Combat.Weapons.Data
 
         [Space, Header("Effect Settings")]
 
-        [SerializeField] private Color _effectColor;
-        [SerializeField] private float _effectDurationInSec;
-        [SerializeField] private float _effectSpeedInSec;
+        [SerializeField] private AttackNegativeStatus _settings = AttackNegativeStatus.Zero;
 
         #endregion
 
 
         #region Properties
 
+        public AttackNegativeStatus Settings => _settings;
         public string Name => _name;
         public string Description => _description;
-        public Color VisualColor => _effectColor;
-        public float EffectDurationInSec => _effectDurationInSec;
-        public float EffectSpeedInSec => _effectSpeedInSec;
 
         #endregion
     }

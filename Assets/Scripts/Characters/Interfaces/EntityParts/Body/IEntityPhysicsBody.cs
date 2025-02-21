@@ -31,7 +31,8 @@ namespace Characters.Interfaces
         /// </summary>
         public event Action OnBodyDiedCompletely;
 
-        public event Action OnBodyDamaged;
+        public event DamageEventHandler OnBodyDamaged;
+        public event DamageEventHandlerWithArgs OnBodyDamagedWithArgs;
 
 
         #endregion

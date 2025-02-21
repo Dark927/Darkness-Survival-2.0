@@ -1,18 +1,11 @@
 using Cinemachine;
 using Settings.CameraManagement;
 using Settings.Global;
-using System;
-using UnityEngine;
 using Zenject;
 
 public class GlobalSettingsInstaller : MonoInstaller
 {
     #region Fields
-
-    [SerializeField] private Material _blinkMat;
-    private GameManager _gameManager;
-    private CameraController _cameraController;
-    private PlayerManager _playerManager;
 
     #endregion
 
@@ -21,37 +14,33 @@ public class GlobalSettingsInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        InitComponents();
-        Bind();
-    }
+        // Init 
 
-    private void InitComponents()
-    {
-        _gameManager = new GameManager();
-        _gameManager.BlinkMaterial = _blinkMat;
-        _playerManager = new PlayerManager();
+        GameStateService gameManager = new GameStateService();
+        PlayerService playerManager = new PlayerService();
 
         CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
-        _cameraController = new CameraController(virtualCamera);
-    }
+        CameraController cameraController = new CameraController(virtualCamera);
 
-    private void Bind()
-    {
+
+        // Bind
+
         Container
-            .Bind<GameManager>()
-            .FromInstance(_gameManager)
+            .Bind<GameStateService>()
+            .FromInstance(gameManager)
             .AsSingle();
 
         Container
-            .Bind<PlayerManager>()
-            .FromInstance(_playerManager)
+            .Bind<PlayerService>()
+            .FromInstance(playerManager)
             .AsSingle();
 
         Container
             .Bind<CameraController>()
-            .FromInstance(_cameraController)
+            .FromInstance(cameraController)
             .AsSingle();
     }
+
 
     #endregion
 }

@@ -54,7 +54,7 @@ namespace Characters.Player
         protected override void Start()
         {
             base.Start();
-            ServiceLocator.Current.Get<PlayerManager>()?.AddPlayer(this);
+            ServiceLocator.Current.Get<PlayerService>()?.AddPlayer(this);
 
             ConfigureEventLinks();
         }

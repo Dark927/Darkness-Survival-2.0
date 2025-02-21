@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_SerializeEntries:
+  - m_GUID: 56595c4855cb17445878fb61b91ffdb9
+    m_Address: Assets/Data/Settings/Gameplay/GlobalGameplayStageConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5c96f1a7c862f0e4bae77854c71a9259
     m_Address: Assets/Data/Entities/Features/CharacterFeatureSet.asset
     m_ReadOnly: 0

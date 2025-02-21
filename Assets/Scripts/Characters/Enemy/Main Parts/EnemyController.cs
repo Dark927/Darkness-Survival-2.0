@@ -1,5 +1,5 @@
 ﻿using Characters.Common;
-using World.Components.EnemyLogic;
+using Gameplay.Components.Enemy;
 using Cysharp.Threading.Tasks;
 using Characters.Enemy.Data;
 using Characters.Stats;
@@ -8,7 +8,7 @@ public class EnemyController : EntityControllerBase
 {
     #region Fields 
 
-    private EnemyPool _targetPool;
+    private EnemySpawner _targetSpawner;
     private EnemyData _enemyData;
 
     #endregion
@@ -16,7 +16,7 @@ public class EnemyController : EntityControllerBase
 
     #region Properties
 
-    public EnemyPool TargetPool => _targetPool;
+    public EnemySpawner TargetSpawner => _targetSpawner;
     public EnemyData Data => _enemyData;
 
     #endregion
@@ -67,9 +67,9 @@ public class EnemyController : EntityControllerBase
 
     public void OnCharacterDeath()
     {
-        if (_targetPool != null)
+        if (_targetSpawner != null)
         {
-            _targetPool.ReturnObject(this.gameObject);
+            _targetSpawner.ReturnEnemy(this);
         }
         else
         {
@@ -77,9 +77,9 @@ public class EnemyController : EntityControllerBase
         }
     }
 
-    public void SetTargetPool(EnemyPool targetPool)
+    public void SetTargetSpawner(EnemySpawner targetSpawner)
     {
-        _targetPool = targetPool;
+        _targetSpawner = targetSpawner;
     }
 
     public void SetData(EnemyData data)

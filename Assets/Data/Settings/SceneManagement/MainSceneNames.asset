@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MainSceneNames
   m_EditorClassIdentifier: 
   _globalScene: Global_Scene
-  _gameplayEssentialsScene: Essentials_Scene
+  _gameplayEssentialsScene: Gameplay_Essentials_Scene

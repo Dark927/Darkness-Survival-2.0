@@ -4,7 +4,7 @@ using Characters.Enemy.Data;
 using Characters.Health;
 using Characters.Interfaces;
 using UnityEngine;
-using World.Components.TargetDetection;
+using Gameplay.Components.TargetDetection;
 
 namespace Characters.Enemy
 {

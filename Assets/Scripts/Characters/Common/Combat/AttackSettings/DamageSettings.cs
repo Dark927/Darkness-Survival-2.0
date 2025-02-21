@@ -3,7 +3,7 @@
 namespace Characters.Common.Combat
 {
     [System.Serializable]
-    public class DamageSettings
+    public struct DamageSettings
     {
         [SerializeField] private float _minDamage;
         [SerializeField] private float _maxDamage;

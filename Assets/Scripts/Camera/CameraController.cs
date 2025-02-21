@@ -34,7 +34,7 @@ namespace Settings.CameraManagement
         public void Init()
         {
             _cameraShake = new CameraShake(_virtualCamera);
-            ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady += FollowPlayer;
+            ServiceLocator.Current.Get<PlayerService>().OnPlayerReady += FollowPlayer;
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace Settings.CameraManagement
 
         public void Dispose()
         {
-            ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady -= FollowPlayer;
+            ServiceLocator.Current.Get<PlayerService>().OnPlayerReady -= FollowPlayer;
         }
 
         #endregion

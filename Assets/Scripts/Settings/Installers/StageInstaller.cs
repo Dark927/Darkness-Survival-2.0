@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
-using World.Components;
-using World.Generation;
-using World.Tile;
+using Gameplay.Components;
+using Gameplay.Generation;
+using Gameplay.Tile;
 using Zenject;
+using Gameplay.Components.Enemy;
+using Gameplay.Data;
 
 public class StageInstaller : MonoInstaller
 {
-    [Header("Main parameters")]
+    [Header("World - Settings")]
     [SerializeField] private WorldGeneration _worldGenerationType = WorldGeneration.Scrolling;
     [SerializeField] private WorldGenerationData _worldGenerationSettings;
     [SerializeField] private GameObjectsContainer _worldChunksContainer;
+
+    [Header("Enemy Management - Settings")]
+    [SerializeField] private EnemyManagementData _enemyManagementData;
+
 
     public override void InstallBindings()
     {
@@ -19,7 +25,20 @@ public class StageInstaller : MonoInstaller
             .FromComponentInHierarchy()
             .AsSingle();
 
+        BindWorld();
+        BindEnemyManagement();
+    }
 
+    private void BindEnemyManagement()
+    {
+        Container
+            .Bind<EnemyManagementData>()
+            .FromInstance(_enemyManagementData)
+            .AsSingle();
+    }
+
+    private void BindWorld()
+    {
         // ----------------------------------------------------------
         // ! Binding World Generation strategy inside Scene Context
         // ----------------------------------------------------------

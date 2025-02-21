@@ -17,6 +17,7 @@ namespace Characters.Common.Visual
 
         private SpriteRenderer _spriteRenderer;
         private CancellationTokenSource _blinkCts;
+        private Material _material;
 
         #endregion
 
@@ -42,6 +43,8 @@ namespace Characters.Common.Visual
         public virtual void Initialize()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _material = new Material(_spriteRenderer.material);
+            _spriteRenderer.material = _material;
         }
 
         public void Dispose()
@@ -85,7 +88,7 @@ namespace Characters.Common.Visual
 
                 if (token.IsCancellationRequested)
                 {
-                    break;
+                    return;
                 }
 
                 SetFlashAmount(1f - perc);
@@ -98,12 +101,12 @@ namespace Characters.Common.Visual
 
         protected void SetFlashColor(Color targetColor)
         {
-            Renderer.material.SetColor(_matFlashColorName, targetColor);
+            _material.SetColor(_matFlashColorName, targetColor);
         }
 
         private void SetFlashAmount(float flashAmount)
         {
-            Renderer.material.SetFloat(_matFlashAmountName, flashAmount);
+            _material.SetFloat(_matFlashAmountName, flashAmount);
         }
     }
 

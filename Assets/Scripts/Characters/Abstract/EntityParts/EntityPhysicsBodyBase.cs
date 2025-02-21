@@ -1,4 +1,5 @@
 
+using Characters.Common.Combat;
 using Characters.Common.Movement;
 using Characters.Common.Physics2D;
 using Characters.Common.Visual;
@@ -11,7 +12,7 @@ using Utilities.Characters;
 namespace Characters.Common
 {
     [RequireComponent(typeof(IEntityPhysics2D))]
-    public abstract class EntityPhysicsBodyBase : MonoBehaviour, IEntityPhysicsBody, IDamageable 
+    public abstract class EntityPhysicsBodyBase : MonoBehaviour, IEntityPhysicsBody, IDamageable
     {
         #region Fields
 
@@ -30,7 +31,8 @@ namespace Characters.Common
 
         public event Action OnBodyDies;
         public event Action OnBodyDiedCompletely;
-        public event Action OnBodyDamaged;
+        public event DamageEventHandler OnBodyDamaged;
+        public event DamageEventHandlerWithArgs OnBodyDamagedWithArgs;
 
         #endregion
 
@@ -122,7 +124,7 @@ namespace Characters.Common
         {
             Health.ResetState();
         }
-        public virtual void TakeDamage(float damage)
+        public virtual void TakeDamage(Damage damage)
         {
             if (!CanAcceptDamage)
             {
@@ -130,7 +132,7 @@ namespace Characters.Common
             }
 
             Health.TakeDamage(damage);
-            RaiseOnBodyDamaged();
+            RaiseOnBodyDamaged(damage);
 
             if (IsDying)
             {
@@ -154,9 +156,10 @@ namespace Characters.Common
             OnBodyDiedCompletely?.Invoke();
         }
 
-        protected void RaiseOnBodyDamaged()
+        protected void RaiseOnBodyDamaged(Damage damage)
         {
             OnBodyDamaged?.Invoke();
+            OnBodyDamagedWithArgs?.Invoke(this, damage);
         }
 
 

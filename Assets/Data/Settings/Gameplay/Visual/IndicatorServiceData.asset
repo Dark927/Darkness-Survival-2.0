@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b3c8b976078064d89d25b6994002c8, type: 3}
+  m_Name: IndicatorServiceData
+  m_EditorClassIdentifier: 
+  _textIndicator: {fileID: 4496199903545284989, guid: 2cd3ed281e991cc49a2f39e0addf27cb, type: 3}
+  _offset: {x: 0, y: 0.2}
+  _randomOffset: {x: 0.1, y: 0.35}

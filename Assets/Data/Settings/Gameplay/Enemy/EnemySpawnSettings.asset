@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: EnemySpawnSettings
   m_EditorClassIdentifier: 
   _spawnPositionRange: {x: 5, y: 5}
-  _spawnPositionOffset: {x: 0, y: 0}
+  _spawnPositionOffset: {x: 5, y: 5}

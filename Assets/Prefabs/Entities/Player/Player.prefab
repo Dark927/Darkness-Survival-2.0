@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4114824868038369942}
   - component: {fileID: 8629233726174148127}
   - component: {fileID: 9053780044762284656}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -122,6 +122,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4114824868038369942}
     m_Modifications:
+    - target: {fileID: 22089183874541950, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 284659710841730827, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: _characterData
       value: 
@@ -137,6 +141,10 @@ PrefabInstance:
     - target: {fileID: 869917052494251954, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1085055352683630366, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1257784969828566354, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: m_Intensity
@@ -214,6 +222,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4305147359848049696, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4767574548691010414, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: m_Color.a
       value: 0.74509805
@@ -225,6 +237,14 @@ PrefabInstance:
     - target: {fileID: 7507303139750698719, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: m_Name
       value: Nero
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507303139750698719, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8698328458444888489, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8785054960571238870, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: _actualHpColor.b

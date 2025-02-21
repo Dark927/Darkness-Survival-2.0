@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BioMonsterDefault
   m_EditorClassIdentifier: 
   _name: BioMonster
-  _id: -1061963284
+  _id: 1167892139
   _stats:
     Health: 40
     Speed: 1

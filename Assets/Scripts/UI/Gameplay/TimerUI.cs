@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using Utilities.ErrorHandling;
-using World.Components;
+using Gameplay.Components;
 
 public class TimerUI : MonoBehaviour
 {

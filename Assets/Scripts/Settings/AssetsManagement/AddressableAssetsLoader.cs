@@ -62,7 +62,6 @@ namespace Settings.AssetsManagement
             return Addressables.LoadAssetAsync<TResult>(assetRef);
         }
 
-
         // - Unload 
 
         public void TryUnloadAsset(AsyncOperationHandle handle)

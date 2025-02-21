@@ -35,6 +35,12 @@ namespace Settings.Global
             Current = new ServiceLocator();
         }
 
+        public void Dispose()
+        {
+            _services.Clear();
+            Current = null;
+        }
+
         #endregion
 
         /// <summary>
@@ -80,6 +86,17 @@ namespace Settings.Global
         public void Unregister<T>() where T : IService
         {
             string key = typeof(T).Name;
+            TryUnregister(key);
+        }
+
+        public void Unregister(IService service)
+        {
+            string key = service.GetType().Name;
+
+            TryUnregister(key);
+        }
+        private void TryUnregister(string key)
+        {
             if (!_services.ContainsKey(key))
             {
                 Debug.LogError(
@@ -88,12 +105,6 @@ namespace Settings.Global
             }
 
             _services.Remove(key);
-        }
-
-        public void Dispose()
-        {
-            _services.Clear();
-            Current = null;
         }
 
         #endregion

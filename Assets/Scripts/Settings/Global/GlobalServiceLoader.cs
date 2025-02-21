@@ -12,8 +12,8 @@ namespace Settings.Global
 
         private List<IDisposable> _disposables;
         private CameraController _cameraController;
-        private GameManager _gameManager;
-        private PlayerManager _playerManager;
+        private GameStateService _gameManager;
+        private PlayerService _playerManager;
 
         #endregion
 
@@ -24,8 +24,8 @@ namespace Settings.Global
 
         [Inject]
         public void Construct(
-            GameManager gameManager,
-            PlayerManager playerManager,
+            GameStateService gameManager,
+            PlayerService playerManager,
             CameraController cameraController
             )
         {

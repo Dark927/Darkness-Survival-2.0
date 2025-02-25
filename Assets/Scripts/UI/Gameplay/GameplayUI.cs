@@ -3,11 +3,16 @@ using Settings.Abstract;
 using Settings.Global;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public sealed class GameplayUI : SingletonBase<GameplayUI>
 {
     private PlayerCharacterController _targetCharacter;
-    [SerializeField] private GameObject _gameOverPanel;
+
+    [Header("Panels")]
+    [SerializeField] private AssetReference _gameOverPanel;
+
+
 
     private void Awake()
     {
@@ -31,7 +36,7 @@ public sealed class GameplayUI : SingletonBase<GameplayUI>
 
     public void ActivateGameOverPanel()
     {
-        _gameOverPanel.SetActive(true);
+        //_gameOverPanel.SetActive(true);
     }
 
 

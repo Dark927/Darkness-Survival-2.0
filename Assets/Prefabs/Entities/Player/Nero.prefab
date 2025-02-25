@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9174304608124466144}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1068641967125005398}
   - component: {fileID: 5069042129464851250}
   - component: {fileID: 889460521701627987}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Nero_visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: e6e4e1c9f3788c245abcd96e29aefc04, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,7 +178,8 @@ GameObject:
   - component: {fileID: 284659710841730827}
   - component: {fileID: 2057875600993417546}
   - component: {fileID: 1741456745381354177}
-  m_Layer: 0
+  - component: {fileID: 5866157742723967205}
+  m_Layer: 3
   m_Name: Nero
   m_TagString: Player
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -215,7 +216,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -276,7 +277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a72700a17bfe2a4a94c33ca5e2b72b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterData: {fileID: 11400000, guid: 60328aaa04dd0f84d9ece0d2ae31ac1c, type: 2}
 --- !u!114 &2057875600993417546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +301,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70dd58993d705a14588052ec5011a018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5866157742723967205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507303139750698719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266f86d163a13d945802574da00d039f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _immunityTimeMs: 1000
 --- !u!1 &8698328458444888489
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9083722765912174440}
   - component: {fileID: 1257784969828566354}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,7 +363,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1.5
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -371,8 +384,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 1
-  m_PointLightOuterRadius: 5
+  m_PointLightInnerRadius: 5
+  m_PointLightOuterRadius: 12
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

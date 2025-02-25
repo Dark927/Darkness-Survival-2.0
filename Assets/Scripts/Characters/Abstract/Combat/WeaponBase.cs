@@ -93,7 +93,12 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual void PerformPostDamageActions(Collider2D targetCollider)
         {
-            PerformImpact(targetCollider);
+            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
+
+            if (!targetBody.Physics.IsImmune)
+            {
+                PerformImpact(targetCollider);
+            }
             FlashTarget(targetCollider, _damage.NegativeStatus);
         }
 

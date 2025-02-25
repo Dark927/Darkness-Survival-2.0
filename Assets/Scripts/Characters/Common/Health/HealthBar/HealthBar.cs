@@ -27,11 +27,10 @@ namespace UI.Local.Health
 
         private bool _isReady;
         private bool _isVisible;
-        private Vector2 _initialScale;
         private IEntityPhysicsBody _entityBody;
         private Slider _hpVisual;
         private BackgroundSprite _backgroundVisual;
-
+        private Vector2 _updatedScaleX;
         private UniTaskVoid _configureEventsTask;
 
         #endregion
@@ -52,13 +51,11 @@ namespace UI.Local.Health
 
         private void Awake()
         {
-            _initialScale = transform.localScale;
             _isReady = false;
         }
 
         public void Initialize(IEntityDynamicLogic entityLogic)
         {
-            _initialScale = transform.localScale;
             InitVisualParts();
 
             SetCharacterBody(entityLogic.Body);
@@ -87,8 +84,12 @@ namespace UI.Local.Health
 
         private void CharacterScaleChangedListener(object sender, EventArgs args)
         {
-            _initialScale.x *= -1;
-            transform.localScale = _initialScale;
+            // ToDo : check this.
+
+            if (Mathf.Sign(_entityBody.Transform.localScale.x) != Mathf.Sign(transform.localScale.x))
+            {
+                transform.localScale = transform.localScale * (-1);
+            }
         }
 
         private void InitVisualParts()

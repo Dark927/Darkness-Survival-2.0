@@ -43,7 +43,7 @@ namespace Settings.CameraManagement
         {
             if (_virtualCamera != null)
             {
-                _virtualCamera.Follow = player.Character.Body.Transform;
+                _virtualCamera.Follow = player.CharacterLogic.Body.Transform;
             }
         }
 

@@ -25,7 +25,7 @@ namespace Characters.Common.Physics2D
 
         public void Stun(IEntityPhysics2D entityPhysics)
         {
-            entityPhysics.EntityLogic.Body.Movement.Block(_durationMs);
+            entityPhysics.EntityLogic.ApplyStun(_durationMs);
         }
     }
 }

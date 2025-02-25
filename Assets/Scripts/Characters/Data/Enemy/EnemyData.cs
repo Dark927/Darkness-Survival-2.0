@@ -1,7 +1,10 @@
 using Characters.Stats;
+using Gameplay.Components.Items;
 using System;
+using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Characters.Enemy.Data
 {
@@ -13,7 +16,7 @@ namespace Characters.Enemy.Data
         Golden = 3,
     }
 
-    [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Game/Characters/Data/EnemyData")]
+    [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Game/Characters/Enemy/EnemyData")]
     public class EnemyData : AttackableCharacterData
     {
         #region Fields 
@@ -23,12 +26,17 @@ namespace Characters.Enemy.Data
 
         [SerializeField] private EnemyType _type;
 
+        [Header("Drop Items Settings")]
+        [SerializeField] private List<AssetReferenceT<ItemDropData>> _dropItemReferences;
+
         #endregion
 
 
         #region Properties
 
         public EnemyType Type => _type;
+        public List<AssetReferenceT<ItemDropData>> DropItemReferences => _dropItemReferences;
+
 
         #endregion
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Characters.Stats
 {
-    [CreateAssetMenu(fileName = "NewEntityData", menuName = "Game/Characters/Data/DefaultEntityData")]
+    [CreateAssetMenu(fileName = "NewEntityData", menuName = "Game/Characters/DefaultEntityData")]
     public class EntityBaseData : ScriptableObject, IEntityData
     {
         #region Fields 

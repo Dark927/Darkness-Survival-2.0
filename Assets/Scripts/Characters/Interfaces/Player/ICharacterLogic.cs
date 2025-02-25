@@ -1,5 +1,7 @@
+using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
-using Characters.Player.Weapons;
+using Characters.Common.Levels;
+using Characters.Player.Data;
 using System;
 
 namespace Characters.Interfaces
@@ -8,6 +10,7 @@ namespace Characters.Interfaces
     {
         public event Action<BasicAttack> OnBasicAttacksReady;
         public EntityWeaponsHolder Weapons { get; }
+        public ICharacterLevel Level { get; }
 
         public void PerformBasicAttack(BasicAttack.LocalType type);
     }

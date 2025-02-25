@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Characters.Interfaces
 {
-    public interface IEntityDynamicLogic : IEntityLogic
+    public interface IEntityDynamicLogic : IEntityLogic, IStunnable
     {
         public IEntityPhysicsBody Body { get; }
         public IEntityData Data { get; }

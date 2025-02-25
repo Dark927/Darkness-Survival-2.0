@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Characters.Player.Weapons
+namespace Characters.Common.Combat
 {
     public class EntityWeaponsHolder : EntityFeaturesHolderBase<WeaponBase>
     {

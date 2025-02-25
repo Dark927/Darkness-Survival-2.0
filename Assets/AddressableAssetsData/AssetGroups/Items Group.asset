@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Items Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Items Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: a04ae2839cef4c444a6da856696baced
+  m_SerializeEntries:
+  - m_GUID: 3cc63e970d265dc4a86a7b78258c9eed
+    m_Address: Assets/Data/Entities/Items/SoulFragment_Red_Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Enemy
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c7fbcfff263c9a4789f70c52990dd64
+    m_Address: Assets/Data/Entities/Items/SoulFragment_White_Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Enemy
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 87339b6478d6afd48ab828457b6c4636
+    m_Address: Assets/Data/Entities/Items/SoulFragmentDropData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Enemy
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec90cb18e0a18f04dbdf6c4a847838d7
+    m_Address: Assets/Data/Entities/Items/SoulFragment_Red_DropData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Enemy
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 409abf5fd251b1345941243db22daff4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1d77579ee8b82b145820e3392e898ce9, type: 2}
+    - {fileID: 11400000, guid: dc0e66635944fcb48af908c62009252e, type: 2}

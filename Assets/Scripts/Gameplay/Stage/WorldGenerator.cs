@@ -83,7 +83,7 @@ namespace Gameplay.Generation
 
             if (canSetTarget)
             {
-                _generationStrategy.SetTarget(player.Character.Body.Transform);
+                _generationStrategy.SetTarget(player.CharacterLogic.Body.Transform);
                 ServiceLocator.Current.Get<PlayerService>().OnPlayerReady -= PlayerReadyListener;
             }
         }

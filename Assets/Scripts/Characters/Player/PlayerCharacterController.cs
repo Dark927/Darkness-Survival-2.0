@@ -22,7 +22,7 @@ namespace Characters.Player
 
         #region Properties
 
-        public ICharacterLogic Character => EntityLogic as ICharacterLogic;
+        public ICharacterLogic CharacterLogic => EntityLogic as ICharacterLogic;
 
         #endregion
 
@@ -98,7 +98,7 @@ namespace Characters.Player
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (Character.Body.Movement == null)
+            if (CharacterLogic.Body.Movement == null)
             {
                 return;
             }
@@ -106,12 +106,12 @@ namespace Characters.Player
             if (context.performed)
             {
                 Vector2 direction = context.ReadValue<Vector2>();
-                Character.Body.Movement.MoveAsync(direction).Forget();
+                CharacterLogic.Body.Movement.MoveAsync(direction).Forget();
             }
 
             if (context.canceled)
             {
-                Character.Body.Movement.Stop();
+                CharacterLogic.Body.Movement.Stop();
             }
         }
 
@@ -120,13 +120,13 @@ namespace Characters.Player
             if (context.performed)
             {
                 int contextValue = (int)context.ReadValue<float>();
-                Character.PerformBasicAttack((BasicAttack.LocalType)contextValue);
+                CharacterLogic.PerformBasicAttack((BasicAttack.LocalType)contextValue);
             }
         }
 
         private void PlayerCharacterDies()
         {
-            Character.Body.Physics.SetStatic();
+            CharacterLogic.Body.Physics.SetStatic();
             _input.DeactivateInput();
         }
 

@@ -27,13 +27,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60328aaa04dd0f84d9ece0d2ae31ac1c
+    m_Address: Assets/Data/Entities/Player/NeroData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8551185e2733731429da5a933e644733
     m_Address: Assets/Prefabs/Entities/Features/DefaultHealthBar.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97a766c07274bda4a9ed6b0b9b402234
+    m_Address: Assets/Prefabs/Entities/Player/Player.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e63b8693779213448b1e59e15a985f5
     m_Address: Assets/Prefabs/Entities/Features/EnemyHealthBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b81171a0aac7ead4a8edee2e158159e4
+    m_Address: Assets/Data/Entities/Player/NeroLevelData.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -50,7 +50,7 @@ public sealed class PlayerService : IService
         // ToDo : implement the logic for several players in the future.
 
         PlayerCharacterController player = _players.FirstOrDefault();
-        return (player != null) ? player.Character : null;
+        return (player != null) ? player.CharacterLogic : null;
     }
 
     public Transform GetCharacterTransform()

@@ -1,4 +1,5 @@
-﻿using Characters.Common.Combat.Weapons;
+﻿using Characters.Common.Combat;
+using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
 using Characters.Player.Weapons;
 using Characters.Stats;
@@ -130,6 +131,11 @@ namespace Characters.Common
         protected void SetBasicAttacks(BasicAttack attacks)
         {
             _attacks = attacks;
+        }
+
+        public void ApplyStun(int durationMs)
+        {
+            Body.Movement.Block(durationMs);
         }
 
         #endregion

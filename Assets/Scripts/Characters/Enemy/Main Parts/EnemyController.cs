@@ -3,6 +3,9 @@ using Gameplay.Components.Enemy;
 using Cysharp.Threading.Tasks;
 using Characters.Enemy.Data;
 using Characters.Stats;
+using Characters.Interfaces;
+using UnityEngine;
+using Gameplay.Components.Items;
 
 public class EnemyController : EntityControllerBase
 {
@@ -10,6 +13,7 @@ public class EnemyController : EntityControllerBase
 
     private EnemySpawner _targetSpawner;
     private EnemyData _enemyData;
+    private IEnemyLogic _enemyLogic;
 
     #endregion
 
@@ -18,6 +22,7 @@ public class EnemyController : EntityControllerBase
 
     public EnemySpawner TargetSpawner => _targetSpawner;
     public EnemyData Data => _enemyData;
+    public IEnemyLogic EnemyLogic => _enemyLogic;
 
     #endregion
 
@@ -30,6 +35,7 @@ public class EnemyController : EntityControllerBase
     {
         base.Initialize(data);
         _enemyData = data as EnemyData;
+        _enemyLogic = EntityLogic as IEnemyLogic;
 
         EntityLogic.Initialize(Data);
         InitFeaturesAsync().Forget();
@@ -69,6 +75,7 @@ public class EnemyController : EntityControllerBase
     {
         if (_targetSpawner != null)
         {
+            EnemyLogic.SpawnRandomDropItem();
             _targetSpawner.ReturnEnemy(this);
         }
         else

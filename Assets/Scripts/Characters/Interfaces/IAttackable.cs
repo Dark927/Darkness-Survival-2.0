@@ -1,5 +1,5 @@
+using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
-using Characters.Player.Weapons;
 
 namespace Characters.Interfaces
 {

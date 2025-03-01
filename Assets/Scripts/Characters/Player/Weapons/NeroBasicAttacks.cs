@@ -2,7 +2,6 @@
 using Characters.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Characters.Player.Weapons
 {

@@ -1,9 +1,7 @@
-﻿using Characters.Common;
-using Characters.Enemy.Data;
-using Characters.Interfaces;
+﻿using Characters.Enemy.Data;
+using Gameplay.Data;
 using Settings;
 using UnityEngine;
-using Gameplay.Data;
 using Zenject;
 
 namespace Gameplay.Components.Enemy
@@ -33,7 +31,7 @@ namespace Gameplay.Components.Enemy
             base(poolSettings, data.EnemyPrefab, container)
         {
             _enemyData = data.EnemyData;
-            InitPool(preloadCount); 
+            InitPool(preloadCount);
         }
 
         #endregion

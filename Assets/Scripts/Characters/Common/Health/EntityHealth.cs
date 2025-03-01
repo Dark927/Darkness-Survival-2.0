@@ -14,6 +14,7 @@ namespace Characters.Health
         private float _currentHp;
 
         private CancellationTokenSource _regenerationCts;
+        private float _permanentHpRegenAmount = 0f;
 
         #endregion
 
@@ -65,14 +66,6 @@ namespace Characters.Health
             }
         }
 
-        public void Heal(float amount)
-        {
-            if ((amount > 0) && (_currentHp < _maxHp))
-            {
-                UpdateCurrentHp(amount);
-            }
-        }
-
         public void SetMaxHpLimit(float amount)
         {
             _maxHp = amount;
@@ -89,17 +82,24 @@ namespace Characters.Health
 
         // Hp regeneration
 
-        public void RegenerateHp(float hpPerStep, float stepInSec, bool additive = false)
+        public void RegenerateHp(float hpPerStep, float stepInSec = 1f, bool additive = false)
         {
+            // Using Infinity because elapsed time will never reach it
             RegenerateHp(hpPerStep, Mathf.Infinity, stepInSec, additive);
         }
 
-        public void RegenerateHp(float hpPerStep, float duration, float stepInSec, bool additive = false)
+        public void RegenerateHp(float hpPerStep, float durationInSec, float stepInSec = 1f, bool additive = false)
         {
+            if (Mathf.Approximately(durationInSec, 0f))
+            {
+                Heal(hpPerStep);
+                return;
+            }
+
             if (additive)
             {
                 _regenerationCts = _regenerationCts == null
-                    ? new CancellationTokenSource() 
+                    ? new CancellationTokenSource()
                     : _regenerationCts;
             }
             else
@@ -108,7 +108,7 @@ namespace Characters.Health
                 _regenerationCts = new CancellationTokenSource();
             }
 
-            RegenerateHpAsync(hpPerStep, duration, stepInSec, _regenerationCts.Token).Forget();
+            RegenerateHpAsync(hpPerStep, durationInSec, stepInSec, _regenerationCts.Token).Forget();
         }
 
         public void CancelHpRegeneration()
@@ -116,20 +116,36 @@ namespace Characters.Health
             _regenerationCts?.Cancel();
             _regenerationCts?.Dispose();
             _regenerationCts = null;
+            _permanentHpRegenAmount = 0f;
         }
 
-
-        private async UniTaskVoid RegenerateHpAsync(float amountPerRate, float duration, float rateSec, CancellationToken token = default)
+        private void Heal(float amount)
         {
-            UniTask targetRegenerationTask = float.IsPositiveInfinity(duration)
+            if ((amount > 0) && (_currentHp < _maxHp))
+            {
+                UpdateCurrentHp(amount);
+            }
+        }
+
+        private async UniTaskVoid RegenerateHpAsync(float amountPerRate, float durationInSec, float rateSec, CancellationToken token = default)
+        {
+            UniTask targetRegenerationTask = float.IsPositiveInfinity(durationInSec)
                 ? RegenerateHpInfinite(amountPerRate, rateSec, token)
-                : RegenerateHpDuringTime(amountPerRate, duration, rateSec, token);
+                : RegenerateHpDuringTime(amountPerRate, durationInSec, rateSec, token);
 
             await targetRegenerationTask;
         }
 
         private async UniTask RegenerateHpInfinite(float amountPerRate, float rateSec, CancellationToken token)
         {
+            if (_permanentHpRegenAmount > 0f)
+            {
+                _permanentHpRegenAmount += amountPerRate;
+                return;
+            }
+
+            _permanentHpRegenAmount += amountPerRate;
+
             while (true)
             {
                 await UniTask.WaitForSeconds(rateSec, cancellationToken: token);
@@ -139,7 +155,7 @@ namespace Characters.Health
                     break;
                 }
 
-                Heal(amountPerRate);
+                Heal(_permanentHpRegenAmount);
             }
         }
 

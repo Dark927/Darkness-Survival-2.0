@@ -7,7 +7,6 @@ namespace Characters.Stats
     {
         [Header("Main Settings")]
 
-        public int StartLevel;
         public float Health;
         public float Speed;
 

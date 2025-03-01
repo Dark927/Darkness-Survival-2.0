@@ -257,6 +257,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "GlobalCommands",
+            "id": "de7b6d41-eb8e-4cbe-b6e9-db1c63f8130e",
+            "actions": [
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "23d57413-8d8c-4eee-aca0-2df14eec6080",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d3103226-cf90-4e8a-b52d-61e2afd4cbb0",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

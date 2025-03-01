@@ -1,7 +1,6 @@
 ﻿using Characters.Common.Levels;
 using Characters.Player.Data;
 using System;
-using System.Diagnostics;
 using UnityEngine;
 using Utilities.Math;
 
@@ -22,10 +21,10 @@ namespace Characters.Player.Levels
         #region Properties
 
         public float ActualXp => _actualXp;
-        public override int ActualLevel =>  1 + (int)LevelFunctionInv(_actualXp);
+        public override int ActualLevel => 1 + (int)LevelFunctionInv(_actualXp);
         public float XpProgressRatio => InterpolateRealXp(_actualXp, _actualXp);
 
-        public (float,float) ActualXpBounds => GetRealLevelBounds(_actualXp);
+        public (float, float) ActualXpBounds => GetRealLevelBounds(_actualXp);
         public float GainedXpFactor => _gainedXpFactor;
 
         #endregion

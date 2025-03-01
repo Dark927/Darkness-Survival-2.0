@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_SerializeEntries:
+  - m_GUID: 370a13fc6f7b6c54790569cf6579ffe6
+    m_Address: Assets/Prefabs/UI/Menu/PauseMenu.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 56595c4855cb17445878fb61b91ffdb9
     m_Address: Assets/Data/Settings/Gameplay/GlobalGameplayStageConfig.asset
     m_ReadOnly: 0

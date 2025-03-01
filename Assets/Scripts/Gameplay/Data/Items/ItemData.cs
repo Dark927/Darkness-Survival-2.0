@@ -22,7 +22,7 @@ namespace Gameplay.Components.Items
 
         public GameObject Prefab => _prefab;
         public string Description => _description;
-        public virtual IItemParameters Parameters => _parameters; 
+        public virtual IItemParameters Parameters => _parameters;
 
         #endregion
     }

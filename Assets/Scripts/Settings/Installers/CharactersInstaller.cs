@@ -1,5 +1,4 @@
 using Characters.Player;
-using Characters.Player.Data;
 using Settings.AssetsManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;

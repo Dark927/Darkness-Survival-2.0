@@ -3,7 +3,6 @@ using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
 using Characters.Player.Animation;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 
 namespace Characters.Player.Weapons
 {

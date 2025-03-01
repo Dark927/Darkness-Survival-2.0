@@ -1,7 +1,6 @@
 ﻿using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
-using Characters.Player.Weapons;
 using Characters.Stats;
 using Cysharp.Threading.Tasks;
 using System;
@@ -68,8 +67,17 @@ namespace Characters.Common
             Weapons?.Initialize();
 
             Weapons?.GiveMultipleFeaturesAsync(_entityData.WeaponsSetData.BasicWeapons)
+                .ContinueWith(ConfigureWeapons)
                 .ContinueWith(InitBasicAttacks)
                 .Forget();
+        }
+
+        protected virtual void ConfigureWeapons()
+        {
+            foreach (var weapon in Weapons.ActiveWeapons)
+            {
+                weapon.SetDamageMultiplier(_entityData.DamageMultiplier);
+            }
         }
 
         protected virtual void InitBasicAttacks()

@@ -104,16 +104,16 @@ namespace Characters.Common.Combat.Weapons
         {
             return _currentAttackType switch
             {
-                AttackType.Fast => CalculateDamage(Settings.Damage),
-                AttackType.Heavy => CalculateDamage(Settings.HeavyDamage),
+                AttackType.Fast => CalculateDamage(Settings.Damage, DamageMultiplier),
+                AttackType.Heavy => CalculateDamage(Settings.HeavyDamage, DamageMultiplier),
                 _ => throw new NotImplementedException()
             };
         }
 
         protected override void PerformImpact(Collider2D targetCollider)
         {
-            if (!ImpactAvailable 
-                || !_attackImpactDict.TryGetValue(_currentAttackType, out AttackImpact impact) 
+            if (!ImpactAvailable
+                || !_attackImpactDict.TryGetValue(_currentAttackType, out AttackImpact impact)
                 || !impact.IsReady
                 || !impact.CanUseRandomly())
             {

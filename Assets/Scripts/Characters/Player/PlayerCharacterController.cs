@@ -1,12 +1,13 @@
 using Characters.Common;
+using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
+using Characters.Stats;
+using Cysharp.Threading.Tasks;
 using Settings.Global;
 using System;
-using Cysharp.Threading.Tasks;
-using Characters.Common.Combat.Weapons;
-using UnityEngine.InputSystem;
 using UnityEngine;
-using Characters.Stats;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace Characters.Player
 {
@@ -15,6 +16,7 @@ namespace Characters.Player
         #region Fields 
 
         private PlayerInput _input;
+        private bool _canAttack = true;
         [SerializeField] private EntityBaseData _characterData;
 
         #endregion
@@ -23,6 +25,7 @@ namespace Characters.Player
         #region Properties
 
         public ICharacterLogic CharacterLogic => EntityLogic as ICharacterLogic;
+        public PlayerInput Input => _input;
 
         #endregion
 
@@ -115,8 +118,18 @@ namespace Characters.Player
             }
         }
 
+        public void SetCanAttackFlag(bool value)
+        {
+            _canAttack = value;
+        }
+
         public void OnAttack(InputAction.CallbackContext context)
         {
+            if(!_canAttack)
+            {
+                return;
+            }
+
             if (context.performed)
             {
                 int contextValue = (int)context.ReadValue<float>();

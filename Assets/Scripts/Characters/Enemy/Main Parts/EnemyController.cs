@@ -1,11 +1,9 @@
 ﻿using Characters.Common;
-using Gameplay.Components.Enemy;
-using Cysharp.Threading.Tasks;
 using Characters.Enemy.Data;
-using Characters.Stats;
 using Characters.Interfaces;
-using UnityEngine;
-using Gameplay.Components.Items;
+using Characters.Stats;
+using Cysharp.Threading.Tasks;
+using Gameplay.Components.Enemy;
 
 public class EnemyController : EntityControllerBase
 {

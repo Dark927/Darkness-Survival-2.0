@@ -1,5 +1,4 @@
 using Settings;
-using Settings.AssetsManagement;
 using System;
 using UnityEngine;
 using Utilities.ErrorHandling;

@@ -1,7 +1,6 @@
 ﻿using Gameplay.Components;
 using Settings;
 using UnityEngine;
-using Zenject;
 
 namespace Gameplay.Visual
 {

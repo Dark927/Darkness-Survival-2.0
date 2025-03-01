@@ -1,6 +1,6 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using Cysharp.Threading.Tasks;
 
 public class EntityActionBlock
 {
@@ -34,7 +34,6 @@ public class EntityActionBlock
         _cancellationTokenSource = new CancellationTokenSource();
         _activeBlockTask = BlockDelayTask(timeInMs, _cancellationTokenSource.Token);
     }
-
     // Permanent block (adds to active block count)
     public void Block()
     {

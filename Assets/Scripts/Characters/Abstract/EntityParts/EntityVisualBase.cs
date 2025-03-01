@@ -1,8 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using Settings.Global;
-using System;
 using System.Threading;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Characters.Common.Visual

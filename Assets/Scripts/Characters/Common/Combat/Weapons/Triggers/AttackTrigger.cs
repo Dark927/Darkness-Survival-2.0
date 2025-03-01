@@ -1,9 +1,7 @@
 using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utilities;
 
@@ -17,7 +15,7 @@ namespace Characters.Common.Combat
     }
 
     [RequireComponent(typeof(Collider2D))]
-    public class AttackTrigger : MonoBehaviour,  IAttackTrigger
+    public class AttackTrigger : MonoBehaviour, IAttackTrigger
     {
         #region Fields 
 
@@ -29,7 +27,7 @@ namespace Characters.Common.Combat
         private CancellationTokenSource _cancellationTokenSource;
 
         #endregion
-         
+
 
         #region Events
 

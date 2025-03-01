@@ -22,9 +22,9 @@ namespace Gameplay.Visual
             _data = data;
 
             _indicatorsPool = new IndicatorsPool(
-                _poolData, 
-                data.TextIndicator.gameObject, 
-                _container.GetChild(data.TextIndicator.name, true), 
+                _poolData,
+                data.TextIndicator.gameObject,
+                _container.GetChild(data.TextIndicator.name, true),
                 _poolData.PreloadInstancesCount
                 );
         }

@@ -1,6 +1,6 @@
 using Characters.Enemy.Data;
-using UnityEngine;
 using Gameplay.Components;
+using UnityEngine;
 
 
 namespace Gameplay.Data

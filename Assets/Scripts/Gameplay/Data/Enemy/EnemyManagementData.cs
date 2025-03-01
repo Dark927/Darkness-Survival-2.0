@@ -1,6 +1,4 @@
-﻿using Settings.Global;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gameplay.Data
 {

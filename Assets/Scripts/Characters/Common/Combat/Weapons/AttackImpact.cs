@@ -1,11 +1,8 @@
-﻿using Characters.Common.Combat.Weapons.Data;
-using Characters.Common.Physics2D;
-using Characters.Interfaces;
+﻿using Characters.Common.Physics2D;
 using Cysharp.Threading.Tasks;
 using Settings.CameraManagement.Shake;
 using System.Threading;
 using UnityEngine;
-using static UnityEngine.Rendering.PostProcessing.HistogramMonitor;
 
 namespace Characters.Common.Combat
 {
@@ -49,7 +46,7 @@ namespace Characters.Common.Combat
 
         public void ReloadImpact(bool forceReload = false)
         {
-            if((_currentReloadTask.Status == UniTaskStatus.Pending) && !forceReload)
+            if ((_currentReloadTask.Status == UniTaskStatus.Pending) && !forceReload)
             {
                 return;
             }
@@ -92,7 +89,7 @@ namespace Characters.Common.Combat
 
         private void StopReload()
         {
-            if(_reloadCts == null)
+            if (_reloadCts == null)
             {
                 return;
             }
@@ -105,7 +102,7 @@ namespace Characters.Common.Combat
         private async UniTask ReloadImpactAsync(int reloadTimeMs, CancellationToken token = default)
         {
             _isReady = false;
-            await UniTask.Delay(reloadTimeMs, cancellationToken : token);
+            await UniTask.Delay(reloadTimeMs, cancellationToken: token);
             _isReady = true;
         }
 

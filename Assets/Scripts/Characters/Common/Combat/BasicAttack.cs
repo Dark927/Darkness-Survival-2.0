@@ -108,8 +108,8 @@ namespace Characters.Common.Combat.Weapons
         protected virtual void AnyAttackStarted()
         {
 
-        }        
-        
+        }
+
         protected virtual void AttackFinished()
         {
 

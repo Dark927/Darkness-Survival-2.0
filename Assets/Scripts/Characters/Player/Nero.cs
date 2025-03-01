@@ -1,8 +1,6 @@
 using Characters.Common.Combat.Weapons;
 using Characters.Player.Animation;
 using Characters.Player.Weapons;
-using UnityEditor.Rendering.LookDev;
-using UnityEngine.InputSystem;
 
 namespace Characters.Player
 {

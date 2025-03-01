@@ -1,9 +1,6 @@
 using Gameplay.Components;
 using Gameplay.Components.Enemy;
 using Settings.Global;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
 public class StageManager : SceneServiceManagerBase
@@ -31,9 +28,9 @@ public class StageManager : SceneServiceManagerBase
     private void Start()
     {
         // ToDo : remove this later, use another logic to Create and Init this component!
-        foreach(var service in Services)
+        foreach (var service in Services)
         {
-            if(service is Settings.Global.IInitializable initService)
+            if (service is Settings.Global.IInitializable initService)
             {
                 initService.Initialize();
             }

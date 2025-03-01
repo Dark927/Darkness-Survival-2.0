@@ -13,7 +13,7 @@ namespace Characters.Common.Visual
         public SpriteRenderer Renderer { get; }
         public Sprite CharacterSprite { get; set; }
         public bool HasAnimation { get; }
-        public bool IsVisibleForCamera { get ; }
+        public bool IsVisibleForCamera { get; }
 
         #endregion
 

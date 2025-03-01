@@ -1,6 +1,5 @@
 ﻿
 using Characters.Interfaces;
-using Settings.Global;
 using System;
 using UnityEngine;
 

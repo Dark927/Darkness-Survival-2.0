@@ -1,9 +1,9 @@
 ﻿using Dark.Utils;
+using Gameplay.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Gameplay.Components;
 using Zenject;
 
 namespace Gameplay.Tile

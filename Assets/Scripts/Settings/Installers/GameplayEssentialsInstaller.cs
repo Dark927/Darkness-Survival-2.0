@@ -1,8 +1,8 @@
-using Zenject;
-using UnityEngine;
-using Settings.Global;
-using Settings;
 using Gameplay.Visual;
+using Settings;
+using Settings.Global;
+using UnityEngine;
+using Zenject;
 
 public class GameplayEssentialsInstaller : MonoInstaller
 {
@@ -14,6 +14,14 @@ public class GameplayEssentialsInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        GamePauseService pauseService = new GamePauseService();
+        pauseService.SetPlayerService(ServiceLocator.Current.Get<PlayerService>());
+
+        Container
+            .Bind<GamePauseService>()
+            .FromInstance(pauseService)
+            .AsSingle();
+
         Container
             .Bind<IndicatorPoolData>()
             .FromInstance(_indicatorPoolData)

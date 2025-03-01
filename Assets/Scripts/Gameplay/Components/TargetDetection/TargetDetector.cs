@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Gameplay.Data;
 
 namespace Gameplay.Components.TargetDetection
 {

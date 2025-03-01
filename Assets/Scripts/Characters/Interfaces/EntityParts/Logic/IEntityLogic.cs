@@ -4,7 +4,7 @@ namespace Characters.Interfaces
 {
     public interface IEntityLogic : IEventListener, IResetable
     {
-       
+
 
     }
 }

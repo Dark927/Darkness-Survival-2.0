@@ -156,7 +156,7 @@
                 "m_Node": {
                     "m_Id": "e441c6136bc34e0b9944040e2f1dafb5"
                 },
-                "m_SlotId": 4
+                "m_SlotId": 0
             },
             "m_InputSlot": {
                 "m_Node": {
@@ -315,10 +315,10 @@
     "m_Guid": {
         "m_GuidSerialized": "0585adcd-98ce-4b8f-aa63-ac89d3f80419"
     },
-    "m_Name": "Emission",
+    "m_Name": "EmissionTex",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Emission",
-    "m_DefaultReferenceName": "_Emission",
+    "m_RefNameGeneratedByDisplayName": "EmissionTex",
+    "m_DefaultReferenceName": "_EmissionTex",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -956,7 +956,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "596e30f1bc3947a7817655e373406062",
     "m_Id": 0,
-    "m_DisplayName": "Emission",
+    "m_DisplayName": "EmissionTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -1063,10 +1063,10 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 3.9999985694885256,
-        "g": 3.9999985694885256,
-        "b": 3.9999985694885256,
-        "a": 0.0
+        "r": 12.844470024108887,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 1

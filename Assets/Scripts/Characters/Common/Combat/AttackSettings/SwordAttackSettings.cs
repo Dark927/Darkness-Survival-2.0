@@ -1,10 +1,9 @@
-﻿using Settings.CameraManagement.Shake;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Characters.Common.Combat
 {
     [System.Serializable]
-    public class SwordAttackSettings : AttackSettingsBase
+    public class SwordAttackSettings : BasicAttackSettings
     {
         [Space, Header("Heavy Attack Settings")]
 

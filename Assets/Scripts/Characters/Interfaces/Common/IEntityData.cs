@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Characters.Stats
+﻿namespace Characters.Stats
 {
     public interface IEntityData
     {
         public int ID { get; }
-        public string Name {  get; }
+        public string Name { get; }
         public CharacterStats Stats { get; }
     }
 }

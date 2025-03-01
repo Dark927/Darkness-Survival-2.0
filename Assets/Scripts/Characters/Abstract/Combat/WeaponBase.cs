@@ -1,8 +1,6 @@
 ﻿
 using Characters.Common.Combat.Weapons.Data;
-using Characters.Common.Physics2D;
 using Characters.Interfaces;
-using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
 
@@ -12,19 +10,20 @@ namespace Characters.Common.Combat.Weapons
     {
         #region Fields
 
-        private WeaponAttackDataBase _weaponAttackData;
         private Damage _damage;
         private Collider2D _ownerCollidder;
+        private float _damageMultiplier = 1f;
+        private ImpactSettings _impactSettings;
+        private IAttackSettings _attackSettings;
 
         #endregion
 
         #region Properties
 
-        public WeaponAttackDataBase AttackCommonData => _weaponAttackData;
-        public IAttackSettings AttackSettings => _weaponAttackData.Settings;
+        public IAttackSettings AttackSettings => _attackSettings;
         public bool ImpactAvailable => AttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
-
+        public float DamageMultiplier => _damageMultiplier;
 
         #endregion
 
@@ -37,7 +36,7 @@ namespace Characters.Common.Combat.Weapons
         {
             IEntityPhysicsBody ownerBody = GetComponentInParent<IEntityPhysicsBody>(true);
             _ownerCollidder = ownerBody.Physics.Collider;
-            _weaponAttackData = attackData;
+            _attackSettings = attackData.Settings;
             _damage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
         }
 
@@ -55,9 +54,9 @@ namespace Characters.Common.Combat.Weapons
 
         #endregion
 
-        public static float CalculateDamage(DamageSettings damageSettings)
+        public static float CalculateDamage(DamageSettings damageSettings, float damageMultiplier = 1f)
         {
-            return UnityEngine.Random.Range(damageSettings.Min, damageSettings.Max);
+            return UnityEngine.Random.Range(damageSettings.Min, damageSettings.Max) * damageMultiplier;
         }
 
         public static Vector2 CalculatePushDirection(Vector2 source, Vector2 target)
@@ -65,6 +64,11 @@ namespace Characters.Common.Combat.Weapons
             return (target - source).normalized;
         }
 
+
+        public void SetDamageMultiplier(float damageMultiplier)
+        {
+            _damageMultiplier = damageMultiplier;
+        }
 
         protected virtual void HitTargetListener(object sender, EventArgs args)
         {
@@ -88,7 +92,7 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual float RequestDamageAmount()
         {
-            return CalculateDamage(AttackSettings.Damage);
+            return CalculateDamage(AttackSettings.Damage, _damageMultiplier);
         }
 
         protected virtual void PerformPostDamageActions(Collider2D targetCollider)

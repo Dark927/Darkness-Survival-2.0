@@ -13,7 +13,7 @@ namespace UI.Buttons
 
         public abstract void ClickListener();
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _button = GetComponent<Button>();
             TargetButton.onClick.AddListener(ClickListener);

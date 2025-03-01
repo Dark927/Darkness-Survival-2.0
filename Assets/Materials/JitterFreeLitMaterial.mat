@@ -49,7 +49,7 @@ Material:
     - _FlashAmount: 0
     - _Gamma: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 4.9967794, b: 6.4222345, a: 1}
     - _FlashColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

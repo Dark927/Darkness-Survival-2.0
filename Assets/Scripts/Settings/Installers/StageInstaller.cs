@@ -1,11 +1,10 @@
-using System;
-using UnityEngine;
 using Gameplay.Components;
+using Gameplay.Data;
 using Gameplay.Generation;
 using Gameplay.Tile;
+using System;
+using UnityEngine;
 using Zenject;
-using Gameplay.Components.Enemy;
-using Gameplay.Data;
 
 public class StageInstaller : MonoInstaller
 {

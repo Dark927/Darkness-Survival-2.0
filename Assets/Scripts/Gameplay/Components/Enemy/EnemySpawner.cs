@@ -1,12 +1,11 @@
 using Cysharp.Threading.Tasks;
-using Settings;
+using Gameplay.Data;
 using Settings.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
-using Gameplay.Data;
 using Zenject;
 
 namespace Gameplay.Components.Enemy

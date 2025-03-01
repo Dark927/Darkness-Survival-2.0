@@ -1,7 +1,6 @@
 using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
-using Characters.Player.Data;
 using System;
 
 namespace Characters.Interfaces

@@ -1,7 +1,4 @@
-﻿
-
-using Settings.Global;
-using System;
+﻿using System;
 
 namespace Characters.Common.Levels
 {

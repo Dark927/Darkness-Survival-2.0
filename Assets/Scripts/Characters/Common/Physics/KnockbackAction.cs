@@ -12,7 +12,7 @@ namespace Characters.Common.Physics2D
         public KnockbackAction(params object[] values)
         {
             SetValues(values);
-        }        
+        }
 
         public void Perform(IEntityPhysics2D entityPhysics)
         {

@@ -1,6 +1,5 @@
 ﻿using Characters.Common.Visual;
 using Characters.Player.Animation;
-using System;
 using UnityEngine;
 
 namespace Characters.Player

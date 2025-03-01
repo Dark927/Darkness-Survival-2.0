@@ -5,19 +5,14 @@ using Zenject;
 
 public class GlobalSettingsInstaller : MonoInstaller
 {
-    #region Fields
-
-    #endregion
-
-
     #region Methods
 
     public override void InstallBindings()
     {
         // Init 
 
-        GameStateService gameManager = new GameStateService();
-        PlayerService playerManager = new PlayerService();
+        GameStateService gameStateService = new GameStateService();
+        PlayerService playerService = new PlayerService();
 
         CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
         CameraController cameraController = new CameraController(virtualCamera);
@@ -27,20 +22,21 @@ public class GlobalSettingsInstaller : MonoInstaller
 
         Container
             .Bind<GameStateService>()
-            .FromInstance(gameManager)
+            .FromInstance(gameStateService)
             .AsSingle();
 
         Container
             .Bind<PlayerService>()
-            .FromInstance(playerManager)
+            .FromInstance(playerService)
             .AsSingle();
+
+
 
         Container
             .Bind<CameraController>()
             .FromInstance(cameraController)
             .AsSingle();
     }
-
 
     #endregion
 }

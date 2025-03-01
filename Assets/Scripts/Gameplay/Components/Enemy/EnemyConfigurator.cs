@@ -1,9 +1,8 @@
 ﻿using Characters.Enemy;
 using Characters.Interfaces;
+using Settings.Global;
 using UnityEngine;
 using Utilities.World;
-using Cysharp.Threading.Tasks;
-using Settings.Global;
 
 namespace Gameplay.Components.Enemy
 {

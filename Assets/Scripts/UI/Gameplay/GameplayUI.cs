@@ -1,17 +1,22 @@
 using Characters.Player;
 using Settings.Abstract;
-using Settings.Global;
-using Unity.VisualScripting;
+using Settings.AssetsManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public sealed class GameplayUI : SingletonBase<GameplayUI>
 {
     private PlayerCharacterController _targetCharacter;
+    [SerializeField] private Canvas _menuCanvas;
 
     [Header("Panels")]
     [SerializeField] private AssetReference _gameOverPanel;
+    [SerializeField] private AssetReference _pauseMenuAsset;
 
+    private AsyncOperationHandle<GameObject> _pauseMenuLoadHandle;
+    private PauseMenuUI _pauseMenu;
+    private bool _isPauseMenuActivated = false;
 
 
     private void Awake()
@@ -39,5 +44,32 @@ public sealed class GameplayUI : SingletonBase<GameplayUI>
         //_gameOverPanel.SetActive(true);
     }
 
+    public async void ActivatePauseMenu()
+    {
+        if (_isPauseMenuActivated)
+        {
+            return;
+        }
 
+        _isPauseMenuActivated = true;
+
+        _pauseMenuLoadHandle = AddressableAssetsLoader.Instance.TryLoadAssetAsync<GameObject>(_pauseMenuAsset);
+        await _pauseMenuLoadHandle.Task;
+
+        if (_pauseMenuLoadHandle.Task.Result != null)
+        {
+            GameObject pauseMenuObject = Instantiate(_pauseMenuLoadHandle.Result, _menuCanvas.transform.position, Quaternion.identity, _menuCanvas.transform);
+            _pauseMenu = pauseMenuObject.GetComponent<PauseMenuUI>();
+        }
+    }
+
+    public void DeactivatePauseMenu()
+    {
+        if (_isPauseMenuActivated && (_pauseMenu != null))
+        {
+            Destroy(_pauseMenu.gameObject);
+            AddressableAssetsLoader.Instance.TryUnloadAsset(_pauseMenuLoadHandle);
+            _isPauseMenuActivated = false;
+        }
+    }
 }

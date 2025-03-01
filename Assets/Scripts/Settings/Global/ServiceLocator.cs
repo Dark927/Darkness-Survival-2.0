@@ -19,8 +19,8 @@ namespace Settings.Global
 
         #endregion
 
-        #region Methods
 
+        #region Methods
 
         #region Init
 

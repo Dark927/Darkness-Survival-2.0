@@ -1,14 +1,10 @@
-﻿
-
-using Characters.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Characters.Common.Physics2D
 {
-    public class EntityPhysicsActions 
+    public class EntityPhysicsActions
     {
         [Flags]
         public enum PhysicsActionType
@@ -23,7 +19,7 @@ namespace Characters.Common.Physics2D
         {
             return AddAction(PhysicsActionType.Knockback, force, direction);
         }
-        
+
         public EntityPhysicsActions AddStun(int durationMs)
         {
             return AddAction(PhysicsActionType.Stun, durationMs);

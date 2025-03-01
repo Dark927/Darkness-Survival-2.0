@@ -19,7 +19,7 @@ namespace Gameplay.Components
 
         #region Properties
         public List<IService> Services => _services;
-        public DiContainer DiContainer => _diContainer; 
+        public DiContainer DiContainer => _diContainer;
 
         #endregion
 

@@ -1,9 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using Settings.Abstract;
+﻿using Settings.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -66,7 +62,7 @@ namespace Settings.AssetsManagement
 
         public void TryUnloadAsset(AsyncOperationHandle handle)
         {
-            if(handle.IsValid())
+            if (handle.IsValid())
             {
                 UnloadAsset(handle);
             }

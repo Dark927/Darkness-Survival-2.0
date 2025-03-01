@@ -5,7 +5,7 @@ namespace Characters.Common.Combat
     [System.Serializable]
     public struct AttackNegativeStatus
     {
-        public static AttackNegativeStatus Zero = new AttackNegativeStatus() {_effectColor = Color.white, _effectDurationInSec = 0f, _effectSpeedInSec = 0f };
+        public static AttackNegativeStatus Zero = new AttackNegativeStatus() { _effectColor = Color.white, _effectDurationInSec = 0f, _effectSpeedInSec = 0f };
 
         #region Fields
 

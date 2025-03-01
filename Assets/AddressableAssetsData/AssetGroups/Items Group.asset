@@ -17,12 +17,33 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: a04ae2839cef4c444a6da856696baced
   m_SerializeEntries:
+  - m_GUID: 2d1c221c47141f044bce1cf2b7e8e791
+    m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Golden_DropData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30f79e33587a0d64aa3b14e24e17136d
+    m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Red_Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3cc63e970d265dc4a86a7b78258c9eed
     m_Address: Assets/Data/Entities/Items/SoulFragment_Red_Data.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Data
     - Enemy
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70e625da83cf2774c87c44f39a3b334e
+    m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Blue_DropData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
     - Item
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7c7fbcfff263c9a4789f70c52990dd64
@@ -41,12 +62,33 @@ MonoBehaviour:
     - Enemy
     - Item
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94af605d5998018429290d6545e6c617
+    m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Golden_Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc6c4c6de4ad7504287235928f30c5f5
+    m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Blue_Data.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec90cb18e0a18f04dbdf6c4a847838d7
     m_Address: Assets/Data/Entities/Items/SoulFragment_Red_DropData.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Data
     - Enemy
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fbc593e4cd1399047819c9107b191974
+    m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Red_DropData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Data
     - Item
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0

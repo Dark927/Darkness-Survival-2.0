@@ -11,7 +11,7 @@ namespace Characters.Interfaces
         public Transform Transform { get; }
         public IEntityView View { get; }
         public IEntityVisual Visual { get; }
-        
+
         public bool IsReady { get; }
     }
 }

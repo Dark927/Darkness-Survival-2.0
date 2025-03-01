@@ -321,6 +321,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.darkness.filerenamer": {
+      "version": "git@github.com:Dark927/Unity-FileRenamer.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1f0ff6a3df00e54367f0aa95bdee7ac90facb8bc"
+    },
     "dev.sudohub.normalprocessor": {
       "version": "git@github.com:sudohubdev/normalprocessor.git",
       "depth": 0,

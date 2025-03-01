@@ -1,8 +1,8 @@
 using Characters.Player;
+using Gameplay.Tile;
 using Settings.Global;
 using System;
 using UnityEngine;
-using Gameplay.Tile;
 using Zenject;
 
 namespace Gameplay.Generation

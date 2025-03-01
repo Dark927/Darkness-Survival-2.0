@@ -1,7 +1,6 @@
-using Characters.Enemy.Data;
+using Gameplay.Data;
 using System.Collections.Generic;
 using UnityEngine;
-using Gameplay.Data;
 using Zenject;
 
 namespace Gameplay.Components.Enemy

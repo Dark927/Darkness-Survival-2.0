@@ -3,7 +3,6 @@ using Characters.Common.Movement;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 namespace Characters.Player

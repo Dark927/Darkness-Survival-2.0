@@ -4,7 +4,6 @@ using Settings.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public sealed class PlayerService : IService
@@ -15,6 +14,8 @@ public sealed class PlayerService : IService
     private HashSet<PlayerCharacterController> _players;
 
     #endregion
+
+    public HashSet<PlayerCharacterController> Players => _players;
 
 
     #region Methods

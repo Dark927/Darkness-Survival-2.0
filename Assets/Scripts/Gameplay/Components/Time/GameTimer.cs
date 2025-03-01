@@ -1,6 +1,6 @@
+using Gameplay.Components;
 using System;
 using UnityEngine;
-using Gameplay.Components;
 
 public class GameTimer : MonoBehaviour
 {

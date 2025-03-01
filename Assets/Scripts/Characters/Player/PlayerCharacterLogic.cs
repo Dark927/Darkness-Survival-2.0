@@ -6,7 +6,6 @@ using Characters.Player.Levels;
 using Characters.Player.Weapons;
 using Characters.Stats;
 using UnityEngine;
-using Zenject;
 
 namespace Characters.Player
 {

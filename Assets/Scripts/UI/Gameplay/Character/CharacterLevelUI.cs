@@ -1,6 +1,5 @@
 using Characters.Common.Levels;
 using Characters.Player;
-using System;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -71,7 +70,7 @@ public class CharacterLevelUI : MonoBehaviour
     private float CalculateXpLerpDuration(ICharacterLevel characterLevel, float levelTargetXp)
     {
         var bounds = characterLevel.ActualXpBounds;
-        return 1f *(_levelRaiseTimeMult) / ((bounds.Item2 / bounds.Item1));
+        return 1f * (_levelRaiseTimeMult) / ((bounds.Item2 / bounds.Item1));
     }
 
 

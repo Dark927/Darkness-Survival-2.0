@@ -43,7 +43,7 @@ namespace Characters.Common.Combat.Weapons
         public override void Dispose()
         {
             base.Dispose();
-            _attackTrigger.ScaleTriggerCollider(1f/_triggerScaleMultiplier);
+            _attackTrigger.ScaleTriggerCollider(1f / _triggerScaleMultiplier);
             _attackTrigger.Deactivate();
 
             _attackTrigger.OnTriggerStay -= HitTargetListener;
@@ -51,8 +51,8 @@ namespace Characters.Common.Combat.Weapons
 
         protected override void PerformImpact(Collider2D targetCollider)
         {
-            if (!ImpactAvailable 
-                || _impact == null 
+            if (!ImpactAvailable
+                || _impact == null
                 || !_impact.IsReady
                 || !_impact.CanUseRandomly())
             {

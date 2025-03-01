@@ -3,8 +3,8 @@ using Characters.Common.Movement;
 using Characters.Enemy.Data;
 using Characters.Health;
 using Characters.Interfaces;
-using UnityEngine;
 using Gameplay.Components.TargetDetection;
+using UnityEngine;
 
 namespace Characters.Enemy
 {

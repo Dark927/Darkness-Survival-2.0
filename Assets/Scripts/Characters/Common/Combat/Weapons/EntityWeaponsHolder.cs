@@ -1,5 +1,4 @@
-﻿using Characters.Common;
-using Characters.Common.Combat.Weapons;
+﻿using Characters.Common.Combat.Weapons;
 using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
 using Cysharp.Threading.Tasks;

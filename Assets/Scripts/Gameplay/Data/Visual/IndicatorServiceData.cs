@@ -20,7 +20,7 @@ namespace Gameplay.Visual
         public TextIndicator TextIndicator => _textIndicator;
         public Vector2 Offset => _offset;
         public Vector2 RandomOffset => _randomOffset;
-        
+
         #endregion
     }
 }

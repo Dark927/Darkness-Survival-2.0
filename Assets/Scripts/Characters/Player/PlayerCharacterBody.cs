@@ -86,16 +86,6 @@ namespace Characters.Player
             _animatorController.Events.OnDeathFinished += RaiseOnBodyCompletelyDied;
         }
 
-        public void Heal(float amount)
-        {
-            if (IsDying)
-            {
-                return;
-            }
-
-            Health.Heal(amount);
-        }
-
         #endregion
     }
 }

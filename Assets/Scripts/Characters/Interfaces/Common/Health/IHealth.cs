@@ -19,8 +19,6 @@ namespace Characters.Health
 
         #region Methods
 
-        public void Heal(float amount);
-
         /// <summary>
         /// set current max hp limit to a different value.
         /// </summary>
@@ -31,19 +29,19 @@ namespace Characters.Health
         /// always heal an entity until canceled.
         /// </summary>
         /// <param name="hpPerStep">hp to heal per step</param>
-        /// <param name="stepInSec">heal rate in seconds</param>
+        /// <param name="stepInSec">heal rate in seconds, if rate is 0, hp will be regenerated instantly</param>
         /// <param name="additive">true - can be used with active regenerations, false - disables active regenerations</param>
-        public void RegenerateHp(float amount, float rate, bool additive = false);
+        public void RegenerateHp(float amountPerStep, float stepInSec = 1f, bool additive = false);
 
 
         /// <summary>
         /// heal an entity during given amount of time (or until canceled)
         /// </summary>
         /// <param name="hpPerStep">hp to heal per step</param>
-        /// <param name="duration"></param>
+        /// <param name="durationInSec">if duration is 0, hp will be regenerated instantly</param>
         /// <param name="stepInSec">heal rate in seconds</param>
         /// <param name="additive">true - can be used with active regenerations, false - disables active regenerations</param>
-        public void RegenerateHp(float amount, float duration, float rate, bool additive = false);
+        public void RegenerateHp(float amountPerStep, float durationInSec, float stepInSec, bool additive = false);
 
 
         /// <summary>

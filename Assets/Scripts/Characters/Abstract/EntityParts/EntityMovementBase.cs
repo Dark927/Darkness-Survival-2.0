@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using Settings.Global;
 using System;
 using UnityEngine;
 

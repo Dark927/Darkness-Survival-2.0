@@ -1,6 +1,8 @@
 using System;
+using Dark.Environment;
 using UnityEngine;
 using World.Components;
+using World.Data;
 using World.Generation;
 using World.Tile;
 using Zenject;
@@ -11,6 +13,8 @@ public class StageInstaller : MonoInstaller
     [SerializeField] private WorldGeneration _worldGenerationType = WorldGeneration.Scrolling;
     [SerializeField] private GenerationSettings _worldGenerationSettings;
     [SerializeField] private GameObjectsContainer _worldChunksContainer;
+    [SerializeField] private ShadowSettings _shadowSettings;
+
 
     public override void InstallBindings()
     {
@@ -18,7 +22,6 @@ public class StageInstaller : MonoInstaller
             .Bind<GameTimer>()
             .FromComponentInHierarchy()
             .AsSingle();
-
 
         // ----------------------------------------------------------
         // ! Binding World Generation strategy inside Scene Context
@@ -29,6 +32,16 @@ public class StageInstaller : MonoInstaller
         Container
             .Bind<GenerationSettings>()
             .FromScriptableObject(_worldGenerationSettings)
+            .AsSingle();
+
+        Container
+        .Bind<DayManager>()
+        .FromComponentInHierarchy()
+        .AsSingle();
+
+        Container
+            .Bind<ShadowSettings>()
+            .FromScriptableObject(_shadowSettings)
             .AsSingle();
 
         Type worldGenerationType = WorldGenerator.GetGenerationStrategyType(_worldGenerationType);

@@ -1,16 +1,17 @@
-﻿using System;
+using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
 using Characters.Player;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class DefaultEnemyWeapon : CharacterWeaponBase
+    public class DefaultEnemyWeapon : WeaponBase
     {
         #region Fields 
 
         [SerializeField] private float _triggerScaleMultiplier = 1f;
         private AttackTrigger _attackTrigger;
+        private AttackImpact _impact;
 
         #endregion
 
@@ -25,35 +26,51 @@ namespace Characters.Common.Combat.Weapons
 
         #region Methods
 
-        private void Awake()
+        public override void Initialize(WeaponAttackDataBase attackData)
         {
+            base.Initialize(attackData);
             _attackTrigger = GetComponentInChildren<AttackTrigger>();
-        }
+            _attackTrigger.Initialize();
 
-        private void Start()
-        {
             _attackTrigger.ScaleTriggerCollider(_triggerScaleMultiplier);
-            _attackTrigger.OnTriggerStay += HitTargetListener;
             _attackTrigger.Activate();
+
+            _attackTrigger.OnTriggerStay += HitTargetListener;
+
+            _impact = InitImpact(attackData.Settings.Impact);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            _attackTrigger.OnTriggerStay -= HitTargetListener;
+            _attackTrigger.ScaleTriggerCollider(1f / _triggerScaleMultiplier);
             _attackTrigger.Deactivate();
+
+            _attackTrigger.OnTriggerStay -= HitTargetListener;
         }
 
-        protected override void HitTargetListener(object sender, EventArgs args)
+        protected override void PerformImpact(Collider2D targetCollider)
         {
-            AttackTriggerArgs attackArgs = (AttackTriggerArgs)args;
-            GameObject targetObject = attackArgs.TargetCollider.gameObject;
-
-            if (targetObject.TryGetComponent(out IDamageable target) && (target is PlayerCharacterBody))
+            if (!ImpactAvailable
+                || _impact == null
+                || !_impact.IsReady
+                || !_impact.CanUseRandomly())
             {
-                float damage = CalculateDefaultDamage();
-                target.TakeDamage(damage);
+                return;
             }
+
+            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
+
+            _impact.AddKnockback(CalculatePushDirection(Center, targetBody.Physics.Collider.bounds.center));
+            _impact.PerformPhysicsImpact(targetCollider);
+
+            _impact.ReloadImpact();
+        }
+
+        protected override bool CheckHitTargetCondition(GameObject targetObject, out IDamageable target)
+        {
+            target = targetObject.GetComponent<IDamageable>();
+            return (target != null) && (target is PlayerCharacterBody);
         }
 
         #endregion

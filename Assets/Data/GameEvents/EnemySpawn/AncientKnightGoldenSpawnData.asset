@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822d7151ce9378448a9ca0c0db45f695, type: 3}
   m_Name: AncientKnightGoldenSpawnData
   m_EditorClassIdentifier: 
-  EnemyData: {fileID: 11400000, guid: c521cff070a5aa74eab4ec04a5695aee, type: 2}
-  Count: 20
-  SpawnTime:
+  _enemyData: {fileID: 11400000, guid: c521cff070a5aa74eab4ec04a5695aee, type: 2}
+  _enemyPrefab: {fileID: 496996125020602330, guid: d8e6b95a093ae5842a535845ff9a6be4, type: 3}
+  _count: 100
+  _spawnStartTime:
     Minutes: 0
-    Seconds: 0
-  SpawnDuration:
+    Seconds: 1
+  _spawnDuration:
     Minutes: 0
     Seconds: 59

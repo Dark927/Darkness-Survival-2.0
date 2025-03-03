@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Data/GameEvents/DayNights.meta
 guid: a766e74d436ec0e46aef85512bc180aa
 folderAsset: yes
+========
+guid: d168eea2736992142a2ba341878f5931
+>>>>>>>> GameLogic:Assets/Scenes/Initialization_Scene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

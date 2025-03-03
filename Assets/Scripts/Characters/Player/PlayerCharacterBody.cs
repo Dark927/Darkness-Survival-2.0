@@ -1,12 +1,12 @@
-using System;
+using Characters.Common;
+using Characters.Common.Movement;
 using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Animation;
-using UnityEngine;
 
 namespace Characters.Player
 {
-    public class PlayerCharacterBody : CharacterBodyBase, IDamageable
+    public class PlayerCharacterBody : EntityPhysicsBodyBase
     {
         #region Fields
 
@@ -17,7 +17,6 @@ namespace Characters.Player
 
         #region Properties
 
-
         #endregion
 
 
@@ -25,96 +24,66 @@ namespace Characters.Player
 
         #region Init
 
-        protected override void Init()
+        protected override void InitComponents()
         {
+            base.InitComponents();
+
             _playerLogic = GetComponent<ICharacterLogic>();
-            Visual = GetComponentInChildren<PlayerVisual>();
-            Health = new CharacterHealth(_playerLogic.Stats.Health);
+            Visual = GetComponentInChildren<PlayerCharacterVisual>();
+
+            Health = new EntityHealth(_playerLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _playerLogic.Stats.InvincibilityTime, _playerLogic.Stats.InvincibilityColor);
         }
 
         protected override void InitView()
         {
-            View = new CharacterLookDirection(transform);
+            View = new EntityLookDirection(transform);
         }
 
         protected override void InitMovement()
         {
-            Movement = new PlayerMovement(this);
-            CharacterSpeed speed = new CharacterSpeed() { MaxSpeedMultiplier = _playerLogic.Stats.Speed };
-            Movement.Speed.Set(speed);
+            Movement = new PlayerCharacterMovement(this);
+            Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _playerLogic.Stats.Speed }, true);
         }
 
-        protected override void Start()
+        protected override void PostInit()
         {
-            try
-            {
-                _animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
-                SetReferences();
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-            }
+            _animatorController = Visual.GetAnimatorController<CharacterAnimatorController>();
         }
 
-        protected override void SetReferences()
+        public override void ConfigureEventLinks()
         {
+            base.ConfigureEventLinks();
+
             Movement.Speed.OnActualSpeedChanged += _animatorController.SpeedUpdateListener;
             OnBodyDamaged += Invincibility.Enable;
+            Movement.OnMovementPerformed += View.LookForward;
 
-            OnBodyDeath += _animatorController.TriggerDeath;
-            OnBodyDeath += Movement.Block;
+            OnBodyDies += _animatorController.TriggerDeath;
+            OnBodyDies += Movement.Block;
+            OnBodyDies += Health.CancelHpRegeneration;
         }
 
-
-        public override void Dispose()
+        public override void RemoveEventLinks()
         {
+            base.RemoveEventLinks();
+
             Movement.Speed.OnActualSpeedChanged -= _animatorController.SpeedUpdateListener;
             OnBodyDamaged -= Invincibility.Enable;
+            Movement.OnMovementPerformed -= View.LookForward;
 
-            OnBodyDeath -= _animatorController.TriggerDeath;
-            OnBodyDeath -= Movement.Block;
+            OnBodyDies -= _animatorController.TriggerDeath;
+            OnBodyDies -= Movement.Block;
+            OnBodyDies -= Health.CancelHpRegeneration;
+
+            _animatorController.Events.OnDeathFinished -= RaiseOnBodyCompletelyDied;
         }
 
         #endregion
 
-
-        private void FixedUpdate()
+        protected override void StartBodyDieActions()
         {
-            MoveForward();
-        }
-
-        private void MoveForward()
-        {
-            Movement?.Move();
-            View?.LookForward(Movement.Direction);
-        }
-
-        public void TakeDamage(float damage)
-        {
-            if (Invincibility.IsActive || IsDead)
-            {
-                return;
-            }
-
-            Health.TakeDamage(damage);
-            RaiseOnBodyDamaged();
-
-            if (Health.IsEmpty)
-            {
-                RaiseOnBodyDeath();
-            }
-        }
-
-        public void Heal(float amount)
-        {
-            if (IsDead)
-            {
-                return;
-            }
-
-            Health.Heal(amount);
+            _animatorController.Events.OnDeathFinished += RaiseOnBodyCompletelyDied;
         }
 
         #endregion

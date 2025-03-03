@@ -1,8 +1,8 @@
-
+﻿
 using System.Collections.Generic;
 using Characters.Common.Combat.Weapons;
+using Characters.Interfaces;
 using Characters.Player.Animation;
-using UnityEngine.InputSystem;
 
 namespace Characters.Player.Weapons
 {
@@ -26,7 +26,7 @@ namespace Characters.Player.Weapons
 
         #region Init 
 
-        public CharacterBasicAttack(CharacterBodyBase characterBody, List<CharacterWeaponBase> basicWeapons) : base(characterBody, basicWeapons)
+        public CharacterBasicAttack(IEntityPhysicsBody characterBody, IEnumerable<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
         {
 
         }
@@ -34,25 +34,23 @@ namespace Characters.Player.Weapons
         public override void Init()
         {
             base.Init();
-            _animatorController = CharacterBody.Visual.GetAnimatorController<CharacterAnimatorController>();
-            OnAttackOfTypeStarted += _animatorController.TriggerAttack;
-            AnimatorController.Events.OnAttackFinished += FinishAttack;
+            _animatorController = EntityBody.Visual.GetAnimatorController<CharacterAnimatorController>();
         }
 
-        public override void Dispose()
+
+        public override void ConfigureEventLinks()
         {
-            base.Dispose();
+            OnAttackOfTypeStarted += _animatorController.TriggerAttack;
+            AnimatorController.Events.OnAttackFinished += RaiseAttackFinished;
+        }
+
+        public override void RemoveEventLinks()
+        {
             OnAttackOfTypeStarted -= _animatorController.TriggerAttack;
-            AnimatorController.Events.OnAttackFinished -= FinishAttack;
+            AnimatorController.Events.OnAttackFinished -= RaiseAttackFinished;
         }
 
         #endregion
-
-        public void AttackPerformedListener(InputAction.CallbackContext context)
-        {
-            int contextValue = (int)context.ReadValue<float>();
-            TryPerformAttack((Type)contextValue);
-        }
     }
 
     #endregion

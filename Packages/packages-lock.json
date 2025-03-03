@@ -209,6 +209,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.profiling.core": {
+      "version": "1.0.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
       "version": "14.0.11",
       "depth": 1,
@@ -275,7 +282,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.7",
+      "version": "3.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -314,12 +321,19 @@
       },
       "url": "https://packages.unity.com"
     },
+    "dev.darkness.filerenamer": {
+      "version": "git@github.com:Dark927/Unity-FileRenamer.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1f0ff6a3df00e54367f0aa95bdee7ac90facb8bc"
+    },
     "dev.sudohub.normalprocessor": {
       "version": "git@github.com:sudohubdev/normalprocessor.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "5620df909867345ea6f3f2c750afe3f89933b1b3"
+      "hash": "440fd31b091962268eb4279b55a3d071f97ca316"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

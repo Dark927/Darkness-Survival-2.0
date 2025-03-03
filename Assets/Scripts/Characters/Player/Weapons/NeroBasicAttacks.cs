@@ -7,9 +7,18 @@ namespace Characters.Player.Weapons
 {
     public class NeroBasicAttacks : CharacterBasicAttack
     {
+        #region Fields 
+
         private CharacterSword _sword;
 
-        public NeroBasicAttacks(ICharacterLogic characterLogic, List<CharacterWeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+
+        public NeroBasicAttacks(ICharacterLogic characterLogic, IEnumerable<WeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
         {
             foreach (var weapon in BasicWeapons)
             {
@@ -21,14 +30,21 @@ namespace Characters.Player.Weapons
             }
         }
 
-        public override void Init()
+        public override void ConfigureEventLinks()
         {
-            base.Init();
-
+            base.ConfigureEventLinks();
             AnimatorController.Events.OnAttackHit += TriggerAttack;
         }
 
-        private void TriggerAttack(Type type)
+        public override void RemoveEventLinks()
+        {
+            base.RemoveEventLinks();
+            AnimatorController.Events.OnAttackHit -= TriggerAttack;
+        }
+
+        #endregion
+
+        private void TriggerAttack(LocalType type)
         {
             if (_sword == null)
             {
@@ -37,11 +53,11 @@ namespace Characters.Player.Weapons
 
             switch (type)
             {
-                case Type.Fast:
+                case LocalType.Fast:
                     TriggerFastAttack();
                     break;
 
-                case Type.Heavy:
+                case LocalType.Heavy:
                     TriggerHeavyAttack();
                     break;
 
@@ -60,11 +76,28 @@ namespace Characters.Player.Weapons
             _sword.TriggerAttack(CharacterSword.AttackType.Heavy);
         }
 
-        public override void Dispose()
+        protected override void AnyAttackStarted()
         {
-            AnimatorController.Events.OnAttackHit -= TriggerAttack;
+            base.AnyAttackStarted();
 
-            base.Dispose();
+            if (!EntityBody.IsDying)
+            {
+                EntityBody.Movement.Block();
+                EntityBody.Physics.SetStatic();
+            }
         }
+
+        protected override void AttackFinished()
+        {
+            base.AttackFinished();
+
+            if (!EntityBody.IsDying)
+            {
+                EntityBody.Movement.Unblock();
+                EntityBody.Physics.SetDynamic();
+            }
+        }
+
+        #endregion
     }
 }

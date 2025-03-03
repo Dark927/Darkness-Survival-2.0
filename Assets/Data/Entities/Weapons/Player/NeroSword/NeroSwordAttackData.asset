@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab445db76c7fd943aeef015626dc5df, type: 3}
+  m_Name: NeroSwordAttackData
+  m_EditorClassIdentifier: 
+  _swordAttackSettings:
+    _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
+    _damageSettings:
+      _minDamage: 6
+      _maxDamage: 10
+    _impact:
+      _useImpact: 1
+      _stunDurationMs: 500
+      _pushForce: 1
+      _reloadTimeMs: 2000
+      _chancePercent: 50
+      _shakeSettings:
+        m_Amplitude: 2
+        m_Frequency: 1
+        m_Time: 0.15
+    _triggerActivityTimeSec: 0.1
+    _fullDurationTimeSec: 0
+    _reloadTimeSec: 0
+    _heavyDamageSettings:
+      _minDamage: 9
+      _maxDamage: 15
+    _heavyImpactSettings:
+      _useImpact: 1
+      _stunDurationMs: 1000
+      _pushForce: 4
+      _reloadTimeMs: 500
+      _chancePercent: 0
+      _shakeSettings:
+        m_Amplitude: 5
+        m_Frequency: 1
+        m_Time: 0.25

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 27a8d8955f7c8004e4b94371b487fce9
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -38,14 +38,17 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: ee070adebcb0aa8458a376a19c452d6b, type: 2}
+  - {fileID: 11400000, guid: f59a5ac8b49785743aa6b60ce78bc7c0, type: 2}
   - {fileID: 11400000, guid: 7c86e402d579cdb42b9d82ce4a0fada9, type: 2}
+  - {fileID: 11400000, guid: 02bcfd85c5631f24ba6695c0c9e4096a, type: 2}
+  - {fileID: 11400000, guid: 0fdfa9e4aacc50d41b2f658305e92dc7, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -87,6 +90,13 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Prefab
+    - Data
+    - Character
+    - Enemy
+    - Weapon
+    - Attack
+    - Item
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a233e0350e86ee24a818d2c084f67219, type: 2}

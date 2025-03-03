@@ -1,7 +1,7 @@
-﻿using System.Threading;
+using System.Threading;
 using Characters.Player;
-using Characters.TargetDetection;
 using Cysharp.Threading.Tasks;
+using Gameplay.Components.TargetDetection;
 
 namespace Characters.Enemy
 {
@@ -91,7 +91,8 @@ namespace Characters.Enemy
 
             _body.View.LookForward(_body.Movement.Direction);
 
-            await _body.Movement.Speed.UpdateSpeedMultiplierLinear(_body.Movement.Speed.MaxSpeedMultiplier, _accelerationTimeInMs, token);
+            var bodyMovementSpeed = _body.Movement.Speed;
+            await bodyMovementSpeed.UpdateSpeedMultiplierLinear(bodyMovementSpeed.Settings.MaxSpeedMultiplier, _accelerationTimeInMs, token);
         }
 
         private void InterruptCurrentSideSwitch()

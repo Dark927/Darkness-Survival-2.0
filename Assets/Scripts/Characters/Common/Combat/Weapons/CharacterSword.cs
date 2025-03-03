@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
-using Settings.CameraManagement.Shake;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class CharacterSword : CharacterWeaponBase
+    public class CharacterSword : WeaponBase
     {
         #region Enums
 
@@ -23,10 +23,10 @@ namespace Characters.Common.Combat.Weapons
         #region Fields 
 
         private List<SwordAttackTrigger> _attackTriggers;
-
-        private ShakeImpact _fastAttackImpact;
-        private ShakeImpact _heavyAttackImpact;
         private SwordAttackSettings _swordAttackSettings;
+
+        private AttackType _currentAttackType;
+        private Dictionary<AttackType, AttackImpact> _attackImpactDict;
 
         #endregion
 
@@ -41,97 +41,130 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init
 
-        private void Awake()
+        public override void Initialize(WeaponAttackDataBase attackData)
         {
-            try
-            {
-                _swordAttackSettings = (SwordAttackSettings)AttackData.AttackSettings;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"# Can not convert the {(AttackData.AttackSettings.GetType())} to {nameof(SwordAttackSettings)}! Settings is NULL!");
-                Debug.LogException(ex);
-            }
+            base.Initialize(attackData);
+            _attackImpactDict = new();
+
+#if UNITY_EDITOR
+            TempDebugCode();
+#endif
+
+            _swordAttackSettings = (SwordAttackSettings)AttackSettings;
 
             _attackTriggers = GetComponentsInChildren<SwordAttackTrigger>().ToList();
-            _fastAttackImpact = new ShakeImpact(Settings.FastShakeSettings);
-            _heavyAttackImpact = new ShakeImpact(Settings.HeavyShakeSettings);
+            _attackTriggers.ForEach(attackTrigger => attackTrigger.Initialize());
 
             foreach (SwordAttackTrigger trigger in _attackTriggers)
             {
                 trigger.OnTriggerEnter += HitTargetListener;
+                trigger.OnTriggerDeactivation += TriggerDeactivationListener;
+
+                InitSwordImpact(trigger.TargetAttackType);
             }
+        }
+
+        private void InitSwordImpact(AttackType targetAttackType)
+        {
+            AttackImpact impact = base.InitImpact(GetImpactSettings(targetAttackType));
+            _attackImpactDict.Add(targetAttackType, impact);
         }
 
         public override void Dispose()
         {
             base.Dispose();
+
             foreach (SwordAttackTrigger trigger in _attackTriggers)
             {
                 trigger.OnTriggerEnter -= HitTargetListener;
+                trigger.OnTriggerDeactivation -= TriggerDeactivationListener;
             }
+
+            _attackImpactDict.Clear();
         }
 
         #endregion
 
         public void TriggerAttack(AttackType attackType)
         {
+            _currentAttackType = attackType;
             SwordAttackTrigger attackTrigger = _attackTriggers.FirstOrDefault(trigger => trigger.TargetAttackType == attackType);
 
-            if (attackTrigger != null)
+            if (attackTrigger == null)
             {
-                attackTrigger.Activate(Settings.TriggerActivityTimeSec);
+                return;
             }
 
-            ActivateImpact(attackType);
+            attackTrigger.Activate(Settings.TriggerActivityTimeSec);
+            AttackImpact impact = GetImpact(attackType);
+            impact.Shake?.Activate();
         }
 
-        private void ActivateImpact(AttackType attackType)
+        protected override float RequestDamageAmount()
         {
-            switch (attackType)
+            return _currentAttackType switch
             {
-                case AttackType.Fast:
-                    _fastAttackImpact.Activate();
-                    break;
-
-
-                case AttackType.Heavy:
-                    _heavyAttackImpact.Activate();
-                    break;
-
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        protected override void HitTargetListener(object sender, EventArgs args)
-        {
-            SwordAttackTriggerArgs attackArgs = (SwordAttackTriggerArgs)args;
-            GameObject targetObject = attackArgs.TargetCollider.gameObject;
-
-            if (targetObject.TryGetComponent(out IDamageable target))
-            {
-                float damage = RequestDamage(attackArgs.AttackType);
-                target.TakeDamage(damage);
-            }
-        }
-
-        private float RequestDamage(AttackType attackType)
-        {
-            return attackType switch
-            {
-                AttackType.Fast => CalculateDefaultDamage(),
-                AttackType.Heavy => CalculateHeavyDamage(),
+                AttackType.Fast => CalculateDamage(Settings.Damage, DamageMultiplier),
+                AttackType.Heavy => CalculateDamage(Settings.HeavyDamage, DamageMultiplier),
                 _ => throw new NotImplementedException()
             };
         }
 
-        private float CalculateHeavyDamage()
+        protected override void PerformImpact(Collider2D targetCollider)
         {
-            return CalculateDamage(Settings.HeavyDamageSettings.Min, Settings.HeavyDamageSettings.Max);
+            if (!ImpactAvailable
+                || !_attackImpactDict.TryGetValue(_currentAttackType, out AttackImpact impact)
+                || !impact.IsReady
+                || !impact.CanUseRandomly())
+            {
+                return;
+            }
+
+            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
+
+            impact.AddKnockback(CalculatePushDirection(Center, targetCollider.bounds.center));
+            impact.PerformPhysicsImpact(targetCollider);
         }
 
+        protected void TriggerDeactivationListener(IAttackTrigger trigger)
+        {
+            SwordAttackTrigger swordAttackTrigger = (SwordAttackTrigger)trigger;
+
+            if (_attackImpactDict.TryGetValue(swordAttackTrigger.TargetAttackType, out AttackImpact impact))
+            {
+                impact.ReloadImpact();
+            }
+        }
+
+        private AttackImpact GetImpact(AttackType attackType)
+        {
+            return _attackImpactDict.GetValueOrDefault(attackType, null);
+        }
+
+        private ImpactSettings GetImpactSettings(AttackType type)
+        {
+            return type switch
+            {
+                AttackType.Fast => Settings.Impact,
+                AttackType.Heavy => Settings.HeavyImpact,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+
+        // ToDo : remove this DEBUG code on Release.
+        private void TempDebugCode()
+        {
+            try
+            {
+                _swordAttackSettings = (SwordAttackSettings)AttackSettings;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"# Can not convert the {(AttackSettings.GetType())} to {nameof(SwordAttackSettings)}! Settings is NULL!");
+                Debug.LogException(ex);
+            }
+        }
         #endregion
 
     }

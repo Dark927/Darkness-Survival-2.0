@@ -1,18 +1,21 @@
+﻿using Characters.Common;
+using Characters.Common.Movement;
 using Characters.Enemy.Data;
 using Characters.Health;
 using Characters.Interfaces;
-using Characters.TargetDetection;
+using Gameplay.Components.TargetDetection;
 using UnityEngine;
 
 namespace Characters.Enemy
 {
-    public class DefaultEnemyBody : CharacterBodyBase, IDamageable
+    public class DefaultEnemyBody : EntityPhysicsBodyBase
     {
         #region Fields
 
         private IEnemyLogic _enemyLogic;
         private EnemyLookSideController _sideController;
         private EnemyBodyStats _bodyStats;
+        private EnemyMovement _enemyMovement;
 
         private Transform _targetTransform;
 
@@ -26,6 +29,7 @@ namespace Characters.Enemy
 
         public EnemyBodyStats Stats => _bodyStats;
         public Transform TargetTransform => _targetTransform;
+        public new EnemyMovement Movement => _enemyMovement;
 
         #endregion
 
@@ -34,13 +38,18 @@ namespace Characters.Enemy
 
         #region Init
 
-        protected override void Init()
+        protected override void InitComponents()
         {
+            base.InitComponents();
+
             _enemyLogic = GetComponent<IEnemyLogic>();
 
             Visual = GetComponentInChildren<EnemyVisual>();
-            Health = new CharacterHealth(_enemyLogic.Stats.Health);
+            Health = new EntityHealth(_enemyLogic.Stats.Health);
             Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
+
+            _bodyStats = GlobalEnemyDataManager.Instance.RequestDefaultBodyStats();
+            CreateSideController();
         }
 
         private void CreateSideController()
@@ -51,53 +60,45 @@ namespace Characters.Enemy
 
         protected override void InitView()
         {
-            View = new CharacterLookDirection(transform);
+            View = new EntityLookDirection(transform);
         }
 
         protected override void InitMovement()
         {
-            Movement = new EnemyMovement(transform);
-            CharacterSpeed speed = new CharacterSpeed() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed };
-            speed.SetMaxSpeedMultiplier();
-            Movement.Speed.Set(speed);
+            _enemyMovement = new EnemyMovement(transform);
+            base.Movement = _enemyMovement;
+            Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 
-        protected override void Start()
+        public override void ConfigureEventLinks()
         {
-            if (GlobalEnemyData.Instance != null)
-            {
-                _bodyStats = GlobalEnemyData.Instance.RequestDefaultBodyStats();
-                CreateSideController();
-            }
+            base.ConfigureEventLinks();
 
-            Health = new CharacterHealth(_enemyLogic.Stats.Health);
-            Invincibility = new CharacterInvincibility(Visual.Renderer, _enemyLogic.Stats.InvincibilityTime, _enemyLogic.Stats.InvincibilityColor);
-
-            SetReferences();
-        }
-
-        protected override void SetReferences()
-        {
-            OnBodyDeath += Movement.Block;
             OnBodyDamaged += Invincibility.Enable;
+            OnBodyDies += Movement.Block;
         }
 
-        protected override void UnsetReferences()
+        public override void RemoveEventLinks()
         {
-            base.UnsetReferences();
+            base.RemoveEventLinks();
+
             OnBodyDamaged -= Invincibility.Enable;
-            OnBodyDeath -= Movement.Block;
+            OnBodyDies -= Movement.Block;
         }
 
         public override void Dispose()
         {
+            base.Dispose();
             _sideController?.Disable();
         }
 
-        private void OnDisable()
+        public override void ResetState()
         {
-            UnsetReferences();
+            base.ResetState();
+
             Invincibility?.Disable();
+            Visual?.DeactivateActualColorBlink();
+            Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 
         #endregion
@@ -105,7 +106,7 @@ namespace Characters.Enemy
         public void SetTarget(Transform targetTransform)
         {
             _targetTransform = targetTransform;
-            (Movement as EnemyMovement).SetTarget(targetTransform);
+            Movement.SetTarget(targetTransform);
         }
 
         private void FixedUpdate()
@@ -115,33 +116,12 @@ namespace Characters.Enemy
                 return;
             }
 
-            Movement.Move();
+            Movement.FollowTarget();
 
             if (Visual.IsVisibleForCamera)
             {
                 _sideController.TrySwitchSide();
             }
-        }
-
-        public void TakeDamage(float damage)
-        {
-            if (Invincibility.IsActive || IsDead)
-            {
-                return;
-            }
-
-            Health.TakeDamage(damage);
-            RaiseOnBodyDamaged();
-
-            if (Health.IsEmpty)
-            {
-                RaiseOnBodyDeath();
-            }
-        }
-
-        public void Heal()
-        {
-
         }
 
 

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c066b57bc3e77d4e939d601cc90bb5e, type: 3}
+  m_Name: HealCapsule_Blue_Data
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 5825807792660707752, guid: 630abed2e26e7f8408903b884659463d, type: 3}
+  _description: 
+  _hpParameters:
+    _tintColor: {r: 0, g: 0.5179992, b: 1, a: 1}
+    _hpAmount: 18
+    _durationInSec: 6

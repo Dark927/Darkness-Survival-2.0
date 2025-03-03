@@ -1,4 +1,6 @@
+using Characters.Common.Combat.Weapons;
 using Characters.Player.Animation;
+using Characters.Player.Weapons;
 
 namespace Characters.Player
 {
@@ -7,6 +9,7 @@ namespace Characters.Player
         #region Fields
 
         private CharacterAnimatorController _animatorController;
+        private bool _hasConfiguredLinks = false;
 
         #endregion
 
@@ -21,46 +24,62 @@ namespace Characters.Player
 
         #region Init
 
-
-        protected override void InitComponents()
-        {
-            base.InitComponents();
-        }
-
         protected override void InitBasicAttacks()
         {
+            SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveWeapons));
             base.InitBasicAttacks();
+        }
+
+        public override void ConfigureEventLinks()
+        {
+            if (_hasConfiguredLinks)
+            {
+                return;
+            }
+
+            base.ConfigureEventLinks();
+
+            if (BasicAttack != null)
+            {
+                BasicAttack.ConfigureEventLinks();
+            }
+            else
+            {
+                OnBasicAttacksReady += ConfigureBasicAttacksEventListener;
+            }
+
+            _hasConfiguredLinks = true;
+        }
+
+        private void ConfigureBasicAttacksEventListener(BasicAttack attack)
+        {
+            OnBasicAttacksReady -= ConfigureBasicAttacksEventListener;
+            attack.ConfigureEventLinks();
+        }
+
+        public override void RemoveEventLinks()
+        {
+            if (!_hasConfiguredLinks)
+            {
+                return;
+            }
+
+            base.RemoveEventLinks();
+            BasicAttack?.RemoveEventLinks();
+
+            _hasConfiguredLinks = false;
         }
 
         protected override void SetReferences()
         {
             base.SetReferences();
             _animatorController = Body.Visual.GetAnimatorController() as CharacterAnimatorController;
-
-            // -----------
-            // # This logic can be unique for each character, so we do not subscribe inside the player body.
-            // -----------
-
-            BasicAttacks.OnAnyAttackStarted += Body.Movement.Block;
-
-            // ToDo : CONFLICTS WITH PlayerDeath event!!!
-            BasicAttacks.OnAttackFinished += Body.Movement.Unblock;
-
-            // -----------
-
-            // ToDo : Move this logic to another place
-            _animatorController.Events.OnDeathFinished += GameplayUI.Instance.ActivateGameOverPanel;
         }
 
-        protected override void Dispose()
+        public override void Dispose()
         {
-            BasicAttacks.OnAnyAttackStarted -= Body.Movement.Block;
-            BasicAttacks.OnAttackFinished -= Body.Movement.Unblock;
-            BasicAttacks.Dispose();
-
-            // ToDo : Move this logic to another place
-            _animatorController.Events.OnDeathFinished -= GameplayUI.Instance.ActivateGameOverPanel;
-
+            base.Dispose();
+            RemoveEventLinks();
             _animatorController = null;
         }
 

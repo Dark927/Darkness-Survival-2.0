@@ -1,28 +1,32 @@
 using System.Collections.Generic;
 using Settings.Abstract;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 namespace Settings.SceneManagement
 {
-    public class GameSceneManager : SingletonBase<GameSceneManager>
+
+    /// <summary>
+    /// This class is a main class to load scenes using default/addressable scene loaders.
+    /// </summary>
+    public class GameSceneManager : LazySingletonMono<GameSceneManager>
     {
         #region Fields
 
-        [SerializeField] private List<AssetReference> _stageScenesReferences;
+        [SerializeField] private GameSceneData _mainMenuScene;
+        [SerializeField] private GameSceneData _gameplayEssentialsScene;
+        [SerializeField] private List<GameSceneData> _additiveScenesData;
 
-        [SerializeField] private SceneNames _mainSceneNames;
-
-        private DefaultSceneLoader _defaultSceneLoader;
-        private AddressableSceneLoader _addressableSceneLoader;
+        private DefaultSceneLoader _defaultSceneLoader = new DefaultSceneLoader();
+        private AddressableSceneLoader _addressableSceneLoader = new AddressableSceneLoader();
 
         #endregion
 
 
         #region Properties 
 
-        public DefaultSceneLoader DefaultSceneLoader => _defaultSceneLoader;
-        public AddressableSceneLoader AddressableSceneLoader => _addressableSceneLoader;
+        public DefaultSceneLoader DefaultLoader => _defaultSceneLoader;
+        public AddressableSceneLoader AddressableLoader => _addressableSceneLoader;
 
         #endregion
 
@@ -33,48 +37,60 @@ namespace Settings.SceneManagement
 
         private void Awake()
         {
-            InitComponents();
-            InitInstance(true);
-
-            if (_mainSceneNames == null)
-            {
-                Debug.LogWarning($"{nameof(_mainSceneNames)} is null!");
-            }
-        }
-
-        private void InitComponents()
-        {
-            _defaultSceneLoader = new DefaultSceneLoader();
-            _addressableSceneLoader = new AddressableSceneLoader();
+            DontDestroyOnLoad(this);
         }
 
         #endregion
 
-        public void RestartStage()
+        public void AddAdditiveSceneToLoad(GameSceneData sceneData)
         {
-            AddressableSceneLoader.UnloadAll();
-            DefaultSceneLoader.UnloadAllAdditiveScenes();
 
-            DefaultSceneLoader.LoadSingleScene(_mainSceneNames.GlobalScene);
-            DefaultSceneLoader.LoadAdditiveScene(_mainSceneNames.GameplayEssentialsScene, false);
 
-            foreach (var scene in _stageScenesReferences)
+            _additiveScenesData.Add(sceneData);
+        }
+
+        public void LoadMainMenu()
+        {
+            if (_mainMenuScene == null)
             {
-                AddressableSceneLoader.LoadAdditiveScene(scene);
+                Debug.LogWarning($" # Can not load the main menu scene, {_mainMenuScene} is null!");
+            }
+
+            AddressableLoader.LoadAdditiveSceneClean(_mainMenuScene.SceneReference);
+        }
+
+        public void StartStage()
+        {
+            DefaultLoader.UnloadAllAdditiveScenes();
+
+            AddressableLoader.LoadAdditiveSceneClean(_gameplayEssentialsScene.SceneReference);
+
+            foreach (var sceneData in _additiveScenesData)
+            {
+                AddressableLoader.LoadScene(sceneData.SceneReference, LoadSceneMode.Additive);
             }
         }
 
         public void UnloadAll()
         {
-            AddressableSceneLoader.UnloadAll();
-            DefaultSceneLoader.UnloadAllAdditiveScenes();
+            AddressableLoader.UnloadAll();
+            DefaultLoader.UnloadAllAdditiveScenes();
         }
 
         public void CleanLoad()
         {
-            foreach (var scene in _stageScenesReferences)
+            foreach (var sceneData in _additiveScenesData)
             {
-                AddressableSceneLoader.LoadAdditiveSceneClean(scene);
+                AddressableLoader.LoadAdditiveSceneClean(sceneData.SceneReference);
+            }
+        }
+
+        private void OnValidate()
+        {
+            if (_mainMenuScene != null && (_mainMenuScene.SceneType != GameSceneData.GameSceneType.Menu))
+            {
+                _mainMenuScene = null;
+                Debug.LogWarning($"{nameof(_mainMenuScene)} {nameof(GameSceneData.GameSceneType)} is not Menu!");
             }
         }
 

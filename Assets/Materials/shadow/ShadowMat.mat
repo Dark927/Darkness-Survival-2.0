@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShadowMat
-  m_Shader: {fileID: 4800000, guid: 4479ad3fe7f520d4696491570cf5fc43, type: 3}
+  m_Shader: {fileID: 4800000, guid: d8127810f3ddb23469f8c261a6844822, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -46,6 +46,7 @@ Material:
     - _PerspectiveStrength: 0.51
     - _ShadowOffset: -13.05
     - _SunDirection: 3.07
+    - _TimeFactor: 1
     - _VMax: 0.95
     m_Colors:
     - _CameraHeight: {r: 0.5, g: 0.67, b: 0, a: 1}
@@ -55,6 +56,8 @@ Material:
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _RootPos: {r: 0.046, g: -1.113, b: 0, a: 0}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 0.32941177}
+    - _ShadowColorDay: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 0.5}
+    - _ShadowColorSunset: {r: 0.39999998, g: 0.19999996, b: 0.09999997, a: 0.3}
     - _ShadowDirection: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowScale: {r: 0.7, g: 0.25, b: 0, a: 1}
     - _SunDirection: {r: 3.85, g: -5.27, b: 0, a: 0}

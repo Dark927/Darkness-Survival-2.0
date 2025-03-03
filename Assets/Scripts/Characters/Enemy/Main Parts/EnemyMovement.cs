@@ -1,9 +1,10 @@
 using System;
-using Characters.Interfaces;
+using Characters.Common.Movement;
 using UnityEngine;
+
 namespace Characters.Enemy
 {
-    public class EnemyMovement : CharacterMovementBase
+    public class EnemyMovement : EntityMovementBase
     {
         #region Fields 
 
@@ -13,15 +14,15 @@ namespace Characters.Enemy
         private Transform _targetTransform;
         private Vector2 _targetDirection;
 
-        private CharacterSpeed _speed;
-        private CharacterActionBlock _movementBlock;
+        private EntitySpeed _speed;
+        private EntityActionBlock _movementBlock;
 
         #endregion
 
 
         #region Properties
 
-        public override CharacterSpeed Speed => _speed;
+        public override EntitySpeed Speed => _speed;
         public override bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
         public override Vector2 Direction => _targetDirection;
 
@@ -35,6 +36,7 @@ namespace Characters.Enemy
         public EnemyMovement(Transform bodyTransform, Transform targetTransform = null)
         {
             Init(bodyTransform, targetTransform);
+            _speed = new EntitySpeed();
         }
 
         private void Init(Transform bodyTransform, Transform targetTransform)
@@ -50,25 +52,24 @@ namespace Characters.Enemy
             }
 
             InitComponents();
-            InitReferences();
         }
 
         private void InitComponents()
         {
             _rigidbody = _transform.GetComponent<Rigidbody2D>();
-            _movementBlock = new CharacterActionBlock();
-            _speed = new CharacterSpeed();
+            _movementBlock = new EntityActionBlock();
+            _speed = new EntitySpeed();
         }
 
-        private void InitReferences()
+        public override void ConfigureEventLinks()
         {
-            _speed.OnActualSpeedChanged += ActualSpeedChangedListener;
+            _speed.OnVelocityUpdate += VelocityUpdateListener;
             _movementBlock.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
         }
 
-        public override void Dispose()
+        public override void RemoveEventLinks()
         {
-            _speed.OnActualSpeedChanged -= ActualSpeedChangedListener;
+            _speed.OnVelocityUpdate -= VelocityUpdateListener;
             _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
         }
 
@@ -79,12 +80,14 @@ namespace Characters.Enemy
             _targetTransform = target;
         }
 
-        public override void Move()
+        public override void Move(Vector2 direction)
         {
-            if (!_movementBlock.IsBlocked && (_targetTransform != null))
+            if (_movementBlock.IsBlocked)
             {
-                FollowTarget();
+                return;
             }
+
+            _speed.TryUpdateVelocity(direction);
         }
 
         public override void Stop()
@@ -105,14 +108,20 @@ namespace Characters.Enemy
             _movementBlock.Block();
         }
 
-        private void FollowTarget()
+        public override void Unblock()
+        {
+            base.Unblock();
+            _movementBlock.Unblock();
+        }
+
+        public void FollowTarget()
         {
             _targetDirection = (_targetTransform.position - _transform.position).normalized;
-            _speed.TryUpdateVelocity(_targetDirection);
+            Move(_targetDirection);
         }
 
 
-        private void ActualSpeedChangedListener(object sender, SpeedChangedArgs args)
+        private void VelocityUpdateListener(object sender, Vector2 velocity)
         {
             _rigidbody.velocity = _speed.Velocity;
         }

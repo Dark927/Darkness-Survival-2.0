@@ -1,15 +1,22 @@
-using System;
+﻿using System;
+using Characters.Common.Features;
+using Characters.Interfaces;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Characters.Health.HealthBar
+namespace UI.Local.Health
 {
     [ExecuteAlways]
-    public class HealthBar : MonoBehaviour, IHealthBar, IDisposable
+    public class HealthBar : MonoBehaviour, IHealthBar
     {
         #region Fields 
 
         #region Inspector
 
+        [Header("Settings")]
+        [SerializeField] private IEntityFeature.TargetEntityPart _entityConnectionPart;
+
+        [Header("Visual")]
         [Header("Actual Hp - Settings")]
         [SerializeField] private Color _actualHpColor = Color.red;
 
@@ -18,11 +25,22 @@ namespace Characters.Health.HealthBar
 
         #endregion
 
-        private Vector2 _initialScale;
-        private bool _isVisible = true;
-        private CharacterBodyBase _characterBody;
-        private HealthBarHp _hpVisual;
-        private HealthBarBackground _backgroundVisual;
+        private bool _isReady;
+        private bool _isVisible;
+        private IEntityPhysicsBody _entityBody;
+        private Slider _hpVisual;
+        private BackgroundSprite _backgroundVisual;
+        private Vector2 _updatedScaleX;
+        private UniTaskVoid _configureEventsTask;
+
+        #endregion
+
+
+        #region Properties 
+
+        public IEntityFeature.TargetEntityPart EntityConnectionPart => _entityConnectionPart;
+        public bool IsReady => _isReady;
+        public GameObject RootObject => gameObject;
 
         #endregion
 
@@ -33,41 +51,56 @@ namespace Characters.Health.HealthBar
 
         private void Awake()
         {
-            _initialScale = transform.localScale;
-            _characterBody = GetComponentInParent<CharacterBodyBase>();
-            _hpVisual = GetComponentInChildren<HealthBarHp>();
-            _backgroundVisual = GetComponentInChildren<HealthBarBackground>();
+            _isReady = false;
         }
 
-        private void Start()
+        public void Initialize(IEntityDynamicLogic entityLogic)
         {
+            InitVisualParts();
+
+            SetCharacterBody(entityLogic.Body);
             ConfigureBarVisual();
-
-            if (Application.isPlaying)
-            {
-                _characterBody.View.OnSideSwitch += CharacterScaleChangedListener;
-                _characterBody.Health.OnCurrentHpPercentChanged += UpdateActualHp;
-                Hide();
-            }
+            Hide();
+            _configureEventsTask = TryConfigureEventsAsync();
         }
 
-        private void Update()
+        public void SetCharacterBody(IEntityPhysicsBody entityBody)
         {
-
-            // ToDo : Remove this input (it is for tests only)
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.P))
+            if (_entityBody != null)
             {
-                Show();
+                RemoveEventLinks();
             }
-#endif
+
+            _entityBody = entityBody;
+
+        }
+
+        public async UniTaskVoid TryConfigureEventsAsync()
+        {
+            await UniTask.WaitUntil(() => _entityBody.IsReady);
+
+            ConfigureEventLinks();
         }
 
         private void CharacterScaleChangedListener(object sender, EventArgs args)
         {
-            _initialScale.x *= -1;
-            transform.localScale = _initialScale;
+            // ToDo : check this.
+
+            if (Mathf.Sign(_entityBody.Transform.localScale.x) != Mathf.Sign(transform.localScale.x))
+            {
+                transform.localScale = transform.localScale * (-1);
+            }
         }
+
+        private void InitVisualParts()
+        {
+            _hpVisual = GetComponentInChildren<Slider>();
+            _backgroundVisual = GetComponentInChildren<BackgroundSprite>();
+
+            _hpVisual.Initialize();
+            _backgroundVisual.Initialize();
+        }
+
 
         private void ConfigureBarVisual()
         {
@@ -90,6 +123,20 @@ namespace Characters.Health.HealthBar
         private void ConfigureBackgroundVisual()
         {
             _backgroundVisual.Renderer.color = _backgroundColor;
+        }
+
+        public void ConfigureEventLinks()
+        {
+            _entityBody.OnBodyDies += Hide;
+            _entityBody.View.OnSideSwitch += CharacterScaleChangedListener;
+            _entityBody.Health.OnCurrentHpPercentChanged += UpdateActualHp;
+        }
+
+        public void RemoveEventLinks()
+        {
+            _entityBody.OnBodyDies -= Hide;
+            _entityBody.View.OnSideSwitch -= CharacterScaleChangedListener;
+            _entityBody.Health.OnCurrentHpPercentChanged -= UpdateActualHp;
         }
 
         #endregion
@@ -116,13 +163,12 @@ namespace Characters.Health.HealthBar
             }
 
             actualHpPercent = Mathf.Clamp(actualHpPercent, 0, 100);
-            _hpVisual.UpdateActualHp(actualHpPercent);
+            _hpVisual.UpdateActualValue(actualHpPercent);
         }
 
         public void Dispose()
         {
-            _characterBody.View.OnSideSwitch -= CharacterScaleChangedListener;
-            _characterBody.Health.OnCurrentHpPercentChanged -= UpdateActualHp;
+            RemoveEventLinks();
         }
 
         private void OnValidate()

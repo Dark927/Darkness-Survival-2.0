@@ -1,3 +1,4 @@
+using Characters.Common.Visual;
 using Characters.Player.Weapons;
 using UnityEngine;
 
@@ -17,9 +18,9 @@ namespace Characters.Player.Animation
             set => Animator.SetFloat(Parameters.SpeedFieldName, value);
         }
 
-        public CharacterBasicAttack.Type AttackType
+        public CharacterBasicAttack.LocalType AttackType
         {
-            get => (CharacterBasicAttack.Type)Animator.GetInteger(Parameters.AttackTypeFieldName);
+            get => (CharacterBasicAttack.LocalType)Animator.GetInteger(Parameters.AttackTypeFieldName);
             set => Animator.SetInteger(Parameters.AttackTypeFieldName, (int)value);
         }
 
@@ -41,7 +42,7 @@ namespace Characters.Player.Animation
         #endregion
 
 
-        public void TriggerAttack(CharacterBasicAttack.Type type)
+        public void TriggerAttack(CharacterBasicAttack.LocalType type)
         {
             AttackType = type;
             Animator.SetTrigger(Parameters.AttackTriggerName);

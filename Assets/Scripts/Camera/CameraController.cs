@@ -34,22 +34,22 @@ namespace Settings.CameraManagement
         public void Init()
         {
             _cameraShake = new CameraShake(_virtualCamera);
-            ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady += FollowPlayer;
+            ServiceLocator.Current.Get<PlayerService>().OnPlayerReady += FollowPlayer;
         }
 
         #endregion
 
-        public void FollowPlayer(Player player)
+        public void FollowPlayer(PlayerCharacterController player)
         {
             if (_virtualCamera != null)
             {
-                _virtualCamera.Follow = player.Character.Body.transform;
+                _virtualCamera.Follow = player.CharacterLogic.Body.Transform;
             }
         }
 
         public void Dispose()
         {
-            ServiceLocator.Current.Get<PlayerManager>().OnPlayerReady -= FollowPlayer;
+            ServiceLocator.Current.Get<PlayerService>().OnPlayerReady -= FollowPlayer;
         }
 
         #endregion

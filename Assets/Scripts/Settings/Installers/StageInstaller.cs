@@ -1,19 +1,24 @@
-using System;
+﻿using System;
 using Dark.Environment;
+using Gameplay.Components;
+using Gameplay.Data;
+using Gameplay.Generation;
+using Gameplay.Tile;
 using UnityEngine;
-using World.Components;
 using World.Data;
-using World.Generation;
-using World.Tile;
 using Zenject;
 
 public class StageInstaller : MonoInstaller
 {
-    [Header("Main parameters")]
+    [Header("World - Settings")]
     [SerializeField] private WorldGeneration _worldGenerationType = WorldGeneration.Scrolling;
-    [SerializeField] private GenerationSettings _worldGenerationSettings;
+    [SerializeField] private WorldGenerationData _worldGenerationSettings;
     [SerializeField] private GameObjectsContainer _worldChunksContainer;
     [SerializeField] private ShadowSettings _shadowSettings;
+
+
+    [Header("Enemy Management - Settings")]
+    [SerializeField] private EnemyManagementData _enemyManagementData;
 
 
     public override void InstallBindings()
@@ -23,6 +28,20 @@ public class StageInstaller : MonoInstaller
             .FromComponentInHierarchy()
             .AsSingle();
 
+        BindWorld();
+        BindEnemyManagement();
+    }
+
+    private void BindEnemyManagement()
+    {
+        Container
+            .Bind<EnemyManagementData>()
+            .FromInstance(_enemyManagementData)
+            .AsSingle();
+    }
+
+    private void BindWorld()
+    {
         // ----------------------------------------------------------
         // ! Binding World Generation strategy inside Scene Context
         // ----------------------------------------------------------
@@ -30,7 +49,7 @@ public class StageInstaller : MonoInstaller
         ConfigureChunksContainer();
 
         Container
-            .Bind<GenerationSettings>()
+            .Bind<WorldGenerationData>()
             .FromScriptableObject(_worldGenerationSettings)
             .AsSingle();
 

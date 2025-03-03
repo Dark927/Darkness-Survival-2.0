@@ -17,8 +17,73 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_SerializeEntries:
-  - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
-    m_Address: Assets/Scenes/Stage-01_Scene.unity
+  - m_GUID: 2dd5956ba4b0edb43a5e619bcb5d823c
+    m_Address: Assets/Scenes/Global_Scene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 370a13fc6f7b6c54790569cf6579ffe6
+    m_Address: Assets/Prefabs/UI/Menu/PauseMenu.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56595c4855cb17445878fb61b91ffdb9
+    m_Address: Assets/Data/Settings/Gameplay/GlobalGameplayStageConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c96f1a7c862f0e4bae77854c71a9259
+    m_Address: Assets/Data/Entities/Features/CharacterFeatureSet.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60328aaa04dd0f84d9ece0d2ae31ac1c
+    m_Address: Assets/Data/Entities/Player/NeroData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8551185e2733731429da5a933e644733
+    m_Address: Assets/Prefabs/Entities/Features/DefaultHealthBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96fc558da40bb3942a41914c0069c06d
+    m_Address: Assets/Scenes/Gameplay_Essentials_Scene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97a766c07274bda4a9ed6b0b9b402234
+    m_Address: Assets/Prefabs/Entities/Player/Player.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e63b8693779213448b1e59e15a985f5
+    m_Address: Assets/Prefabs/Entities/Features/EnemyHealthBar.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9a9648fd1503fd4d9ef01cc54eaef81
+    m_Address: Assets/Prefabs/UI/Menu/Settings/Settings-Canvas.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b81171a0aac7ead4a8edee2e158159e4
+    m_Address: Assets/Data/Entities/Player/NeroLevelData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c21ad6142b221e248ad0491727a2fd50
+    m_Address: Assets/Scenes/MainMenu_Scene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca785b451b7eacd41bf48400f2806a7e
+    m_Address: Assets/Prefabs/UI/Menu/Credits/Credits-Canvas.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8fa77fbf61244341b8d611174eae9d4
+    m_Address: Assets/Data/Entities/Features/EnemyFeatureSet.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

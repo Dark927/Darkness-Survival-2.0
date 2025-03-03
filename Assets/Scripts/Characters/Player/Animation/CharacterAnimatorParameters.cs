@@ -1,3 +1,5 @@
+using Characters.Common.Visual;
+
 namespace Characters.Player.Animation
 {
     public class CharacterAnimatorParameters : IAnimatorParameters

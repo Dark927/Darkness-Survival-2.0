@@ -8,8 +8,12 @@ Shader "Sprites/JitterFreeLit"
         _NormalMap("Normal Map", 2D) = "bump" {}
 
         [Header(Mask Tint)]
-        [Gamma] _Gamma("Gamma", Range(0.0, 3)) = 2.2
+        [Gamma] _Gamma("Gamma", Range(0.0, 3)) = 1
         _Color("Tint", Color) = (1,1,1,1)
+        
+        [Header(Flash)]
+        _FlashColor ("Flash Color", Color) = (1,1,1,1)
+		_FlashAmount ("Flash Amount", Range (0,1)) = 0
 
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
         [HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
@@ -76,6 +80,9 @@ Shader "Sprites/JitterFreeLit"
             float4 _Color;
             half4 _RendererColor;
 
+            float4 _FlashColor;
+			float _FlashAmount;
+
             #if USE_SHAPE_LIGHT_TYPE_0
             SHAPE_LIGHT(0)
             #endif
@@ -133,6 +140,8 @@ Shader "Sprites/JitterFreeLit"
                 
                 float3 tinted = pow(main.rgb * i.color.rgb, _Gamma);
                 main.rgb = lerp(main.rgb, tinted, colormaskCoef);
+
+                main.rgb = lerp(main.rgb, _FlashColor.rgb, _FlashAmount);
 
                 const half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, smoothUV);
                 SurfaceData2D surfaceData;

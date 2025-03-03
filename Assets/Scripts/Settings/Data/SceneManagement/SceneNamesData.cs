@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Settings.SceneManagement
 {
-    [CreateAssetMenu(fileName = "SceneNames", menuName = "Game/SceneManagement/Scenes")]
+    [CreateAssetMenu(fileName = "SceneNames", menuName = "Game/Scenes/DELETE ME")]
     public class SceneNamesData : ScriptableObject
     {
         [SerializeField] private string _globalScene;

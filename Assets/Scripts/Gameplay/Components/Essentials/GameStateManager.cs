@@ -52,6 +52,11 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        GameplayUI.Instance.DeactivatePauseMenu();
+        _pauseService.UnpauseGame();
+    }
 
     #endregion
 }

@@ -6,7 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Settings.AssetsManagement
 {
-    public class AddressableAssetsLoader : LazySingleton<AddressableAssetsLoader>
+    public class AddressableAssetsLoader : LazySingletonMono<AddressableAssetsLoader>
     {
         #region Methods
 

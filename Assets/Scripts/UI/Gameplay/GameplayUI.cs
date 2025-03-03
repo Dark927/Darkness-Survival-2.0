@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public sealed class GameplayUI : SingletonBase<GameplayUI>
+public sealed class GameplayUI : SingletonMonoBase<GameplayUI>
 {
     private PlayerCharacterController _targetCharacter;
     [SerializeField] private Canvas _menuCanvas;
@@ -15,7 +15,7 @@ public sealed class GameplayUI : SingletonBase<GameplayUI>
     [SerializeField] private AssetReference _pauseMenuAsset;
 
     private AsyncOperationHandle<GameObject> _pauseMenuLoadHandle;
-    private PauseMenuUI _pauseMenu;
+    private MenuUI _pauseMenu;
     private bool _isPauseMenuActivated = false;
 
 
@@ -59,7 +59,7 @@ public sealed class GameplayUI : SingletonBase<GameplayUI>
         if (_pauseMenuLoadHandle.Task.Result != null)
         {
             GameObject pauseMenuObject = Instantiate(_pauseMenuLoadHandle.Result, _menuCanvas.transform.position, Quaternion.identity, _menuCanvas.transform);
-            _pauseMenu = pauseMenuObject.GetComponent<PauseMenuUI>();
+            _pauseMenu = pauseMenuObject.GetComponent<MenuUI>();
         }
     }
 

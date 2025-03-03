@@ -3,7 +3,7 @@ using Settings;
 using Settings.Abstract;
 using Zenject;
 
-public sealed class GlobalEnemyDataManager : LazySingleton<GlobalEnemyDataManager>
+public sealed class GlobalEnemyDataManager : LazySingletonMono<GlobalEnemyDataManager>
 {
     private EnemyGlobalData _enemySettings;
 

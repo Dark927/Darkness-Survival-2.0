@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Settings.Global;
+using System;
 using UnityEngine;
 
 
 namespace Settings.Abstract
 {
-    public class LazySingleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class LazySingletonMono<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static Lazy<T> _lazyInstance = new Lazy<T>(() =>
         {

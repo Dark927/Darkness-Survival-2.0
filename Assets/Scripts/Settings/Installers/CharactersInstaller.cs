@@ -10,6 +10,11 @@ public sealed class CharactersInstaller : MonoInstaller
     [SerializeField] private AssetReference _characterAsset;
     [SerializeField] private Transform _parentContainer;
 
+    // ToDo : implement addressable assets handler to release all assets when stage is closed, etc.
+    // ToDo : implement addressable assets handler to release all assets when stage is closed, etc.
+    // ToDo : implement addressable assets handler to release all assets when stage is closed, etc.
+    private AsyncOperationHandle<GameObject> _characterLoadHandle;
+
     public override void InstallBindings()
     {
         BindPlayerCharacter();
@@ -20,6 +25,10 @@ public sealed class CharactersInstaller : MonoInstaller
         AsyncOperationHandle<GameObject> handle = AddressableAssetsLoader.Instance.TryLoadAssetAsync<GameObject>(_characterAsset);
         handle.WaitForCompletion();
 
+        // ToDo : remove later
+
+        _characterLoadHandle = handle;
+
         GameObject playerPrefab = handle.Result;
         GameObject playerObject = Instantiate(playerPrefab, Vector2.zero, Quaternion.identity, _parentContainer);
         playerObject.name = playerPrefab.name;
@@ -29,5 +38,13 @@ public sealed class CharactersInstaller : MonoInstaller
             .Bind<PlayerCharacterController>()
             .FromInstance(characterController)
             .AsSingle();
+    }
+
+    private void OnDestroy()
+    {
+        if (_characterLoadHandle.IsValid())
+        {
+            AddressableAssetsLoader.Instance.UnloadAsset(_characterLoadHandle);
+        }
     }
 }

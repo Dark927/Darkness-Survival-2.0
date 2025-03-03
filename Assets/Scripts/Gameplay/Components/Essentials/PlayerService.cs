@@ -34,6 +34,10 @@ public sealed class PlayerService : IService
         if (player != null)
         {
             _players.Add(player);
+
+            // ToDo : clear player list only when stage is restarted (or move this service to the gameplay essentials)
+            _players.RemoveWhere(player => player == null);
+
             OnPlayerReady?.Invoke(player);
 
             // ToDo : move this logic to the another manager

@@ -19,16 +19,6 @@ public class PauseButtonUI : ButtonBaseUI, IPointerEnterHandler, IPointerExitHan
         _pauseService = pauseService;
     }
 
-    private void Start()
-    {
-        PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
-
-        if (playerService != null)
-        {
-            _player = playerService.Players.FirstOrDefault();
-        }
-    }
-
     public override void ClickListener()
     {
         _pauseService.PauseGame();
@@ -39,8 +29,8 @@ public class PauseButtonUI : ButtonBaseUI, IPointerEnterHandler, IPointerExitHan
     {
         if (_player == null)
         {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(PlayerCharacterController));
-            return;
+            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
+            _player = playerService.Players.FirstOrDefault();
         }
 
         _player.SetCanAttackFlag(false);
@@ -50,8 +40,8 @@ public class PauseButtonUI : ButtonBaseUI, IPointerEnterHandler, IPointerExitHan
     {
         if (_player == null)
         {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(PlayerCharacterController));
-            return;
+            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
+            _player = playerService.Players.FirstOrDefault();
         }
 
         _player.SetCanAttackFlag(true);

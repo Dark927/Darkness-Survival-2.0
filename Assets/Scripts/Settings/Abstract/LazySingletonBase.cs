@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -8,16 +10,26 @@ namespace Settings.Abstract
     {
         private static Lazy<T> _lazyInstance = new Lazy<T>(() =>
         {
-            T instance = FindObjectOfType<T>();
+            T concreteInstance = FindObjectOfType<T>();
 
-            if (instance == null)
+            if (concreteInstance == null)
             {
                 GameObject singletonObject = new GameObject(typeof(T).Name);
-                instance = singletonObject.AddComponent<T>();
+                concreteInstance = singletonObject.AddComponent<T>();
             }
-            return instance;
+            return concreteInstance;
         });
 
         public static T Instance => _lazyInstance.Value;
+
+        private void Awake()
+        {
+            AwakeInit();
+        }
+
+        protected virtual void AwakeInit()
+        {
+
+        }
     }
 }

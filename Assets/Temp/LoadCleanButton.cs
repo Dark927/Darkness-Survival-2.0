@@ -1,9 +1,9 @@
-using Settings.SceneManagement;
+﻿using Settings.SceneManagement;
 using UI.Buttons;
 
 public class LoadCleanButton : ButtonBaseUI
 {
-    public override void ClickListener()
+    public override void Click()
     {
         GameSceneManager.Instance.CleanLoad();
     }

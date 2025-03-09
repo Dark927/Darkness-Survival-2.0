@@ -42,6 +42,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64e53ea1bf6d6e04893c035d25173c26
+    m_Address: Assets/Prefabs/UI/Menu/Credits/menu_credits.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 773228641b7b568459367a8e2898b11d
+    m_Address: Assets/Audio/OST/Gameplay/OST - When night come over.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8551185e2733731429da5a933e644733
     m_Address: Assets/Prefabs/Entities/Features/DefaultHealthBar.prefab
     m_ReadOnly: 0
@@ -62,6 +72,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a05ded130b118c94cb5d66aa52821b91
+    m_Address: Assets/Prefabs/UI/LoadingScreen/LoadingScreen-Canvas.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9a9648fd1503fd4d9ef01cc54eaef81
     m_Address: Assets/Prefabs/UI/Menu/Settings/Settings-Canvas.prefab
     m_ReadOnly: 0
@@ -77,8 +92,9 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ca785b451b7eacd41bf48400f2806a7e
-    m_Address: Assets/Prefabs/UI/Menu/Credits/Credits-Canvas.prefab
+  - m_GUID: cb79bfbef0c4b7d4993631d7e08cb962
+    m_Address: Assets/Audio/OST/MainMenu/OST - You seem to enjoy dancing in your
+      own blood.mp3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

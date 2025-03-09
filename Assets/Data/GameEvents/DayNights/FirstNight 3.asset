@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7f03a42fa1c5144986c6d4e393bdbc, type: 3}
   m_Name: FirstNight 3
   m_EditorClassIdentifier: 
-  _realTimeDuration: 1
+  _realTimeDuration: 10
   _targetGameTime: 0.336
-  _targetColor: {r: 0.9418256, g: 1, b: 0, a: 1}
+  _targetColor: {r: 1, g: 1, b: 1, a: 1}
   _dayTimeType: 0
   _tag: 

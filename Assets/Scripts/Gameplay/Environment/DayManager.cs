@@ -2,35 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dark.Utils;
+using Gameplay.Components;
 using Settings.Global;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Utilities;
 using World.Data;
-using World.Environment;
+using World.Light;
 using Zenject;
 
 #nullable enable
 
-namespace Dark.Environment
+namespace World.Environment
 {
     public class DayManager : MonoBehaviour
     {
         #region Fields 
 
-        [SerializeField] private Light2D _globalLight;
-        [SerializeField] private Light2D _playerLight;
-        [SerializeField] private List<DayStateData> _dayList;
+        private StageLight _stageLight = default!;
+        private Light2D _playerLight = default!;
+        [SerializeField] private List<DayStateData> _dayList = default!;
+
         [Header("Beginning DayStateData")]
-        [SerializeField] private DayStateData _previousData;
+        [SerializeField] private DayStateData _previousData = default!;
 
         #endregion
 
         #region events
+
         public event EventHandler<DayChangedEventArgs>? ThresholdReached;
+
         #endregion
 
-        private DayStateData _targetDayStateData;
+        private DayStateData _targetDayStateData = default!;
         public float InGameTime => _inGameTime;
         private float _transitionState = 0;
 
@@ -42,21 +46,31 @@ namespace Dark.Environment
         private float _inGameTime;
 
 
-        //[Inject(Id = "USE ENUM FOR GLOBAL LIGHT ID")]
-        public void Construct()
+        [Inject]
+        public void Construct(StageLight stageLight)
         {
-            // ToDo : inject the global light and player.
+            _stageLight = stageLight;
         }
 
         private void Start()
         {
             _targetDayStateData = GetNewDayStateData();
-        }
 
+            var playerService = ServiceLocator.Current.Get<PlayerService>();
+            var playerController = playerService.Players.FirstOrDefault();
+
+            if (playerController != null)
+            {
+                _playerLight = playerController.GetComponentInChildren<Light2D>();
+            }
+            else
+            {
+                Debug.LogWarning($"# Player is null! - {gameObject.name}");
+            }
+        }
 
         private void Update()
         {
-
             if (_transitionState >= 1)
             {
                 //reset animation to beginning
@@ -92,21 +106,14 @@ namespace Dark.Environment
 
             // Color interpolation
             var color = Color.Lerp(_previousData.TargetColor, _targetDayStateData.TargetColor, _transitionState);
-            _globalLight.color = color;
-            _globalLight.intensity = GlobalLightFx(DarkMath.Frac(_inGameTime)); //intensity curve
+            _stageLight.Light.color = color;
+            _stageLight.Light.intensity = GlobalLightFx(DarkMath.Frac(_inGameTime)); //intensity curve
 
-            if (_playerLight == null) ///TODO: 
-            {
-                var playerService = ServiceLocator.Current.Get<PlayerService>();
-                _playerLight = playerService.Players.FirstOrDefault().GetComponentInChildren<Light2D>();
-            }
-            else
-                _playerLight.intensity = 1 - _globalLight.intensity;
-
+            _playerLight.intensity = 1 - _stageLight.Light.intensity;
 
             //animation integration += dx (duration to [0,1] range)
             _transitionState += Time.deltaTime / _targetDayStateData.RealTimeDuration;
-            Telemetry.Log(0, _transitionState, DarkMath.Frac(_inGameTime), _globalLight.intensity);
+            Telemetry.Log(0, _transitionState, DarkMath.Frac(_inGameTime), _stageLight.Light.intensity);
         }
 
         private DayStateData GetNewDayStateData()

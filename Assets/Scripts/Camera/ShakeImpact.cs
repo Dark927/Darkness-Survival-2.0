@@ -6,7 +6,7 @@ namespace Settings.CameraManagement.Shake
     {
         #region Fields 
 
-        private CameraController _cameraController;
+        private CameraService _cameraController;
 
         private ShakeSettings _settings;
 
@@ -26,13 +26,13 @@ namespace Settings.CameraManagement.Shake
 
         public ShakeImpact(ShakeSettings settings)
         {
-            _cameraController = ServiceLocator.Current.Get<CameraController>();
+            _cameraController = ServiceLocator.Current.Get<CameraService>();
             _settings = settings;
         }
 
         public ShakeImpact()
         {
-            _cameraController = ServiceLocator.Current.Get<CameraController>();
+            _cameraController = ServiceLocator.Current.Get<CameraService>();
             _settings = ShakeSettings.Default;
         }
 

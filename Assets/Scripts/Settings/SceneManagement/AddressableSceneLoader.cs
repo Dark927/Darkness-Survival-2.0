@@ -52,7 +52,7 @@ namespace Settings.SceneManagement
         /// Loads the addressable scene using Asset Reference.
         /// </summary>
         /// <param name="sceneReference">Scene to load</param>
-        public AsyncOperationHandle<SceneInstance> LoadScene(AssetReference sceneReference, LoadSceneMode loadMode)
+        public AsyncOperationHandle<SceneInstance> LoadScene(AssetReference sceneReference, LoadSceneMode loadMode, bool activateOnLoad = true)
         {
             if (_cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested)
             {
@@ -62,7 +62,7 @@ namespace Settings.SceneManagement
             return loadMode switch
             {
                 LoadSceneMode.Single => LoadSingleScene(sceneReference),
-                LoadSceneMode.Additive => LoadAdditiveScene(sceneReference),
+                LoadSceneMode.Additive => LoadAdditiveScene(sceneReference, activateOnLoad),
                 _ => throw new System.NotImplementedException(),
             };
         }
@@ -83,9 +83,9 @@ namespace Settings.SceneManagement
             return loadHandle;
         }
 
-        private AsyncOperationHandle<SceneInstance> LoadAdditiveScene(AssetReference sceneReference, CancellationToken token = default)
+        private AsyncOperationHandle<SceneInstance> LoadAdditiveScene(AssetReference sceneReference, bool activateOnLoad = true, CancellationToken token = default)
         {
-            AsyncOperationHandle<SceneInstance> loadHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Additive);
+            AsyncOperationHandle<SceneInstance> loadHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Additive, activateOnLoad);
 
             loadHandle.Completed += (operationHandler) =>
             {

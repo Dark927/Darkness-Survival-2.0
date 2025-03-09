@@ -396,6 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 619394802}
   - component: {fileID: 619394801}
+  - component: {fileID: 619394803}
   m_Layer: 0
   m_Name: Global Light 2D
   m_TagString: Untagged
@@ -468,6 +469,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2050211318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619394803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619394800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d585044855061de4f8a2c9c97f20e35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &652190549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,6 +1448,7 @@ MonoBehaviour:
   _worldChunksContainer: {fileID: 1536358656}
   _shadowSettings: {fileID: 11400000, guid: e084155c7a38192458e3184c1d7f1bc6, type: 2}
   _enemyManagementData: {fileID: 11400000, guid: eaa84472a03d232419d01dd90ebf7d71, type: 2}
+  _stageMusicData: {fileID: 11400000, guid: b352e0849d3a3854a9279893241e36fd, type: 2}
 --- !u!1 &1596468314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,8 +1626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681f8c3d798fcf543812a6f23d578f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _globalLight: {fileID: 619394801}
-  _playerLight: {fileID: 0}
   _dayList:
   - {fileID: 11400000, guid: 2f3e5662f7acd32448470038ebd9b9d5, type: 2}
   - {fileID: 11400000, guid: ab15c6839037f8e42b22bc7d094a4f4e, type: 2}

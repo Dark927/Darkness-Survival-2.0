@@ -69,6 +69,17 @@ namespace Settings.Global
         public void Register<T>(T service) where T : IService
         {
             string key = typeof(T).Name;
+            Register(key, service);
+        }
+
+        public void Register(Type type, IService service)
+        {
+            string key = type.Name;
+            Register(key, service);
+        }
+
+        public void Register(string key, IService service)
+        {
             if (_services.ContainsKey(key))
             {
                 Debug.LogError(

@@ -40,7 +40,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeFactor: 0.877
+    - _EdgeFactor: 0.523
     - _USE_EDGE_DEBUG: 0
     - _USE_INTERPOLATION: 1
     - _USE_SMOOTHSTEP: 1

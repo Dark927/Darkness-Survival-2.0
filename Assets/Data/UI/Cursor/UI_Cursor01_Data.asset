@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3691cbf895b9243827d7dd6b339c2b, type: 3}
+  m_Name: UI_Cursor01_Data
+  m_EditorClassIdentifier: 
+  _defaultState: {fileID: 21300000, guid: 4d8aeeb8ba726d845a43f1026641fc33, type: 3}
+  _hoverUIState: {fileID: 0}
+  _hoverParams:
+    _duration: 0.5
+    _targetScale: {x: 1.05, y: 1.05}
+    _targetColor: {r: 0.1273585, g: 0.9999996, b: 1, a: 1}

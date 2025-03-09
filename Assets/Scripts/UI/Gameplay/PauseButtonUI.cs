@@ -1,46 +1,49 @@
-using System.Linq;
+﻿using System.Linq;
 using Characters.Player;
+using Gameplay.Components;
 using Settings.Global;
-using UI.Buttons;
 using UnityEngine.EventSystems;
 using Zenject;
 
-public class PauseButtonUI : ButtonBaseUI, IPointerEnterHandler, IPointerExitHandler
+namespace UI.Buttons
 {
-    private GamePauseService _pauseService;
-    private PlayerCharacterController _player;
-
-    [Inject]
-    public void Construct(GamePauseService pauseService)
+    public class PauseButtonUI : ButtonBaseUI, IPointerEnterHandler, IPointerExitHandler
     {
-        _pauseService = pauseService;
-    }
+        private GamePauseService _pauseService;
+        private PlayerCharacterController _player;
 
-    public override void ClickListener()
-    {
-        _pauseService.PauseGame();
-        GameplayUI.Instance.ActivatePauseMenu();
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (_player == null)
+        [Inject]
+        public void Construct(GamePauseService pauseService)
         {
-            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
-            _player = playerService.Players.FirstOrDefault();
+            _pauseService = pauseService;
         }
 
-        _player.SetCanAttackFlag(false);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (_player == null)
+        public override void Click()
         {
-            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
-            _player = playerService.Players.FirstOrDefault();
+            _pauseService.PauseGame();
+            GameplayUI.Instance.ActivatePauseMenu();
         }
 
-        _player.SetCanAttackFlag(true);
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (_player == null)
+            {
+                PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
+                _player = playerService.Players.FirstOrDefault();
+            }
+
+            _player.SetCanAttackFlag(false);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (_player == null)
+            {
+                PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
+                _player = playerService.Players.FirstOrDefault();
+            }
+
+            _player.SetCanAttackFlag(true);
+        }
     }
 }

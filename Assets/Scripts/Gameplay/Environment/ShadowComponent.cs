@@ -5,7 +5,7 @@ using World.Data;
 using Zenject;
 
 
-namespace Dark.Environment
+namespace World.Environment
 {
     [Serializable]
     public class MatParams : IMaterialProps

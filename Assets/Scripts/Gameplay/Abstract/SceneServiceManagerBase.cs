@@ -29,7 +29,7 @@ namespace Gameplay.Components
         #region Init
 
         [Inject]
-        public void Construct(DiContainer diContainer)
+        public virtual void Construct(DiContainer diContainer)
         {
             _diContainer = diContainer;
         }

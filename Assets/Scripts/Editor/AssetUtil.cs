@@ -1,4 +1,4 @@
-/*
+﻿/*
     Copyright © 2024 Vitiaz Denys (GitHub: arduinka55055)
     This code is part of Dark TileMap, a Unity asset owned by Vitiaz Denys.
     
@@ -13,7 +13,11 @@
 */
 
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+
 using System.IO;
 
 namespace Dark.Tile
@@ -50,7 +54,7 @@ namespace Dark.Tile
             DarkTileMap e = (DarkTileMap)target;
 
             EditorGUI.BeginChangeCheck();
-            
+
             e.Size = EditorGUILayout.Vector2IntField(
                 "Size",
                 e.Size

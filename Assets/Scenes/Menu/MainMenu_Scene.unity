@@ -269,6 +269,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 518361867}
     m_Modifications:
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _transitionDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _fadeCurve.m_Curve.Array.data[0].inSlope
+      value: 64.61221
+      objectReference: {fileID: 0}
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _fadeCurve.m_Curve.Array.data[1].inSlope
+      value: 94.64398
+      objectReference: {fileID: 0}
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _fadeCurve.m_Curve.Array.data[0].outSlope
+      value: 64.61221
+      objectReference: {fileID: 0}
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _fadeCurve.m_Curve.Array.data[1].inWeight
+      value: 0.0068694083
+      objectReference: {fileID: 0}
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _fadeCurve.m_Curve.Array.data[1].outSlope
+      value: 94.64398
+      objectReference: {fileID: 0}
+    - target: {fileID: 696873411423553587, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
+      propertyPath: _fadeCurve.m_Curve.Array.data[0].outWeight
+      value: 0.010794898
+      objectReference: {fileID: 0}
     - target: {fileID: 2899156728072850638, guid: 8c33b5275d061ad4c960e4dfc70c06aa, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

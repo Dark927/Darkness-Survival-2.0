@@ -1,5 +1,6 @@
 ﻿using System;
 using Characters.Player;
+using Gameplay.Components;
 using UnityEngine;
 
 namespace Settings.Global

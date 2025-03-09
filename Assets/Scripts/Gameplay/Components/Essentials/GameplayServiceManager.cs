@@ -1,59 +1,62 @@
-using Gameplay.Components;
+﻿using Gameplay.Components;
 using Gameplay.Visual;
 using Settings.Global;
 using UnityEngine;
 using Zenject;
 
-public class GameplayServiceManager : SceneServiceManagerBase
+namespace Gameplay.Components
 {
-    #region Fields 
-
-    // ToDo : get this from game settings menu later
-    [SerializeField] private bool _useIndicators = false;
-    private GamePauseService _pauseService;
-
-    #endregion
-
-
-    #region Properties
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-
-    [Inject]
-    public void Construct(GamePauseService pauseService)
+    public class GameplayServiceManager : SceneServiceManagerBase
     {
-        _pauseService = pauseService;
-    }
+        #region Fields 
 
-    private void Awake()
-    {
-        TryInitIndicators();
-        ServiceLocator.Current.Register(_pauseService);
-        Services.Add(_pauseService);
-    }
+        // ToDo : get this from game settings menu later
+        [SerializeField] private bool _useIndicators = false;
+        private GamePauseService _pauseService;
 
-    private void TryInitIndicators()
-    {
-        if (!_useIndicators)
+        #endregion
+
+
+        #region Properties
+
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+
+        [Inject]
+        public void Construct(GamePauseService pauseService)
         {
-            return;
+            _pauseService = pauseService;
         }
 
-        GameObject indicatorsServiceObj = new GameObject(nameof(GameplayIndicatorsService));
-        indicatorsServiceObj.transform.SetParent(transform, false);
-        GameObjectsContainer container = indicatorsServiceObj.AddComponent<GameObjectsContainer>();
-        GameplayIndicatorsService indicatorsService = DiContainer.Instantiate<GameplayIndicatorsService>(new object[] { container });
+        private void Awake()
+        {
+            TryInitIndicators();
+            ServiceLocator.Current.Register(_pauseService);
+            Services.Add(_pauseService);
+        }
 
-        ServiceLocator.Current.Register(indicatorsService);
-        Services.Add(indicatorsService);
+        private void TryInitIndicators()
+        {
+            if (!_useIndicators)
+            {
+                return;
+            }
+
+            GameObject indicatorsServiceObj = new GameObject(nameof(GameplayIndicatorsService));
+            indicatorsServiceObj.transform.SetParent(transform, false);
+            GameObjectsContainer container = indicatorsServiceObj.AddComponent<GameObjectsContainer>();
+            GameplayIndicatorsService indicatorsService = DiContainer.Instantiate<GameplayIndicatorsService>(new object[] { container });
+
+            ServiceLocator.Current.Register(indicatorsService);
+            Services.Add(indicatorsService);
+        }
+
+        #endregion
+
+        #endregion
     }
-
-    #endregion
-
-    #endregion
 }

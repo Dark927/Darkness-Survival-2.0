@@ -1,3 +1,4 @@
+﻿using System;
 using Characters.Player;
 using Settings.Abstract;
 using Settings.AssetsManagement;
@@ -5,71 +6,81 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public sealed class GameplayUI : SingletonMonoBase<GameplayUI>
+namespace UI
 {
-    private PlayerCharacterController _targetCharacter;
-    [SerializeField] private Canvas _menuCanvas;
-
-    [Header("Panels")]
-    [SerializeField] private AssetReference _gameOverPanel;
-    [SerializeField] private AssetReference _pauseMenuAsset;
-
-    private AsyncOperationHandle<GameObject> _pauseMenuLoadHandle;
-    private MenuUI _pauseMenu;
-    private bool _isPauseMenuActivated = false;
-
-
-    private void Awake()
+    public sealed class GameplayUI : SingletonMonoBase<GameplayUI>
     {
-        InitInstance();
-    }
+        private PlayerCharacterController _targetCharacter;
+        [SerializeField] private Canvas _menuCanvas;
 
-    public void Initialize(PlayerCharacterController targetPlayer)
-    {
-        // ToDo : Move this logic to the another component!
-        _targetCharacter = targetPlayer;
-        _targetCharacter.OnCharacterDeathEnd += ActivateGameOverPanel;
-    }
+        [Header("Panels")]
+        [SerializeField] private AssetReference _gameOverPanel;
+        [SerializeField] private AssetReference _pauseMenuAsset;
 
-    private void OnDestroy()
-    {
-        if (_targetCharacter != null)
+        private AsyncOperationHandle<GameObject> _pauseMenuLoadHandle;
+        private MenuWithVideoUI _pauseMenu;
+        private bool _isPauseMenuActivated = false;
+
+
+        private void Awake()
         {
-            _targetCharacter.OnCharacterDeathEnd -= ActivateGameOverPanel;
-        }
-    }
-
-    public void ActivateGameOverPanel()
-    {
-        //_gameOverPanel.SetActive(true);
-    }
-
-    public async void ActivatePauseMenu()
-    {
-        if (_isPauseMenuActivated)
-        {
-            return;
+            InitInstance();
         }
 
-        _isPauseMenuActivated = true;
-
-        _pauseMenuLoadHandle = AddressableAssetsLoader.Instance.TryLoadAssetAsync<GameObject>(_pauseMenuAsset);
-        await _pauseMenuLoadHandle.Task;
-
-        if (_pauseMenuLoadHandle.Task.Result != null)
+        public void Initialize(PlayerCharacterController targetPlayer)
         {
-            GameObject pauseMenuObject = Instantiate(_pauseMenuLoadHandle.Result, _menuCanvas.transform.position, Quaternion.identity, _menuCanvas.transform);
-            _pauseMenu = pauseMenuObject.GetComponent<MenuUI>();
+            _targetCharacter = targetPlayer;
+            _targetCharacter.OnCharacterDeathEnd += ActivateGameOverPanel;
         }
-    }
 
-    public void DeactivatePauseMenu()
-    {
-        if (_isPauseMenuActivated && (_pauseMenu != null))
+        private void OnDestroy()
         {
-            Destroy(_pauseMenu.gameObject);
-            AddressableAssetsLoader.Instance.TryUnloadAsset(_pauseMenuLoadHandle);
-            _isPauseMenuActivated = false;
+            if (_targetCharacter != null)
+            {
+                _targetCharacter.OnCharacterDeathEnd -= ActivateGameOverPanel;
+            }
+        }
+
+        public void ActivateGameOverPanel()
+        {
+            //_gameOverPanel.SetActive(true);
+        }
+
+        public async void ActivatePauseMenu()
+        {
+            if (_isPauseMenuActivated)
+            {
+                return;
+            }
+
+            _isPauseMenuActivated = true;
+
+            _pauseMenuLoadHandle = AddressableAssetsLoader.Instance.TryLoadAssetAsync<GameObject>(_pauseMenuAsset);
+            await _pauseMenuLoadHandle.Task;
+
+            if (_pauseMenuLoadHandle.Task.Result != null)
+            {
+                GameObject pauseMenuObject = Instantiate(_pauseMenuLoadHandle.Result, _menuCanvas.transform.position, Quaternion.identity, _menuCanvas.transform);
+                _pauseMenu = pauseMenuObject.GetComponent<MenuWithVideoUI>();
+                _pauseMenu.Activate();
+            }
+        }
+
+        public void DeactivatePauseMenu(Action callback = default)
+        {
+            if (!_isPauseMenuActivated || (_pauseMenu == null))
+            {
+                return;
+            }
+
+            _pauseMenu.Deactivate(() =>
+            {
+                Destroy(_pauseMenu.gameObject);
+                AddressableAssetsLoader.Instance.TryUnloadAsset(_pauseMenuLoadHandle);
+                _isPauseMenuActivated = false;
+
+                callback?.Invoke();
+            });
         }
     }
 }

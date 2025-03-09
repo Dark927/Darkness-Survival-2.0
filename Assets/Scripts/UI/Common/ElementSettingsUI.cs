@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +19,14 @@ namespace UI
 
         #region Init
 
-
-        private void OnValidate()
+#if UNITY_EDITOR
+        private void Update()
         {
+            if (Application.isPlaying)
+            {
+                return;
+            }
+
             _images = new List<Image>(GetComponentsInChildren<Image>());
 
             foreach (var image in _images)
@@ -29,6 +34,8 @@ namespace UI
                 image.color = _childImagesColor;
             }
         }
+
+#endif
 
         #endregion
 

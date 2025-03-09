@@ -1,40 +1,43 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(GameStateManager))]
-public class GameplayInputManager : MonoBehaviour
+namespace Gameplay.Components
 {
-    #region Fields 
-
-    private GameStateManager _gameStateManager;
-
-    #endregion
-
-
-    #region Properties
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-
-    private void Awake()
+    [RequireComponent(typeof(GameStateManager))]
+    public class GameplayInputManager : MonoBehaviour
     {
-        _gameStateManager = GetComponent<GameStateManager>();
-    }
+        #region Fields 
 
-    #endregion
+        private GameStateManager _gameStateManager;
+
+        #endregion
 
 
-    public void PauseKeyListener(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        #region Properties
+
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+
+        private void Awake()
         {
-            _gameStateManager.SwitchPauseState();
+            _gameStateManager = GetComponent<GameStateManager>();
         }
-    }
 
-    #endregion
+        #endregion
+
+
+        public void PauseKeyListener(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _gameStateManager.SwitchPauseState();
+            }
+        }
+
+        #endregion
+    }
 }

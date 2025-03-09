@@ -1,6 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Gameplay.Components;
 using Settings.CameraManagement;
+using Settings.Global.Audio;
 using UnityEngine;
 using Zenject;
 
@@ -10,10 +12,7 @@ namespace Settings.Global
     {
         #region Fields
 
-        private List<IDisposable> _disposables;
-        private GameStateService _gameService;
-        private PlayerService _playerService;
-        private CameraController _cameraController;
+        private Dictionary<Type, IService> _services;
 
         #endregion
 
@@ -24,42 +23,46 @@ namespace Settings.Global
 
         [Inject]
         public void Construct(
-            GameStateService gameManager,
-            PlayerService playerManager,
-            CameraController cameraController
-            )
+            GameStateService gameStateService,
+            PlayerService playerService,
+            CameraService cameraService,
+            GameAudioService audioService
+        )
         {
-            _gameService = gameManager;
-            _playerService = playerManager;
-            _cameraController = cameraController;
+            _services = new()
+            {
+                [gameStateService.GetType()] = gameStateService,
+                [playerService.GetType()] = playerService,
+                [cameraService.GetType()] = cameraService,
+                [audioService.GetType()] = audioService,
+            };
         }
 
         private void Awake()
         {
-            _disposables = new List<IDisposable>();
-
             RegisterServices();
             InitServices();
-            AddToDisposables();
         }
 
         private void RegisterServices()
         {
             ServiceLocator.Initialize();
-            ServiceLocator.Current.Register(_gameService);
-            ServiceLocator.Current.Register(_playerService);
-            ServiceLocator.Current.Register(_cameraController);
+
+            foreach (var serviceInfo in _services)
+            {
+                ServiceLocator.Current.Register(serviceInfo.Key, serviceInfo.Value);
+            }
         }
 
         private void InitServices()
         {
-            _cameraController.Init();
-            _playerService.Init();
-        }
-
-        private void AddToDisposables()
-        {
-            _disposables.Add(_cameraController);
+            foreach (var service in _services.Values)
+            {
+                if (service is IInitializable initializableService)
+                {
+                    initializableService.Initialize();
+                }
+            }
         }
 
         #endregion
@@ -67,10 +70,16 @@ namespace Settings.Global
 
         private void OnDestroy()
         {
-            foreach (var disposable in _disposables)
+            foreach (var service in _services.Values)
             {
-                disposable.Dispose();
+                if (service is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
             }
+
+            _services.Clear();
+            _services = null;
         }
 
         #endregion

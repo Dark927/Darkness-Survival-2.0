@@ -1,9 +1,10 @@
-using System;
+﻿using System;
 using Characters.Common;
 using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
 using Characters.Stats;
 using Cysharp.Threading.Tasks;
+using Gameplay.Components;
 using Settings.Global;
 using UnityEngine;
 using UnityEngine.InputSystem;

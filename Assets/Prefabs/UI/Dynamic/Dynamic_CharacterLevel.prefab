@@ -363,6 +363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1846461bb256f48acdee2c149e7e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelDropTimeSec: 0.1
+  _levelRaiseTimeMult: 1
 --- !u!1 &4564994039693585795
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +553,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5575401167823889798}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -688,8 +690,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 3954806620143268663}
   - {fileID: 1091116882283582980}
+  - {fileID: 3954806620143268663}
   m_Father: {fileID: 8391519375700884575}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}

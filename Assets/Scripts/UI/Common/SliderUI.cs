@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -15,12 +15,15 @@ namespace UI
         private Coroutine _currentCoroutine;
         private Queue<IEnumerator> _taskQueue = new Queue<IEnumerator>();
         private UniTask _currentUpdateTask = UniTask.CompletedTask;
+        private CancellationTokenSource _cts;
 
         #endregion
 
+        public event Action<float> OnProgressPercentUpdate;
+
         public UniTask CurrentUpdateTask => _currentUpdateTask;
-
-
+        public bool IsFull => (_rectTransform != null) && Mathf.Approximately(_rectTransform.localScale.x, 1f);
+        public float CurrentPercent => _rectTransform.localScale.x * 100;
 
         #region Methods
 
@@ -29,6 +32,7 @@ namespace UI
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+            _rectTransform.localScale = new Vector3(0, _rectTransform.localScale.y, 1f);
         }
 
         #endregion
@@ -40,15 +44,20 @@ namespace UI
                 ClearAllTasks();
             }
 
+            if (_cts == null || _cts.IsCancellationRequested)
+            {
+                _cts = new CancellationTokenSource();
+            }
+
             _taskQueue.Enqueue(AnimateScale(percent, duration, callback));
 
             if (_currentUpdateTask.Status != UniTaskStatus.Pending)
             {
-                _currentUpdateTask = UpdatePercentAsync();
+                _currentUpdateTask = UpdatePercentAsync(_cts.Token);
             }
         }
 
-        private async UniTask UpdatePercentAsync(CancellationToken token = default) ////////////////// token
+        private async UniTask UpdatePercentAsync(CancellationToken token = default)
         {
             if (_currentCoroutine == null)
             {
@@ -59,12 +68,21 @@ namespace UI
                 return;
             }
 
-            await UniTask.WaitUntil(() => _currentCoroutine == null);
+            await UniTask.WaitUntil(() => _currentCoroutine == null, cancellationToken: token);
+
+            if (token.IsCancellationRequested)
+            {
+                ClearAllTasks();
+            }
         }
 
         private void ClearAllTasks()
         {
             _taskQueue.Clear();
+
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
 
             if (_currentCoroutine != null)
             {
@@ -93,12 +111,19 @@ namespace UI
                 float newScaleX = Mathf.Lerp(startPercent, targetX, elapsedTime / duration);
                 _rectTransform.localScale = new Vector3(newScaleX, _rectTransform.localScale.y, _rectTransform.localScale.z);
 
+                OnProgressPercentUpdate?.Invoke(CurrentPercent);
+
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
             _rectTransform.localScale = new Vector3(targetX, _rectTransform.localScale.y, _rectTransform.localScale.z);
             callback?.Invoke();
+        }
+
+        private void OnDestroy()
+        {
+            ClearAllTasks();
         }
 
         #endregion

@@ -1,62 +1,64 @@
 ﻿using Settings.Global;
+using UI;
 using UnityEngine;
 using Zenject;
 
-public class GameStateManager : MonoBehaviour
+namespace Gameplay.Components
 {
-    #region Fields 
-
-    private GamePauseService _pauseService;
-
-    #endregion
-
-
-    #region Properties
-
-    #endregion
-
-
-    #region Methods
-
-    #region Init
-
-    [Inject]
-    public void Construct(GamePauseService pauseService)
+    public class GameStateManager : MonoBehaviour
     {
-        _pauseService = pauseService;
-    }
+        #region Fields 
 
-    #endregion
+        private GamePauseService _pauseService;
 
-    public void PauseGame()
-    {
-        _pauseService.PauseGame();
-        GameplayUI.Instance.ActivatePauseMenu();
-    }
+        #endregion
 
-    public void UnpauseGame()
-    {
-        _pauseService.UnpauseGame();
-        GameplayUI.Instance.DeactivatePauseMenu();
-    }
 
-    public void SwitchPauseState()
-    {
-        if (!_pauseService.IsGamePaused)
+        #region Properties
+
+        #endregion
+
+
+        #region Methods
+
+        #region Init
+
+        [Inject]
+        public void Construct(GamePauseService pauseService)
         {
-            PauseGame();
+            _pauseService = pauseService;
         }
-        else
+
+        #endregion
+
+        public void PauseGame()
         {
-            UnpauseGame();
+            _pauseService.PauseGame();
+            GameplayUI.Instance.ActivatePauseMenu();
         }
-    }
 
-    private void OnDestroy()
-    {
-        GameplayUI.Instance.DeactivatePauseMenu();
-        _pauseService.UnpauseGame();
-    }
+        public void UnpauseGame()
+        {
+            GameplayUI.Instance.DeactivatePauseMenu(() => _pauseService.UnpauseGame());
+        }
 
-    #endregion
+        public void SwitchPauseState()
+        {
+            if (!_pauseService.IsGamePaused)
+            {
+                PauseGame();
+            }
+            else
+            {
+                UnpauseGame();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            GameplayUI.Instance.DeactivatePauseMenu(() => _pauseService.UnpauseGame());
+        }
+
+        #endregion
+    }
 }

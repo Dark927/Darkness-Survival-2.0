@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using Characters.Player;
+using Gameplay.Components;
 using Gameplay.Tile;
 using Settings.Global;
 using UnityEngine;

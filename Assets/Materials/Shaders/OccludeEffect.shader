@@ -17,7 +17,7 @@ Shader "Custom/2DSilhouetteFront"
             Tags { "LightMode" = "Always" }
 
             ZWrite On
-            ZTest LessEqual
+            ZTest LEqual
             Cull Front
             ColorMask RGB
 
@@ -59,37 +59,6 @@ Shader "Custom/2DSilhouetteFront"
             ENDCG
         }
 
-        // The standard rendering pass
-        Pass
-        {
-            Name"OUTLINE"
-            Tags { "LightMode" = "Always" }
-            
-            ZWrite On
-            ZTest LessEqual
-            Cull Front
-            ColorMask RGB
-
-            CGPROGRAM
-            #pragma surface surf Lambert
-            #include "UnityCG.cginc"
-
-            sampler2D _MainTex;
-            fixed4 _OutlineColor;
-            float _OutlineWidth;
-
-            struct Input
-            {
-                float2 uv_MainTex;
-            };
-
-            void surf(Input IN, inout SurfaceOutput o)
-            {
-                o.Albedo = _OutlineColor.rgb;
-                o.Alpha = 1.0;
-            }
-            ENDCG
-        }
     }
 
     Fallback "Diffuse"

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Utilities
+namespace Materials
 {
     public interface IMaterialProps
     {

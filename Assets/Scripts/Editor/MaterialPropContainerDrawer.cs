@@ -1,6 +1,6 @@
 using System;
 using System.Reflection;
-using Utilities;
+using Materials;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,11 +19,15 @@ namespace Dark.EditorUtils
         {
             // Begin drawing the property.
             EditorGUI.BeginProperty(position, label, property);
-            //Mathf.SmoothStep 
+
+            // Remember the height
+            float yOffset = position.y;
+
             // Draw a foldout header.
             property.isExpanded = EditorGUI.Foldout(
-                new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight),
+                new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight),
                 property.isExpanded, label);
+            yOffset += EditorGUIUtility.singleLineHeight;
 
             if (!property.isExpanded)
             {
@@ -33,12 +37,23 @@ namespace Dark.EditorUtils
 
             EditorGUI.indentLevel++;
 
+            // Draw the _constMaterialProps field (optional)
+            var scriptableObjectProp = property.FindPropertyRelative("_constMaterialProps");
+            if (scriptableObjectProp != null)
+            {
+                var fieldRect2 = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
+                EditorGUI.PropertyField(fieldRect2, scriptableObjectProp, true);
+
+                yOffset += EditorGUI.GetPropertyHeight(scriptableObjectProp, true);
+            }
+
+
             // Get the SerializedProperty for the backing field "_properties"
             var propertiesProp = property.FindPropertyRelative("_properties");
             if (propertiesProp == null)
             {
                 EditorGUI.LabelField(
-                    new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight, position.width, EditorGUIUtility.singleLineHeight),
+                    new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight),
                     "No _properties field found");
                 EditorGUI.indentLevel--;
                 EditorGUI.EndProperty();
@@ -48,7 +63,7 @@ namespace Dark.EditorUtils
             // Calculate rect for drawing
             var fieldRect = new Rect(
                 position.x,
-                position.y + EditorGUIUtility.singleLineHeight,
+                yOffset,
                 position.width,
                 EditorGUI.GetPropertyHeight(propertiesProp, true)
             );
@@ -93,9 +108,16 @@ namespace Dark.EditorUtils
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var height = EditorGUIUtility.singleLineHeight; // Height for the foldout header.
+            float height = EditorGUIUtility.singleLineHeight; // Height for the foldout header.
+
             if (property.isExpanded)
             {
+                var scriptableObjectProp = property.FindPropertyRelative("_constMaterialProps");
+                if (scriptableObjectProp != null)
+                {
+                    height += EditorGUI.GetPropertyHeight(scriptableObjectProp, true);
+                }
+
                 var propertiesProp = property.FindPropertyRelative("_properties");
                 if (propertiesProp != null)
                 {

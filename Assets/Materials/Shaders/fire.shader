@@ -6,7 +6,7 @@ Shader "Custom/Pixelate"
     }
     SubShader
     {
-        Tags { "RenderType"="Transoparent" }
+        Tags { "RenderType"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
         ZWrite On
 
@@ -88,9 +88,9 @@ Shader "Custom/Pixelate"
                 float strength = floor(q.x+1.);
                 float T3 = max(3.,1.25*strength)*_Time.y;
                 q.x = fmod(q.x,1.)-0.5;
-                q.y -= 0.5;
                 q *= 0.8;
-                float blackthing = 2.0;
+                q.y -= 0.2;
+                float blackthing = 2.5;
                 float n = fbm(strength*q - float2(0,T3));
                 float c = 1. - 16. * pow( max( 0., length(q*float2(1.8+q.y*1.5,.75) ) - n * max( 0., q.y+.25 ) ),1.2 );
             //	float c1 = n * c * (1.5-pow(1.25*uv.y,4.));
@@ -101,7 +101,7 @@ Shader "Custom/Pixelate"
                 
                 
                 float a = c * (1.-pow(uv.y,3.));
-                return float4( (col), saturate(a));
+                return float4( (col), saturate(a) * smoothstep(1,0,uv.y));
             }
 
 

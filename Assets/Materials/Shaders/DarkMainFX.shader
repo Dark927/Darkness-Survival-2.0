@@ -111,7 +111,7 @@ Shader "Sprites/JitterFreeLit"
 
                 // Create replacement color version
                 float3 replacedHsv = hsv;                
-                replacedHsv *= _ReplacementColorCoefK;
+                replacedHsv *= _ReplacementColorCoefK.xyz;
                 replacedHsv += _ReplacementColorCoefB.xyz;
                 float3 replacedRGB = hsv_to_rgb(replacedHsv);
                 
@@ -139,7 +139,7 @@ Shader "Sprites/JitterFreeLit"
                     
                     // Combine all blend factors
                     float totalBlend = hueBlend * satBlend * valBlend;
-                    totalBlend = pow(totalBlend, 1.0 / _HSVGamma);
+                    totalBlend = pow(abs(totalBlend), 1.0 / _HSVGamma);
 
                     // Smoothly interpolate between original and replaced color
                     float3 interpolatedRGB = lerp(col.rgb, replacedRGB.rgb, saturate(totalBlend));
@@ -173,12 +173,12 @@ Shader "Sprites/JitterFreeLit"
                 if(_RendMode > 2) // masks
                     return main;
 
-                float3 tinted = pow(main.rgb * i.color.rgb, _Gamma);
+                float3 tinted = pow(abs(main.rgb * i.color.rgb), _Gamma);
                 main.rgb = lerp(main.rgb, tinted, colormaskCoef);
                 main.rgb = lerp(main.rgb, _FlashColor.rgb, _FlashAmount);
 
                 float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
-                main.rgb += _EmissionColor * emissionCoef * _EmissionAmount;
+                main.rgb += _EmissionColor.rgb * emissionCoef * _EmissionAmount;
 
                 SurfaceData2D surfaceData;
                 InputData2D inputData;

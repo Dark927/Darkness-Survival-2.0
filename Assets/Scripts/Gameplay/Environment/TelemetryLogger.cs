@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Runtime.CompilerServices;
 
-#if UNITY_EDITOR
 namespace Dark.Utils
 {
     public static class Telemetry
@@ -24,6 +24,10 @@ namespace Dark.Utils
                 Console.WriteLine($"Telemetry Error: {ex.Message}");
             }
         }
+#else
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Log(params object[] data){}
+#endif
+
     }
 }
-#endif

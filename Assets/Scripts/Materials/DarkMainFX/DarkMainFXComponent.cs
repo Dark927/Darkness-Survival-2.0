@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
 
+#nullable enable
 
 namespace Materials.DarkMainFX
 {
     public class DarkMainFXComponent : MonoBehaviour
     {
-        public MaterialPropContainer<ParametricProps> _materialPropContainer;
+        public MaterialPropContainer<ParametricProps> _materialPropContainer = new();
 
         private SpriteRenderer? _spriteRenderer;
         private SpriteRenderer SpriteRenderer

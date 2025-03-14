@@ -2,6 +2,8 @@ using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+#nullable enable
+
 namespace Materials
 {
     [Serializable]

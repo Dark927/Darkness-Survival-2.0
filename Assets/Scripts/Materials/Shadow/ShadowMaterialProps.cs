@@ -2,6 +2,7 @@ using System;
 using Dark.Environment;
 using UnityEngine;
 
+#nullable enable
 
 namespace Materials.Shadow
 {

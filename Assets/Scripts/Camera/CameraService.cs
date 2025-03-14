@@ -1,12 +1,11 @@
-﻿using System;
-using Characters.Player;
+﻿using Characters.Player;
 using Cinemachine;
-using Gameplay.Components;
 using Settings.Global;
+using UnityEngine;
 
 namespace Settings.CameraManagement
 {
-    public sealed class CameraService : IService, IInitializable, IDisposable 
+    public sealed class CameraService : IService, IInitializable
     {
         #region Fields 
 
@@ -35,8 +34,8 @@ namespace Settings.CameraManagement
         public void Initialize()
         {
             _cameraShake = new CameraShake(_virtualCamera);
-            ServiceLocator.Current.Get<PlayerService>().OnPlayerReady += FollowPlayer;
         }
+
 
         #endregion
 
@@ -44,13 +43,11 @@ namespace Settings.CameraManagement
         {
             if (_virtualCamera != null)
             {
-                _virtualCamera.Follow = player.CharacterLogic.Body.Transform;
+                Transform playerTransform = player.CharacterLogic.Body.Transform;
+                _virtualCamera.ForceCameraPosition(playerTransform.position, Quaternion.identity);
+                _virtualCamera.PreviousStateIsValid = false;
+                _virtualCamera.Follow = playerTransform;
             }
-        }
-
-        public void Dispose()
-        {
-            ServiceLocator.Current.Get<PlayerService>().OnPlayerReady -= FollowPlayer;
         }
 
         #endregion

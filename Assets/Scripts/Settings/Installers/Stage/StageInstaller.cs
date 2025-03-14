@@ -1,10 +1,13 @@
 ﻿using System;
 using Gameplay.Components;
+using Gameplay.Components.Enemy;
 using Gameplay.Data;
 using Gameplay.Generation;
 using Gameplay.Tile;
+using Settings.Global;
 using Settings.Global.Audio;
 using UnityEngine;
+using UnityEngine.Rendering;
 using World.Data;
 using World.Environment;
 using World.Light;
@@ -14,6 +17,14 @@ namespace Settings.Installers
 {
     public class StageInstaller : MonoInstaller
     {
+        [Header("Containers - Settings")]
+        [SerializeField] private Transform _stageObjectsContainer;
+
+
+        [Header("Post Process - Settings")]
+        [SerializeField] private Volume _stageVolume;
+        [SerializeField] private StagePostProcessData _postProcessData;
+
         [Header("World - Settings")]
         [SerializeField] private WorldGeneration _worldGenerationType = WorldGeneration.Scrolling;
         [SerializeField] private WorldGenerationData _worldGenerationSettings;
@@ -22,6 +33,7 @@ namespace Settings.Installers
 
 
         [Header("Enemy Management - Settings")]
+        [SerializeField] private GameObject _enemySpawnerPrefab;
         [SerializeField] private EnemyManagementData _enemyManagementData;
 
         [Header("Stage Audio - Settings")]
@@ -29,17 +41,38 @@ namespace Settings.Installers
 
         public override void InstallBindings()
         {
+
             Container
                 .Bind<GameTimer>()
                 .FromComponentInHierarchy()
                 .AsSingle();
 
+            BindPostProcess();
             BindWorld();
             BindEnemyManagement();
         }
 
+        private void BindPostProcess()
+        {
+            Container
+                .Bind<Volume>()
+                .FromInstance(_stageVolume)
+                .AsSingle();
+
+            Container
+                .Bind<StagePostProcessData>()
+                .FromInstance(_postProcessData)
+                .AsSingle();
+        }
+
         private void BindEnemyManagement()
         {
+            Container.Bind<EnemySpawner>()
+                 .FromComponentInNewPrefab(_enemySpawnerPrefab)
+                 .UnderTransform(_stageObjectsContainer)
+                 .AsSingle()
+                 .NonLazy();
+
             Container
                 .Bind<EnemyManagementData>()
                 .FromInstance(_enemyManagementData)

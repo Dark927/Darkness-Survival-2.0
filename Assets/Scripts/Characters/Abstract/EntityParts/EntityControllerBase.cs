@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Characters.Common
 {
-    public abstract class EntityControllerBase : MonoBehaviour, IEventListener, IDisposable
+    public abstract class EntityControllerBase : MonoBehaviour, IEventsConfigurable, IDisposable
     {
         #region Fields 
 
@@ -46,12 +46,12 @@ namespace Characters.Common
 
         public async UniTask InitFeaturesAsync()
         {
-            if (!AddressableAssetsLoader.IsAssetRefValid(_featuresSetDataRef))
+            if (!AddressableAssetsHandler.IsAssetRefValid(_featuresSetDataRef))
             {
                 return;
             }
 
-            _asyncOperationHandle = AddressableAssetsLoader.Instance.LoadAssetAsync<FeatureSetData>(_featuresSetDataRef);
+            _asyncOperationHandle = AddressableAssetsHandler.Instance.LoadAssetAsync<FeatureSetData>(_featuresSetDataRef);
             await _asyncOperationHandle;
 
             _featuresHolder = new EntityCustomFeaturesHolder(_entityLogic);
@@ -104,7 +104,7 @@ namespace Characters.Common
             if (FeaturesHolder != null)
             {
                 FeaturesHolder.Dispose();
-                AddressableAssetsLoader.Instance.UnloadAsset(_asyncOperationHandle);
+                AddressableAssetsHandler.Instance.UnloadAsset(_asyncOperationHandle);
                 _featuresHolder = null;
             }
         }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class BasicAttack : IEventListener
+    public class BasicAttack : IEventsConfigurable
     {
         public enum LocalType
         {

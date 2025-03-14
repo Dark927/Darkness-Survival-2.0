@@ -1,9 +1,11 @@
 ﻿
+
+using System;
+
 namespace Settings.Global
 {
     public interface IEventListener
     {
-        public void ConfigureEventLinks();
-        public void RemoveEventLinks();
+        public void Listen(object sender, EventArgs e);
     }
 }

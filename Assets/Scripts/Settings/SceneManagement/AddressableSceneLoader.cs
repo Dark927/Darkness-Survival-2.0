@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -7,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Settings.SceneManagement
 {
-    public class AddressableSceneLoader
+    public class AddressableSceneLoader : IConcreteSceneLoader<AssetReference, AsyncOperationHandle<SceneInstance>>
     {
         #region Fields 
 
@@ -37,16 +38,6 @@ namespace Settings.SceneManagement
 
         #endregion
 
-
-        /// <summary>
-        /// Unload all previous additive scenes and load a new one.
-        /// </summary>
-        /// <param name="sceneReference">scene to load</param>
-        public void LoadAdditiveSceneClean(AssetReference sceneReference)
-        {
-            UnloadAll();
-            LoadScene(sceneReference, LoadSceneMode.Additive);
-        }
 
         /// <summary>
         /// Loads the addressable scene using Asset Reference.
@@ -85,6 +76,7 @@ namespace Settings.SceneManagement
 
         private AsyncOperationHandle<SceneInstance> LoadAdditiveScene(AssetReference sceneReference, bool activateOnLoad = true, CancellationToken token = default)
         {
+            // ToDo : do not use activateOnLoad, it blocks the loading queue.
             AsyncOperationHandle<SceneInstance> loadHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Additive, activateOnLoad);
 
             loadHandle.Completed += (operationHandler) =>
@@ -126,6 +118,8 @@ namespace Settings.SceneManagement
                 TryUnloadAdditiveScene(scene);
                 return true;
             });
+
+            _needClean = false;
         }
 
         private void TryUnloadAdditiveScene(SceneInstance sceneInstance)
@@ -135,13 +129,7 @@ namespace Settings.SceneManagement
                 return;
             }
 
-            TryUnloadScene(sceneInstance).Task.ContinueWith((handle) =>
-            {
-                if (_scenesToUnload.Count == 0)
-                {
-                    _needClean = false;
-                }
-            });
+            TryUnloadScene(sceneInstance);
         }
 
         private AsyncOperationHandle<SceneInstance> TryUnloadScene(SceneInstance sceneInstance)
@@ -152,6 +140,20 @@ namespace Settings.SceneManagement
             }
 
             return Addressables.UnloadSceneAsync(sceneInstance);
+        }
+
+        public IEnumerable<AsyncOperationHandle<SceneInstance>> LoadMultipleScenes(IEnumerable<AssetReference> sceneRefList, bool activateOnLoad = false)
+        {
+            List<AsyncOperationHandle<SceneInstance>> sceneLoadingHandles = new List<AsyncOperationHandle<SceneInstance>>();
+            AsyncOperationHandle<SceneInstance> loadHandle;
+
+            foreach (var sceneRef in sceneRefList)
+            {
+                loadHandle = LoadScene(sceneRef, LoadSceneMode.Additive, activateOnLoad);
+                sceneLoadingHandles.Add(loadHandle);
+            }
+
+            return sceneLoadingHandles;
         }
 
 

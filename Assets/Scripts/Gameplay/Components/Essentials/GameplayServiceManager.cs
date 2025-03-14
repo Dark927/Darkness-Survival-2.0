@@ -12,7 +12,6 @@ namespace Gameplay.Components
 
         // ToDo : get this from game settings menu later
         [SerializeField] private bool _useIndicators = false;
-        private GamePauseService _pauseService;
 
         #endregion
 
@@ -26,17 +25,10 @@ namespace Gameplay.Components
 
         #region Init
 
-        [Inject]
-        public void Construct(GamePauseService pauseService)
-        {
-            _pauseService = pauseService;
-        }
 
         private void Awake()
         {
             TryInitIndicators();
-            ServiceLocator.Current.Register(_pauseService);
-            Services.Add(_pauseService);
         }
 
         private void TryInitIndicators()

@@ -2,7 +2,7 @@
 
 namespace Characters.Interfaces
 {
-    public interface IEntityLogic : IEventListener, IResetable
+    public interface IEntityLogic : IEventsConfigurable, IResetable
     {
 
 

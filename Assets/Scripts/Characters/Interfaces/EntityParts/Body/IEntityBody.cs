@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Characters.Interfaces
 {
-    public interface IEntityBody : IEventListener, IResetable, IInitializable, IDisposable
+    public interface IEntityBody : IEventsConfigurable, IResetable, IInitializable, IDisposable
     {
         public Transform Transform { get; }
         public IEntityView View { get; }

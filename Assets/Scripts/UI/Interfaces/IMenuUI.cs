@@ -1,10 +1,11 @@
 ﻿using System;
 
-namespace Assets
+namespace UI
 {
     public interface IMenuUI
     {
-        public void Activate(Action callback = default);
-        public void Deactivate(Action callback = default, float speedMult = 1f);
+        public GamePanelManagerUI OwnerPanelManager { get; }
+        public void Activate(Action activationFinishCallback = default);
+        public void RequestDeactivation(Action closeFinishCallback = default, float speedMult = 1f);
     }
 }

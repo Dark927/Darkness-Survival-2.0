@@ -27,7 +27,7 @@ namespace UI
 
 
         [Header(""), Space, CustomHeader("Menu Background", 3, 1, CustomHeaderAttribute.HeaderColor.cyan)]
-        [SerializeField] private Image _background;
+        [SerializeField] private Graphic _background;
         [SerializeField] private float _backgroundFadeDuration;
 
         private float _backgroundStartAlpha;
@@ -119,7 +119,6 @@ namespace UI
 
             _currentAnimationSequence.Join(GetExtraElementAnimation(_background, _backgroundStartAlpha, _backgroundFadeDuration));
 
-
             _currentAnimationSequence
                 .OnComplete(() =>
                 {
@@ -129,7 +128,8 @@ namespace UI
 
             _currentAnimationSequence
                 .SetEase(Ease.InOutSine)
-                .SetUpdate(true);
+                .SetUpdate(true)
+                .Play();
         }
 
         private Tween GetExtraElementAnimation(Graphic targetImage, float targetAlpha, float fadeDuration)
@@ -138,7 +138,8 @@ namespace UI
             {
                 return targetImage
                             .DOFade(targetAlpha, fadeDuration)
-                            .From(targetImage.color.a);
+                            .From(targetImage.color.a)
+                            .SetEase(Ease.InOutCubic);
             }, out Tween createdFadeTween))
             {
                 return createdFadeTween;
@@ -175,7 +176,7 @@ namespace UI
                                 .From(targetTransform.anchoredPosition));
             }
 
-            return animation;
+            return animation.Pause();
         }
 
 
@@ -205,6 +206,8 @@ namespace UI
             _currentAnimationSequence
                 .SetEase(Ease.InOutSine)
                 .SetUpdate(true);
+
+            _currentAnimationSequence.Play();
         }
 
 

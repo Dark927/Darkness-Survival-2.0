@@ -56,6 +56,13 @@ namespace Gameplay.Components
             _services.Clear();
         }
 
+        public void CreateService<T>() where T : IService
+        {
+            T service = DiContainer.Instantiate<T>();
+            ServiceLocator.Current.Register(service);
+            Services.Add(service);
+        }
+
         #endregion
     }
 }

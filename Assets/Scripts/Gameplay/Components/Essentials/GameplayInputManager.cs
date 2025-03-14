@@ -1,14 +1,21 @@
-﻿using UnityEngine;
+﻿using Characters.Player;
+using System;
+using Settings.Global;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using Characters.Player.Controls;
 
 namespace Gameplay.Components
 {
-    [RequireComponent(typeof(GameStateManager))]
-    public class GameplayInputManager : MonoBehaviour
+    [RequireComponent(typeof(PlayerInput))]
+    public class GameplayInputManager : MonoBehaviour, IEventListener
     {
         #region Fields 
 
-        private GameStateManager _gameStateManager;
+        private GameStateService _gameStateService;
+        private PlayerInput _globalInput;
+        private GamePlayerInputHandler _playerInputHandler;
+        private PlayerService _playerService;
 
         #endregion
 
@@ -24,17 +31,66 @@ namespace Gameplay.Components
 
         private void Awake()
         {
-            _gameStateManager = GetComponent<GameStateManager>();
+            _globalInput = GetComponent<PlayerInput>();
+            _globalInput.DeactivateInput();
+        }
+
+        private void Start()
+        {
+            _gameStateService = ServiceLocator.Current.Get<GameStateService>();
+            _gameStateService.GameEvent.Subscribe(this);
+
+            _playerService = ServiceLocator.Current.Get<PlayerService>();
+
+            if (_playerService.TryGetPlayer(out PlayerCharacterController player))
+            {
+                _playerInputHandler = new GamePlayerInputHandler(player);
+                _playerInputHandler.TryBlockCharacterInput();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            _gameStateService.GameEvent.Unsubscribe(this);
         }
 
         #endregion
-
 
         public void PauseKeyListener(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                _gameStateManager.SwitchPauseState();
+                _gameStateService.SwitchPauseState();
+            }
+        }
+
+        public void Listen(object sender, EventArgs args)
+        {
+            switch (sender)
+            {
+                case GameStateService:
+                    HandleGameEvent(args as GameEventArgs);
+                    break;
+            }
+        }
+
+        private void HandleGameEvent(GameEventArgs args)
+        {
+            switch (args.EventType)
+            {
+                case GameStateEventType.StagePaused:
+                    _playerInputHandler.TryBlockCharacterInput();
+                    break;
+
+                case GameStateEventType.StageStarted:
+                case GameStateEventType.StageUnpaused:
+                    _globalInput.ActivateInput();
+                    _playerInputHandler.TryUnblockCharacterInput();
+                    break;
+
+                case GameStateEventType.StageStartFinishing:
+                    _globalInput.DeactivateInput();
+                    break;
             }
         }
 

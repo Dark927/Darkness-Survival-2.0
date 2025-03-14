@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using Gameplay.Components;
+using Settings.Global;
 using UnityEngine;
 
 public class GameTimer : MonoBehaviour
@@ -10,6 +11,7 @@ public class GameTimer : MonoBehaviour
 
     private float _elapsedTime;
     private StageTime _time;
+    private bool _isStopped;
 
     public event Action<StageTime> OnTimeChanged;
 
@@ -26,11 +28,17 @@ public class GameTimer : MonoBehaviour
 
     private void Awake()
     {
-        _elapsedTime = 0;
+        Reset();
+        Stop();
     }
 
     private void Update()
     {
+        if (_isStopped)
+        {
+            return;
+        }
+
         _elapsedTime += Time.deltaTime * _speed;
 
         if (_time.TryUpdateSeconds((uint)Mathf.FloorToInt(_elapsedTime)))
@@ -39,10 +47,19 @@ public class GameTimer : MonoBehaviour
         }
     }
 
+    public void Stop()
+    {
+        _isStopped = true;
+    }
+
+    public void Activate()
+    {
+        _isStopped = false;
+    }
+
     public void Reset()
     {
         _elapsedTime = 0;
-
     }
 
     #endregion

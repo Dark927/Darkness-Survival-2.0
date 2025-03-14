@@ -1,4 +1,7 @@
-﻿using Settings.SceneManagement;
+﻿using Settings.Global;
+using Settings.SceneManagement;
+using UnityEngine;
+using Zenject;
 
 
 namespace UI.Buttons
@@ -7,7 +10,8 @@ namespace UI.Buttons
     {
         public override void Click()
         {
-            GameSceneManager.Instance.LoadMainMenu();
+            GameStateService stateService = ServiceLocator.Current.Get<GameStateService>();
+            stateService.ExitToMenu();
         }
     }
 }

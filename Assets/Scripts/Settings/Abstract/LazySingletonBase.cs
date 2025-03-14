@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Settings.Global;
 using UnityEngine;
 
 
@@ -16,20 +17,15 @@ namespace Settings.Abstract
             {
                 GameObject singletonObject = new GameObject(typeof(T).Name);
                 concreteInstance = singletonObject.AddComponent<T>();
+
+                if (concreteInstance is IInitializable initializableInstance)
+                {
+                    initializableInstance.Initialize();
+                }
             }
             return concreteInstance;
         });
 
         public static T Instance => _lazyInstance.Value;
-
-        private void Awake()
-        {
-            AwakeInit();
-        }
-
-        protected virtual void AwakeInit()
-        {
-
-        }
     }
 }

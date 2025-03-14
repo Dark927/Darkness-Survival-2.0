@@ -4,11 +4,11 @@ using System.Globalization;
 using Characters.Common.Combat;
 using Characters.Interfaces;
 using Gameplay.Data;
+using Gameplay.Stage;
 using Gameplay.Visual;
 using Settings.Global;
 using UnityEngine;
 using Utilities.ErrorHandling;
-
 
 namespace Gameplay.Components.Enemy
 {
@@ -20,6 +20,7 @@ namespace Gameplay.Components.Enemy
 
         private List<Action<IEntityPhysicsBody, Damage>> _enemyDamagedActions = new List<Action<IEntityPhysicsBody, Damage>>();
         private GameplayIndicatorsService _gameplayIndicatorsService;
+        private StageProgressService _stageProgressService;
 
         #endregion
 
@@ -38,6 +39,7 @@ namespace Gameplay.Components.Enemy
             if (_data.UseDamageIndicators)
             {
                 AddDamageIndicatorsDisplay();
+                _stageProgressService = ServiceLocator.Current.Get<StageProgressService>();
             }
         }
 
@@ -50,15 +52,9 @@ namespace Gameplay.Components.Enemy
             _enemyDamagedActions?.ForEach(action => action?.Invoke(enemyBody, receivedDamage));
         }
 
-        private void DisplayDamageIndicator(IEntityPhysicsBody enemyBody, Damage receivedDamage)
+        public void EnemyKilledListener()
         {
-            Collider2D bodyCollider = enemyBody.Physics.Collider;
-            Vector2 position = new Vector2(bodyCollider.bounds.center.x, bodyCollider.bounds.max.y);
-
-            _gameplayIndicatorsService.DisplayIndicator(
-                receivedDamage.Amount.ToString("N1", CultureInfo.InvariantCulture),
-                position,
-                receivedDamage.NegativeStatus.VisualColor);
+            _stageProgressService.IncrementKills();
         }
 
         public void AddDamageIndicatorsDisplay()
@@ -73,6 +69,17 @@ namespace Gameplay.Components.Enemy
             {
                 ErrorLogger.LogComponentIsNull(LogOutputType.Console, this.ToString(), nameof(GameplayIndicatorsService));
             }
+        }
+
+        private void DisplayDamageIndicator(IEntityPhysicsBody enemyBody, Damage receivedDamage)
+        {
+            Collider2D bodyCollider = enemyBody.Physics.Collider;
+            Vector2 position = new Vector2(bodyCollider.bounds.center.x, bodyCollider.bounds.max.y);
+
+            _gameplayIndicatorsService.DisplayIndicator(
+                receivedDamage.Amount.ToString("N1", CultureInfo.InvariantCulture),
+                position,
+                receivedDamage.NegativeStatus.VisualColor);
         }
 
         #endregion

@@ -6,18 +6,8 @@ namespace Gameplay.Components.Items
     [CreateAssetMenu(fileName = "NewItemDropData", menuName = "Game/Characters/Items/ItemDropData")]
     public class ItemDropData : ScriptableObject
     {
-        #region Fields 
+        [SerializeField] private ItemDropSettings _dropSettings;
 
-        [SerializeField] private ItemData _itemData;
-        [SerializeField, Range(0, 100)] private int _dropChance = 50;
-
-        #endregion
-
-        #region Properties
-
-        public ItemData Data => _itemData;
-        public int DropChance => _dropChance;
-
-        #endregion
+        public ItemDropSettings DropSettings => _dropSettings;
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Characters.Common.Movement
 {
-    public interface IEntityMovement : IEventListener
+    public interface IEntityMovement : IEventsConfigurable
     {
         #region Properties
 

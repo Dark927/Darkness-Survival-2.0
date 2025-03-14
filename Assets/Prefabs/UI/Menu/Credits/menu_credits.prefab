@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1311041513604450809}
   - component: {fileID: 7114947076196484881}
+  - component: {fileID: -4054578720307326850}
   m_Layer: 5
   m_Name: menu_credits
   m_TagString: Untagged
@@ -63,6 +64,18 @@ MonoBehaviour:
   _headerScaleDuration: 0.4
   _buttonFadeDuration: 1
   _buttonScaleDuration: 0.4
+--- !u!114 &-4054578720307326850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742246392472687133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961202f274ae69e4cafd08609162b87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4334107331044715764
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +174,10 @@ PrefabInstance:
     - target: {fileID: 219054662825490992, guid: 56a3b74d12dd2c74aa8d3187e075b789, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 289026365089872878, guid: 56a3b74d12dd2c74aa8d3187e075b789, type: 3}
+      propertyPath: m_Name
+      value: btn_back
       objectReference: {fileID: 0}
     - target: {fileID: 3043745118205726015, guid: 56a3b74d12dd2c74aa8d3187e075b789, type: 3}
       propertyPath: m_Name

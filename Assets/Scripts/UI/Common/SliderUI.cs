@@ -37,7 +37,7 @@ namespace UI
 
         #endregion
 
-        public void UpdatePercent(float percent, float duration = 1f, bool cancelPreviousUpdates = false, Action callback = null)
+        public void UpdatePercent(float percent, float duration = 1f, bool cancelPreviousUpdates = true, Action callback = null)
         {
             if (cancelPreviousUpdates)
             {
@@ -87,6 +87,7 @@ namespace UI
             if (_currentCoroutine != null)
             {
                 StopCoroutine(ProcessQueue());
+                _currentCoroutine = null;
             }
         }
 

@@ -1,11 +1,14 @@
-﻿using Characters.Common;
+﻿using System;
+using Characters.Common;
 using Characters.Enemy.Data;
 using Characters.Interfaces;
 using Characters.Stats;
 using Cysharp.Threading.Tasks;
+using Gameplay.Components;
 using Gameplay.Components.Enemy;
+using Settings.Global;
 
-public class EnemyController : EntityControllerBase
+public class EnemyController : EntityControllerBase, IEventListener
 {
     #region Fields 
 
@@ -50,36 +53,30 @@ public class EnemyController : EntityControllerBase
         base.ConfigureEventLinks();
 
         EntityLogic.ConfigureEventLinks();
-        EntityLogic.Body.OnBodyDies += OnCharacterDeath;
+        EntityLogic.Body.OnBodyDies += CharacterDeathListener;
     }
 
     public override void RemoveEventLinks()
     {
         base.ConfigureEventLinks();
 
-        EntityLogic.Body.OnBodyDies -= OnCharacterDeath;
+        EntityLogic.Body.OnBodyDies -= CharacterDeathListener;
         EntityLogic.RemoveEventLinks();
     }
 
     public void ResetCharacter()
     {
         EntityLogic.ResetState();
+        _targetSpawner = null;
     }
 
     #endregion
 
 
-    public void OnCharacterDeath()
+    public void CharacterDeathListener()
     {
-        if (_targetSpawner != null)
-        {
-            EnemyLogic.SpawnRandomDropItem();
-            _targetSpawner.ReturnEnemy(this);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        EnemyLogic.SpawnRandomDropItem();
+        RemoveEnemy();
     }
 
     public void SetTargetSpawner(EnemySpawner targetSpawner)
@@ -90,6 +87,35 @@ public class EnemyController : EntityControllerBase
     public void SetData(EnemyData data)
     {
         _enemyData = data;
+    }
+
+    public void Listen(object sender, EventArgs e)
+    {
+        switch (sender)
+        {
+            case GameStateService:
+                var args = e as GameEventArgs;
+                if (args.EventType == GameStateEventType.StageStartFinishing)
+                {
+                    RemoveEnemy();
+                }
+                break;
+        }
+
+
+    }
+
+    public void RemoveEnemy()
+    {
+        if (_targetSpawner != null)
+        {
+            _targetSpawner.ReturnEnemy(this);
+        }
+        else
+        {
+            print("destroy enemy");
+            Destroy(gameObject);
+        }
     }
 
     #endregion

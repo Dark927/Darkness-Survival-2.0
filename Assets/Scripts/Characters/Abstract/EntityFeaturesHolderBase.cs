@@ -81,7 +81,7 @@ namespace Characters.Common
             {
                 loadedFeature.Key.Dispose();
                 DestroyFeatureLogic(loadedFeature.Key);
-                AddressableAssetsLoader.Instance.TryUnloadAsset(loadedFeature.Value);
+                AddressableAssetsHandler.Instance.TryUnloadAsset(loadedFeature.Value);
             }
 
             _loadedFeaturesDict.Clear();

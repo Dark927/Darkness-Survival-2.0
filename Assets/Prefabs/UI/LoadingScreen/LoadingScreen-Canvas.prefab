@@ -806,7 +806,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 15
   m_TargetDisplay: 0
 --- !u!114 &2391001303404633383
 MonoBehaviour:
@@ -860,9 +860,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe4a0edea3ed7047b92d71383f59f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionDuration: 1
-  _firstEasePoint: {x: 0.897, y: 0.023}
-  _secondEasePoint: {x: 0.153, y: 0.973}
   _deactivationDelay: 1.5
   _progressUpdateDuration: 1.5
 --- !u!1 &9151452153591584696

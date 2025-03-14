@@ -5,6 +5,6 @@ public class UnloadButton : ButtonBaseUI
 {
     public override void Click()
     {
-        GameSceneManager.Instance.UnloadAll();
+        GameSceneLoadHandler.Instance.SceneLoader.UnloadAll();
     }
 }

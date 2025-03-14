@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Settings.Abstract;
+using Gameplay.Stage;
 using Settings.AssetsManagement;
+using Settings.Global;
+using Settings.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,12 +11,16 @@ using Zenject;
 
 namespace UI
 {
-    public class GamePanelManagerUI : LazySingletonMono<GamePanelManagerUI>
+    public class GamePanelManagerUI : MonoBehaviour, IEventListener
     {
         public enum PanelType
         {
-            Settings = 1,
-            Credits = 2,
+            Default = 0,
+            Settings,
+            Credits,
+            Pause,
+            GameOver,
+            GameWin,
         }
 
         #region Fields 
@@ -23,10 +29,12 @@ namespace UI
 
         private Canvas _parentCanvas;
 
-        [SerializeField] private AssetReference _gameSettingsMenuRef;
-        [SerializeField] private AssetReference _creditsMenuRef;
+        private GamePanelDataUI _gamePanelData;
 
-        private Queue<(GameObject panelObj, AsyncOperationHandle handle)> _activePanelsQueue;
+        private Dictionary<int, (GameObject panelObj, AsyncOperationHandle handle)> _activePanels;
+        private bool _isPanelProcessing = false;
+
+        private DiContainer _container;
 
         #endregion
 
@@ -35,72 +43,161 @@ namespace UI
 
         #region Init 
 
-        [Inject]
-        public void Construct(Canvas targetCanvas)
+        public void Initialize(DiContainer container, Canvas targetCanvas, GamePanelDataUI data)
         {
+            DontDestroyOnLoad(gameObject);
             _parentCanvas = targetCanvas;
+            _container = container;
+            _gamePanelData = data;
+            _activePanels = new();
+
+            GameSceneLoadHandler.Instance.SceneCleanEvent.Subscribe(this);
         }
 
-        protected override void AwakeInit()
+        public void OnDestroy()
         {
-            base.AwakeInit();
-            DontDestroyOnLoad(this);
-            _activePanelsQueue = new Queue<(GameObject panelObj, AsyncOperationHandle handle)>();
+            GameSceneLoadHandler.Instance.SceneCleanEvent.Unsubscribe(this);
         }
 
-        #endregion
+        #endregion 
 
-        public void OpenPanel(PanelType panelType)
+        public bool TryOpenPanel(PanelType panelType, Action callback = default)
         {
-            switch (panelType)
+            if (_isPanelProcessing)
             {
-                case PanelType.Settings:
-                    OpenSettingsPanel(_parentCanvas);
-                    break;
-
-                case PanelType.Credits:
-                    OpenCreditsPanel(_parentCanvas);
-                    break;
-
-                default:
-                    throw new NotImplementedException();
+                return false;
             }
+
+            _isPanelProcessing = true;
+
+            AsyncOperationHandle loadPanelHandle;
+
+            loadPanelHandle = panelType switch
+            {
+                PanelType.Settings => OpenPanel(_gamePanelData.GameSettingsMenuRef, parent: _parentCanvas.transform),
+                PanelType.Credits => OpenPanel(_gamePanelData.CreditsMenuRef, parent: _parentCanvas.transform),
+                PanelType.Pause => OpenPanel(_gamePanelData.PauseMenuRef, parent: _parentCanvas.transform),
+                PanelType.GameOver => OpenPanelWithStats(_gamePanelData.GameOverMenuRef, _parentCanvas.transform),
+                PanelType.GameWin => OpenPanelWithStats(_gamePanelData.GameWinMenuRef, _parentCanvas.transform),
+
+                PanelType.Default => throw new NotImplementedException(),
+                _ => throw new NotImplementedException()
+            };
+
+            loadPanelHandle.Task.ContinueWith((handle) =>
+            {
+                callback?.Invoke();
+            });
+
+            return true;
         }
 
-        public void CloseCurrentPanel()
+        private AsyncOperationHandle OpenPanelWithStats(AssetReference panelReference, Transform parent = null)
         {
-            if (_activePanelsQueue.Count == 0)
+            return OpenPanel(panelReference, (panelObj) =>
+                    {
+                        StageProgressService progressService = ServiceLocator.Current.Get<StageProgressService>();
+
+                        if (progressService != null)
+                        {
+                            GameplayInfoMenuUI gameOverMenu = panelObj.GetComponentInChildren<GameplayInfoMenuUI>();
+                            StageProgress progress = progressService.CollectStageProgress(true);
+                            gameOverMenu.SetProgressStats(progress);
+                        }
+
+                    }, parent: parent);
+        }
+
+        public void ClosePauseMenu(Action callback = default)
+        {
+            if (_activePanels.Count == 0)
             {
                 return;
             }
 
-            var currentPanelInfo = _activePanelsQueue.Dequeue();
-
-            TryHideAnimatedPanel(currentPanelInfo.panelObj, () =>
+            foreach (var panelInfo in _activePanels.Values)
             {
-                Destroy(currentPanelInfo.panelObj);
-                AddressableAssetsLoader.Instance.UnloadAsset(currentPanelInfo.handle);
-            });
+                if (panelInfo.panelObj.TryGetComponent(out PauseMenuUI pauseMenu))
+                {
+                    pauseMenu.RequestDeactivation(callback);
+                    return;
+                }
+            }
         }
 
-        private void OpenSettingsPanel(Canvas parentCanvas = null)
+        public void CloseAllPanels(Action callback = default)
         {
-            OpenPanel(_gameSettingsMenuRef, parent: parentCanvas.transform);
+            if (_activePanels == null)
+            {
+                callback?.Invoke();
+                return;
+            }
+
+            IMenuUI panel;
+
+            foreach (var panelInfo in _activePanels.Values)
+            {
+                panel = panelInfo.panelObj.GetComponent<IMenuUI>();
+                panel.RequestDeactivation();
+            }
+
+            callback?.Invoke();
         }
 
-        private void OpenCreditsPanel(Canvas parentCanvas)
+        /// <summary>
+        /// Check if the panel can be closed and gives an out delegate with post close actions.
+        /// </summary>
+        /// <param name="panel">the target panel</param>
+        /// <param name="postCloseCallback">actions after closing the panel (if the panel can be closed, else - null)</param>
+        /// <returns>true if panel can be closed, else - false</returns>
+        public bool CanClosePanel(IMenuUI panel, out Action postCloseCallback)
         {
-            OpenPanel(_creditsMenuRef, parent: parentCanvas.transform);
+            postCloseCallback = null;
+            bool canClosePanel = !_isPanelProcessing && (panel != null);
+            canClosePanel &= (_activePanels != null) && _activePanels.Count != 0;
 
+            if (!canClosePanel)
+            {
+                return canClosePanel;
+            }
+
+            GameObject panelObj = ((MonoBehaviour)panel).gameObject;
+            int panelID = panelObj.GetInstanceID();
+
+            canClosePanel &= _activePanels.TryGetValue(panelID, out var targetPanelInfo);
+
+            if (canClosePanel)
+            {
+                _isPanelProcessing = true;
+                postCloseCallback = () =>
+                {
+                    GameObject.Destroy(targetPanelInfo.panelObj);
+                    AddressableAssetsHandler.Instance.UnloadAsset(targetPanelInfo.handle);
+                    _activePanels.Remove(panelID);
+                    _isPanelProcessing = false;
+                };
+            }
+
+            return canClosePanel;
         }
 
-        private void OpenPanel(AssetReference reference, Action<GameObject> panelConfiguration = null, Transform parent = null)
+        public void Listen(object sender, EventArgs args)
         {
-            AsyncOperationHandle<GameObject> loadHandle = AddressableAssetsLoader.Instance.TryLoadAssetAsync<GameObject>(reference);
+            if (sender is GameSceneLoadHandler)
+            {
+                CloseAllPanels();
+            }
+        }
+
+        private AsyncOperationHandle OpenPanel(AssetReference reference, Action<GameObject> panelConfiguration = null, Transform parent = null)
+        {
+            AsyncOperationHandle<GameObject> loadHandle = AddressableAssetsHandler.Instance.TryLoadAssetAsync<GameObject>(reference);
 
             loadHandle.Completed += (handle) =>
             {
                 GameObject menuObj = Instantiate(handle.Result);
+                _container.Inject(menuObj.GetComponent<IMenuUI>());
+
                 menuObj.name = handle.Result.name;
 
                 if (parent != null)
@@ -110,10 +207,12 @@ namespace UI
                 }
 
                 panelConfiguration?.Invoke(menuObj);
-                _activePanelsQueue.Enqueue((menuObj, handle));
+                _activePanels.Add(menuObj.GetInstanceID(), (menuObj, handle));
 
-                TryDisplayAnimatedPanel(menuObj);
+                TryDisplayPanel(menuObj);
             };
+
+            return loadHandle;
         }
 
 
@@ -121,32 +220,17 @@ namespace UI
         /// Check if the panel obj has animations and show them
         /// </summary>
         /// <param name="menuObj">target panel</param>
-        private static void TryDisplayAnimatedPanel(GameObject menuObj)
+        private void TryDisplayPanel(GameObject menuObj)
         {
-            DefaultMenuPopupUI animatedMenu = menuObj.GetComponentInChildren<DefaultMenuPopupUI>();
+            BasicMenuUI menu = menuObj.GetComponentInChildren<BasicMenuUI>();
 
-            if (animatedMenu != null)
+            if (menu != null)
             {
-                animatedMenu.PrepareAnimation();
-                animatedMenu.Show();
+                menu.Activate(() =>
+                {
+                    _isPanelProcessing = false;
+                });
             }
-        }
-
-
-        /// <summary>
-        /// Check if the panel obj has animations and show them before closing 
-        /// </summary>
-        private static void TryHideAnimatedPanel(GameObject menuObj, Action callback = null)
-        {
-            DefaultMenuPopupUI animatedMenu = menuObj.GetComponentInChildren<DefaultMenuPopupUI>();
-
-            if (animatedMenu != null)
-            {
-                animatedMenu.Hide(callback);
-                return;
-            }
-
-            callback?.Invoke();
         }
 
         #endregion

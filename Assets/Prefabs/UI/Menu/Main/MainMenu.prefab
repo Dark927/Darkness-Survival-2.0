@@ -476,31 +476,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca436f60f1b45e469c20e9b81cb45f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionDuration: 1
-  _fadeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 35.229347
-      outSlope: 35.229347
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0
-      outWeight: 0.011776252
-    - serializedVersion: 3
-      time: 0.99902344
-      value: 1
-      inSlope: 33.66034
-      outSlope: 33.66034
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0.01079487
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _videoFade:
+    _transitionDuration: 0
+    _fadeCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1001 &567305563190459965
 PrefabInstance:
   m_ObjectHideFlags: 0

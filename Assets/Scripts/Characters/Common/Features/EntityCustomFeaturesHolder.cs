@@ -38,7 +38,7 @@ namespace Characters.Common.Features
                 return;
             }
 
-            AsyncOperationHandle<GameObject> handle = AddressableAssetsLoader.Instance.TryLoadAssetAsync<GameObject>(featureData.AssetRef);
+            AsyncOperationHandle<GameObject> handle = AddressableAssetsHandler.Instance.TryLoadAssetAsync<GameObject>(featureData.AssetRef);
             await handle;
 
             IEntityFeature loadedFeature = handle.Result.GetComponent<IEntityFeature>();

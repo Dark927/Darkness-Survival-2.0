@@ -1,7 +1,8 @@
-using Gameplay.Components;
+﻿using Gameplay.Components;
 using TMPro;
 using UnityEngine;
 using Utilities.ErrorHandling;
+using Zenject;
 
 public class TimerUI : MonoBehaviour
 {
@@ -17,21 +18,25 @@ public class TimerUI : MonoBehaviour
 
     #region Init 
 
+    [Inject]
+    public void Construct(GameTimer timer)
+    {
+        _timer = timer;
+    }
+
     private void Awake()
     {
         _textMesh = GetComponentInChildren<TextMeshProUGUI>();
+    }
 
-        _timer = FindAnyObjectByType<GameTimer>();
-
+    private void Start()
+    {
         if (_timer == null)
         {
             ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(_timer));
             gameObject.SetActive(false);
         }
-    }
 
-    private void Start()
-    {
         _timer.OnTimeChanged += UpdateUI;
     }
 

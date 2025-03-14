@@ -3,49 +3,86 @@ using System.Collections.Generic;
 using System.Linq;
 using Characters.Interfaces;
 using Characters.Player;
+using Settings;
 using Settings.Global;
-using UI;
+using Settings.SceneManagement;
 using UnityEngine;
 
 namespace Gameplay.Components
 {
-    public sealed class PlayerService : IService, IInitializable
+    public sealed class PlayerService : IService, IDisposable, ICleanable
     {
         #region Fields 
 
         public event Action<PlayerCharacterController> OnPlayerReady;
         private HashSet<PlayerCharacterController> _players;
+        private PlayerEvent _playerEvent;
 
         #endregion
 
         public HashSet<PlayerCharacterController> Players => _players;
+        public PlayerEvent PlayerEvent => _playerEvent;
 
 
         #region Methods
 
         #region Init
 
-        public void Initialize()
+        public PlayerService()
         {
             _players = new HashSet<PlayerCharacterController>();
+            _playerEvent = new PlayerEvent();
+        }
+
+        public void Dispose()
+        {
+            _playerEvent?.Dispose();
+            Clean();
+        }
+
+        public void Clean()
+        {
+            ICharacterLogic character = GetCharacter();
+
+            if (character != null)
+            {
+                character.Body.OnBodyDies -= PlayerDiesNotification;
+                character.Body.OnBodyDiedCompletely -= PlayerDeadNotification;
+            }
+
+            _players.Clear();
         }
 
         #endregion
 
+        // Note (Future) : This method must be updated to use for multiple players.
         public void AddPlayer(PlayerCharacterController player)
         {
             if (player != null)
             {
                 _players.Add(player);
-
-                // ToDo : clear player list only when stage is restarted (or move this service to the gameplay essentials)
-                _players.RemoveWhere(player => player == null);
-
                 OnPlayerReady?.Invoke(player);
 
-                // ToDo : move this logic to the another service
-                GameplayUI.Instance.Initialize(player);
+                player.CharacterLogic.Body.OnBodyDies += PlayerDiesNotification;
+                player.CharacterLogic.Body.OnBodyDiedCompletely += PlayerDeadNotification;
             }
+        }
+
+        public bool TryGetPlayer(out PlayerCharacterController player)
+        {
+            player = Players?.FirstOrDefault();
+
+            return player != null;
+        }
+
+        private void PlayerDiesNotification()
+        {
+            _playerEvent.ListenEvent(this, new PlayerEventArgs(PlayerEvent.Type.Dies));
+        }
+
+        private void PlayerDeadNotification()
+        {
+            _playerEvent.ListenEvent(this, new PlayerEventArgs(PlayerEvent.Type.Dead));
         }
 
         public void RemovePlayer(PlayerCharacterController player)
@@ -55,7 +92,7 @@ namespace Gameplay.Components
 
         public ICharacterLogic GetCharacter()
         {
-            // ToDo : implement the logic for several players in the future.
+            // ToDo (future) : implement the logic for several players in the future.
 
             PlayerCharacterController player = _players.FirstOrDefault();
             return (player != null) ? player.CharacterLogic : null;
@@ -73,6 +110,7 @@ namespace Gameplay.Components
 
             return characterTransform;
         }
+
 
         #endregion
     }

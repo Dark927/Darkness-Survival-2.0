@@ -2,11 +2,10 @@
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI
 {
-    public class LoadingScreenUI : FadeableColorUI<Image>
+    public sealed class LoadingScreenUI : MonoBehaviour
     {
         #region Fields 
 
@@ -42,7 +41,7 @@ namespace UI
         {
             if (_progressSlider != null)
             {
-                _progressSlider.UpdatePercent(progressPercent, _progressUpdateDuration);
+                _progressSlider.UpdatePercent(progressPercent, _progressUpdateDuration, false);
             }
         }
 
@@ -56,8 +55,6 @@ namespace UI
         private IEnumerator DeactivationRoutine()
         {
             yield return new WaitForSeconds(_deactivationDelay);
-
-
         }
 
         private void UpdateProgressText(float progressPercent)
@@ -65,9 +62,8 @@ namespace UI
             _progressText.text = $"loading - {progressPercent:00}";
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
             _progressSlider.OnProgressPercentUpdate -= UpdateProgressText;
         }
 

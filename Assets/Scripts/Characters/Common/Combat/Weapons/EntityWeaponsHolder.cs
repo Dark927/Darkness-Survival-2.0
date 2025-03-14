@@ -77,12 +77,12 @@ namespace Characters.Common.Combat
         {
             EntityWeaponData weaponData = data as EntityWeaponData;
 
-            if ((weaponData == null) || !AddressableAssetsLoader.IsAssetRefValid(weaponData.WeaponAsset))
+            if ((weaponData == null) || !AddressableAssetsHandler.IsAssetRefValid(weaponData.WeaponAsset))
             {
                 return;
             }
 
-            AsyncOperationHandle<GameObject> weaponLoadHandle = AddressableAssetsLoader.Instance.LoadAssetAsync<GameObject>(weaponData.WeaponAsset);
+            AsyncOperationHandle<GameObject> weaponLoadHandle = AddressableAssetsHandler.Instance.LoadAssetAsync<GameObject>(weaponData.WeaponAsset);
             await weaponLoadHandle;
 
             var weapon = CreateFeature(weaponLoadHandle.Result, weaponData.name, _defaultWeaponContainer.transform);

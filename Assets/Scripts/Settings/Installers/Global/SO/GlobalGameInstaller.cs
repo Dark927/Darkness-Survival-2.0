@@ -13,15 +13,9 @@ public class GlobalGameInstaller : ScriptableObjectInstaller<GlobalGameInstaller
     [Header("Game UI - Settings")]
     [SerializeField] private CustomCursorData _cursorData;
 
-
-    [Header("Game Audio - Settings")]
-    [SerializeField] private MusicData _mainMenuTheme;
-    [SerializeField] private MusicData _pauseMenuTheme;
-
     public override void InstallBindings()
     {
         BindData();
-        BindServices();
     }
 
     public void BindData()
@@ -32,40 +26,4 @@ public class GlobalGameInstaller : ScriptableObjectInstaller<GlobalGameInstaller
             .AsSingle();
     }
 
-    private void BindServices()
-    {
-        AudioSource musicSource = Camera.main.GetComponent<AudioSource>();
-        GameAudioService audioService = new GameAudioService(musicSource);
-        audioService.AddMusicClips(_mainMenuTheme);
-
-        GameStateService gameStateService = new GameStateService();
-        PlayerService playerService = new PlayerService();
-
-        CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
-        CameraService cameraController = new CameraService(virtualCamera);
-
-
-        // Bind
-
-        Container
-            .Bind<GameAudioService>()
-            .FromInstance(audioService)
-            .AsSingle();
-
-        Container
-            .Bind<GameStateService>()
-            .FromInstance(gameStateService)
-            .AsSingle();
-
-
-        Container
-            .Bind<PlayerService>()
-            .FromInstance(playerService)
-            .AsSingle();
-
-        Container
-            .Bind<CameraService>()
-            .FromInstance(cameraController)
-            .AsSingle();
-    }
 }

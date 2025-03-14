@@ -1,4 +1,4 @@
-
+﻿
 using System;
 using Characters.Common.Combat;
 using Characters.Common.Movement;

@@ -29,12 +29,12 @@ namespace Settings.Global
 #endif
                 return;
             }
+        }
 
-            GameSceneManager.Instance.AddressableLoader.LoadScene(_globalSceneData.SceneReference, LoadSceneMode.Single);
-            GameSceneManager.Instance.LoadMainMenu();
-
-            //Initialization is the only scene in BuildSettings, so it has index 0
-            SceneManager.UnloadSceneAsync(0);
+        private void Start()
+        {
+            GameSceneLoadHandler.Instance.RequestSceneLoad(_globalSceneData, LoadSceneMode.Single);
+            GameSceneLoadHandler.Instance.RequestMainMenuLoad();
         }
 
         #endregion

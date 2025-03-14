@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using Zenject;
 
 namespace UI.Buttons
 {
@@ -9,7 +10,7 @@ namespace UI.Buttons
 
         public override void Click()
         {
-            GamePanelManagerUI.Instance.OpenPanel(_panelType);
+            ParentMenu.OwnerPanelManager.TryOpenPanel(_panelType);
         }
     }
 }

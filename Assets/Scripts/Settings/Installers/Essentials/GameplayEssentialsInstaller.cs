@@ -2,6 +2,7 @@
 using Gameplay.Visual;
 using Settings;
 using Settings.Global;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -17,12 +18,11 @@ namespace Settings.Installers
 
         public override void InstallBindings()
         {
-            GamePauseService pauseService = new GamePauseService();
-            pauseService.SetPlayerService(ServiceLocator.Current.Get<PlayerService>());
+            GamePanelManagerUI panelManager = FindAnyObjectByType<GamePanelManagerUI>();
 
             Container
-                .Bind<GamePauseService>()
-                .FromInstance(pauseService)
+                .Bind<GamePanelManagerUI>()
+                .FromInstance(panelManager)
                 .AsSingle();
 
             Container

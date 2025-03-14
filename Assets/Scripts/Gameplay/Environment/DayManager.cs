@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Characters.Player;
 using Dark.Utils;
 using Gameplay.Components;
 using Settings.Global;
@@ -57,11 +58,10 @@ namespace World.Environment
             _targetDayStateData = GetNewDayStateData();
 
             var playerService = ServiceLocator.Current.Get<PlayerService>();
-            var playerController = playerService.Players.FirstOrDefault();
 
-            if (playerController != null)
+            if (playerService.TryGetPlayer(out PlayerCharacterController player))
             {
-                _playerLight = playerController.GetComponentInChildren<Light2D>();
+                _playerLight = player.GetComponentInChildren<Light2D>();
             }
             else
             {
@@ -109,11 +109,21 @@ namespace World.Environment
             _stageLight.Light.color = color;
             _stageLight.Light.intensity = GlobalLightFx(DarkMath.Frac(_inGameTime)); //intensity curve
 
-            _playerLight.intensity = 1 - _stageLight.Light.intensity;
+            TryUpdatePlayerLight();
 
             //animation integration += dx (duration to [0,1] range)
             _transitionState += Time.deltaTime / _targetDayStateData.RealTimeDuration;
-            Telemetry.Log(0, _transitionState, DarkMath.Frac(_inGameTime), _stageLight.Light.intensity);
+            //Telemetry.Log(0, _transitionState, DarkMath.Frac(_inGameTime), _stageLight.Light.intensity);
+        }
+
+        private void TryUpdatePlayerLight()
+        {
+            if (_playerLight == null)
+            {
+                return;
+            }
+
+            _playerLight.intensity = 1 - _stageLight.Light.intensity;
         }
 
         private DayStateData GetNewDayStateData()

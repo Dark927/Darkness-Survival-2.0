@@ -72,7 +72,15 @@ namespace Settings.Global.Audio
 
         public void StartPlaylist(MusicType type, bool skipCurrentPlaylist = true)
         {
-            if (_musicSource.isPlaying && !skipCurrentPlaylist)
+            if ((_clipsOST == null) || (_musicSource == null))
+            {
+                Debug.LogWarning("# The OST list is empty or Music Source is null, can not play it! - " + nameof(GameAudioService)
+                                + $"\nOST clips list -> {_clipsOST}"
+                                + $"\nMusicSource -> {_musicSource}");
+                return;
+            }
+
+            if ((_musicSource.isPlaying && !skipCurrentPlaylist))
             {
                 return;
             }
@@ -80,16 +88,15 @@ namespace Settings.Global.Audio
             Stop();
             _musicQueue?.Clear();
 
-            List<AssetReferenceT<AudioClip>> tracksList = _clipsOST[type];
+            if (!_clipsOST.TryGetValue(type, out var tracksList) || (tracksList?.Count == 0))
+            {
+                return;
+            }
+
             AssetReferenceT<AudioClip> firstTrackRef = tracksList?.FirstOrDefault();
 
-            if ((_clipsOST == null) || (_musicSource == null) || (firstTrackRef == null))
+            if (firstTrackRef == null)
             {
-                Debug.LogWarning("# The OST list is empty or Music Source is null, can not play it! - " + nameof(GameAudioService)
-                    + $"\nOST clips list -> {_clipsOST}" +
-                    $"\nMusicSource -> {_musicSource}" +
-                    $"\nFirstTrack -> {firstTrackRef}");
-
                 return;
             }
 
@@ -109,13 +116,13 @@ namespace Settings.Global.Audio
         private async UniTask PlayAsync(AssetReferenceT<AudioClip> musicRef)
         {
             AsyncOperationHandle<AudioClip> clipLoadHandle =
-                AddressableAssetsLoader.Instance.TryLoadAssetAsync<AudioClip>(musicRef);
+                AddressableAssetsHandler.Instance.TryLoadAssetAsync<AudioClip>(musicRef);
 
             await clipLoadHandle.Task;
 
             _musicPlayer.PlaySong(clipLoadHandle.Result, 4f);
 
-            _audioClipLoadHandles.Add(clipLoadHandle.Result, clipLoadHandle);
+            _audioClipLoadHandles.TryAdd(clipLoadHandle.Result, clipLoadHandle);
         }
 
         public void Stop()
@@ -126,7 +133,7 @@ namespace Settings.Global.Audio
             }
 
             _musicSource.Stop();
-            AddressableAssetsLoader.Instance.UnloadAsset(_audioClipLoadHandles[_musicSource.clip]);
+            AddressableAssetsHandler.Instance.UnloadAsset(_audioClipLoadHandles[_musicSource.clip]);
             _audioClipLoadHandles.Remove(_musicSource.clip);
             _musicSource.clip = null;
         }
@@ -152,7 +159,7 @@ namespace Settings.Global.Audio
         }
         ///////////////////////////////////////
         // ToDo : move this to the MusicPlayer
-        ////////////////////////////////////////
+        ///////////////////////////////////////
 
         #endregion
     }

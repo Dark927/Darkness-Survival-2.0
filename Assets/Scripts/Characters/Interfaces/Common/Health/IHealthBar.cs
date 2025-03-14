@@ -4,7 +4,7 @@ using Settings.Global;
 
 namespace UI.Local.Health
 {
-    public interface IHealthBar : IEntityFeature, IEventListener
+    public interface IHealthBar : IEntityFeature, IEventsConfigurable
     {
         public void Hide();
         public void Show();

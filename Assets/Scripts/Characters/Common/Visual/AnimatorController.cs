@@ -1,4 +1,4 @@
-using Characters.Animation;
+﻿using Characters.Animation;
 using UnityEngine;
 
 namespace Characters.Common.Visual
@@ -38,6 +38,16 @@ namespace Characters.Common.Visual
             Animator = characterAnimator;
             Parameters = parameters;
             Events = events;
+        }
+
+        public virtual void StopAnimation()
+        {
+            Animator.speed = 0;
+        }
+
+        public virtual void ResumeAnimation()
+        {
+            Animator.speed = 1;
         }
 
         #endregion

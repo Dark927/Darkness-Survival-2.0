@@ -1,5 +1,8 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Settings.Abstract;
+using Settings.Global;
+using Settings.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -10,7 +13,7 @@ using Zenject;
 namespace UI.CustomCursor
 {
     [RequireComponent(typeof(Image))]
-    public class MouseCursor : LazySingletonMono<MouseCursor>
+    public class MouseCursor : LazySingletonMono<MouseCursor>, IEventListener, IResetable
     {
         #region Fields 
 
@@ -33,10 +36,10 @@ namespace UI.CustomCursor
             _cursorData = cursorData;
         }
 
-        protected override void AwakeInit()
+        private void Awake()
         {
-            base.AwakeInit();
             _cursor = GetComponent<Image>();
+            GameSceneLoadHandler.Instance.SceneCleanEvent.Subscribe(this);
         }
 
         private void Start()
@@ -61,8 +64,8 @@ namespace UI.CustomCursor
 
         private void OnDestroy()
         {
-            //_currentAnimation.Pause();
-            TweenHelper.KillTweenIfActive(_currentAnimation);
+            KillActiveAnimation();
+            GameSceneLoadHandler.Instance.SceneCleanEvent.Unsubscribe(this);
         }
 
         #endregion
@@ -75,20 +78,32 @@ namespace UI.CustomCursor
 
         public void HoverInteractiveUI()
         {
-            TweenHelper.KillTweenIfActive(_currentAnimation);
             _currentAnimation = PlayAnimation(_cursorData.HoverParams);
         }
 
         public void ExitInteractiveUI()
         {
-            TweenHelper.KillTweenIfActive(_currentAnimation);
             _currentAnimation = PlayAnimation(_startParameters);
         }
 
+        public void Listen(object sender, EventArgs args)
+        {
+            if (sender is GameSceneLoadHandler)
+            {
+                ResetState();
+            }
+        }
+
+        public void ResetState()
+        {
+            KillActiveAnimation();
+            _cursor.transform.localScale = _startParameters.TargetScale;
+            _cursor.color = _startParameters.TargetColor;
+        }
 
         private Sequence PlayAnimation(DefaultAnimationParamsUI parameters)
         {
-            TweenHelper.KillTweenIfActive(_currentAnimation);
+            KillActiveAnimation();
 
             Sequence animation = DOTween.Sequence();
 
@@ -113,6 +128,11 @@ namespace UI.CustomCursor
             animation.SetUpdate(true);
 
             return animation;
+        }
+
+        private void KillActiveAnimation()
+        {
+            TweenHelper.KillTweenIfActive(_currentAnimation);
         }
 
         #endregion

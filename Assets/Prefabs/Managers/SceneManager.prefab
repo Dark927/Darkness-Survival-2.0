@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7021435914054667336}
-  - component: {fileID: 5768375960132375068}
+  - component: {fileID: 539434749107741543}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -25,14 +25,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895192916487588609}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5768375960132375068
+--- !u!114 &539434749107741543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 895192916487588609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d2b222821ad4ff418c68519ed0b4838, type: 3}
+  m_Script: {fileID: 11500000, guid: fff6e2e3d11e48d42a0b9f5484f1b406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _loadingScreenRef:
@@ -51,5 +51,4 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   _mainMenuScene: {fileID: 11400000, guid: 99dd765bef7bdf34dbcadbfa931254f5, type: 2}
   _gameplayEssentialsScene: {fileID: 11400000, guid: fc470abac2744e2489bcf24001567377, type: 2}
-  _additiveScenesData:
-  - {fileID: 11400000, guid: 07a6d4c0e6b863d45826fd9857c4dd0b, type: 2}
+  _gameplayStageScene: {fileID: 11400000, guid: 07a6d4c0e6b863d45826fd9857c4dd0b, type: 2}

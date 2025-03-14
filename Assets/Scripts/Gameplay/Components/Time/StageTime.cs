@@ -42,7 +42,7 @@ namespace Gameplay.Components
 
         public override string ToString()
         {
-            return $"{Minutes.ToString()}:{Seconds.ToString()}";
+            return $"{Minutes.ToString("00")}:{Seconds.ToString("00")}";
         }
 
         public readonly int CompareTo(StageTime time)

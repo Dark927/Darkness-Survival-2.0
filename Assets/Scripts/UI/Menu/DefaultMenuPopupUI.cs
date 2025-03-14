@@ -105,8 +105,8 @@ namespace UI
             {
                 _buttonsAnimationSequences = PlayButtonsAnimation(1f, _buttonStartScale);
                 _titleAnimation = PlayTitleAnimation(_titleStartColor, _titleStartScale);
+                callback?.Invoke();
             });
-            callback?.Invoke();
         }
 
 

@@ -22,7 +22,7 @@ namespace Settings.Global
         {
             if (_globalSceneData == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, $"{nameof(AssetReference)} - start scene data");
+                ErrorLogger.LogComponentIsNull(gameObject.name, $"{nameof(AssetReference)} - start scene data");
                 Application.Quit();
 
 #if UNITY_EDITOR

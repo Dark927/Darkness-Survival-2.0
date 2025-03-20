@@ -5,6 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
 
+
 public sealed class CharactersInstaller : MonoInstaller
 {
     [SerializeField] private AssetReference _characterAsset;

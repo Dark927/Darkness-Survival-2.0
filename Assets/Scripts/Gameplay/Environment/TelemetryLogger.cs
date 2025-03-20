@@ -11,6 +11,7 @@ namespace Dark.Utils
         private static int serverPort = 5005;
         private static UdpClient udpClient = new UdpClient();
 
+        [System.Diagnostics.Conditional("ENABLE_LOG")]
         public static void Log(params object[] data)
         {
             try
@@ -24,10 +25,5 @@ namespace Dark.Utils
                 Console.WriteLine($"Telemetry Error: {ex.Message}");
             }
         }
-#else
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Log(params object[] data){}
-#endif
-
     }
 }

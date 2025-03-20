@@ -112,7 +112,7 @@ namespace Settings.SceneManagement
         {
             if (_currentStageData == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, $"the field {nameof(_currentStageData)} of type {nameof(GameSceneData)}");
+                ErrorLogger.LogComponentIsNull(gameObject.name, $"the field {nameof(_currentStageData)} of type {nameof(GameSceneData)}");
                 return;
             }
 

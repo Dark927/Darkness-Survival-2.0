@@ -58,7 +58,7 @@ namespace UI.CustomCursor
             }
             else
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(CustomCursorData));
+                ErrorLogger.LogComponentIsNull(gameObject.name, nameof(CustomCursorData));
             }
         }
 

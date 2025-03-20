@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Materials
 {
     [Serializable]
-    public class MaterialPropContainer<T> where T : IMaterialProps, new() //TODO: add SO + struct 2 fields
+    public class MaterialPropContainer<T> where T : IMaterialProps, new()
     {
         public MaterialPropertyBlock? _mpb;
 
@@ -28,12 +28,6 @@ namespace Materials
         public MaterialPropContainer()
         {
             _properties = new() { NeedsUpdate = true };
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void UpdateGlobals(MaterialPropertyBlock mpb)
-        {
-            //set time ig
         }
 
 

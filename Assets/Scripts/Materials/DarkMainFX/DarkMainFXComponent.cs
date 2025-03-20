@@ -9,7 +9,7 @@ namespace Materials.DarkMainFX
     {
         public MaterialPropContainer<ParametricProps> _materialPropContainer = new();
 
-        private SpriteRenderer? _spriteRenderer;
+        private SpriteRenderer? _spriteRenderer; //TODO: replace with requirecomponent and without errors
         private SpriteRenderer SpriteRenderer
         {
             get

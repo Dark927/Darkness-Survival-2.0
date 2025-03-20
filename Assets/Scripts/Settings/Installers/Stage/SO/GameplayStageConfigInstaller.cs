@@ -23,7 +23,7 @@ public class GameplayStageConfigInstaller : ScriptableObjectInstaller<GameplaySt
         }
         catch (Exception e)
         {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, name, e.Message);
+            ErrorLogger.LogComponentIsNull(name, e.Message);
         }
     }
 

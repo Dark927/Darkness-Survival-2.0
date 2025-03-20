@@ -33,7 +33,7 @@ public class TimerUI : MonoBehaviour
     {
         if (_timer == null)
         {
-            ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(_timer));
+            ErrorLogger.LogComponentIsNull(gameObject.name, nameof(_timer));
             gameObject.SetActive(false);
         }
 

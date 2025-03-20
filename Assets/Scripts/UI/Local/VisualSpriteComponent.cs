@@ -30,7 +30,7 @@ namespace UI.Local
 
             if (_renderer == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, gameObject.name, nameof(SpriteRenderer));
+                ErrorLogger.LogComponentIsNull(gameObject.name, nameof(SpriteRenderer));
                 gameObject.SetActive(false);
             }
         }

@@ -1,14 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Utilities.ErrorHandling
+namespace Utilities.ErrorHandling //TODO:
 {
-    public enum LogOutputType
-    {
-        Console,
-        txtFile,
-    }
-
     public static class ErrorLogger
     {
         [System.Diagnostics.Conditional("ENABLE_LOG")]
@@ -23,18 +17,11 @@ namespace Utilities.ErrorHandling
             Debug.Log(message);
         }
 
-        public static void LogComponentIsNull(LogOutputType type, string objectName, string componentName)
+        // https://nosuchstudio.medium.com/improve-unitys-logging-with-this-class-fc99c91f5564
+        [System.Diagnostics.Conditional("ENABLE_LOG")]
+        public static void LogComponentIsNull(string objectName, string componentName)
         {
-            switch (type)
-            {
-                case LogOutputType.Console:
-                    Debug.LogError($"{objectName} has {componentName} component == null");
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
-
+            Debug.LogError($"{objectName} has {componentName} component == null");
         }
     }
 }

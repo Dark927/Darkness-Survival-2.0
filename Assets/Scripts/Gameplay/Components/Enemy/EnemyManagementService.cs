@@ -67,7 +67,7 @@ namespace Gameplay.Components.Enemy
             }
             else
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, this.ToString(), nameof(GameplayIndicatorsService));
+                ErrorLogger.LogComponentIsNull(this.ToString(), nameof(GameplayIndicatorsService));
             }
         }
 

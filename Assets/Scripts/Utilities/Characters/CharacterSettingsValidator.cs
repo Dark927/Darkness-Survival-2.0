@@ -9,17 +9,17 @@ namespace Utilities.Characters
         {
             if (body.View == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, body.name, nameof(body.View));
+                ErrorLogger.LogComponentIsNull(body.name, nameof(body.View));
             }
 
             if (body.Movement == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, body.name, nameof(body.Movement));
+                ErrorLogger.LogComponentIsNull(body.name, nameof(body.Movement));
             }
 
             if (body.Visual == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, body.name, nameof(body.Visual));
+                ErrorLogger.LogComponentIsNull(body.name, nameof(body.Visual));
             }
         }
     }

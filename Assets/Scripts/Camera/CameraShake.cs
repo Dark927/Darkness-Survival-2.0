@@ -30,7 +30,7 @@ namespace Settings.CameraManagement
 
         public void Invoke(float timeInSec, float amplitude)
         {
-            Invoke(timeInSec, amplitude, _defaultShakeFrequency);
+            Invoke(timeInSec, amplitude, _defaultShakeFrequency); 
         }
 
 
@@ -44,7 +44,7 @@ namespace Settings.CameraManagement
         {
             if (_cameraPerlin == null)
             {
-                ErrorLogger.LogComponentIsNull(LogOutputType.Console, nameof(_cameraPerlin), nameof(CinemachineBasicMultiChannelPerlin));
+                ErrorLogger.LogComponentIsNull(nameof(_cameraPerlin), nameof(CinemachineBasicMultiChannelPerlin));
                 return;
             }
 

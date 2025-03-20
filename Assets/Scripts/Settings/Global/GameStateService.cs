@@ -1,4 +1,5 @@
 ﻿using System;
+using Characters.Common;
 using Characters.Player;
 using Gameplay.Components;
 using Settings.SceneManagement;
@@ -84,7 +85,7 @@ namespace Settings.Global
         {
             switch (sender)
             {
-                case PlayerService:
+                case IEntityController:
                     HandlePlayerEvent(args as PlayerEventArgs);
                     break;
 

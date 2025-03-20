@@ -8,11 +8,11 @@ using Utilities.UI;
 
 namespace UI
 {
-    public class PopupUI : MonoBehaviour
+    public class PopupUI : InteractiveAnimationsBaseUI, IPopupUI
     {
         #region Fields 
 
-        [CustomHeader("Main", 1, 0, CustomHeaderAttribute.HeaderColor.green)]
+        [CustomHeader("Popup Main", 1, 0, CustomHeaderAttribute.HeaderColor.green)]
 
         [SerializeField] private CanvasGroup _bodyAlphaGroup;
 
@@ -37,15 +37,15 @@ namespace UI
         private Vector2 _targetBodyScale;
         private Vector2 _startShift;
 
-        private Sequence _currentAnimationSequence;
         private Tween _backgroundAnimation;
 
         #endregion
 
 
-        #region Properties
+        #region Properties 
 
-        public Sequence CurrentAnimationSequence => _currentAnimationSequence;
+        public float DeactivationSpeedMult => _deactivationSpeedMult;
+        public float ScaleDuration => _scaleDuration;
 
         #endregion
 
@@ -109,27 +109,52 @@ namespace UI
 
         public virtual void Show(Action callback = null)
         {
-            StopCurrentTween();
-
             // Main animations
 
-            _currentAnimationSequence = GetMainElementsAnimation(_bodyAlphaGroup, 1f, _bodyTransform, _targetBodyScale, _targetBodyPosition);
+            ReplaceCurrentAnimation(GetMainElementsAnimation(_bodyAlphaGroup, 1f, _bodyTransform, _targetBodyScale, _targetBodyPosition), false);
 
             // Extra animations
 
-            _currentAnimationSequence.Join(GetExtraElementAnimation(_background, _backgroundStartAlpha, _backgroundFadeDuration));
+            CurrentAnimation.Join(GetExtraElementAnimation(_background, _backgroundStartAlpha, _backgroundFadeDuration));
 
-            _currentAnimationSequence
+            CurrentAnimation
                 .OnComplete(() =>
                 {
                     _bodyAlphaGroup.interactable = true;
                     callback?.Invoke();
                 });
 
-            _currentAnimationSequence
+            CurrentAnimation
                 .SetEase(Ease.InOutSine)
                 .SetUpdate(true)
                 .Play();
+        }
+
+        public virtual void Hide(Action callback = null)
+        {
+            _bodyAlphaGroup.interactable = false;
+
+            // Main animations
+
+            ReplaceCurrentAnimation(GetMainElementsAnimation(_bodyAlphaGroup, 0f, _bodyTransform, Vector2.zero, _startShift), false);
+
+            // Extra animations
+
+            CurrentAnimation.Join(GetExtraElementAnimation(_background, 0f, _backgroundFadeDuration));
+
+            CurrentAnimation.timeScale = _deactivationSpeedMult;
+
+            CurrentAnimation
+                .OnComplete(() =>
+                {
+                    callback?.Invoke();
+                });
+
+            CurrentAnimation
+                .SetEase(Ease.InOutSine)
+                .SetUpdate(true);
+
+            CurrentAnimation.Play();
         }
 
         private Tween GetExtraElementAnimation(Graphic targetImage, float targetAlpha, float fadeDuration)
@@ -178,49 +203,6 @@ namespace UI
 
             return animation.Pause();
         }
-
-
-        public virtual void Hide(Action callback = null)
-        {
-            StopCurrentTween();
-
-            _bodyAlphaGroup.interactable = false;
-            _currentAnimationSequence = DOTween.Sequence();
-
-            // Main animations
-
-            _currentAnimationSequence = GetMainElementsAnimation(_bodyAlphaGroup, 0f, _bodyTransform, Vector2.zero, _startShift);
-
-            // Extra animations
-
-            _currentAnimationSequence.Join(GetExtraElementAnimation(_background, 0f, _backgroundFadeDuration));
-
-            _currentAnimationSequence.timeScale = _deactivationSpeedMult;
-
-            _currentAnimationSequence
-                .OnComplete(() =>
-                {
-                    callback?.Invoke();
-                });
-
-            _currentAnimationSequence
-                .SetEase(Ease.InOutSine)
-                .SetUpdate(true);
-
-            _currentAnimationSequence.Play();
-        }
-
-
-        protected virtual void StopCurrentTween()
-        {
-            TweenHelper.KillTweenIfActive(_currentAnimationSequence);
-        }
-
-        protected virtual void OnDestroy()
-        {
-            StopCurrentTween();
-        }
-
 
         #endregion
     }

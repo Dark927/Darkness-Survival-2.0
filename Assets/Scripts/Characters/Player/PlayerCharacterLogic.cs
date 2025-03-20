@@ -1,8 +1,10 @@
-﻿using Characters.Common;
+﻿using System;
+using Characters.Common;
 using Characters.Common.Levels;
 using Characters.Interfaces;
 using Characters.Player.Data;
 using Characters.Player.Levels;
+using Characters.Player.Upgrades;
 using Characters.Player.Weapons;
 using Characters.Stats;
 using UnityEngine;
@@ -12,9 +14,17 @@ namespace Characters.Player
     [RequireComponent(typeof(IEntityPhysicsBody))]
     public class PlayerCharacterLogic : AttackableEntityLogic, ICharacterLogic
     {
+        #region Events 
+
+        public event Action<ICharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
+
+        #endregion
+
+
         #region Fields
 
         private ICharacterLevel _level;
+
 
         #endregion
 
@@ -52,9 +62,22 @@ namespace Characters.Player
 
         #endregion
 
-        private void LevelUpListener(IEntityLevel entityLevel)
+        public void ApplyUpgrade(UpgradeLevelSO<ICharacterLogic> upgradeLevel)
         {
+            foreach (var upgrade in upgradeLevel.Upgrades)
+            {
+                upgrade.ApplyUpgrade(this);
+            }
 
+            foreach (var upgrade in upgradeLevel.Downgrades)
+            {
+                upgrade.ApplyDowngrade(this);
+            }
+        }
+
+        private void LevelUpListener(object sender, EntityLevelArgs args)
+        {
+            OnReadyForUpgrade?.Invoke(this, args);
         }
 
         #endregion

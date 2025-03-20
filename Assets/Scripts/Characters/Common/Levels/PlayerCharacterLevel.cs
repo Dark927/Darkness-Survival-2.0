@@ -1,6 +1,7 @@
 ﻿using System;
 using Characters.Common.Levels;
 using Characters.Player.Data;
+using Dark.Utils;
 using UnityEngine;
 using Utilities.Math;
 
@@ -24,7 +25,7 @@ namespace Characters.Player.Levels
         public override int ActualLevel => 1 + (int)LevelFunctionInv(_actualXp);
         public float XpProgressRatio => InterpolateRealXp(_actualXp, _actualXp);
 
-        public (float, float) ActualXpBounds => GetRealLevelBounds(_actualXp);
+        public (float previous, float next) ActualXpBounds => GetRealLevelBounds(_actualXp);
         public float GainedXpFactor => _gainedXpFactor;
 
         #endregion
@@ -32,7 +33,7 @@ namespace Characters.Player.Levels
 
         #region Events
 
-        public event Action<ICharacterLevel> OnUpdateXp;
+        public event EventHandler<CharacterLevelArgs> OnUpdateXp;
 
         #endregion
 
@@ -54,15 +55,26 @@ namespace Characters.Player.Levels
         {
             _gainedXpFactor = InterpolateRealXp(_actualXp, _actualXp + xp);
 
-            _actualXp += xp;
+            float remainingIncomeXp = xp;
+            float remainingXpToNextLevel;
+            (float previous, float next) xpBounds = (0f, 0f);
 
             while (_gainedXpFactor >= 1.0f)
             {
-                LevelUp();
+                xpBounds = ActualXpBounds;
+
+                remainingXpToNextLevel = xpBounds.next - _actualXp;
+                remainingIncomeXp -= remainingXpToNextLevel;
+                _actualXp += remainingXpToNextLevel;
+
+                LevelUp(new CharacterLevelArgs(ActualLevel, xpBounds, XpProgressRatio));
+                Debug.Log(ActualLevel.ToString());
+
                 _gainedXpFactor -= 1;
             }
 
-            OnUpdateXp?.Invoke(this);
+            _actualXp += remainingIncomeXp;
+            OnUpdateXp?.Invoke(this, new CharacterLevelArgs(ActualLevel, xpBounds, XpProgressRatio));
         }
 
 
@@ -91,7 +103,7 @@ namespace Characters.Player.Levels
         private (int, int) GetIncrementalLevelBounds(float currentLevel)
         {
             float levelNumberRational = LevelFunctionInv(currentLevel);
-            return ((int)Mathf.Floor(levelNumberRational), (int)Mathf.Ceil(levelNumberRational));
+            return ((int)Mathf.Floor(levelNumberRational), (int)Mathf.Ceil(levelNumberRational + 0.1f));
         }
 
         private float InterpolateRealXp(float currentLevel, float nextLevel)

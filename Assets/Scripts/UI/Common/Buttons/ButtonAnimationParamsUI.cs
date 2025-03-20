@@ -10,13 +10,13 @@ namespace UI
 
         [SerializeField] private float _duration;
 
-        [CustomHeader("Button Body", count: 2, depth: 1, headerColor: CustomHeaderAttribute.HeaderColor.cyan)]
+        [CustomHeader("Button Body", count: 1, depth: 1, headerColor: CustomHeaderAttribute.HeaderColor.cyan)]
         [SerializeField] private Vector2 _targetButtonScale;
 
-        [Space, CustomHeader("Title", count: 5, depth: 1, headerColor: CustomHeaderAttribute.HeaderColor.cyan)]
+        [Space, CustomHeader("Title", count: 1, depth: 1, headerColor: CustomHeaderAttribute.HeaderColor.cyan)]
         [SerializeField] private Color _targetTitleColor;
 
-        [Space, CustomHeader("Borders", count: 5, depth: 1, headerColor: CustomHeaderAttribute.HeaderColor.cyan)]
+        [Space, CustomHeader("Borders", count: 1, depth: 1, headerColor: CustomHeaderAttribute.HeaderColor.cyan)]
         [SerializeField] private Color _targetBordersColor;
 
 

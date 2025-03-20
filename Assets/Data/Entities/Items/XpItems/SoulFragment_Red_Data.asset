@@ -16,4 +16,4 @@ MonoBehaviour:
   _description: 
   _xpParameters:
     _tintColor: {r: 1, g: 0, b: 0, a: 1}
-    _xpAmount: 25
+    _xpAmount: 100

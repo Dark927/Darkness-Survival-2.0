@@ -24,7 +24,7 @@ namespace Characters.Common.Levels
 
         #region Events
 
-        public event Action<IEntityLevel> OnLevelUp;
+        public virtual event EventHandler<EntityLevelArgs> OnLevelUp;
 
         #endregion
 
@@ -36,9 +36,16 @@ namespace Characters.Common.Levels
             _maxLevel = targetMaxLevel;
         }
 
-        public virtual void LevelUp()
+        public virtual void LevelUp(EntityLevelArgs args = null)
         {
-            OnLevelUp?.Invoke(this);
+            if (args != null)
+            {
+                OnLevelUp?.Invoke(this, args);
+            }
+            else
+            {
+                OnLevelUp?.Invoke(this, new EntityLevelArgs(ActualLevel));
+            }
         }
 
         public void ResetLevel()

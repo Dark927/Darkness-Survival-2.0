@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Net.Sockets;
 using System.Text;
 
@@ -8,7 +8,7 @@ namespace Dark.Utils
     public static class Telemetry
     {
         private static string serverIp = "127.0.0.1";
-        private static int serverPort = 5000;
+        private static int serverPort = 5005;
         private static UdpClient udpClient = new UdpClient();
 
         public static void Log(params object[] data)

@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: StageTest
+  m_Name: Stage-01 Group
   m_EditorClassIdentifier: 
-  m_GroupName: StageTest
+  m_GroupName: Stage-01 Group
   m_Data:
     m_SerializedData: []
   m_GUID: 5a6c070939511c741aa045d335900df1
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
+    m_Address: Assets/Scenes/Stages/Gameplay_Stage-01_Scene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 409abf5fd251b1345941243db22daff4, type: 2}
   m_SchemaSet:

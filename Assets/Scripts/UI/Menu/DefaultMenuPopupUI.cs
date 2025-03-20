@@ -6,7 +6,6 @@ using DG.Tweening;
 using TMPro;
 using UI.Buttons;
 using UnityEngine;
-using UnityEngine.UI;
 using Utilities.Attributes;
 using Utilities.UI;
 

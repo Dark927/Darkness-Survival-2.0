@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-
 
 namespace Settings.Global
 {
@@ -11,12 +9,14 @@ namespace Settings.Global
     {
         private List<TListener> _eventListeners;
         private bool _callingListeners;
+        private Queue<Action> _delayedActions;
 
 
         public CustomEventBase()
         {
             _eventListeners = new List<TListener>();
             _callingListeners = false;
+            _delayedActions = new Queue<Action>();
         }
 
         public abstract void EventRaiseAction(TListener listener, object sender, TArgs args);
@@ -24,24 +24,42 @@ namespace Settings.Global
         public virtual void ListenEvent(object sender, TArgs args)
         {
             _callingListeners = true;
-            _eventListeners.ForEach(listener => EventRaiseAction(listener, sender, args));
+
+            foreach (var listener in _eventListeners)
+            {
+                EventRaiseAction(listener, sender, args);
+            }
+
             _callingListeners = false;
+
+            while (_delayedActions.Count > 0)
+            {
+                _delayedActions.Dequeue().Invoke();
+            }
         }
 
         public void Subscribe(TListener listener)
         {
-            HandleEventListenerAsync(() => _eventListeners?.Add(listener)).Forget();
+            if (!_callingListeners)
+            {
+                _eventListeners.Add(listener);
+            }
+            else
+            {
+                _delayedActions.Enqueue(() => _eventListeners.Add(listener));
+            }
         }
 
         public void Unsubscribe(TListener listener)
         {
-            HandleEventListenerAsync(() => _eventListeners?.Remove(listener)).Forget();
-        }
-
-        public async UniTaskVoid HandleEventListenerAsync(Action callback)
-        {
-            await UniTask.WaitUntil(() => _callingListeners == false);
-            callback?.Invoke();
+            if (!_callingListeners)
+            {
+                _eventListeners.Remove(listener);
+            }
+            else
+            {
+                _delayedActions.Enqueue(() => _eventListeners.Remove(listener));
+            }
         }
 
         public virtual void Dispose()

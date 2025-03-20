@@ -1,5 +1,7 @@
+﻿using System;
 using Characters.Common.Levels;
 using Characters.Player;
+using Characters.Player.Levels;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -7,6 +9,13 @@ using Zenject;
 
 public class CharacterLevelUI : MonoBehaviour
 {
+    #region Events
+
+    public event EventHandler<int> OnLevelNumberUpdate;
+
+    #endregion
+
+
     #region Fields 
 
     [SerializeField] private float _levelDropTimeSec = 0.1f;
@@ -53,25 +62,29 @@ public class CharacterLevelUI : MonoBehaviour
     }
 
 
-    private void LevelChangedListener(IEntityLevel entityLevel)
+    private void LevelChangedListener(object sender, EntityLevelArgs args)
     {
-        ICharacterLevel characterLevel = entityLevel as ICharacterLevel;
-        float duration = CalculateXpLerpDuration(characterLevel, characterLevel.ActualXpBounds.Item1);
+        var characterArgs = args as CharacterLevelArgs;
+        float duration = CalculateXpLerpDuration(characterArgs);
 
-        _levelXpSlider.UpdatePercent(1f, duration, callback: () => _levelText.text = characterLevel.ActualLevel.ToString());
-        _levelXpSlider.UpdatePercent(0f, _levelDropTimeSec);
+        _levelXpSlider.UpdatePercent(1f, duration, false, callback: () =>
+        {
+            _levelText.text = args.ActualLevel.ToString();
+            OnLevelNumberUpdate?.Invoke(this, args.ActualLevel);
+        }, true);
+        _levelXpSlider.UpdatePercent(0f, _levelDropTimeSec, false);
     }
 
-    private void XpUpdatedListener(ICharacterLevel characterLevel)
+    private void XpUpdatedListener(object sender, CharacterLevelArgs args)
     {
-        float duration = CalculateXpLerpDuration(characterLevel, characterLevel.ActualXpBounds.Item2);
-        _levelXpSlider.UpdatePercent(characterLevel.XpProgressRatio, duration);
+        float duration = CalculateXpLerpDuration(args);
+        _levelXpSlider.UpdatePercent(args.XpProgressRatio, duration, false);
     }
 
-    private float CalculateXpLerpDuration(ICharacterLevel characterLevel, float levelTargetXp)
+    private float CalculateXpLerpDuration(CharacterLevelArgs args)
     {
-        var bounds = characterLevel.ActualXpBounds;
-        return 1f * (_levelRaiseTimeMult) / ((bounds.Item2 / bounds.Item1));
+        var (previousXpBound, nextXpBound) = args.ActualXpBounds;
+        return 1f * (_levelRaiseTimeMult) / ((nextXpBound / previousXpBound));
     }
 
 

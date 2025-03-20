@@ -72,11 +72,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8c9cfa26abfee488c85f1582747f6a02
-    m_Address: Assets/Scenes/Stages/Gameplay_Stage-01_Scene.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 96fc558da40bb3942a41914c0069c06d
     m_Address: Assets/Scenes/Gameplay_Essentials_Scene.unity
     m_ReadOnly: 0

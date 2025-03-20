@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Characters.Common.Combat.Weapons.Data;
@@ -166,6 +166,8 @@ namespace Characters.Common.Combat.Weapons
             }
         }
         #endregion
+
+
 
     }
 }

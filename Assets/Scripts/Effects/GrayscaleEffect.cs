@@ -52,8 +52,12 @@ public class GrayscaleEffect : IDisposable
     /// </summary>
     public void ApplyGrayscale()
     {
-        TweenHelper.KillTweenIfActive(_currentAnimation);
         ApplyGrayscale(_defaultTargetSettings.Saturation, _defaultTransitionDuration, _defaultTargetSettings.Contrast);
+    }
+
+    public void ApplyGrayscale(float duration)
+    {
+        ApplyGrayscale(_defaultTargetSettings.Saturation, duration, _defaultTargetSettings.Contrast);
     }
 
     /// <summary>
@@ -111,6 +115,8 @@ public class GrayscaleEffect : IDisposable
                     x => _colorAdjustments.contrast.value = x, targetContrast, duration)
                         .SetEase(Ease.InOutCubic)
         );
+
+        animation.SetUpdate(true);
 
         return animation;
     }

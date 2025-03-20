@@ -6,8 +6,8 @@ namespace Characters.Common.Levels
 {
     public interface IEntityLevel
     {
-        public const int DefaultMinLevel = 1;
-        public const int DefaultMaxLevel = 100;
+        protected const int DefaultMinLevel = 1;
+        protected const int DefaultMaxLevel = 100;
 
         #region Properties
 
@@ -19,14 +19,14 @@ namespace Characters.Common.Levels
 
         #region Events
 
-        public event Action<IEntityLevel> OnLevelUp;
+        public event EventHandler<EntityLevelArgs> OnLevelUp;
 
         #endregion
 
 
         #region Methods 
 
-        public void LevelUp();
+        public void LevelUp(EntityLevelArgs args = null);
         public void ResetLevel();
 
         #endregion

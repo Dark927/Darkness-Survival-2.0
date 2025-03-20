@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
@@ -7,13 +6,11 @@ using UI.CustomCursor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Utilities.Animations;
-using Utilities.Attributes;
-using Utilities.UI;
 
 
 namespace UI.Buttons
 {
-    public class ButtonAnimationsUI : MonoBehaviour
+    public class ButtonAnimationsUI : InteractiveAnimationsBaseUI
     {
         #region Fields 
 
@@ -24,8 +21,6 @@ namespace UI.Buttons
 
         private ButtonAnimationParamsUI _startSettingsParams;
         private ButtonAnimationParamsUI _targetSettingsParams;
-
-        private Sequence _currentAnimation;
 
         #endregion
 
@@ -61,37 +56,33 @@ namespace UI.Buttons
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
-        public void PointerEnterListener(BaseEventData data = default)
+        public override void PointerEnterListener(BaseEventData data = default)
         {
             MouseCursor.Instance.HoverInteractiveUI();
 
             _targetSettingsParams = _animationData.HoverAnimationParams;
             _targetSettingsParams.TargetTitleSize = _startSettingsParams.TargetTitleSize * _animationData.HoverAnimationParams.TargetScale.x;
 
-            StopActiveAnimation();
-            _currentAnimation = PlayAnimation(_targetSettingsParams);
+            ReplaceCurrentAnimation(PlayAnimation(_targetSettingsParams), false);
         }
 
-        public void PointerExitListener(BaseEventData data = default)
+        public override void PointerExitListener(BaseEventData data = default)
         {
             MouseCursor.Instance.ExitInteractiveUI();
 
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 
-            StopActiveAnimation();
-            _currentAnimation = PlayAnimation(_startSettingsParams);
+            ReplaceCurrentAnimation(PlayAnimation(_startSettingsParams), false);
         }
 
-        public void PointerClickListener(BaseEventData data = default)
+        public override void PointerClickListener(BaseEventData data = default)
         {
             _targetSettingsParams = _animationData.ClickAnimationParams;
             _targetSettingsParams.TargetTitleSize = _buttonText.fontSize * _animationData.ClickAnimationParams.TargetScale.x;
             _targetSettingsParams.TargetScale = transform.localScale * _animationData.ClickAnimationParams.TargetScale;
 
-            StopActiveAnimation(true);
-
-            _currentAnimation = PlayAnimation(_targetSettingsParams);
-            _currentAnimation.SetLoops(2, LoopType.Yoyo);
+            ReplaceCurrentAnimation(PlayAnimation(_targetSettingsParams), true);
+            CurrentAnimation.SetLoops(2, LoopType.Yoyo);
         }
 
 #pragma warning restore IDE0060 // Remove unused parameter
@@ -129,16 +120,6 @@ namespace UI.Buttons
 
             animation.SetUpdate(true);
             return animation;
-        }
-
-        private void StopActiveAnimation(bool complete = false)
-        {
-            TweenHelper.KillTweenIfActive(_currentAnimation, complete);
-        }
-
-        private void OnDestroy()
-        {
-            StopActiveAnimation();
         }
 
         #endregion

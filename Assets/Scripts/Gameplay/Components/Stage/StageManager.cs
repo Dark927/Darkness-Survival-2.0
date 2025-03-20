@@ -111,7 +111,6 @@ namespace Gameplay.Stage
                     StageStartFinishing();
                     break;
 
-
                 case GameStateEventType.StageCompletelyOver:
                     StageFinished();
                     break;

@@ -43,7 +43,7 @@ namespace Settings.SceneManagement
         /// Loads the addressable scene using Asset Reference.
         /// </summary>
         /// <param name="sceneReference">Scene to load</param>
-        public AsyncOperationHandle<SceneInstance> LoadScene(AssetReference sceneReference, LoadSceneMode loadMode, bool activateOnLoad = true)
+        public AsyncOperationHandle<SceneInstance> LoadScene(AssetReference sceneReference, LoadSceneMode loadMode)
         {
             if (_cancellationTokenSource == null || _cancellationTokenSource.IsCancellationRequested)
             {
@@ -53,7 +53,7 @@ namespace Settings.SceneManagement
             return loadMode switch
             {
                 LoadSceneMode.Single => LoadSingleScene(sceneReference),
-                LoadSceneMode.Additive => LoadAdditiveScene(sceneReference, activateOnLoad),
+                LoadSceneMode.Additive => LoadAdditiveScene(sceneReference),
                 _ => throw new System.NotImplementedException(),
             };
         }
@@ -74,10 +74,9 @@ namespace Settings.SceneManagement
             return loadHandle;
         }
 
-        private AsyncOperationHandle<SceneInstance> LoadAdditiveScene(AssetReference sceneReference, bool activateOnLoad = true, CancellationToken token = default)
+        private AsyncOperationHandle<SceneInstance> LoadAdditiveScene(AssetReference sceneReference, CancellationToken token = default)
         {
-            // ToDo : do not use activateOnLoad, it blocks the loading queue.
-            AsyncOperationHandle<SceneInstance> loadHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Additive, activateOnLoad);
+            AsyncOperationHandle<SceneInstance> loadHandle = Addressables.LoadSceneAsync(sceneReference, LoadSceneMode.Additive);
 
             loadHandle.Completed += (operationHandler) =>
             {
@@ -142,14 +141,14 @@ namespace Settings.SceneManagement
             return Addressables.UnloadSceneAsync(sceneInstance);
         }
 
-        public IEnumerable<AsyncOperationHandle<SceneInstance>> LoadMultipleScenes(IEnumerable<AssetReference> sceneRefList, bool activateOnLoad = false)
+        public IEnumerable<AsyncOperationHandle<SceneInstance>> LoadMultipleScenes(IEnumerable<AssetReference> sceneRefList)
         {
             List<AsyncOperationHandle<SceneInstance>> sceneLoadingHandles = new List<AsyncOperationHandle<SceneInstance>>();
             AsyncOperationHandle<SceneInstance> loadHandle;
 
             foreach (var sceneRef in sceneRefList)
             {
-                loadHandle = LoadScene(sceneRef, LoadSceneMode.Additive, activateOnLoad);
+                loadHandle = LoadScene(sceneRef, LoadSceneMode.Additive);
                 sceneLoadingHandles.Add(loadHandle);
             }
 

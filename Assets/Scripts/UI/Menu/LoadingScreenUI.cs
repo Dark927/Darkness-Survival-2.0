@@ -10,7 +10,7 @@ namespace UI
         #region Fields 
 
         [SerializeField] private float _deactivationDelay = 3f;
-        [SerializeField] private float _progressUpdateDuration = 2f;
+        [SerializeField] private float _maxProgressUpdateDuration = 2f;
         private SliderUI _progressSlider;
         private TMP_Text _progressText;
 
@@ -37,12 +37,26 @@ namespace UI
 
         #endregion
 
-        public void SetLoadingProgress(float progressPercent)
+        /// <summary>
+        /// set the loading progress to the loading screen indicators
+        /// </summary>
+        /// <param name="progressPercent">target progress percent (0-1)</param>
+        /// <param name="forceApply">apply the progress without any restrictions (like the ignoring the same values). Note : it will create the same update animations, etc.</param>
+        public void SetLoadingProgress(float progressPercent, bool forceApply = false)
         {
-            if (_progressSlider != null)
+            if (_progressSlider == null)
             {
-                _progressSlider.UpdatePercent(progressPercent, _progressUpdateDuration, false);
+                return;
             }
+
+            float progressDifference = Mathf.Abs(_progressSlider.LastTargetPercent - progressPercent);
+            float updateDuration = _maxProgressUpdateDuration * progressDifference;
+            _progressSlider.UpdatePercent(progressPercent, updateDuration, false, forceApply: forceApply);
+        }
+
+        public void SetFullProgress()
+        {
+            SetLoadingProgress(1f, true);
         }
 
         public async UniTask<bool> Deactivate()

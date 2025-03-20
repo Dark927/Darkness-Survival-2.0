@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Characters.Common
 {
-    public abstract class EntityControllerBase : MonoBehaviour, IEventsConfigurable, IDisposable
+    public abstract class EntityControllerBase : MonoBehaviour, IEntityController
     {
         #region Fields 
 
@@ -21,6 +21,7 @@ namespace Characters.Common
 
         [Header("Features Settings")]
         [SerializeField] private AssetReferenceSO _featuresSetDataRef;
+
         private EntityCustomFeaturesHolder _featuresHolder;
         private AsyncOperationHandle<FeatureSetData> _asyncOperationHandle;
 
@@ -44,7 +45,7 @@ namespace Characters.Common
             _entityLogic = GetComponentInChildren<IEntityDynamicLogic>();
         }
 
-        public async UniTask InitFeaturesAsync()
+        protected async UniTask InitFeaturesAsync()
         {
             if (!AddressableAssetsHandler.IsAssetRefValid(_featuresSetDataRef))
             {

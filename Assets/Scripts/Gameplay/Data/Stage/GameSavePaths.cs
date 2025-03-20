@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using System;
 using Utilities.Json;
+using Cysharp.Threading.Tasks;
 
 namespace Gameplay.Stage
 {
@@ -17,9 +18,13 @@ namespace Gameplay.Stage
         public static string StageProgressFilePath => Path.Combine(Application.persistentDataPath, _stageProgressFileName);
 
         // Static constructor to load paths on first access
-        static GameSavePaths()
+        public static void InitializeAsync()
         {
-            LoadPathsFromJson();
+            UniTask.Void(async () =>
+            {
+                LoadPathsFromJson();
+                await UniTask.Yield();
+            });
         }
 
         /// <summary>

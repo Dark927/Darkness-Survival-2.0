@@ -13,24 +13,16 @@ MonoBehaviour:
   m_Name: BioMonsterDefault
   m_EditorClassIdentifier: 
   _name: BioMonster
-  _id: 620383950
+  _id: 1157391465
   _stats:
     Health: 3
-    Speed: 5
+    Speed: 0.1
     InvincibilityTime: 0.1
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
-  _damageMultiplier: 5
+  _damageMultiplier: 0
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
   _type: 0
   _dropItemReferences:
-  - m_AssetGUID: 2d1c221c47141f044bce1cf2b7e8e791
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  - m_AssetGUID: 70e625da83cf2774c87c44f39a3b334e
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
   - m_AssetGUID: 87339b6478d6afd48ab828457b6c4636
     m_SubObjectName: 
     m_SubObjectType: 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Characters.Player.Levels;
 
 namespace Characters.Common.Levels
 {
@@ -6,11 +7,11 @@ namespace Characters.Common.Levels
     {
         public float ActualXp { get; }
         public float XpProgressRatio { get; }
-        public (float, float) ActualXpBounds { get; }
+        public (float previous, float next) ActualXpBounds { get; }
         public float GainedXpFactor { get; }
 
 
-        public event Action<ICharacterLevel> OnUpdateXp;
+        public event EventHandler<CharacterLevelArgs> OnUpdateXp;
         public void AddXp(int xp);
     }
 }

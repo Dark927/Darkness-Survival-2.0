@@ -32,7 +32,8 @@ namespace Characters.Player
 
         #region Events
 
-        public event Action OnCharacterDeathEnd;
+        public event Action<PlayerCharacterController> OnCharacterDeathEnd;
+        public event Action<PlayerCharacterController> OnCharacterDies;
 
         #endregion
 
@@ -75,8 +76,8 @@ namespace Characters.Player
             PlayerCharacterVisual visual = (EntityLogic.Body.Visual as PlayerCharacterVisual);
 
             EntityLogic.ConfigureEventLinks();
-            EntityLogic.Body.OnBodyDies += PlayerCharacterDies;
-            EntityLogic.Body.OnBodyDiedCompletely += NotifyCharacterCompletelyDied;
+            EntityLogic.Body.OnBodyDies += RaiseCharacterDies;
+            EntityLogic.Body.OnBodyDiedCompletely += RaiseCharacterCompletelyDied;
         }
 
         private void InitInput()
@@ -88,8 +89,9 @@ namespace Characters.Player
         {
             base.RemoveEventLinks();
             EntityLogic.RemoveEventLinks();
-            EntityLogic.Body.OnBodyDies -= PlayerCharacterDies;
-            EntityLogic.Body.OnBodyDiedCompletely -= NotifyCharacterCompletelyDied;
+            EntityLogic.Body.OnBodyDies -= RaiseCharacterDies;
+
+            EntityLogic.Body.OnBodyDiedCompletely -= RaiseCharacterCompletelyDied;
         }
 
         public override void Dispose()
@@ -137,15 +139,15 @@ namespace Characters.Player
             }
         }
 
-        private void PlayerCharacterDies()
+        private void RaiseCharacterDies()
         {
             CharacterLogic.Body.Physics.SetStatic();
-            _input.DeactivateInput();
+            OnCharacterDies?.Invoke(this);
         }
 
-        private void NotifyCharacterCompletelyDied()
+        private void RaiseCharacterCompletelyDied()
         {
-            OnCharacterDeathEnd?.Invoke();
+            OnCharacterDeathEnd?.Invoke(this);
         }
 
         #endregion

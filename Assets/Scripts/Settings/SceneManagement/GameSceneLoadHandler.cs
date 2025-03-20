@@ -67,7 +67,7 @@ namespace Settings.SceneManagement
 
                 return new List<AsyncOperationHandle<SceneInstance>>()
                 {
-                    SceneLoader.LoadScene(_mainMenuScene.SceneReference, LoadSceneMode.Additive, false)
+                    SceneLoader.LoadScene(_mainMenuScene.SceneReference, LoadSceneMode.Additive)
                 };
             }, useLoadingScreen).Forget();
         }
@@ -96,8 +96,8 @@ namespace Settings.SceneManagement
                 // Loading logic 
                 List<AsyncOperationHandle<SceneInstance>> loadHandles = new()
                 {
-                    SceneLoader.LoadScene(_gameplayEssentialsScene.SceneReference, LoadSceneMode.Additive, false),
-                    SceneLoader.LoadScene(stageData.SceneReference, LoadSceneMode.Additive, false)
+                    SceneLoader.LoadScene(_gameplayEssentialsScene.SceneReference, LoadSceneMode.Additive),
+                    SceneLoader.LoadScene(stageData.SceneReference, LoadSceneMode.Additive)
                 };
                 _currentStageData = stageData;
 
@@ -179,9 +179,6 @@ namespace Settings.SceneManagement
             }
 
             float totalProgress = 0f;
-            float prevProgress = 0f;
-            float minProgressUpdateDiff = 0.005f;
-
             bool allScenesLoaded = false;
 
             while (!allScenesLoaded)
@@ -198,30 +195,17 @@ namespace Settings.SceneManagement
                 // Divide by the number of scenes to get the average progress
                 totalProgress /= progressDivider;
 
-
-                // Update the loading screen with the total progress
-                if (totalProgress > (prevProgress + minProgressUpdateDiff))
-                {
-                    loadingScreen.SetLoadingProgress(totalProgress);
-                }
+                loadingScreen.SetLoadingProgress(totalProgress);
 
                 //Check if all scenes have finished loading
                 allScenesLoaded = sceneLoadHandles.All(handle => handle.IsDone);
 
                 // Wait for the next frame before checking again
-
-                prevProgress = totalProgress;
                 await UniTask.Yield();
             }
 
-            loadingScreen.SetLoadingProgress(1f);
+            loadingScreen.SetFullProgress();
             await UniTask.WaitUntil(() => loadingScreen.IsFullProgress);
-
-
-            foreach (var handle in sceneLoadHandles)
-            {
-                await handle.Result.ActivateAsync();
-            }
 
             await loadingScreen.Deactivate();
             RemoveLoadingScreen();
@@ -231,13 +215,12 @@ namespace Settings.SceneManagement
         {
             while (!sceneLoadHandle.IsDone)
             {
-                loadingScreen.SetLoadingProgress((int)sceneLoadHandle.PercentComplete);
+                loadingScreen.SetLoadingProgress(sceneLoadHandle.PercentComplete);
                 await UniTask.Yield();
             }
 
-            loadingScreen.SetLoadingProgress(1f);
+            loadingScreen.SetFullProgress();
             await UniTask.WaitUntil(() => loadingScreen.IsFullProgress);
-            await sceneLoadHandle.Result.ActivateAsync();
 
             await loadingScreen.Deactivate();
             RemoveLoadingScreen();

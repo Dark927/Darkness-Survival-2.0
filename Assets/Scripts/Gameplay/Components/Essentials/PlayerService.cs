@@ -42,12 +42,10 @@ namespace Gameplay.Components
 
         public void Clean()
         {
-            ICharacterLogic character = GetCharacter();
-
-            if (character != null)
+            if (TryGetPlayer(out var player))
             {
-                character.Body.OnBodyDies -= PlayerDiesNotification;
-                character.Body.OnBodyDiedCompletely -= PlayerDeadNotification;
+                player.OnCharacterDies -= PlayerDiesNotification;
+                player.OnCharacterDeathEnd -= PlayerDeadNotification;
             }
 
             _players.Clear();
@@ -63,8 +61,8 @@ namespace Gameplay.Components
                 _players.Add(player);
                 OnPlayerReady?.Invoke(player);
 
-                player.CharacterLogic.Body.OnBodyDies += PlayerDiesNotification;
-                player.CharacterLogic.Body.OnBodyDiedCompletely += PlayerDeadNotification;
+                player.OnCharacterDies += PlayerDiesNotification;
+                player.OnCharacterDeathEnd += PlayerDeadNotification;
             }
         }
 
@@ -75,14 +73,14 @@ namespace Gameplay.Components
             return player != null;
         }
 
-        private void PlayerDiesNotification()
+        private void PlayerDiesNotification(PlayerCharacterController player)
         {
-            _playerEvent.ListenEvent(this, new PlayerEventArgs(PlayerEvent.Type.Dies));
+            _playerEvent.ListenEvent(player, new PlayerEventArgs(PlayerEvent.Type.Dies));
         }
 
-        private void PlayerDeadNotification()
+        private void PlayerDeadNotification(PlayerCharacterController player)
         {
-            _playerEvent.ListenEvent(this, new PlayerEventArgs(PlayerEvent.Type.Dead));
+            _playerEvent.ListenEvent(player, new PlayerEventArgs(PlayerEvent.Type.Dead));
         }
 
         public void RemovePlayer(PlayerCharacterController player)

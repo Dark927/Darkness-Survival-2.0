@@ -1,9 +1,7 @@
 ﻿
-using System.IO;
 using Characters.Interfaces;
 using Gameplay.Components;
 using Settings.Global;
-using UnityEngine;
 using Utilities.Json;
 using Zenject;
 
@@ -41,9 +39,10 @@ namespace Gameplay.Stage
 
             _stageProgress.SurvivedTime = _timer.CurrentTime;
 
+            // ToDo : make saving with separate async method.
             if (save)
             {
-                JsonHelper.SaveToJson(_stageProgress, GameSavePaths.StageProgressFilePath);
+                //JsonHelper.SaveToJson(_stageProgress, GameSavePaths.StageProgressFilePath);
             }
 
             return _stageProgress;

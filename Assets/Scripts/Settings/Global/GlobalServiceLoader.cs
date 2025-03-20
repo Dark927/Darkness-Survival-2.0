@@ -6,7 +6,6 @@ using Gameplay.Components;
 using Settings.CameraManagement;
 using Settings.Global.Audio;
 using Settings.SceneManagement;
-using UI;
 using UnityEngine;
 using Utilities.Attributes;
 using Zenject;
@@ -43,7 +42,6 @@ namespace Settings.Global
             RegisterServices();
             InitServices();
         }
-
 
         private void CreateServices()
         {

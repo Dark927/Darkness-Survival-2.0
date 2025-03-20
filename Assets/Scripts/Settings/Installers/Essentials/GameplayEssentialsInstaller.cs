@@ -3,6 +3,7 @@ using Gameplay.Visual;
 using Settings;
 using Settings.Global;
 using UI;
+using UI.Characters.Upgrades;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +24,17 @@ namespace Settings.Installers
             Container
                 .Bind<GamePanelManagerUI>()
                 .FromInstance(panelManager)
+                .AsSingle();
+
+            Container
+                .Bind<CharacterLevelUI>()
+                .FromComponentInHierarchy()
+                .AsSingle();
+
+            Container
+                .Bind<IUpgradeHandlerUI>()
+                .To<UpgradeCardsHandlerUI>()
+                .FromComponentInHierarchy()
                 .AsSingle();
 
             Container

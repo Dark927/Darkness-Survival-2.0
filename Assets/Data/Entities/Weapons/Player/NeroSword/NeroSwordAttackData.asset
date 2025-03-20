@@ -15,8 +15,8 @@ MonoBehaviour:
   _swordAttackSettings:
     _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
     _damageSettings:
-      _minDamage: 6
-      _maxDamage: 10
+      _min: 9
+      _max: 11
     _impact:
       _useImpact: 1
       _stunDurationMs: 500
@@ -31,8 +31,8 @@ MonoBehaviour:
     _fullDurationTimeSec: 0
     _reloadTimeSec: 0
     _heavyDamageSettings:
-      _minDamage: 9
-      _maxDamage: 15
+      _min: 12
+      _max: 14
     _heavyImpactSettings:
       _useImpact: 1
       _stunDurationMs: 1000

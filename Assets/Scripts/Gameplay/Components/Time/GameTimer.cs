@@ -32,6 +32,8 @@ public class GameTimer : MonoBehaviour
         Stop();
     }
 
+
+    // ToDo : Use unitask instead of this, we do not need to set the elapsed time so many times.
     private void Update()
     {
         if (_isStopped)

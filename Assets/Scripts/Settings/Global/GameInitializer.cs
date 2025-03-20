@@ -1,4 +1,5 @@
-﻿using Settings.SceneManagement;
+﻿using Gameplay.Stage;
+using Settings.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -29,12 +30,19 @@ namespace Settings.Global
 #endif
                 return;
             }
+
+            GameSavePaths.InitializeAsync();
         }
 
-        private void Start()
+        private async void Start()
         {
-            GameSceneLoadHandler.Instance.RequestSceneLoad(_globalSceneData, LoadSceneMode.Single);
-            GameSceneLoadHandler.Instance.RequestMainMenuLoad();
+            await GameSceneLoadHandler.Instance.RequestSceneLoad(_globalSceneData, LoadSceneMode.Single).Task;
+
+            GameStateService stateService = ServiceLocator.Current.Get<GameStateService>();
+            stateService.StartStage();
+            //GameSceneLoadHandler.Instance.RequestMainMenuLoad();
+            //GameSceneLoadHandler.Instance.RequestStageLoad();
+
         }
 
         #endregion

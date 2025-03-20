@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d1f15d97de8c94ebfa246bcadbc428, type: 3}
   m_Name: SoulFragment_Red_DropData
   m_EditorClassIdentifier: 
-  _itemData: {fileID: 11400000, guid: 3cc63e970d265dc4a86a7b78258c9eed, type: 2}
-  _dropChance: 50
+  _dropSettings:
+    _itemData: {fileID: 11400000, guid: 3cc63e970d265dc4a86a7b78258c9eed, type: 2}
+    _dropChance: 100

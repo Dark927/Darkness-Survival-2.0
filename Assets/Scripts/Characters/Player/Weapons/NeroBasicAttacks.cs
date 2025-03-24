@@ -18,16 +18,21 @@ namespace Characters.Player.Weapons
 
         #region Init
 
-        public NeroBasicAttacks(ICharacterLogic characterLogic, IEnumerable<WeaponBase> basicWeapons) : base(characterLogic.Body, basicWeapons)
+        public NeroBasicAttacks(ICharacterLogic characterLogic, IEnumerable<IWeapon> basicWeapons) : base(characterLogic.Body, basicWeapons)
         {
-            foreach (var weapon in BasicWeapons)
+            foreach (var weapon in basicWeapons)
             {
-                if (weapon.TryGetComponent(out CharacterSword sword))
+                if (weapon is CharacterSword sword)
                 {
                     _sword = sword;
                     break;
                 }
             }
+        }
+
+        public void SetSword(CharacterSword sword)
+        {
+            _sword = sword;
         }
 
         public override void ConfigureEventLinks()

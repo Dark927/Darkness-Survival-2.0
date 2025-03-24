@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class CharacterSword : WeaponBase
+    public sealed class CharacterSword : WeaponBase
     {
         #region Enums
 

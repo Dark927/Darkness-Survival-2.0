@@ -8,9 +8,9 @@ namespace UI.Characters.Upgrades
 {
     public interface IUpgradeHandlerUI
     {
-        public event EventHandler<UpgradeConfigurationSO> OnUpgradeSelected;
+        public event EventHandler<UpgradeProvider> OnUpgradeSelected;
 
-        public void DisplayUpgrades(IEnumerable<UpgradeConfigurationSO> upgradesData);
+        public void DisplayUpgrades(IEnumerable<UpgradeProvider> upgradesData);
         public void HideUpgrades();
     }
 }

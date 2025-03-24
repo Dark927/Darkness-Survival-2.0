@@ -188,7 +188,7 @@ Shader "Sprites/DarkEnemyFX"
                 float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
                 main.rgb += _EmissionColor.rgb * emissionCoef * _EmissionAmount;
 
-                float noiseTex = pow(noise(smoothUV * 1000, _Seed), 0.5); //todo: move 10000 to settings
+                float noiseTex = pow(noise(smoothUV * 500, _Seed), 0.5); //todo: move 10000 to settings
                 float tt = step(noiseTex , _DissolveAmount);
                 float tt2 = step(noiseTex , _DissolveAmount * 1.1);
                 float dd = tt2-tt;

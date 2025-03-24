@@ -14,6 +14,12 @@ public class AddressableAssetsCleaner : IDisposable, IEventListener
         SceneSwitch = 0,
     }
 
+    #region Events
+
+    public event EventHandler<CleanType> OnAssetsCleanPerformed;
+
+    #endregion
+
     #region Fields 
 
     private Dictionary<CleanType, List<AsyncOperationHandle>> _handlesToClean;
@@ -92,6 +98,7 @@ public class AddressableAssetsCleaner : IDisposable, IEventListener
         }
 
         _handlesToClean.Clear();
+        OnAssetsCleanPerformed?.Invoke(this, cleanType);
     }
 
     #endregion

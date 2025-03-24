@@ -1448,6 +1448,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   _parentContainer: {fileID: 2098961267}
+  _upgradesSetData: {fileID: 11400000, guid: 1dffac9402468944894444b9d0c7152d, type: 2}
 --- !u!1 &1482425355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,9 +1606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c84e058f97c654c980ee5079c503aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterUpgradeDatas:
-  - {fileID: 11400000, guid: 0084413645ff2ff4eb1dfcb8e4914b3f, type: 2}
-  - {fileID: 11400000, guid: 0084413645ff2ff4eb1dfcb8e4914b3f, type: 2}
 --- !u!224 &1565389001 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3525368252144557114, guid: 5433ece4f930eda4492a50a696779fda, type: 3}

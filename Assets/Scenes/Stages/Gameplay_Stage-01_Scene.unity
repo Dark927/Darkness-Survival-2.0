@@ -377,6 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _materialPropContainer:
+    _constMaterialProps: {fileID: 0}
     _properties:
       TimeMultiplier: 0
       ShadowColor: {r: 0, g: 0, b: 0, a: 0.2}

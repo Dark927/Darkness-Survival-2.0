@@ -1,19 +1,27 @@
 ﻿using Characters.Player;
+using Characters.Player.Upgrades;
 using Settings.AssetsManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Utilities.Attributes;
 using Zenject;
 
 
 public sealed class CharactersInstaller : MonoInstaller
 {
+    [CustomHeader("Main Character Settings", count = 2, depth = 0)]
     [SerializeField] private AssetReference _characterAsset;
     [SerializeField] private Transform _parentContainer;
+
+
+    [CustomHeader("Character Upgrades", count = 3, depth = 0)]
+    [SerializeField] private UpgradesSetData _upgradesSetData;
 
     public override void InstallBindings()
     {
         BindPlayerCharacter();
+        BindCharacterUpgrades();
     }
 
     private void BindPlayerCharacter()
@@ -32,6 +40,14 @@ public sealed class CharactersInstaller : MonoInstaller
         Container
             .Bind<PlayerCharacterController>()
             .FromInstance(characterController)
+            .AsSingle();
+    }
+
+    private void BindCharacterUpgrades()
+    {
+        Container
+            .Bind<UpgradesSetData>()
+            .FromInstance(_upgradesSetData)
             .AsSingle();
     }
 }

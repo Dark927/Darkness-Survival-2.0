@@ -64,29 +64,35 @@ namespace Characters.Common
 
         private void InitWeaponsAsync()
         {
-            Weapons?.Initialize();
+            if (Weapons == null)
+            {
+                return;
+            }
 
-            Weapons?.GiveMultipleFeaturesAsync(_entityData.WeaponsSetData.BasicWeapons)
+            Weapons.Initialize();
+
+            Weapons.GiveMultipleFeaturesAsync(_entityData.WeaponsSetData.BasicWeapons)
                 .ContinueWith(ConfigureWeapons)
                 .ContinueWith(InitBasicAttacks)
                 .Forget();
+
+            Weapons.OnNewWeaponGiven += ListenNewWeaponGiven;
         }
 
         protected virtual void ConfigureWeapons()
         {
-            foreach (var weapon in Weapons.ActiveWeapons)
+            foreach (var weapon in Weapons.ActiveOnesDict.Values)
             {
-                weapon.SetDamageMultiplier(_entityData.DamageMultiplier);
+                weapon.SetCharacterDamageMultiplier(_entityData.DamageMultiplier);
             }
         }
 
         protected virtual void InitBasicAttacks()
         {
-            BasicAttacks?.Init();
-
             if (BasicAttacks != null)
             {
-                OnBasicAttacksReady?.Invoke(_attacks);
+                BasicAttacks.Init();
+                OnBasicAttacksReady?.Invoke(BasicAttacks);
             }
         }
 
@@ -97,7 +103,12 @@ namespace Characters.Common
 
         public virtual void Dispose()
         {
-            Weapons?.Dispose();
+            if (Weapons != null)
+            {
+                Weapons.Dispose();
+                Weapons.OnNewWeaponGiven -= ListenNewWeaponGiven;
+            }
+
             _configured = false;
         }
 
@@ -144,6 +155,11 @@ namespace Characters.Common
         public void ApplyStun(int durationMs)
         {
             Body.Movement.Block(durationMs);
+        }
+
+        public virtual void ListenNewWeaponGiven(IWeapon weapon)
+        {
+
         }
 
         #endregion

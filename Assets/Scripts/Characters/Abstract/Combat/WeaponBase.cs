@@ -6,15 +6,16 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public abstract class WeaponBase : MonoBehaviour, IWeapon, IDisposable
+    public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
         #region Fields
 
-        private Damage _damage;
         private Collider2D _ownerCollidder;
         private float _damageMultiplier = 1f;
         private ImpactSettings _impactSettings;
         private IAttackSettings _attackSettings;
+
+        private Damage _calculatedDamage;
 
         #endregion
 
@@ -24,6 +25,7 @@ namespace Characters.Common.Combat.Weapons
         public bool ImpactAvailable => AttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
         public float DamageMultiplier => _damageMultiplier;
+        public GameObject GameObject => this.gameObject;
 
         #endregion
 
@@ -37,7 +39,7 @@ namespace Characters.Common.Combat.Weapons
             IEntityPhysicsBody ownerBody = GetComponentInParent<IEntityPhysicsBody>(true);
             _ownerCollidder = ownerBody.Physics.Collider;
             _attackSettings = attackData.Settings;
-            _damage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
+            _calculatedDamage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
         }
 
         protected virtual AttackImpact InitImpact(ImpactSettings impactSettings)
@@ -65,7 +67,7 @@ namespace Characters.Common.Combat.Weapons
         }
 
 
-        public void SetDamageMultiplier(float damageMultiplier)
+        public void SetCharacterDamageMultiplier(float damageMultiplier)
         {
             _damageMultiplier = damageMultiplier;
         }
@@ -80,12 +82,12 @@ namespace Characters.Common.Combat.Weapons
                 return;
             }
 
-            _damage.Amount = RequestDamageAmount();
+            _calculatedDamage.Amount = RequestDamageAmount();
             IEntityPhysicsBody targetBody = (target as IEntityPhysicsBody);
 
             if (target.CanAcceptDamage)
             {
-                target.TakeDamage(_damage);
+                target.TakeDamage(_calculatedDamage);
                 PerformPostDamageActions(attackArgs.TargetCollider);
             }
         }
@@ -103,7 +105,7 @@ namespace Characters.Common.Combat.Weapons
             {
                 PerformImpact(targetCollider);
             }
-            FlashTarget(targetCollider, _damage.NegativeStatus);
+            FlashTarget(targetCollider, _calculatedDamage.NegativeStatus);
         }
 
         protected virtual void FlashTarget(Collider2D targetCollider, AttackNegativeStatus negativeStatus)
@@ -136,6 +138,15 @@ namespace Characters.Common.Combat.Weapons
         private void OnDestroy()
         {
             Dispose();
+        }
+
+
+        // ToDo : implement full ver.
+        public void ApplyNewDamagePercent(float damagePercent)
+        {
+            Debug.Log("damage before -> " + _attackSettings.Damage.Min + "  -  " + _attackSettings.Damage.Max);
+            _attackSettings.Damage = _attackSettings.Damage * damagePercent;
+            Debug.Log("damage after -> " + _attackSettings.Damage.Min + "  -  " + _attackSettings.Damage.Max);
         }
 
         #endregion

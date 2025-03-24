@@ -13,7 +13,7 @@ namespace UI.Characters.Upgrades
     {
         #region Events
 
-        public event EventHandler<UpgradeConfigurationSO> OnUpgradeSelected;
+        public event EventHandler<UpgradeProvider> OnUpgradeSelected;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace UI.Characters.Upgrades
         private const int MaxUpgradesAtOnce = 3;
         private UpgradeCardsHolderUI _cardsHolder;
 
-        private Dictionary<UpgradeCardUI, UpgradeConfigurationSO> _configuredCards;
+        private Dictionary<UpgradeCardUI, UpgradeProvider> _configuredCards;
         private StagePostProcessService _stagePostProcessService;
         private CharacterLevelUI _characterLevelUI;
 
@@ -60,18 +60,18 @@ namespace UI.Characters.Upgrades
                 DisplayUpgrades(_upgradesData);
             }
         }
-        IEnumerable<UpgradeConfigurationSO> _upgradesData;
+        IEnumerable<UpgradeProvider> _upgradesData;
 
         ////////////////////////////////////////////////////////////////
 
         #endregion
 
-        public void DisplayUpgrades(IEnumerable<UpgradeConfigurationSO> upgradesData)
+        public void DisplayUpgrades(IEnumerable<UpgradeProvider> upgradesProviders)
         {
             // temp
-            _upgradesData = upgradesData;
+            _upgradesData = upgradesProviders;
 
-            int upgradesCount = upgradesData.Count();
+            int upgradesCount = upgradesProviders.Count();
 
             if (upgradesCount == 0)
             {
@@ -80,7 +80,7 @@ namespace UI.Characters.Upgrades
 
             upgradesCount = Mathf.Clamp(upgradesCount, 0, MaxUpgradesAtOnce);
 
-            _configuredCards = ConfigureUpgradesCards(upgradesData, upgradesCount);
+            _configuredCards = ConfigureUpgradesCards(upgradesProviders, upgradesCount);
             ActivateUpgradeCards(_configuredCards);
         }
 
@@ -94,7 +94,7 @@ namespace UI.Characters.Upgrades
             _configuredCards.Clear();
         }
 
-        private void ActivateUpgradeCards(Dictionary<UpgradeCardUI, UpgradeConfigurationSO> upgradeCards)
+        private void ActivateUpgradeCards(Dictionary<UpgradeCardUI, UpgradeProvider> upgradeCards)
         {
             _stagePostProcessService ??= ServiceLocator.Current.Get<StagePostProcessService>();
             var upgradeCard = upgradeCards.FirstOrDefault().Key;
@@ -115,12 +115,12 @@ namespace UI.Characters.Upgrades
             _cardsHolder.UpdateLayout();
         }
 
-        private static void ProcessUnselectedCard(KeyValuePair<UpgradeCardUI, UpgradeConfigurationSO> cardInfo)
+        private static void ProcessUnselectedCard(KeyValuePair<UpgradeCardUI, UpgradeProvider> cardInfo)
         {
             cardInfo.Key.Hide();
         }
 
-        private void ProcessSelectedCard(KeyValuePair<UpgradeCardUI, UpgradeConfigurationSO> cardInfo)
+        private void ProcessSelectedCard(KeyValuePair<UpgradeCardUI, UpgradeProvider> cardInfo)
         {
             CardAnimationsUI cardAnimations = cardInfo.Key.Animations;
             Action notifyUpgradeSelected = () => OnUpgradeSelected?.Invoke(this, cardInfo.Value);
@@ -140,7 +140,7 @@ namespace UI.Characters.Upgrades
             }
         }
 
-        private Dictionary<UpgradeCardUI, UpgradeConfigurationSO> ConfigureUpgradesCards(IEnumerable<UpgradeConfigurationSO> upgradesData, int targetUpgradesCount)
+        private Dictionary<UpgradeCardUI, UpgradeProvider> ConfigureUpgradesCards(IEnumerable<UpgradeProvider> upgradesProviders, int targetUpgradesCount)
         {
             List<UpgradeCardUI> availableCards = _cardsHolder.Cards.ToList();
 
@@ -149,9 +149,9 @@ namespace UI.Characters.Upgrades
                 return null;
             }
 
-            Dictionary<UpgradeCardUI, UpgradeConfigurationSO> configuredCards = new();
+            Dictionary<UpgradeCardUI, UpgradeProvider> configuredCards = new();
             UpgradeCardUI targetCard;
-            UpgradeConfigurationSO currentUpgradeData;
+            UpgradeProvider currentUpgradeProvider;
             UpgradeInfoUI currentUpgradeInfo;
 
             int availableCardsCount = availableCards.Count;
@@ -159,34 +159,26 @@ namespace UI.Characters.Upgrades
             for (int currentUpgrade = 0; (currentUpgrade < targetUpgradesCount) && (currentUpgrade < availableCardsCount); ++currentUpgrade)
             {
                 targetCard = availableCards.ElementAt(currentUpgrade);
-                currentUpgradeData = upgradesData.ElementAt(currentUpgrade);
+                currentUpgradeProvider = upgradesProviders.ElementAt(currentUpgrade);
 
-                if (currentUpgradeData == null)
+                if (currentUpgradeProvider == null)
                 {
                     continue;
                 }
 
-                currentUpgradeInfo = ConvertUpgradeDataToInfo(currentUpgradeData);
+                currentUpgradeInfo = currentUpgradeProvider.GetUpgradeMainInfo();
+                currentUpgradeInfo.Description = currentUpgradeProvider.GetCurrentUpgradeLevelInfo();
 
                 targetCard.SetUpgradeInfo(currentUpgradeInfo);
-                targetCard.SetUpgradeVisual(currentUpgradeData.VisualData);
+                targetCard.SetUpgradeVisual(currentUpgradeProvider.VisualData);
 
-                configuredCards.Add(targetCard, currentUpgradeData);
+                configuredCards.Add(targetCard, currentUpgradeProvider);
             }
 
             return configuredCards;
         }
 
-        private UpgradeInfoUI ConvertUpgradeDataToInfo(UpgradeConfigurationSO upgradeData)
-        {
-            return new UpgradeInfoUI()
-            {
-                Title = upgradeData.Name,
-                Type = upgradeData.Type.ToString(),
-                Description = upgradeData.Description,
-                Icon = upgradeData.Icon,
-            };
-        }
+#pragma warning disable IDE0060 // Remove unused parameter
 
         private void LevelNumberUpdateListener(object sender, int level)
         {
@@ -196,6 +188,8 @@ namespace UI.Characters.Upgrades
             }
             ActivateUpgradeCards(_configuredCards);
         }
+
+#pragma warning restore IDE0060 // Remove unused parameter
 
         private void CardSelectedListener(UpgradeCardUI selectedCard)
         {

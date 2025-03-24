@@ -163,7 +163,7 @@ namespace UI.Characters.Upgrades
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
-        public void PointerClickListener(BaseEventData data = default)
+        public void PointerClickListener()
         {
             OnCardSelected?.Invoke(this);
         }

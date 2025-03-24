@@ -27,6 +27,14 @@ namespace UI.Characters.Upgrades
         #endregion
 
 
+        #region Properties
+
+        public bool IsInteractionBlocked => _blockPointerInteraction;
+
+        #endregion
+
+
+
         #region Methods
 
         #region Init

@@ -1,4 +1,4 @@
-using Characters.Common.Combat.Weapons;
+﻿using Characters.Common.Combat.Weapons;
 using Characters.Player.Animation;
 using Characters.Player.Weapons;
 
@@ -26,7 +26,7 @@ namespace Characters.Player
 
         protected override void InitBasicAttacks()
         {
-            SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveWeapons));
+            SetBasicAttacks(new NeroBasicAttacks(this, Weapons.ActiveOnesDict.Values));
             base.InitBasicAttacks();
         }
 
@@ -84,6 +84,16 @@ namespace Characters.Player
         }
 
         #endregion
+
+        public override void ListenNewWeaponGiven(IWeapon weapon)
+        {
+            base.ListenNewWeaponGiven(weapon);
+
+            if (weapon is CharacterSword weaponSword)
+            {
+                ((NeroBasicAttacks)BasicAttacks).SetSword(weaponSword);
+            }
+        }
 
         #endregion
     }

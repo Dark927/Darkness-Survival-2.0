@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Utilities.Math;
 
 namespace Characters.Common.Combat.Weapons.Data
 {
@@ -8,6 +9,7 @@ namespace Characters.Common.Combat.Weapons.Data
     {
         #region Fields 
 
+        private int _weaponID;
         [SerializeField] private string _weaponName;
         [SerializeField] private AssetReferenceGameObject _weaponAsset;
         [SerializeField] private WeaponAttackDataBase _attackData;
@@ -26,6 +28,8 @@ namespace Characters.Common.Combat.Weapons.Data
             }
         }
 
+        public int ID => _weaponID;
+
         public AssetReferenceGameObject WeaponAsset => _weaponAsset;
         public WeaponAttackDataBase AttackData => _attackData;
 
@@ -41,6 +45,13 @@ namespace Characters.Common.Combat.Weapons.Data
                 _weaponName = "entity_weapon_without_name";
             }
         }
+
+        private void Awake()
+        {
+            _weaponID = CustomIdentifierGenerator.GenerateID(WeaponName, WeaponAsset);
+        }
+
+
 
         private void OnValidate()
         {

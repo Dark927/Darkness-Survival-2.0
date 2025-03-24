@@ -1,5 +1,6 @@
 ﻿using System;
 using Characters.Common;
+using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
 using Characters.Interfaces;
 using Characters.Player.Data;
@@ -24,7 +25,7 @@ namespace Characters.Player
         #region Fields
 
         private ICharacterLevel _level;
-
+        private CharacterUpgrades _upgrades;
 
         #endregion
 
@@ -33,6 +34,7 @@ namespace Characters.Player
 
         public CharacterBasicAttack BasicAttack => base.BasicAttacks as CharacterBasicAttack;
         public ICharacterLevel Level => _level;
+        public CharacterUpgrades Upgrades => _upgrades;
 
         #endregion
 
@@ -46,6 +48,7 @@ namespace Characters.Player
             base.Initialize(data);
             PlayerCharacterData playerCharacterData = data as PlayerCharacterData;
             _level = new PlayerCharacterLevel(playerCharacterData.CharacterLevelData);
+            _upgrades = new CharacterUpgrades(this);
         }
 
         public override void ConfigureEventLinks()
@@ -61,19 +64,6 @@ namespace Characters.Player
         }
 
         #endregion
-
-        public void ApplyUpgrade(UpgradeLevelSO<ICharacterLogic> upgradeLevel)
-        {
-            foreach (var upgrade in upgradeLevel.Upgrades)
-            {
-                upgrade.ApplyUpgrade(this);
-            }
-
-            foreach (var upgrade in upgradeLevel.Downgrades)
-            {
-                upgrade.ApplyDowngrade(this);
-            }
-        }
 
         private void LevelUpListener(object sender, EntityLevelArgs args)
         {

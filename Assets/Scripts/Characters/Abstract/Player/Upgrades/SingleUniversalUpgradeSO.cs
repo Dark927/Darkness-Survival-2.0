@@ -6,6 +6,11 @@ namespace Characters.Player.Upgrades
     /// </summary>
     public abstract class SingleUniversalUpgradeSO<TUpgradeTarget> : SingleUpgradeBaseSO<TUpgradeTarget>
     {
+        public virtual string GetDowngradeInfo()
+        {
+            return GetInfo('-');
+        }
+
         public abstract void ApplyDowngrade(TUpgradeTarget target);
     }
 }

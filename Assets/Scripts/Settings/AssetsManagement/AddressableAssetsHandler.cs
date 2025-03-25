@@ -10,8 +10,10 @@ namespace Settings.AssetsManagement
     public class AddressableAssetsHandler : LazySingletonMono<AddressableAssetsHandler>, IInitializable
     {
         private AddressableAssetsCleaner _cleaner;
+        private AddressableAssetsHolder _assetsHolder;
 
         public AddressableAssetsCleaner Cleaner => _cleaner;
+        public AddressableAssetsHolder AssetsHolder => _assetsHolder;
 
 
         #region Methods
@@ -20,6 +22,7 @@ namespace Settings.AssetsManagement
         {
             DontDestroyOnLoad(this);
             _cleaner = new AddressableAssetsCleaner();
+            _assetsHolder = new AddressableAssetsHolder(_cleaner);
         }
 
         #region Static
@@ -70,6 +73,26 @@ namespace Settings.AssetsManagement
             return Addressables.LoadAssetAsync<TResult>(assetRef);
         }
 
+        /// <summary>
+        /// Load asset async and cache it in the AssetsHolder.
+        /// </summary>
+        /// <param name="assetRef">target asset reference to load</param>
+        /// <param name="allowDuplicates">if true - loads and caches the asset even if it exists in the cache, false - returns the cached asset when possible</param>
+        /// <returns>asset load handle</returns>
+        public AsyncOperationHandle<TResult> LoadAssetAndCacheAsync<TResult>(AssetReference assetRef, AddressableAssetsCleaner.CleanType cleanType, bool allowDuplicates = false)
+        {
+            if (!allowDuplicates && AssetsHolder.TryGetCachedAsset<TResult>(assetRef, out var handle))
+            {
+                return handle;
+            }
+
+            AsyncOperationHandle<TResult> loadHandle = LoadAssetAsync<TResult>(assetRef);
+            AssetsHolder.CacheAsset(assetRef, loadHandle, cleanType);
+
+            return loadHandle;
+        }
+
+
         // - Unload 
 
         public void TryUnloadAsset(AsyncOperationHandle handle)
@@ -95,6 +118,7 @@ namespace Settings.AssetsManagement
         private void OnDestroy()
         {
             Cleaner?.Dispose();
+            AssetsHolder?.Dispose();
         }
 
         #endregion

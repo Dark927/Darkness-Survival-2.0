@@ -1,7 +1,6 @@
 ﻿
 
-using Characters.Common.Combat.Weapons;
-using Characters.Interfaces;
+
 using UnityEngine;
 
 namespace Characters.Player.Upgrades
@@ -9,9 +8,18 @@ namespace Characters.Player.Upgrades
     /// <summary>
     /// The base class for all upgrades where should be some stats, etc.
     /// </summary>
-    public abstract class SingleUpgradeBaseSO<TUpgradeTarget> : ScriptableObject
+    public abstract class SingleUpgradeBaseSO<TUpgradeTarget> : ScriptableObject, ISingleUpgrade
     {
-        // CharacterLogic, WeaponBase, ConcreteWeapon.
+        public virtual string GetUpgradeInfo()
+        {
+            return GetInfo('+');
+        }
+
+        protected virtual string GetInfo(char sign)
+        {
+            return string.Empty;
+        }
+
         public abstract void ApplyUpgrade(TUpgradeTarget target);
     }
 }

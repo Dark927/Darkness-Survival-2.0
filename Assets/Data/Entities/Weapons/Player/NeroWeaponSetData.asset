@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: NeroWeaponSetData
   m_EditorClassIdentifier: 
   _weaponsContainerName: 
-  _basicWeapons:
-  - {fileID: 11400000, guid: 00de543b5d604234da0e35c27202ef9d, type: 2}
+  _basicWeapons: []

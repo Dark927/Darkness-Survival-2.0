@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: BioMonsterDefault
   m_EditorClassIdentifier: 
   _name: BioMonster
-  _id: 1157391465
+  _id: 700055136
   _stats:
     Health: 3
     Speed: 0.1
     InvincibilityTime: 0.1
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
-  _damageMultiplier: 0
+  _damageMultiplier: 2
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
   _type: 0
   _dropItemReferences:

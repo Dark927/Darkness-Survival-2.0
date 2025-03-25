@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class CharacterSword : WeaponBase
+    public sealed class CharacterSword : WeaponBase
     {
         #region Enums
 
@@ -126,7 +126,7 @@ namespace Characters.Common.Combat.Weapons
             impact.PerformPhysicsImpact(targetCollider);
         }
 
-        protected void TriggerDeactivationListener(IAttackTrigger trigger)
+        private void TriggerDeactivationListener(IAttackTrigger trigger)
         {
             SwordAttackTrigger swordAttackTrigger = (SwordAttackTrigger)trigger;
 

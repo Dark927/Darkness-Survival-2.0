@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Characters.Common.Combat.Weapons;
 using Characters.Interfaces;
+using Characters.Player.Upgrades;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades
@@ -9,6 +11,8 @@ namespace Characters.Player.Upgrades
     {
         [SerializeField] private List<UpgradeLevelSO<ICharacterLogic>> _upgradeLevels;
 
-        public IEnumerable<UpgradeLevelSO<ICharacterLogic>> UpgradeLevels => _upgradeLevels;
+        public override IEnumerable<IUpgradeLevelSO> UpgradeLevels => _upgradeLevels;
+        public IEnumerable<UpgradeLevelSO<ICharacterLogic>> CharacterUpgradeLevels => _upgradeLevels;
     }
 }
+

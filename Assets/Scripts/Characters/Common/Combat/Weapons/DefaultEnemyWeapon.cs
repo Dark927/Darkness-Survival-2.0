@@ -1,4 +1,4 @@
-using Characters.Common.Combat.Weapons.Data;
+﻿using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
 using Characters.Player;
 using UnityEngine;
@@ -70,6 +70,7 @@ namespace Characters.Common.Combat.Weapons
         protected override bool CheckHitTargetCondition(GameObject targetObject, out IDamageable target)
         {
             target = targetObject.GetComponent<IDamageable>();
+
             return (target != null) && (target is PlayerCharacterBody);
         }
 

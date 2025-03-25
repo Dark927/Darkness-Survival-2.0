@@ -15,8 +15,8 @@ MonoBehaviour:
   _defaultAttackSettings:
     _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
     _damageSettings:
-      _minDamage: 3
-      _maxDamage: 6
+      _min: 3
+      _max: 15
     _impact:
       _useImpact: 1
       _stunDurationMs: 500

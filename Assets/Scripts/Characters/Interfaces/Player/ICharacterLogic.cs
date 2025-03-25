@@ -13,8 +13,9 @@ namespace Characters.Interfaces
 
         public EntityWeaponsHolder Weapons { get; }
         public ICharacterLevel Level { get; }
+        public CharacterUpgrades Upgrades { get; }
 
         public void PerformBasicAttack(BasicAttack.LocalType type);
-        public void ApplyUpgrade(UpgradeLevelSO<ICharacterLogic> upgrade);
+
     }
 }

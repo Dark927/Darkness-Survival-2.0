@@ -26,7 +26,7 @@ namespace Characters.Player.Weapons
 
         #region Init 
 
-        public CharacterBasicAttack(IEntityPhysicsBody characterBody, IEnumerable<WeaponBase> basicWeapons) : base(characterBody, basicWeapons)
+        public CharacterBasicAttack(IEntityPhysicsBody characterBody, IEnumerable<IWeapon> basicWeapons) : base(characterBody, basicWeapons)
         {
 
         }

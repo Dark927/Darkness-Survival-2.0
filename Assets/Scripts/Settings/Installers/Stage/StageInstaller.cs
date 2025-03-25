@@ -3,6 +3,7 @@ using Gameplay.Components;
 using Gameplay.Components.Enemy;
 using Gameplay.Data;
 using Gameplay.Generation;
+using Gameplay.Stage;
 using Gameplay.Tile;
 using Settings.Global;
 using Settings.Global.Audio;
@@ -19,6 +20,7 @@ namespace Settings.Installers
     {
         [Header("Containers - Settings")]
         [SerializeField] private Transform _stageObjectsContainer;
+        [SerializeField] private Transform _stageComponentsContainer;
 
 
         [Header("Post Process - Settings")]
@@ -29,8 +31,9 @@ namespace Settings.Installers
         [SerializeField] private WorldGeneration _worldGenerationType = WorldGeneration.Scrolling;
         [SerializeField] private WorldGenerationData _worldGenerationSettings;
         [SerializeField] private GameObjectsContainer _worldChunksContainer;
+        [Space]
         [SerializeField] private ShadowSettings _shadowSettings;
-
+        [SerializeField] private DayStatesSetData _dayStatesSetData;
 
         [Header("Enemy Management - Settings")]
         [SerializeField] private GameObject _enemySpawnerPrefab;
@@ -41,11 +44,11 @@ namespace Settings.Installers
 
         public override void InstallBindings()
         {
-
             Container
                 .Bind<GameTimer>()
                 .FromComponentInHierarchy()
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
 
             BindPostProcess();
             BindWorld();
@@ -57,7 +60,8 @@ namespace Settings.Installers
             Container
                 .Bind<Volume>()
                 .FromInstance(_stageVolume)
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
 
             Container
                 .Bind<StagePostProcessData>()
@@ -90,7 +94,8 @@ namespace Settings.Installers
             Container
                 .Bind<WorldGenerationData>()
                 .FromScriptableObject(_worldGenerationSettings)
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
 
             Type worldGenerationType = WorldGenerator.GetGenerationStrategyType(_worldGenerationType);
 
@@ -98,29 +103,50 @@ namespace Settings.Installers
                 .Bind<GenerationStrategy>()
                 .To(worldGenerationType)
                 .AsSingle()
-                .WithArguments(_worldChunksContainer);
+                .WithArguments(_worldChunksContainer)
+                .NonLazy();
 
             // ----------------------------------------------------------
 
             Container
-                .Bind<StageLight>()
-                .FromComponentInHierarchy()
-                .AsSingle();
-
-            Container
                 .Bind<MusicData>()
                 .FromInstance(_stageMusicData)
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
+
+            BindDayState();
+        }
+
+        private void BindDayState()
+        {
+            StageLight stageLight = FindAnyObjectByType<StageLight>();
+
+            Container
+                .Bind<StageLight>()
+                .FromInstance(stageLight)
+                .AsSingle()
+                .NonLazy();
+
+
+            // Day Manager creation, configuration and bind
+
+            GameObject dayManagerObject = new GameObject(nameof(DayManager), typeof(DayManager));
+            dayManagerObject.transform.SetParent(_stageComponentsContainer, false);
+            DayManager dayManager = dayManagerObject.GetComponent<DayManager>();
+            dayManager.SetDayManagerSettings(stageLight, _dayStatesSetData);
 
             Container
                 .Bind<DayManager>()
-                .FromComponentInHierarchy()
-                .AsSingle();
+                .FromInstance(dayManager)
+                .AsSingle()
+                .NonLazy();
+
 
             Container
                 .Bind<ShadowSettings>()
                 .FromScriptableObject(_shadowSettings)
-                .AsSingle();
+                .AsSingle()
+                .Lazy();
         }
 
         private void ConfigureChunksContainer()

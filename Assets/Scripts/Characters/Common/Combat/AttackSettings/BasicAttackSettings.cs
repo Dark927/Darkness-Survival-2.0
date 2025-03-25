@@ -23,12 +23,12 @@ namespace Characters.Common.Combat
         [SerializeField] private float _fullDurationTimeSec;
         [SerializeField] private float _reloadTimeSec;
 
-        public AttackNegativeStatusData NegativeStatus => _attackNegativeStatus;
-        public DamageSettings Damage => _damageSettings;
-        public ImpactSettings Impact => _impact;
+
+        public AttackNegativeStatusData NegativeStatus { get => _attackNegativeStatus; set => _attackNegativeStatus = value; }
+        public DamageSettings Damage { get => _damageSettings; set => _damageSettings = value; }
+        public ImpactSettings Impact { get => _impact; set => _impact = value; }
         public float TriggerActivityTimeSec => _triggerActivityTimeSec;
         public float FullDurationTimeSec => _fullDurationTimeSec;
         public float ReloadTimeSec => _reloadTimeSec;
-
     }
 }

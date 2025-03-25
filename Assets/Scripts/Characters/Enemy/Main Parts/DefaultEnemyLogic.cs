@@ -66,7 +66,7 @@ namespace Characters.Enemy
 
         protected override void InitBasicAttacks()
         {
-            SetBasicAttacks(new BasicAttack(Body, Weapons.ActiveWeapons));
+            SetBasicAttacks(new BasicAttack(Body, Weapons.ActiveOnesDict.Values));
             base.InitBasicAttacks();
         }
 

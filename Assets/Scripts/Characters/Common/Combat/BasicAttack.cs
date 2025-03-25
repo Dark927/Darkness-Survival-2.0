@@ -25,7 +25,7 @@ namespace Characters.Common.Combat.Weapons
         private bool _isAttacking = false;
 
         private readonly IEntityPhysicsBody _entityBody;
-        private IEnumerable<WeaponBase> _basicWeapons;
+        private IEnumerable<IWeapon> _basicWeapons;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Characters.Common.Combat.Weapons
         #region Properties
 
         protected IEntityPhysicsBody EntityBody => _entityBody;
-        public IEnumerable<WeaponBase> BasicWeapons => _basicWeapons;
+        public IEnumerable<IWeapon> BasicWeapons => _basicWeapons;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init 
 
-        public BasicAttack(IEntityPhysicsBody characterBody, IEnumerable<WeaponBase> basicWeapons)
+        public BasicAttack(IEntityPhysicsBody characterBody, IEnumerable<IWeapon> basicWeapons)
         {
             _entityBody = characterBody;
             _basicWeapons = basicWeapons;

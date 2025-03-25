@@ -14,8 +14,8 @@ namespace Characters.Player.Upgrades
     public enum UpgradeType
     {
         Character,
-        Weapon,
         Ability,
+        AbilityUnlock,
     }
 
     [CreateAssetMenu(fileName = "NewUpgradeConfigurationData", menuName = "Game/Upgrades/Main/Upgrade Configuration Data")]

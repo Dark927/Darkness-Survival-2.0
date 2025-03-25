@@ -12,14 +12,6 @@ namespace Characters.Common.Features
 {
     public class EntityCustomFeaturesHolder : EntityFeaturesHolderBase<IEntityFeature>
     {
-        #region Properties
-
-        public IEnumerable<IEntityFeature> ActiveFeatures => LoadedFeaturesDict.Keys;
-
-
-        #endregion
-
-
         #region Methods
 
         #region Init
@@ -38,7 +30,7 @@ namespace Characters.Common.Features
                 return;
             }
 
-            AsyncOperationHandle<GameObject> handle = AddressableAssetsHandler.Instance.TryLoadAssetAsync<GameObject>(featureData.AssetRef);
+            var handle = AddressableAssetsHandler.Instance.LoadAssetAndCacheAsync<GameObject>(featureData.AssetRef, AddressableAssetsCleaner.CleanType.SceneSwitch, false);
             await handle;
 
             IEntityFeature loadedFeature = handle.Result.GetComponent<IEntityFeature>();
@@ -51,13 +43,14 @@ namespace Characters.Common.Features
                 string featureName = string.IsNullOrEmpty(featureData.Name) ? handle.Result.name : featureData.Name;
                 var createdFeature = CreateFeature(handle.Result, featureName, connectionPart);
                 createdFeature.Initialize(EntityLogic);
-                LoadedFeaturesDict.Add(createdFeature, handle);
+
+                ActiveOnesDict.TryAdd(featureData.ID, createdFeature);
             }
         }
 
-        public T? GetFeature<T>() where T : class, IEntityFeature
+        public T? GetFeature<T>(int ID) where T : class, IEntityFeature
         {
-            return ActiveFeatures.FirstOrDefault() as T;
+            return ActiveOnesDict[ID] as T;
         }
 
         protected override void DestroyFeatureLogic(IEntityFeature feature)

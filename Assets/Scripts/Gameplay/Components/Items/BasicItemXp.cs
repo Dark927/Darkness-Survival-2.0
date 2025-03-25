@@ -1,4 +1,4 @@
-
+﻿
 using Characters.Interfaces;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ namespace Gameplay.Components.Items
     {
         #region Fields 
 
-        private ItemXpParameters _parameters = new ItemXpParameters();
+        [SerializeField] private ItemXpParameters _parameters = new ItemXpParameters();
 
         #endregion
 

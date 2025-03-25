@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
-using Settings.AssetsManagement;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Characters.Common
 {
@@ -13,7 +11,7 @@ namespace Characters.Common
     {
         #region Fields 
 
-        private Dictionary<TFeature, AsyncOperationHandle> _loadedFeaturesDict;
+        private Dictionary<int, TFeature> _featuresDict;
         private IEntityDynamicLogic _entityLogic;
 
         #endregion
@@ -22,7 +20,7 @@ namespace Characters.Common
         #region Properties
 
         public IEntityDynamicLogic EntityLogic => _entityLogic;
-        public Dictionary<TFeature, AsyncOperationHandle> LoadedFeaturesDict => _loadedFeaturesDict;
+        public Dictionary<int, TFeature> ActiveOnesDict => _featuresDict;
 
         #endregion
 
@@ -38,7 +36,7 @@ namespace Characters.Common
         public EntityFeaturesHolderBase(IEntityDynamicLogic targetEntity)
         {
             _entityLogic = targetEntity;
-            _loadedFeaturesDict = new Dictionary<TFeature, AsyncOperationHandle>();
+            _featuresDict = new();
         }
 
         public virtual void Initialize()
@@ -48,7 +46,7 @@ namespace Characters.Common
 
         public virtual void Dispose()
         {
-            UnloadAll();
+            RemoveAll();
         }
 
         #endregion
@@ -75,16 +73,15 @@ namespace Characters.Common
             return featureObj.GetComponent<TFeature>();
         }
 
-        public virtual void UnloadAll()
+        public virtual void RemoveAll()
         {
-            foreach (var loadedFeature in _loadedFeaturesDict)
+            foreach (var feature in _featuresDict)
             {
-                loadedFeature.Key.Dispose();
-                DestroyFeatureLogic(loadedFeature.Key);
-                AddressableAssetsHandler.Instance.TryUnloadAsset(loadedFeature.Value);
+                feature.Value.Dispose();
+                DestroyFeatureLogic(feature.Value);
             }
 
-            _loadedFeaturesDict.Clear();
+            _featuresDict.Clear();
         }
 
         #endregion

@@ -4,10 +4,15 @@ using UnityEngine;
 
 namespace Characters.Player.Upgrades
 {
-    [CreateAssetMenu(fileName = "NewHealthUpgradeData", menuName = "Game/Upgrades/Character Upgrades/Single Upgrades/Health Upgrade Data")]
+    [CreateAssetMenu(fileName = "NewCharacterHealthUpgradeSO", menuName = "Game/Upgrades/Character Upgrades/Single Upgrades/Health Upgrade Data")]
     public class CharacterHealthUpgradeSO : SingleUniversalUpgradeSO<ICharacterLogic>
     {
-        [SerializeField, Min(0)] private float _hpUpgradePercent = 11;
+        [SerializeField, Min(0)] private float _hpUpgradePercent = 0;
+
+        protected override string GetInfo(char sign)
+        {
+            return $"Max HP : {sign}{_hpUpgradePercent}%";
+        }
 
         public override void ApplyDowngrade(ICharacterLogic target)
         {

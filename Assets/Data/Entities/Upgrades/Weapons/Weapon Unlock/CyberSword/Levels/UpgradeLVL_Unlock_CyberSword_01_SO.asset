@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53852be6d820837428e440c2391c324c, type: 3}
+  m_Name: UpgradeLVL_Unlock_CyberSword_01_SO
+  m_EditorClassIdentifier: 
+  _baseDescription: Unlock a new weapon
+  _useDowngradesInfoInDesc: 0
+  _upgrades:
+  - {fileID: 11400000, guid: e9ed4bb8339313744812de4ae5d7d86c, type: 2}
+  _downgrades: []

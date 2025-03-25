@@ -726,8 +726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953e66f488aa3474dab06023c813a3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceStartStage: 1
-  StageStartDelay: 2
   _mainMenuTheme: {fileID: 0}
   _pauseMenuTheme: {fileID: 0}
 --- !u!1 &825283625

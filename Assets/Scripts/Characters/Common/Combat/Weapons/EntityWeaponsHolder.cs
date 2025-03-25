@@ -10,21 +10,20 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Characters.Common.Combat
 {
-    public class EntityWeaponsHolder : EntityFeaturesHolderBase<WeaponBase>
+    public class EntityWeaponsHolder : EntityFeaturesHolderBase<IWeapon>
     {
         #region Fields
 
         private GameObject _defaultWeaponContainer;
         private string _weaponsContainerName;
 
-        public event Action<WeaponBase> OnNewWeaponGiven;
+        public event Action<IWeapon> OnNewWeaponGiven;
 
         #endregion
 
 
         #region Properties
 
-        public IEnumerable<WeaponBase> ActiveWeapons => LoadedFeaturesDict?.Keys;
         public string DefaultContainerName => $"{EntityLogic.Data.Name ?? "default"}_weapons";
         public string WeaponsContainerName => _weaponsContainerName;
 
@@ -33,9 +32,9 @@ namespace Characters.Common.Combat
 
         #region Methods
 
-        protected override void DestroyFeatureLogic(WeaponBase feature)
+        protected override void DestroyFeatureLogic(IWeapon feature)
         {
-            GameObject.Destroy(feature.gameObject);
+            GameObject.Destroy(feature.GameObject);
         }
 
 
@@ -82,13 +81,13 @@ namespace Characters.Common.Combat
                 return;
             }
 
-            AsyncOperationHandle<GameObject> weaponLoadHandle = AddressableAssetsHandler.Instance.LoadAssetAsync<GameObject>(weaponData.WeaponAsset);
+            var weaponLoadHandle = AddressableAssetsHandler.Instance.LoadAssetAndCacheAsync<GameObject>(weaponData.WeaponAsset, AddressableAssetsCleaner.CleanType.SceneSwitch, false);
             await weaponLoadHandle;
 
-            var weapon = CreateFeature(weaponLoadHandle.Result, weaponData.name, _defaultWeaponContainer.transform);
+            var weapon = CreateFeature(weaponLoadHandle.Result, weaponData.WeaponName, _defaultWeaponContainer.transform);
             weapon.Initialize(weaponData.AttackData);
 
-            LoadedFeaturesDict.Add(weapon, weaponLoadHandle);
+            ActiveOnesDict.TryAdd(weaponData.ID, weapon);
             OnNewWeaponGiven?.Invoke(weapon);
         }
 

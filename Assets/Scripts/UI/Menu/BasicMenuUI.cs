@@ -38,7 +38,7 @@ namespace UI
 
         public void RequestDeactivation(Action callerCallback = null, float speedMult = 1f)
         {
-            if (OwnerPanelManager.CanClosePanel(this, out Action ownerCloseCallback))
+            if (OwnerPanelManager.TryClosePanel(this, out Action ownerCloseCallback))
             {
                 Deactivate(callerCallback, ownerCloseCallback, speedMult);
             }

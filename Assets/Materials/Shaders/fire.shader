@@ -1,4 +1,4 @@
-Shader "Custom/Pixelate"
+Shader "Dark/Fire"
 {
     Properties
     {

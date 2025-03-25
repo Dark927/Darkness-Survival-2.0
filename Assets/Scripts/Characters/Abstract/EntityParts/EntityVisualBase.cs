@@ -9,7 +9,7 @@ namespace Characters.Common.Visual
     {
         #region Fields
 
-        private readonly string _matFlashColorName = "_FlashColor";
+        private readonly string _matFlashColorName = "_FlashColor"; //TODO: 
         private readonly string _matFlashAmountName = "_FlashAmount";
 
         private SpriteRenderer _spriteRenderer;

@@ -31,6 +31,8 @@ namespace Materials.DarkMainFX
 
         [Header("Mode")]
         public RendererMode _RendMode;
+        public bool _UseJitterFree;
+
 
         public bool NeedsUpdate { get; set; }
 
@@ -45,7 +47,7 @@ namespace Materials.DarkMainFX
             mpb.SetColor("_EmissionColor", _EmissionColor);
             mpb.SetFloat("_EmissionAmount", _EmissionAmount);
 
-            mpb.SetInteger("_RendMode", (int)_RendMode);
+            mpb.SetInteger("_RendMode", (int)_RendMode | (_UseJitterFree ? 128 : 0));
 
             _HSVParams.UpdateAllProperties(mpb);
         }

@@ -1,4 +1,4 @@
-Shader "Sprites/JitterFreeLit"
+Shader "Dark/Sprites/DarkMainFX"
 {
     Properties
     {

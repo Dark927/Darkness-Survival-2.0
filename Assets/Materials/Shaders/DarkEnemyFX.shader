@@ -1,4 +1,4 @@
-Shader "Sprites/DarkEnemyFX"
+Shader "Dark/Sprites/DarkEnemyFX"
 {
     Properties
     {
@@ -23,8 +23,11 @@ Shader "Sprites/DarkEnemyFX"
 		_EmissionAmount ("Emission Amount", Range (0,1)) = 0
 
         [Header(Dissolve)]
+        _Seed ("Random Seed", Range (0,1)) = 0.42
+        _DissolveNoise ("Dissolve Noise", Range (0,5000)) = 1000
         [HDR]
-        _Seed ("Random Seed", Range (0,1)) = 0
+        _DissolveColor ("Dissolve Color", Color) = (1,1,1,1)
+        _DissolveOutline ("Dissolve Outline", Range (1,2)) = 1.1
         _DissolveAmount ("Dissolve Amount", Range (0,1)) = 0
 
         //
@@ -95,7 +98,10 @@ Shader "Sprites/DarkEnemyFX"
             float _FlashAmount;
 
             float _Seed;
+            float _DissolveNoise;
+            float4 _DissolveColor;
             float _DissolveAmount;
+            float _DissolveOutline;
 
             float4 _TargetColor;
             float4 _ReplacementColorCoefK;
@@ -159,16 +165,21 @@ Shader "Sprites/DarkEnemyFX"
                         return float4(interpolatedRGB, col.a);
                 }
             }
-            float hash21(float2 p)
-            {
-                p = frac(p * float2(123.34, 456.21));
-                p += dot(p, p + 45.32);
-                return frac(p.x * p.y);
-            }
             
             float4 Universal2DFragment(DarkVaryings2D i) : SV_Target
             {
-                float2 smoothUV = TexturePointSmoothUV(i.uv);
+                float2 smoothUV;
+                
+                [branch]
+                if(_RendMode & 128){ 
+                    _RendMode &= ~128;
+                    smoothUV = TexturePointSmoothUV(i.uv);
+                }
+                else
+                {
+                    smoothUV = i.uv;
+                }
+
                 float colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV).r; //TODO: remove
                 float4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
 
@@ -187,14 +198,18 @@ Shader "Sprites/DarkEnemyFX"
 
                 float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
                 main.rgb += _EmissionColor.rgb * emissionCoef * _EmissionAmount;
+                
+                float2 noiseUV = i.uv;
+                //uncomment to make noise fixed during animations.
+                //noiseUV.x = frac(noiseUV.x * 4);
+                //noiseUV.y = frac(noiseUV.y * 3);
+                float noiseTex = smoothstep(0,1,noise(noiseUV.xy * _DissolveNoise, _Seed));
+                float dissolve = step(noiseTex , _DissolveAmount);
+                float dissolveOutline = step(noiseTex , _DissolveAmount * _DissolveOutline);
+                float dissolveDiff = dissolveOutline-dissolve;
 
-                float noiseTex = pow(noise(smoothUV * 500, _Seed), 0.5); //todo: move 10000 to settings
-                float tt = step(noiseTex , _DissolveAmount);
-                float tt2 = step(noiseTex , _DissolveAmount * 1.1);
-                float dd = tt2-tt;
-
-                main.rgb = lerp(main.rgb,float3(0,1,1),dd);
-                main.a = saturate(main.a * (1-tt));
+                main.rgb = lerp(main.rgb,_DissolveColor,dissolveDiff);
+                main.a = saturate(main.a * (1-dissolve));
                 
 
                 SurfaceData2D surfaceData;

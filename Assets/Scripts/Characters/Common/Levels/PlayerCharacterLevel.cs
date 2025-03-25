@@ -1,7 +1,6 @@
 ﻿using System;
 using Characters.Common.Levels;
 using Characters.Player.Data;
-using Dark.Utils;
 using UnityEngine;
 using Utilities.Math;
 
@@ -12,7 +11,7 @@ namespace Characters.Player.Levels
     {
         #region Fields
 
-        private float _actualXp = 1f;
+        private float _actualXp = 0f;
         private float _gainedXpFactor;
         private CharacterLevelData _levelData;
 
@@ -22,10 +21,10 @@ namespace Characters.Player.Levels
         #region Properties
 
         public float ActualXp => _actualXp;
-        public override int ActualLevel => 1 + (int)LevelFunctionInv(_actualXp);
-        public float XpProgressRatio => InterpolateRealXp(_actualXp, _actualXp);
+        public override int ActualLevel => 1 + (int)LevelFunctionInv(_actualXp); //start from 1
+        public float XpProgressRatio => InterpolateRatio(ActualLevel, _actualXp);
 
-        public (float previous, float next) ActualXpBounds => GetRealLevelBounds(_actualXp);
+        public (float previous, float next) ActualXpBounds => LevelToXpBounds(ActualLevel);
         public float GainedXpFactor => _gainedXpFactor;
 
         #endregion
@@ -47,34 +46,30 @@ namespace Characters.Player.Levels
             _levelData = characterLevelData;
         }
 
-
         #endregion
 
 
         public void AddXp(int xp)
         {
-            _gainedXpFactor = InterpolateRealXp(_actualXp, _actualXp + xp);
+            //remember data
+            float oldXp = _actualXp;
+            int levelProgress = ActualLevel;
+            (float previous, float next) levelProgressBounds = LevelToXpBounds(levelProgress);
 
-            float remainingIncomeXp = xp;
-            float remainingXpToNextLevel;
-            (float previous, float next) xpBounds = (0f, 0f);
+            // add xp to player
+            _actualXp += xp;
 
-            while (_gainedXpFactor >= 1.0f)
+            while (_actualXp >= levelProgressBounds.next) //our level is bigger than bound
             {
-                xpBounds = ActualXpBounds;
+                levelProgress++;
+                levelProgressBounds = LevelToXpBounds(levelProgress);
+                //Debug.Log($"Sent animation, lvl: {levelProgress}, bounds: [{levelProgressBounds.previous} - {levelProgressBounds.next})");
 
-                remainingXpToNextLevel = xpBounds.next - _actualXp;
-                remainingIncomeXp -= remainingXpToNextLevel;
-                _actualXp += remainingXpToNextLevel;
-
-                LevelUp(new CharacterLevelArgs(ActualLevel, xpBounds, XpProgressRatio));
-                Debug.Log(ActualLevel.ToString());
-
-                _gainedXpFactor -= 1;
+                LevelUp(new CharacterLevelArgs(levelProgress, levelProgressBounds, 0.0f));
             }
 
-            _actualXp += remainingIncomeXp;
-            OnUpdateXp?.Invoke(this, new CharacterLevelArgs(ActualLevel, xpBounds, XpProgressRatio));
+            OnUpdateXp?.Invoke(this, new CharacterLevelArgs(ActualLevel, ActualXpBounds, XpProgressRatio));
+            Debug.Log($"Current XP: {ActualXp}, level: {ActualLevel}");
         }
 
 
@@ -83,33 +78,32 @@ namespace Characters.Player.Levels
         #region Level Calculation
 
         //get full levels between current
-        public (float, float) GetRealLevelBounds(float currentLevel)
+        // 0 -> Undefined
+        // 1 -> [0,20)
+        // 2 -> [20,91)
+        // 3 -> [90,224)
+        public (float, float) LevelToXpBounds(int currentLevel)
         {
-            var (prevLvl, nextLvl) = GetIncrementalLevelBounds(currentLevel);
-            return (LevelFunction(prevLvl), LevelFunction(nextLvl));
+            return (LevelFunction(currentLevel - 1), LevelFunction(currentLevel));
         }
 
+        // level starts from zero
         private float LevelFunction(float x)
         {
             return _levelData.Multiplier * Mathf.Pow(x, _levelData.Exp) + _levelData.Starter;
         }
-
+        // level starts from zero
         private float LevelFunctionInv(float y)
         {
             return Mathf.Pow((y - _levelData.Starter) / _levelData.Multiplier, 1 / _levelData.Exp);
         }
 
-        //get integer levels between current
-        private (int, int) GetIncrementalLevelBounds(float currentLevel)
+        //get a percentage on xp bar.
+        // for lvl2, xp = 50, bounds are [20,91) and progress: 42%
+        private float InterpolateRatio(int currentLevel, float currentXp)
         {
-            float levelNumberRational = LevelFunctionInv(currentLevel);
-            return ((int)Mathf.Floor(levelNumberRational), (int)Mathf.Ceil(levelNumberRational + 0.1f));
-        }
-
-        private float InterpolateRealXp(float currentLevel, float nextLevel)
-        {
-            var (prevLvl, nextLvl) = GetRealLevelBounds(currentLevel);
-            return CustomMath.InverseLerpUnclamped(prevLvl, nextLvl, nextLevel);
+            var bounds = LevelToXpBounds(currentLevel);
+            return CustomMath.InverseLerpUnclamped(bounds.Item1, bounds.Item2, currentXp);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-Shader "Sprites/Point Entity Sprite"
+Shader "Custom/SpriteFlash"
 {
 	Properties
 	{

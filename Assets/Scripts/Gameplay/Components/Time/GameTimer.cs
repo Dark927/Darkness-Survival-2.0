@@ -1,25 +1,30 @@
 ﻿using System;
 using Gameplay.Components;
-using Settings.Global;
 using UnityEngine;
 
 public class GameTimer : MonoBehaviour
 {
-    #region Fields
-
-    [SerializeField] private float _speed = 1f;
-
-    private float _elapsedTime;
-    private StageTime _time;
-    private bool _isStopped;
+    #region Events
 
     public event Action<StageTime> OnTimeChanged;
 
     #endregion
 
+
+    #region Fields
+
+    [SerializeField] private float _speed = 1f;
+
+    private float _nextSecondThreshold;
+    private float _elapsedTime;
+    private StageTime _time;
+
+    #endregion
+
     #region Properties
 
-    public StageTime CurrentTime => _time;
+    public StageTime CurrentStageTime => _time;
+    public float ElapsedTime => _elapsedTime;
 
     #endregion
 
@@ -29,39 +34,24 @@ public class GameTimer : MonoBehaviour
     private void Awake()
     {
         Reset();
-        Stop();
     }
 
-
-    // ToDo : Use unitask instead of this, we do not need to set the elapsed time so many times.
-    private void Update()
+    public void UpdateTime()
     {
-        if (_isStopped)
-        {
-            return;
-        }
-
         _elapsedTime += Time.deltaTime * _speed;
 
-        if (_time.TryUpdateSeconds((uint)Mathf.FloorToInt(_elapsedTime)))
+        if (_elapsedTime >= _nextSecondThreshold)
         {
+            _nextSecondThreshold = Mathf.Floor(_elapsedTime) + 1f;
+            _time.TryUpdateSeconds((uint)(_nextSecondThreshold - 1f));
             OnTimeChanged?.Invoke(_time);
         }
-    }
-
-    public void Stop()
-    {
-        _isStopped = true;
-    }
-
-    public void Activate()
-    {
-        _isStopped = false;
     }
 
     public void Reset()
     {
         _elapsedTime = 0;
+        _nextSecondThreshold = 0f;
     }
 
     #endregion

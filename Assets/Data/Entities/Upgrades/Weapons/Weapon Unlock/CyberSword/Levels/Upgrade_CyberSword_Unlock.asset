@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527212fe328528f44a4d7a22a03f29da, type: 3}
+  m_Script: {fileID: 11500000, guid: e59a2c16fc4424f41a24d042446a41b0, type: 3}
   m_Name: Upgrade_CyberSword_Unlock
   m_EditorClassIdentifier: 
   _weaponData: {fileID: 11400000, guid: 00de543b5d604234da0e35c27202ef9d, type: 2}

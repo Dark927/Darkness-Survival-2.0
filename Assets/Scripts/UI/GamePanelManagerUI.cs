@@ -6,6 +6,7 @@ using Settings.Global;
 using Settings.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
 
@@ -150,7 +151,7 @@ namespace UI
         /// <param name="panel">the target panel</param>
         /// <param name="postCloseCallback">actions after closing the panel (if the panel can be closed, else - null)</param>
         /// <returns>true if panel can be closed, else - false</returns>
-        public bool CanClosePanel(IMenuUI panel, out Action postCloseCallback)
+        public bool TryClosePanel(IMenuUI panel, out Action postCloseCallback)
         {
             postCloseCallback = null;
             bool canClosePanel = !_isPanelProcessing && (panel != null);

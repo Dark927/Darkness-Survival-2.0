@@ -1,5 +1,7 @@
 ﻿
+using System.Threading;
 using Characters.Interfaces;
+using Cysharp.Threading.Tasks;
 using Gameplay.Components;
 using Settings.Global;
 using Utilities.Json;
@@ -37,15 +39,22 @@ namespace Gameplay.Stage
                 }
             }
 
-            _stageProgress.SurvivedTime = _timer.CurrentTime;
+            _stageProgress.SurvivedTime = _timer.CurrentStageTime;
 
-            // ToDo : make saving with separate async method.
+
+            // Optional saving 
             if (save)
             {
-                //JsonHelper.SaveToJson(_stageProgress, GameSavePaths.StageProgressFilePath);
+                SaveStageProgress(_stageProgress);
             }
 
             return _stageProgress;
+        }
+
+        public void SaveStageProgress(StageProgress stageProgress)
+        {
+            JsonHelper.SaveToJsonAsync(stageProgress, GameSavePaths.StageProgressFilePath).Forget();
+
         }
 
         /// <summary>
@@ -53,9 +62,10 @@ namespace Gameplay.Stage
         /// </summary>
         /// <param name="progress">loaded stage progress if successful</param>
         /// <returns>true if the progress was loaded successfully, otherwise false</returns>
-        public bool TryCollectSavedStageProgress(out StageProgress progress)
+        public async UniTask<(bool, StageProgress)> TryLoadSavedStageProgressAsync(CancellationToken token = default)
         {
-            return JsonHelper.TryLoadFromJson(GameSavePaths.StageProgressFilePath, out progress);
+            var loadedProgress = await JsonHelper.TryLoadFromJsonAsync<StageProgress>(GameSavePaths.StageProgressFilePath, token);
+            return loadedProgress;
         }
 
         public void IncrementKills()

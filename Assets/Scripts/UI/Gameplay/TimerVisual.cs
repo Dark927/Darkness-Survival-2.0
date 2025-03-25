@@ -4,11 +4,11 @@ using UnityEngine;
 using Utilities.ErrorHandling;
 using Zenject;
 
-public class TimerUI : MonoBehaviour
+public class TimerVisual : MonoBehaviour
 {
     #region Fields
 
-    private TextMeshProUGUI _textMesh;
+    private TextMeshPro _textMesh;
     private GameTimer _timer;
 
     #endregion
@@ -26,7 +26,7 @@ public class TimerUI : MonoBehaviour
 
     private void Awake()
     {
-        _textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        _textMesh = GetComponentInChildren<TextMeshPro>();
     }
 
     private void Start()

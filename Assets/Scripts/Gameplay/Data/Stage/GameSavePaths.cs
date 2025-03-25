@@ -20,42 +20,38 @@ namespace Gameplay.Stage
         // Static constructor to load paths on first access
         public static void InitializeAsync()
         {
+            // Loads save paths from a JSON file.
+            // If the file doesn't exist, it creates one with default values.
+
             UniTask.Void(async () =>
             {
-                LoadPathsFromJson();
-                await UniTask.Yield();
-            });
-        }
+                string configPath = Path.Combine(Application.persistentDataPath, ConfigFileName);
+                var loadedConfig = await JsonHelper.TryLoadFromJsonAsync<GameSavePathsConfig>(configPath);
 
-        /// <summary>
-        /// Loads save paths from a JSON file.
-        /// If the file doesn't exist, it creates one with default values.
-        /// </summary>
-        private static void LoadPathsFromJson()
-        {
-            string configPath = Path.Combine(Application.persistentDataPath, ConfigFileName);
-
-            if (JsonHelper.TryLoadFromJson(configPath, out GameSavePathsConfig result))
-            {
-                if (!string.IsNullOrEmpty(result.StageProgressFilePath))
+                if (loadedConfig.success)
                 {
-                    _stageProgressFileName = result.StageProgressFilePath;
+                    if (!string.IsNullOrEmpty(loadedConfig.result.StageProgressFilePath))
+                    {
+                        _stageProgressFileName = loadedConfig.result.StageProgressFilePath;
+                    }
+                    else
+                    {
+                        SaveDefaultPaths(configPath);
+                    }
                 }
                 else
                 {
                     SaveDefaultPaths(configPath);
                 }
-            }
-            else
-            {
-                SaveDefaultPaths(configPath);
-            }
+
+                await UniTask.Yield();
+            });
         }
 
         private static void SaveDefaultPaths(string configPath)
         {
             GameSavePathsConfig defaultConfig = new GameSavePathsConfig();
-            JsonHelper.SaveToJson(defaultConfig, configPath);
+            JsonHelper.SaveToJsonAsync(defaultConfig, configPath).Forget();
         }
     }
 

@@ -15,5 +15,5 @@ MonoBehaviour:
   _baseDescription: Unlock a new weapon
   _useDowngradesInfoInDesc: 0
   _upgrades:
-  - {fileID: 11400000, guid: dfa2f476777e8c34f83f467aa11024ac, type: 2}
+  - {fileID: 11400000, guid: e9ed4bb8339313744812de4ae5d7d86c, type: 2}
   _downgrades: []

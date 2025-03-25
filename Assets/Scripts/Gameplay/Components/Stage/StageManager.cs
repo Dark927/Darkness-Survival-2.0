@@ -3,6 +3,7 @@ using Gameplay.Components;
 using Gameplay.Components.Enemy;
 using Settings.Global;
 using Settings.Global.Audio;
+using World.Environment;
 using Zenject;
 
 namespace Gameplay.Stage
@@ -19,8 +20,11 @@ namespace Gameplay.Stage
 
         private GameTimer _stageTimer;
         private EnemySpawner _enemySpawner;
+        private DayManager _dayManager;
 
         private GameAudioService _audioService;
+
+        private bool _stageActive;
 
         #endregion
 
@@ -35,11 +39,16 @@ namespace Gameplay.Stage
         #region Init
 
         [Inject]
-        public void Construct(MusicData stageMusic, GameTimer timer, EnemySpawner enemySpawner)
+        public void Construct(
+            MusicData stageMusic,
+            GameTimer timer,
+            EnemySpawner enemySpawner,
+            DayManager dayManager)
         {
             _stageTimer = timer;
             _stageMusic = stageMusic;
             _enemySpawner = enemySpawner;
+            _dayManager = dayManager;
         }
 
         private void Awake()
@@ -59,6 +68,8 @@ namespace Gameplay.Stage
             ConfigureAudio();
 
             _enemySpawner.Initialize();
+            _dayManager.Initialize();
+
             _gameStateService.GameEvent.Subscribe(this);
         }
 
@@ -96,6 +107,17 @@ namespace Gameplay.Stage
             }
         }
 
+        private void Update()
+        {
+            if (!_stageActive)
+            {
+                return;
+            }
+
+            _stageTimer.UpdateTime();
+            _dayManager.UpdateDayState(_stageTimer.ElapsedTime);
+        }
+
         private void HandleGameEvent(GameEventArgs args)
         {
             switch (args.EventType)
@@ -116,20 +138,19 @@ namespace Gameplay.Stage
                     break;
 
                 case GameStateEventType.StagePaused:
-                    StagePaused();
+                    DeactivateStage();
                     break;
 
                 case GameStateEventType.StageUnpaused:
-                    StageUnpaused();
+                    ActivateStage();
                     break;
-
             }
         }
 
         private void StageStarted()
         {
+            ActivateStage();
             _enemySpawner.StartEnemySpawn();
-            _stageTimer.Activate();
             _audioService.StartPlaylist(MusicType.Stage);
         }
 
@@ -140,18 +161,18 @@ namespace Gameplay.Stage
 
         private void StageStartFinishing()
         {
-            _stageTimer.Stop();
+            DeactivateStage();
             _enemySpawner.StopAllSpawnTasks();
         }
 
-        private void StagePaused()
+        private void ActivateStage()
         {
-            _stageTimer?.Stop();
+            _stageActive = true;
         }
 
-        private void StageUnpaused()
+        private void DeactivateStage()
         {
-            _stageTimer?.Activate();
+            _stageActive = false;
         }
 
         #endregion

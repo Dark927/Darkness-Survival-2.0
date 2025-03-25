@@ -24,7 +24,7 @@ namespace Characters.Player.Weapons
             {
                 if (weapon is CharacterSword sword)
                 {
-                    _sword = sword;
+                    SetSword(sword);
                     break;
                 }
             }

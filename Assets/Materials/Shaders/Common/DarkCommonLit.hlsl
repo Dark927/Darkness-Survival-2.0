@@ -98,7 +98,7 @@ DarkVaryings2D DarkVertex(DarkAttributes2D attributes)
 
     o.positionCS = TransformObjectToHClip(attributes.positionOS);
     #if defined(DEBUG_DISPLAY)
-    o.positionWS = TransformObjectToWorld(v.positionOS);
+    o.positionWS = TransformObjectToWorld(attributes.positionOS);
     #endif
     o.uv = TRANSFORM_TEX(attributes.uv, _MainTex);
     o.lightingUV = half2(ComputeScreenPos(o.positionCS / o.positionCS.w).xy);

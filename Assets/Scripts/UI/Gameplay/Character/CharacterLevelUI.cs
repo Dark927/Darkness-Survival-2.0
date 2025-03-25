@@ -66,13 +66,13 @@ public class CharacterLevelUI : MonoBehaviour
     {
         var characterArgs = args as CharacterLevelArgs;
         float duration = CalculateXpLerpDuration(characterArgs);
-
+        //TODO: fix race condition with async
         _levelXpSlider.UpdatePercent(1f, duration, false, callback: () =>
         {
             _levelText.text = args.ActualLevel.ToString();
             OnLevelNumberUpdate?.Invoke(this, args.ActualLevel);
         }, true);
-        _levelXpSlider.UpdatePercent(0f, _levelDropTimeSec, false);
+        _levelXpSlider.UpdatePercent(0f, _levelDropTimeSec, false); //TODO: fix race condition with async, set to zero for temp debug
     }
 
     private void XpUpdatedListener(object sender, CharacterLevelArgs args)

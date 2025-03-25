@@ -1,4 +1,4 @@
-Shader "Darkness/tile_chunk_unlit"
+Shader "Dark/Tile/tile_chunk_lit"
 {
     Properties
     {

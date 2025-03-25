@@ -13,6 +13,9 @@ namespace Materials.DarkMainFX
         INTERP = 2,
         MASKSTEP = 3,
         MASKINTERP = 4,
-        UNLIT = 5
+        UNLIT = 5,
+
+        //FLAGS
+        USEJITTERFREE = 128,
     }
 }

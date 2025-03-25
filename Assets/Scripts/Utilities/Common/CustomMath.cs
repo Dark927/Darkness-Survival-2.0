@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 namespace Utilities.Math
 {
     public class CustomMath
@@ -8,6 +10,10 @@ namespace Utilities.Math
             if (a == b) return 0; //prevent division by zero
 
             return (value - a) / (b - a);
+        }
+        public static float Frac(float value)
+        {
+            return value - Mathf.Floor(value);
         }
     }
 }

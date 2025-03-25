@@ -70,6 +70,13 @@ float InverseLerp(float a, float b, float v)
     return (v - a) / (b - a);
 }
 
+//dont use for precise things
+float fastSqrt(float x) {
+    int i = asint(x);
+    i = (i >> 1) + (0x1FC00000);
+    return asfloat(i);
+}
+
 
 //////////////////////
 // Misc Noise funcs //
@@ -138,8 +145,8 @@ float3 voronoi(float2 uv) {
 // SDF (Signed distance functions) //
 /////////////////////////////////////
 
-// https : //iquilezles.org / articles / distfunctions2d /
-// https : //mercury.sexy / hg_sdf /
+// https://iquilezles.org/articles/distfunctions2d/
+// https://mercury.sexy/hg_sdf/
 
 float sdBox(float2 p, float2 b)
 {

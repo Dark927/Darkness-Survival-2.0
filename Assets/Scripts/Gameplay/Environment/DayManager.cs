@@ -8,6 +8,7 @@ using Settings.Global;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Utilities;
+using Utilities.Math;
 using World.Data;
 using World.Light;
 using Zenject;
@@ -107,7 +108,7 @@ namespace World.Environment
             // Color interpolation
             var color = Color.Lerp(_previousData.TargetColor, _targetDayStateData.TargetColor, _transitionState);
             _stageLight.Light.color = color;
-            _stageLight.Light.intensity = GlobalLightFx(DarkMath.Frac(_inGameTime)); //intensity curve
+            _stageLight.Light.intensity = GlobalLightFx(CustomMath.Frac(_inGameTime)); //intensity curve
 
             TryUpdatePlayerLight();
 

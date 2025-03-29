@@ -53,22 +53,17 @@ namespace UI.Characters.Upgrades
                 return;
             }
 
-            _startSettingsParams = new CardAnimationParamsUI()
-            {
-                DurationInSec = _animationData.HoverAnimationParams.DurationInSec,
-                TargetTitleColor = _cardTitle.color,
-                TargetScale = transform.localScale,
-                TargetCardColor = _cardImage.color,
-                TargetCardIconColor = _cardIcon.color,
-            };
+            _startSettingsParams.TargetScale = transform.localScale;
         }
 
         public void SetAnimationData(CardAnimationDataUI animationData)
         {
             _animationData = animationData;
+            _startSettingsParams.DurationInSec = _animationData.HoverAnimationParams.DurationInSec;
+
+            _startSettingsParams.TargetTitleColor = _cardTitle.color;
             _startSettingsParams.TargetCardColor = _cardImage.color;
             _startSettingsParams.TargetCardIconColor = _cardIcon.color;
-            _startSettingsParams.DurationInSec = _animationData.HoverAnimationParams.DurationInSec;
         }
 
         #endregion
@@ -138,6 +133,8 @@ namespace UI.Characters.Upgrades
         public override void PrepareAnimation()
         {
             base.PrepareAnimation();
+
+
             _blockPointerInteraction = true;
         }
 

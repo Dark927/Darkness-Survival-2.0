@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f293dd64b67b33342af5e67f634f12c1, type: 3}
   m_Name: UpgradeLVL_CyberHeart_06_SO
   m_EditorClassIdentifier: 
-  _upgrades: []
+  _baseDescription: 
+  _useDowngradesInfoInDesc: 1
+  _upgrades:
+  - {fileID: 11400000, guid: 150f518a554587947a3c2761c742ee13, type: 2}
+  - {fileID: 11400000, guid: aedb0b1380ff58d4da264b5cf8889b9d, type: 2}
+  - {fileID: 11400000, guid: afd4a6657065edf4ba9f70346a633382, type: 2}
   _downgrades: []
+  _customVisualDataUI: {fileID: 11400000, guid: b90d3831e84cd28438482c742c0894ca, type: 2}

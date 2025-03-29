@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df4b5a9b2f28cca4192d8a71737b3a9d, type: 3}
-  m_Name: UI_CardAnimation_Bloody_Data
+  m_Name: UI_CardAnimation_Data
   m_EditorClassIdentifier: 
   Description: 
   _hoverAnimationParams:
     _duration: 0.75
     _targetCardScale: {x: 1.05, y: 1.05}
-    _targetTitleColor: {r: 1, g: 0, b: 0.13486767, a: 1}
-    _targetCardColor: {r: 0.764151, g: 0.21736233, b: 0.16220188, a: 1}
-    _targetCardIconColor: {r: 1, g: 0, b: 0, a: 1}
+    _targetTitleColor: {r: 0.5613208, g: 0.9137023, b: 1, a: 1}
+    _targetCardColor: {r: 0, g: 1, b: 1, a: 1}
+    _targetCardIconColor: {r: 1, g: 1, b: 1, a: 1}
   _clickAnimationParams:
     _duration: 0.5
     _targetCardScale: {x: 1.075, y: 1.075}
-    _targetTitleColor: {r: 0.6415094, g: 0, b: 0.06873534, a: 1}
-    _targetCardColor: {r: 0.6603774, g: 0.106419764, b: 0.09033466, a: 1}
-    _targetCardIconColor: {r: 0.4056604, g: 0, b: 0, a: 1}
+    _targetTitleColor: {r: 0, g: 0.8180356, b: 1, a: 1}
+    _targetCardColor: {r: 0.2216981, g: 0.8461854, b: 1, a: 1}
+    _targetCardIconColor: {r: 1, g: 1, b: 1, a: 1}

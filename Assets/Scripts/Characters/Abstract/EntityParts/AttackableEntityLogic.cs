@@ -109,6 +109,7 @@ namespace Characters.Common
                 Weapons.OnNewWeaponGiven -= ListenNewWeaponGiven;
             }
 
+            Body.Dispose();
             _configured = false;
         }
 

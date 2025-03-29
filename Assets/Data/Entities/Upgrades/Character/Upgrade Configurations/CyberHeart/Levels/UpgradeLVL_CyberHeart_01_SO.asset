@@ -15,6 +15,6 @@ MonoBehaviour:
   _baseDescription: Upgrade <color=red><b>max HP</b></color>
   _useDowngradesInfoInDesc: 0
   _upgrades:
-  - {fileID: 11400000, guid: f66874b127ee3e943b3ef372878c0906, type: 2}
+  - {fileID: 11400000, guid: cbf5e1bdd79ecf54682d0acceaf75916, type: 2}
   _downgrades: []
   _customVisualDataUI: {fileID: 0}

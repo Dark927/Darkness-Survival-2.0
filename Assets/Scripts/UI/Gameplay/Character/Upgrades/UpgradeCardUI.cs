@@ -39,6 +39,8 @@ namespace UI.Characters.Upgrades
         private CardAnimationsUI _animations;
         private CanvasGroup _canvasGroup;
 
+        private UpgradeCardVisualSettings _initialVisualSettings;
+
         #endregion
 
 
@@ -59,6 +61,8 @@ namespace UI.Characters.Upgrades
 
             _canvasGroup = GetComponent<CanvasGroup>();
             _canvasGroup.alpha = 0;
+
+            _initialVisualSettings = new(_upgradeTitleText.color, _upgradeCard.color, _upgradeIcon.color);
         }
 
 
@@ -116,6 +120,12 @@ namespace UI.Characters.Upgrades
 
         public void Hide(Action callback = null)
         {
+            void FinishHideActions()
+            {
+                SetMainVisualSettings(_initialVisualSettings);
+                gameObject.SetActive(false);
+            }
+
             if (_animations != null)
             {
                 _animations.BlockPointerInteraction();
@@ -123,7 +133,7 @@ namespace UI.Characters.Upgrades
                 _animations.Hide(() =>
                 {
                     callback?.Invoke();
-                    gameObject.SetActive(false);
+                    FinishHideActions();
                 });
 
                 return;
@@ -131,6 +141,7 @@ namespace UI.Characters.Upgrades
 
             callback?.Invoke();
             _canvasGroup.alpha = 0;
+            FinishHideActions();
         }
 
         public void SetUpgradeInfo(UpgradeInfoUI upgradeInfo)
@@ -149,14 +160,19 @@ namespace UI.Characters.Upgrades
                 return;
             }
 
-            _upgradeTitleText.color = visualData.TitleColor;
-            _upgradeIcon.color = visualData.IconTint;
-            _upgradeCard.color = visualData.CardColor;
+            SetMainVisualSettings(visualData.MainVisualSettings);
 
             if ((Animations != null) && (visualData.AnimationsData != null))
             {
                 Animations.SetAnimationData(visualData.AnimationsData);
             }
+        }
+
+        private void SetMainVisualSettings(UpgradeCardVisualSettings visualSettings)
+        {
+            _upgradeTitleText.color = visualSettings.TitleColor;
+            _upgradeCard.color = visualSettings.CardColor;
+            _upgradeIcon.color = visualSettings.IconTint;
         }
 
         #region Pointer Actions 

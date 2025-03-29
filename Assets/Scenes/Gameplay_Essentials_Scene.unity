@@ -1921,11 +1921,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6867276675344867109, guid: 69408b6f8561af94fbfdb8bdd9048069, type: 3}
       propertyPath: m_Alpha
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7179810776831408262, guid: 69408b6f8561af94fbfdb8bdd9048069, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7981974654855557362, guid: 69408b6f8561af94fbfdb8bdd9048069, type: 3}
       propertyPath: m_Pivot.x

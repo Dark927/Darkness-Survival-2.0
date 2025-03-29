@@ -111,6 +111,7 @@ namespace Characters.Common
         public virtual void Dispose()
         {
             Visual?.Dispose();
+            Health?.Dispose();
         }
 
         protected void OnDestroy()
@@ -131,7 +132,7 @@ namespace Characters.Common
                 return;
             }
 
-            Health.TakeDamage(damage);
+            Health.ReduceCurrentHp(damage.Amount);
             RaiseOnBodyDamaged(damage);
 
             if (IsDying)

@@ -24,7 +24,7 @@ namespace UI.Characters.Upgrades
         public Vector2 TargetScale { get => _targetCardScale; set => _targetCardScale = value; }
         public Color TargetTitleColor { get => _targetTitleColor; set => _targetTitleColor = value; }
         public Color TargetCardColor { get => _targetCardColor; set => _targetCardColor = value; }
-        public Color TargetCardIconColor { get => _targetCardColor; set => _targetCardColor = value; }
+        public Color TargetCardIconColor { get => _targetCardIconColor; set => _targetCardIconColor = value; }
 
 
         public CardAnimationParamsUI(float effectDuration = 1f)

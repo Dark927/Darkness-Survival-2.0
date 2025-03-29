@@ -1,8 +1,9 @@
-using Characters.Common;
+﻿using Characters.Common;
 using Characters.Common.Movement;
 using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Animation;
+using Utilities.ErrorHandling;
 
 namespace Characters.Player
 {
@@ -61,7 +62,7 @@ namespace Characters.Player
 
             OnBodyDies += _animatorController.TriggerDeath;
             OnBodyDies += Movement.Block;
-            OnBodyDies += Health.CancelHpRegeneration;
+            OnBodyDies += Health.CancelAllHpRegenerations;
         }
 
         public override void RemoveEventLinks()
@@ -74,7 +75,7 @@ namespace Characters.Player
 
             OnBodyDies -= _animatorController.TriggerDeath;
             OnBodyDies -= Movement.Block;
-            OnBodyDies -= Health.CancelHpRegeneration;
+            OnBodyDies -= Health.CancelAllHpRegenerations;
 
             _animatorController.Events.OnDeathFinished -= RaiseOnBodyCompletelyDied;
         }

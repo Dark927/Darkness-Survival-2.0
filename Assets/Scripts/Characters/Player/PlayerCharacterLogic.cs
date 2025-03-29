@@ -86,10 +86,32 @@ namespace Characters.Player
             throw new NotImplementedException();
         }
 
-        public void ApplyHealthUpgrade(float percent)
+        public void ApplyMaxHealthUpgrade(float percent)
         {
             IHealth characterHealth = Body.Health;
-            characterHealth.SetMaxHpLimit(characterHealth.MaxHp * percent);
+            float targetMaxHp = characterHealth.MaxHp * percent;
+            float hpDiff = targetMaxHp - characterHealth.MaxHp;
+
+            characterHealth.SetMaxHpLimit(targetMaxHp);
+
+            if (hpDiff > 0f)
+            {
+                characterHealth.Heal(hpDiff);
+            }
+        }
+
+        public void ApplyHealthRegenerationUpgrade(float hpPerSec, bool downgrade = false)
+        {
+            IHealth characterHealth = Body.Health;
+
+            if (downgrade)
+            {
+                characterHealth.ReducePermanentHpRegeneration(hpPerSec);
+            }
+            else
+            {
+                characterHealth.RegenerateHpAlways(hpPerSec, 1f, true);
+            }
         }
 
         #endregion

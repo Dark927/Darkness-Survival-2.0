@@ -13,6 +13,7 @@ namespace Characters.Player.Upgrades
 
         public void ApplySpeedUpgrade(float percent);
         public void ApplyDamageUpgrade(float percent);
-        public void ApplyHealthUpgrade(float percent);
+        public void ApplyMaxHealthUpgrade(float percent);
+        public void ApplyHealthRegenerationUpgrade(float hpPerSec, bool downgrade = false);
     }
 }

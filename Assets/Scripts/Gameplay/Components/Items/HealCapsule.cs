@@ -56,12 +56,12 @@ public class HealCapsule : PickupItemBase
         int stepCount = (int)(parameters.HpAmount / stepHpAmount);
         float stepInSec = parameters.DurationInSec / stepCount;
 
-        targetCharacter.Body.Health.RegenerateHp(stepHpAmount, parameters.DurationInSec, stepInSec, true);
+        targetCharacter.Body.Health.RegenerateHpDuringTime(stepHpAmount, parameters.DurationInSec, stepInSec, true);
     }
 
     private void ApplyPermanentRegeneration(ICharacterLogic targetCharacter, ItemHpParameters parameters)
     {
-        targetCharacter.Body.Health.RegenerateHp(parameters.HpAmount, additive: true);
+        targetCharacter.Body.Health.RegenerateHpAlways(parameters.HpAmount, additive: true);
     }
 
     #endregion

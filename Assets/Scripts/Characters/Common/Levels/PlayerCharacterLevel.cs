@@ -69,7 +69,7 @@ namespace Characters.Player.Levels
             }
 
             OnUpdateXp?.Invoke(this, new CharacterLevelArgs(ActualLevel, ActualXpBounds, XpProgressRatio));
-            Debug.Log($"Current XP: {ActualXp}, level: {ActualLevel}");
+            //Debug.Log($"Current XP: {ActualXp}, level: {ActualLevel}");
         }
 
 

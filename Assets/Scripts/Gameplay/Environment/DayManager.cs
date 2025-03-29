@@ -104,6 +104,11 @@ namespace World.Environment
                 _targetDayStateData = GetNewDayStateData();
             }
 
+            if (_targetDayStateData == null)
+            {
+                return;
+            }
+
             //loop the day cycle, extrapolate step:  0.7 -> 0.3  =>  0.7 -> 1.3
             var targetGameTime = _targetDayStateData.TargetGameTime;
             if (_previousData.TargetGameTime >= targetGameTime)

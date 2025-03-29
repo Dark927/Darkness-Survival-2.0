@@ -1,10 +1,10 @@
-using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Materials.DarkMeshPro
 {
     [ExecuteAlways]
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class DarkMeshProComponent : MonoBehaviour
     {
 
@@ -15,7 +15,7 @@ namespace Materials.DarkMeshPro
             _textMeshPro = GetComponent<TextMeshProUGUI>();
         }
 
-        private void OnRenderObject()
+        private void Update()
         {
 #if UNITY_EDITOR
             if (_textMeshPro == null)
@@ -23,6 +23,7 @@ namespace Materials.DarkMeshPro
                 _textMeshPro = GetComponent<TextMeshProUGUI>();
             }
 #endif
+
             _textMeshPro.materialForRendering.SetFloat("_UnscaledTime", Time.unscaledTime);
         }
     }

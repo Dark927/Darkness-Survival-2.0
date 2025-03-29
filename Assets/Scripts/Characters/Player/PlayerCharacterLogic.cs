@@ -1,7 +1,8 @@
 ﻿using System;
 using Characters.Common;
-using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
+using Characters.Common.Movement;
+using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Data;
 using Characters.Player.Levels;
@@ -13,11 +14,11 @@ using UnityEngine;
 namespace Characters.Player
 {
     [RequireComponent(typeof(IEntityPhysicsBody))]
-    public class PlayerCharacterLogic : AttackableEntityLogic, ICharacterLogic
+    public class PlayerCharacterLogic : AttackableEntityLogic, IUpgradableCharacterLogic
     {
         #region Events 
 
-        public event Action<ICharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
+        public event Action<IUpgradableCharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
 
         #endregion
 
@@ -25,7 +26,7 @@ namespace Characters.Player
         #region Fields
 
         private ICharacterLevel _level;
-        private CharacterUpgrades _upgrades;
+        private CharacterUpgradesCoordinator _upgradesCoordinator;
 
         #endregion
 
@@ -34,7 +35,7 @@ namespace Characters.Player
 
         public CharacterBasicAttack BasicAttack => base.BasicAttacks as CharacterBasicAttack;
         public ICharacterLevel Level => _level;
-        public CharacterUpgrades Upgrades => _upgrades;
+        public CharacterUpgradesCoordinator UpgradesCoordinator => _upgradesCoordinator;
 
         #endregion
 
@@ -48,7 +49,7 @@ namespace Characters.Player
             base.Initialize(data);
             PlayerCharacterData playerCharacterData = data as PlayerCharacterData;
             _level = new PlayerCharacterLevel(playerCharacterData.CharacterLevelData);
-            _upgrades = new CharacterUpgrades(this);
+            _upgradesCoordinator = new CharacterUpgradesCoordinator(this);
         }
 
         public override void ConfigureEventLinks()
@@ -68,6 +69,27 @@ namespace Characters.Player
         private void LevelUpListener(object sender, EntityLevelArgs args)
         {
             OnReadyForUpgrade?.Invoke(this, args);
+        }
+
+        public void ApplySpeedUpgrade(float percent)
+        {
+            EntitySpeed characterSpeed = Body.Movement.Speed;
+            SpeedSettings updatedSettings = characterSpeed.Settings;
+            updatedSettings.MaxSpeedMultiplier *= percent;
+
+            characterSpeed.SetSettings(updatedSettings);
+        }
+
+        // ToDo : apply damage upgrade
+        public void ApplyDamageUpgrade(float percent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ApplyHealthUpgrade(float percent)
+        {
+            IHealth characterHealth = Body.Health;
+            characterHealth.SetMaxHpLimit(characterHealth.MaxHp * percent);
         }
 
         #endregion

@@ -9,5 +9,6 @@ namespace Characters.Player.Upgrades
     public interface IUpgradeLevelSO
     {
         public string Description { get; }
+        public UpgradeVisualDataUI CustomUpgradeVisualDataUI { get; }
     }
 }

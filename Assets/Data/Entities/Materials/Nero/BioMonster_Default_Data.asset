@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20634396c7208364890909521d1a085b, type: 3}
+  m_Name: BioMonster_Default_Data
+  m_EditorClassIdentifier: 
+  props:
+    _MainProps:
+      _Gamma: 1
+      _ColorTint: {r: 0.67906386, g: 1, b: 0.5896226, a: 1}
+      _FlashColor: {r: 0, g: 0, b: 0, a: 0}
+      _FlashAmount: 0
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+      _EmissionAmount: 1
+      _HSVParams:
+        _TargetColor: {r: 0.094117634, g: 0.15136588, b: 0.28627452, a: 1}
+        _UseMask: 0
+        Hk: 1
+        Sk: 0
+        Vk: 0
+        Hb: 0
+        Sb: 0
+        Vb: 0
+        _HueTolerance: 0
+        _SatTolerance: 0
+        _ValTolerance: 0
+        _HSVGamma: 1
+      _RendMode: 2
+      _UseJitterFree: 1
+    DissolveNoise: 0
+    DissolveColor: {r: 0, g: 0, b: 0, a: 0}
+    DissolveOutline: 1

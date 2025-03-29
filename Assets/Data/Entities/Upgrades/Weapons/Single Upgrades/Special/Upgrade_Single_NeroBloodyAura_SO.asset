@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b701cccea45623d44b34fb81a4d431b3, type: 3}
+  m_Name: Upgrade_Single_NeroBloodyAura_SO
+  m_EditorClassIdentifier: 
+  _auraDescription: <color=red>Add bloody aura to the sword</color>
+  _auraMaterialPropsData: {fileID: 11400000, guid: db12382d105bca147b2697e50dbc66ef, type: 2}

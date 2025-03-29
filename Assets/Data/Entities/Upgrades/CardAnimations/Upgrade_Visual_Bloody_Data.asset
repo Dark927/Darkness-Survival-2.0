@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00590876022205147a2c9837af1d68c9, type: 3}
+  m_Name: Upgrade_Visual_Bloody_Data
+  m_EditorClassIdentifier: 
+  _titleColor: {r: 0.990566, g: 0.13550198, b: 0.13550198, a: 1}
+  _cardColor: {r: 1, g: 0.6142453, b: 0.5896226, a: 1}
+  _iconTint: {r: 0.9056604, g: 0.12388753, b: 0.12388753, a: 1}
+  _animationsData: {fileID: 11400000, guid: 295c86b19445d294db645de4c3fb7a1b, type: 2}

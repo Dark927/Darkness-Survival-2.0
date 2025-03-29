@@ -68,7 +68,7 @@ namespace UI.Characters.Upgrades
 
         public void DisplayUpgrades(IEnumerable<UpgradeProvider> upgradesProviders)
         {
-            // temp
+            // ToDo : temp variable for tests in Update method (remove)
             _upgradesData = upgradesProviders;
 
             int upgradesCount = upgradesProviders.Count();

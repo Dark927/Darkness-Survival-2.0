@@ -1,3 +1,4 @@
+﻿using Characters.Common.Combat.Weapons;
 using Characters.Common.Visual;
 using Characters.Player.Weapons;
 using UnityEngine;
@@ -14,14 +15,14 @@ namespace Characters.Player.Animation
 
         public float Speed
         {
-            get => Animator.GetFloat(Parameters.SpeedFieldName);
-            set => Animator.SetFloat(Parameters.SpeedFieldName, value);
+            get => Animator.GetFloat(Parameters.SpeedFieldID);
+            set => Animator.SetFloat(Parameters.SpeedFieldID, value);
         }
 
         public CharacterBasicAttack.LocalType AttackType
         {
-            get => (CharacterBasicAttack.LocalType)Animator.GetInteger(Parameters.AttackTypeFieldName);
-            set => Animator.SetInteger(Parameters.AttackTypeFieldName, (int)value);
+            get => (CharacterBasicAttack.LocalType)Animator.GetInteger(Parameters.AttackTypeFieldID);
+            set => Animator.SetInteger(Parameters.AttackTypeFieldID, (int)value);
         }
 
         #endregion
@@ -45,12 +46,40 @@ namespace Characters.Player.Animation
         public void TriggerAttack(CharacterBasicAttack.LocalType type)
         {
             AttackType = type;
-            Animator.SetTrigger(Parameters.AttackTriggerName);
+            Animator.SetTrigger(Parameters.AttackTriggerID);
         }
 
         public void TriggerDeath()
         {
-            Animator.SetTrigger(Parameters.DeathTriggerName);
+            Animator.SetTrigger(Parameters.DeathTriggerID);
+        }
+
+        public void UpdateAttackSpeed(CharacterBasicAttack.LocalType targetAttackType, float percent)
+        {
+            switch (targetAttackType)
+            {
+                case BasicAttack.LocalType.Fast:
+                    UpdateAttackSpeedByID(Parameters.FastAttackSpeedMultiplierID, percent);
+                    break;
+
+                case BasicAttack.LocalType.Heavy:
+                    UpdateAttackSpeedByID(Parameters.HeavyAttackSpeedMultiplierID, percent);
+                    break;
+
+                case BasicAttack.LocalType.Default:
+                    UpdateAttackSpeedByID(Parameters.FastAttackSpeedMultiplierID, percent);
+                    UpdateAttackSpeedByID(Parameters.HeavyAttackSpeedMultiplierID, percent);
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
+
+        }
+
+        private void UpdateAttackSpeedByID(int attackParameterID, float percent)
+        {
+            var initialSpeed = Animator.GetFloat(attackParameterID);
+            Animator.SetFloat(attackParameterID, initialSpeed * percent);
         }
 
         public void SpeedUpdateListener(object sender, SpeedChangedArgs args)

@@ -1,4 +1,6 @@
 ﻿
+using Materials;
+using Materials.DarkEntityFX;
 using Settings.Global;
 using UnityEngine;
 
@@ -10,6 +12,7 @@ namespace Characters.Player
         #region Fields 
 
         private SpriteRenderer _spriteRenderer;
+        private DarkEntityFXComponent _darkMainFXComponent;
 
         #endregion
 
@@ -26,6 +29,7 @@ namespace Characters.Player
         public void Initialize()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _darkMainFXComponent = GetComponent<DarkEntityFXComponent>();
             Deactivate();
         }
 
@@ -39,7 +43,17 @@ namespace Characters.Player
         public void Deactivate()
         {
             _spriteRenderer.enabled = false;
+        }
 
+        public void SetAura(ScriptableMaterialPropsBase auraFxData, ParametricProps properties)
+        {
+            if (_darkMainFXComponent == null)
+            {
+                return;
+            }
+
+            _darkMainFXComponent.MaterialPropContainer.ConstMaterialProps = auraFxData;
+            _darkMainFXComponent.MaterialPropContainer.Properties = properties;
         }
 
 

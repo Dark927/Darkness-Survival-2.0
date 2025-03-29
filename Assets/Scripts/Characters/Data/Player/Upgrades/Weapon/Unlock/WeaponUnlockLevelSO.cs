@@ -9,7 +9,7 @@ namespace Characters.Player.Upgrades
 
     [CreateAssetMenu(fileName = "WeaponUnlockLevelData", menuName = "Game/Upgrades/Weapon Upgrades/Unlock/Weapon Unlock Level Data")]
 
-    public class WeaponUnlockLevelSO : UpgradeLevelSO<ICharacterLogic>
+    public class WeaponUnlockLevelSO : UpgradeLevelSO<IUpgradableCharacterLogic>
     {
 
     }

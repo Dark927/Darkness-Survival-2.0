@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 5069042129464851250}
   - component: {fileID: 8981245367489257102}
   - component: {fileID: 7164390890072637967}
+  - component: {fileID: 1532868351765696899}
   m_Layer: 3
   m_Name: Nero_visual
   m_TagString: Untagged
@@ -89,7 +90,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6e4e1c9f3788c245abcd96e29aefc04, type: 2}
+  - {fileID: 2100000, guid: 9088a3b9f6c0dbe458178bfb97e245f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -166,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90087bca155c6340833297806fb68f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startEmissionAmount: 0.25
+  _setSwordVisualSame: 1
 --- !u!210 &7164390890072637967
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -178,6 +181,27 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_SortAtRoot: 0
+--- !u!114 &1532868351765696899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085055352683630366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83dade73cea94ed4f96f07bde92bc932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialPropContainer:
+    _constMaterialProps: {fileID: 11400000, guid: b4181006de98feb44819d759db357ed7, type: 2}
+    _properties:
+      _FlashAmount: 0
+      EmissionAmount: 0
+      _Seed: 0
+      _DissolveAmount: 0
+      _UseJitterFree: 0
+      RendMode: 0
 --- !u!1 &6172872057176967621
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +213,7 @@ GameObject:
   - component: {fileID: 1581976942033930216}
   - component: {fileID: 3347768393338057847}
   - component: {fileID: 6856215761578958117}
+  - component: {fileID: 191507478725647020}
   m_Layer: 0
   m_Name: Nero_Sword
   m_TagString: Untagged
@@ -231,7 +256,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9088a3b9f6c0dbe458178bfb97e245f9, type: 2}
+  - {fileID: 2100000, guid: 3875a11eb624ba345955427f58c9e462, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -275,6 +300,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0504b6fb3ae338d4fb00b9b717e3ac3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &191507478725647020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6172872057176967621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83dade73cea94ed4f96f07bde92bc932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialPropContainer:
+    _constMaterialProps: {fileID: 0}
+    _properties:
+      _FlashAmount: 0
+      EmissionAmount: 0
+      _Seed: 0.001
+      _DissolveAmount: 0
+      _UseJitterFree: 0
+      RendMode: -1
 --- !u!1 &7507303139750698719
 GameObject:
   m_ObjectHideFlags: 0

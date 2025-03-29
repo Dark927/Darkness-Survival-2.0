@@ -9,11 +9,8 @@ namespace Characters.Interfaces
     public interface ICharacterLogic : IEntityDynamicLogic
     {
         public event Action<BasicAttack> OnBasicAttacksReady;
-        public event Action<ICharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
-
         public EntityWeaponsHolder Weapons { get; }
         public ICharacterLevel Level { get; }
-        public CharacterUpgrades Upgrades { get; }
 
         public void PerformBasicAttack(BasicAttack.LocalType type);
 

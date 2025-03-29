@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953e66f488aa3474dab06023c813a3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMenuTheme: {fileID: 0}
+  _mainMenuTheme: {fileID: 11400000, guid: 29ba11fc1484d1044acbcc3b07a759a0, type: 2}
   _pauseMenuTheme: {fileID: 0}
 --- !u!1 &825283625
 GameObject:

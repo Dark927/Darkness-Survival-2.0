@@ -1,5 +1,4 @@
-using System;
-using System.Runtime.CompilerServices;
+﻿using System;
 using UnityEngine;
 
 #nullable enable
@@ -9,9 +8,9 @@ namespace Materials
     [Serializable]
     public class MaterialPropContainer<T> where T : IMaterialProps, new()
     {
-        public MaterialPropertyBlock? _mpb;
+        private MaterialPropertyBlock? _mpb;
 
-        [SerializeField] public ScriptableMaterialPropsBase? _constMaterialProps;
+        [SerializeField] private ScriptableMaterialPropsBase? _constMaterialProps;
 
         [SerializeField] private T _properties;
 
@@ -25,11 +24,22 @@ namespace Materials
                     _properties.NeedsUpdate = true;
             }
         }
+
+        public ScriptableMaterialPropsBase? ConstMaterialProps
+        {
+            get => _constMaterialProps;
+            set
+            {
+                _constMaterialProps = value;
+                _properties.NeedsUpdate = true;
+            }
+        }
+
+
         public MaterialPropContainer()
         {
             _properties = new() { NeedsUpdate = true };
         }
-
 
         public void Update(Renderer renderer)
         {

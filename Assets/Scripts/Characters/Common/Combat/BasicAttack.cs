@@ -33,6 +33,7 @@ namespace Characters.Common.Combat.Weapons
         #region Properties
 
         protected IEntityPhysicsBody EntityBody => _entityBody;
+        protected virtual bool CanAttack => !_isAttacking && !(BasicWeapons.Count() == 0);
         public IEnumerable<IWeapon> BasicWeapons => _basicWeapons;
 
         #endregion
@@ -67,12 +68,11 @@ namespace Characters.Common.Combat.Weapons
 
         public void TryPerformAttack(LocalType type)
         {
-            if (_isAttacking || (BasicWeapons.Count() == 0))
+            if (CanAttack)
             {
-                return;
+                PerformAttack(type);
             }
 
-            PerformAttack(type);
         }
 
         protected void PerformAttack(LocalType type)

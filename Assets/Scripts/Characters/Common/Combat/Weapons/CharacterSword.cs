@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Characters.Common.Combat.Weapons.Data;
 using Characters.Interfaces;
+using Characters.Player;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public sealed class CharacterSword : WeaponBase
+    public class CharacterSword : BasicCharacterWeapon
     {
         #region Enums
 
@@ -18,7 +19,6 @@ namespace Characters.Common.Combat.Weapons
         }
 
         #endregion
-
 
         #region Fields 
 
@@ -46,12 +46,7 @@ namespace Characters.Common.Combat.Weapons
             base.Initialize(attackData);
             _attackImpactDict = new();
 
-#if UNITY_EDITOR
-            TempDebugCode();
-#endif
-
             _swordAttackSettings = (SwordAttackSettings)AttackSettings;
-
             _attackTriggers = GetComponentsInChildren<SwordAttackTrigger>().ToList();
             _attackTriggers.ForEach(attackTrigger => attackTrigger.Initialize());
 
@@ -151,23 +146,7 @@ namespace Characters.Common.Combat.Weapons
             };
         }
 
-
-        // ToDo : remove this DEBUG code on Release.
-        private void TempDebugCode()
-        {
-            try
-            {
-                _swordAttackSettings = (SwordAttackSettings)AttackSettings;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"# Can not convert the {(AttackSettings.GetType())} to {nameof(SwordAttackSettings)}! Settings is NULL!");
-                Debug.LogException(ex);
-            }
-        }
         #endregion
-
-
 
     }
 }

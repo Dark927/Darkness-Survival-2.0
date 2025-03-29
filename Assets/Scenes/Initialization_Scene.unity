@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _globalSceneData: {fileID: 11400000, guid: 40de24b8a0f256d449f15a5af619e039, type: 2}
+  _loadStageOnStart: 1
 --- !u!4 &2037470935
 Transform:
   m_ObjectHideFlags: 0

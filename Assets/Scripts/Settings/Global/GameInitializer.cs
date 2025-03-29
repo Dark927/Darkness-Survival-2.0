@@ -12,6 +12,7 @@ namespace Settings.Global
         #region Fields 
 
         [SerializeField] private GameSceneData _globalSceneData;
+        [SerializeField] private bool _loadStageOnStart;
 
         #endregion
 
@@ -38,10 +39,16 @@ namespace Settings.Global
         {
             await GameSceneLoadHandler.Instance.RequestSceneLoad(_globalSceneData, LoadSceneMode.Single).Task;
 
-            GameStateService stateService = ServiceLocator.Current.Get<GameStateService>();
-            stateService.StartStage();
-            //GameSceneLoadHandler.Instance.RequestMainMenuLoad();
-            //GameSceneLoadHandler.Instance.RequestStageLoad();
+            if (_loadStageOnStart)
+            {
+                GameStateService stateService = ServiceLocator.Current.Get<GameStateService>();
+                stateService.StartStage();
+
+            }
+            else
+            {
+                GameSceneLoadHandler.Instance.RequestMainMenuLoad();
+            }
 
         }
 

@@ -1,6 +1,8 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using Materials.DarkEntityFX;
 using UnityEngine;
+using Utilities.Math;
 
 namespace Characters.Common.Visual
 {
@@ -9,12 +11,10 @@ namespace Characters.Common.Visual
     {
         #region Fields
 
-        private readonly string _matFlashColorName = "_FlashColor"; //TODO: 
-        private readonly string _matFlashAmountName = "_FlashAmount";
-
         private SpriteRenderer _spriteRenderer;
         private CancellationTokenSource _blinkCts;
-        private Material _material;
+        private DarkEntityFXComponent _entityFXComponent;
+        private ParametricProps _properties;
 
         #endregion
 
@@ -25,6 +25,7 @@ namespace Characters.Common.Visual
         public Sprite CharacterSprite { get => _spriteRenderer.sprite; set { _spriteRenderer.sprite = value; } }
         public bool HasAnimation { get => GetAnimatorController() != null; }
         public bool IsVisibleForCamera { get => _spriteRenderer.isVisible; }
+        public DarkEntityFXComponent EntityFXComponent => _entityFXComponent;
 
         #endregion
 
@@ -40,8 +41,7 @@ namespace Characters.Common.Visual
         public virtual void Initialize()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _material = new Material(_spriteRenderer.material);
-            _spriteRenderer.material = _material;
+            _entityFXComponent = GetComponent<DarkEntityFXComponent>();
         }
 
         public void Dispose()
@@ -52,12 +52,17 @@ namespace Characters.Common.Visual
         #endregion
 
 
-        public void ActivateColorBlink(Color targetColor, float durationInSec, float stepInSec)
+        public void ActivateColorBlink(Color targetColor, float durationInSec, float period)
         {
             DeactivateActualColorBlink();
 
+            if(EntityFXComponent == null)
+            {
+                return;
+            }
+
             _blinkCts = new CancellationTokenSource();
-            ColorBlink(targetColor, durationInSec, stepInSec, _blinkCts.Token).Forget();
+            ColorBlink(targetColor, durationInSec, period, _blinkCts.Token).Forget();
         }
 
         public void DeactivateActualColorBlink()
@@ -73,37 +78,37 @@ namespace Characters.Common.Visual
         }
 
 
-        private async UniTask ColorBlink(Color targetColor, float durationInSec, float stepInSec, CancellationToken token = default)
+        private async UniTask ColorBlink(Color targetColor, float durationInSec, float repeats, CancellationToken token = default)
         {
             float lerpTime = 0;
-            SetFlashColor(targetColor);
+
+            repeats = repeats == 0 ? 1 : repeats;
 
             while (lerpTime < durationInSec)
             {
-                lerpTime += Time.deltaTime;
-                float perc = lerpTime / durationInSec;
+                float perc = CustomMath.Frac((lerpTime / durationInSec) * repeats);
 
                 if (token.IsCancellationRequested)
                 {
                     return;
                 }
 
-                SetFlashAmount(1f - perc);
+                DoFlash(targetColor, 1f - perc);
+
+                lerpTime += Time.deltaTime;
                 await UniTask.NextFrame();
             }
 
-            SetFlashAmount(0);
+            DoFlash(targetColor, 0);
         }
 
 
-        protected void SetFlashColor(Color targetColor)
+        private void DoFlash(Color targetColor, float flashAmount)
         {
-            _material.SetColor(_matFlashColorName, targetColor);
-        }
-
-        private void SetFlashAmount(float flashAmount)
-        {
-            _material.SetFloat(_matFlashAmountName, flashAmount);
+            _properties = _entityFXComponent.MaterialPropContainer.Properties;
+            _properties.FlashColor = targetColor;
+            _properties.FlashAmount = flashAmount;
+            _entityFXComponent.MaterialPropContainer.Properties = _properties;
         }
     }
 

@@ -13,11 +13,12 @@ namespace UI.Characters.Upgrades
     {
         #region Fields 
 
-        [Space, CustomHeader("Card Main", 3, 0, CustomHeaderAttribute.HeaderColor.green)]
+        [Space, CustomHeader("Card Main", 4, 0, CustomHeaderAttribute.HeaderColor.green)]
 
         [SerializeField] private CardAnimationDataUI _animationData;
         [SerializeField] private TextMeshProUGUI _cardTitle;
         [SerializeField] private Image _cardImage;
+        [SerializeField] private Image _cardIcon;
 
         private CardAnimationParamsUI _targetSettingsParams;
         private CardAnimationParamsUI _startSettingsParams;
@@ -57,13 +58,16 @@ namespace UI.Characters.Upgrades
                 DurationInSec = _animationData.HoverAnimationParams.DurationInSec,
                 TargetTitleColor = _cardTitle.color,
                 TargetScale = transform.localScale,
-                TargetCardColor = _cardImage.color
+                TargetCardColor = _cardImage.color,
+                TargetCardIconColor = _cardIcon.color,
             };
         }
 
         public void SetAnimationData(CardAnimationDataUI animationData)
         {
             _animationData = animationData;
+            _startSettingsParams.TargetCardColor = _cardImage.color;
+            _startSettingsParams.TargetCardIconColor = _cardIcon.color;
             _startSettingsParams.DurationInSec = _animationData.HoverAnimationParams.DurationInSec;
         }
 
@@ -156,6 +160,11 @@ namespace UI.Characters.Upgrades
                     _cardImage
                         .DOColor(parameters.TargetCardColor, parameters.DurationInSec)
                         .From(_cardImage.color)
+                )
+                .Join(
+                    _cardIcon
+                        .DOColor(parameters.TargetCardIconColor, parameters.DurationInSec)
+                        .From(_cardIcon.color)
                 );
 
             animation.SetUpdate(true);

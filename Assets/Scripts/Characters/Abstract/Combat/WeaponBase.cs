@@ -10,9 +10,9 @@ namespace Characters.Common.Combat.Weapons
     {
         #region Fields
 
+        private IEntityDynamicLogic _owner;
         private Collider2D _ownerCollidder;
         private float _damageMultiplier = 1f;
-        private ImpactSettings _impactSettings;
         private IAttackSettings _attackSettings;
 
         private Damage _calculatedDamage;
@@ -21,6 +21,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Properties
 
+        public IEntityDynamicLogic Owner => _owner;
         public IAttackSettings AttackSettings => _attackSettings;
         public bool ImpactAvailable => AttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
@@ -36,10 +37,15 @@ namespace Characters.Common.Combat.Weapons
 
         public virtual void Initialize(WeaponAttackDataBase attackData)
         {
-            IEntityPhysicsBody ownerBody = GetComponentInParent<IEntityPhysicsBody>(true);
-            _ownerCollidder = ownerBody.Physics.Collider;
-            _attackSettings = attackData.Settings;
-            _calculatedDamage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
+            _owner = GetComponentInParent<IEntityDynamicLogic>(true);
+            _ownerCollidder = _owner.Body.Physics.Collider;
+
+            _attackSettings = attackData.Settings;   // settings - value type
+
+            if (attackData.Settings.NegativeStatus != null)
+            {
+                _calculatedDamage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
+            }
         }
 
         protected virtual AttackImpact InitImpact(ImpactSettings impactSettings)
@@ -120,7 +126,7 @@ namespace Characters.Common.Combat.Weapons
                 targetBody.Visual.ActivateColorBlink(
                     negativeStatus.VisualColor,
                     negativeStatus.EffectDurationInSec,
-                    negativeStatus.EffectSpeedInSec);
+                    negativeStatus.EffectRepeats);
             }
         }
 
@@ -138,15 +144,6 @@ namespace Characters.Common.Combat.Weapons
         private void OnDestroy()
         {
             Dispose();
-        }
-
-
-        // ToDo : implement full ver.
-        public void ApplyNewDamagePercent(float damagePercent)
-        {
-            Debug.Log("damage before -> " + _attackSettings.Damage.Min + "  -  " + _attackSettings.Damage.Max);
-            _attackSettings.Damage = _attackSettings.Damage * damagePercent;
-            Debug.Log("damage after -> " + _attackSettings.Damage.Min + "  -  " + _attackSettings.Damage.Max);
         }
 
         #endregion

@@ -28,6 +28,7 @@ Shader "Dark/Sprites/DarkMainFX"
         [Header(HSV Replace)]
         [Space]
         _TargetColor ("Target Color", Color) = (1,0,0,1)
+        [Toggle] _UseMask ("Use Mask", Float) = 0
 
         [Space]
         _ReplacementColorCoefK ("(Hk Sk Vk)", Vector) = (1,1,1,0)
@@ -90,6 +91,7 @@ Shader "Dark/Sprites/DarkMainFX"
             float _FlashAmount;
 
             float4 _TargetColor;
+            float _UseMask;
             float4 _ReplacementColorCoefK;
             float4 _ReplacementColorCoefB;
             float _HueTolerance;
@@ -113,6 +115,7 @@ Shader "Dark/Sprites/DarkMainFX"
                 float3 replacedHsv = hsv;                
                 replacedHsv *= _ReplacementColorCoefK.xyz;
                 replacedHsv += _ReplacementColorCoefB.xyz;
+
                 float3 replacedRGB = hsv_to_rgb(replacedHsv);
                 
                 // STEP or MASKSTEP
@@ -160,24 +163,49 @@ Shader "Dark/Sprites/DarkMainFX"
             
             float4 Universal2DFragment(DarkVaryings2D i) : SV_Target
             {
-                float2 smoothUV = TexturePointSmoothUV(i.uv);
-                float colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV).r; //TODO: remove
+                float2 smoothUV;
+
+                [branch]
+                if(_RendMode & 128){ 
+                    _RendMode &= ~128;
+                    smoothUV = TexturePointSmoothUV(i.uv);
+                }
+                else
+                {
+                    smoothUV = i.uv;
+                }
+
+
+                float4 colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV); //TODO: remove
+                float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
                 float4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
 
                 if(_RendMode == 5) // unlit
                     return main;
 
                 if(_RendMode != 0) // not original
-                    main = ProcessHSV(main);
+                {
+                    if(_UseMask > 0.5)
+                    {
+                        if(emissionCoef > 0)
+                        {
+                            main = ProcessHSV(main);
+                        }
+                    }
+                    else
+                    {
+                        main = ProcessHSV(main);
+                    }
+                }
+
 
                 if(_RendMode > 2) // masks
                     return main;
 
                 float3 tinted = pow(abs(main.rgb * i.color.rgb), _Gamma);
-                main.rgb = lerp(main.rgb, tinted, colormaskCoef);
+                main.rgb = lerp(main.rgb, tinted, colormaskCoef.r);
                 main.rgb = lerp(main.rgb, _FlashColor.rgb, _FlashAmount);
 
-                float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
                 main.rgb += _EmissionColor.rgb * emissionCoef * _EmissionAmount;
 
                 SurfaceData2D surfaceData;

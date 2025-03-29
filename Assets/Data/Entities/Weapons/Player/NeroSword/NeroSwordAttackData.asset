@@ -13,26 +13,27 @@ MonoBehaviour:
   m_Name: NeroSwordAttackData
   m_EditorClassIdentifier: 
   _swordAttackSettings:
-    _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
-    _damageSettings:
-      _min: 9
-      _max: 11
-    _impact:
-      _useImpact: 1
-      _stunDurationMs: 500
-      _pushForce: 1
-      _reloadTimeMs: 2000
-      _chancePercent: 50
-      _shakeSettings:
-        m_Amplitude: 2
-        m_Frequency: 1
-        m_Time: 0.15
-    _triggerActivityTimeSec: 0.1
-    _fullDurationTimeSec: 0
-    _reloadTimeSec: 0
+    _commonSettings:
+      _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
+      _damageSettings:
+        _min: 9
+        _max: 12
+      _impact:
+        _useImpact: 1
+        _stunDurationMs: 400
+        _pushForce: 2
+        _reloadTimeMs: 250
+        _chancePercent: 0
+        _shakeSettings:
+          m_Amplitude: 1
+          m_Frequency: 1
+          m_Time: 0.15
+      _triggerActivityTimeSec: 0.1
+      _fullDurationTimeSec: 0
+      _reloadTimeSec: 0
     _heavyDamageSettings:
       _min: 12
-      _max: 14
+      _max: 16
     _heavyImpactSettings:
       _useImpact: 1
       _stunDurationMs: 1000

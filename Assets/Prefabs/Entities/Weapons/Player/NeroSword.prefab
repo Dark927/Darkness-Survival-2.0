@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5454827383736974348}
-  - component: {fileID: 5905878523843600981}
+  - component: {fileID: 1127104421021333285}
   m_Layer: 7
   m_Name: NeroSword
   m_TagString: Untagged
@@ -125,7 +125,7 @@ Transform:
   - {fileID: 5535461304935065190}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5905878523843600981
+--- !u!114 &1127104421021333285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3825033947004516889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cdac51536ff9b845980a0f962d26f2d, type: 3}
+  m_Script: {fileID: 11500000, guid: 915cab6494dbf7e4298dc462eb332b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6161270125322290101

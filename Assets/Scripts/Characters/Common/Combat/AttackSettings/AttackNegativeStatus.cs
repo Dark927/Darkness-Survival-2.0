@@ -5,13 +5,13 @@ namespace Characters.Common.Combat
     [System.Serializable]
     public struct AttackNegativeStatus
     {
-        public static AttackNegativeStatus Zero = new AttackNegativeStatus() { _effectColor = Color.white, _effectDurationInSec = 0f, _effectSpeedInSec = 0f };
+        public static AttackNegativeStatus Zero = new AttackNegativeStatus() { _effectColor = Color.white, _effectDurationInSec = 0f, _effectRepeats = 0f };
 
         #region Fields
 
         [SerializeField] private Color _effectColor;
         [SerializeField] private float _effectDurationInSec;
-        [SerializeField] private float _effectSpeedInSec;
+        [SerializeField] private float _effectRepeats;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace Characters.Common.Combat
 
         public Color VisualColor => _effectColor;
         public float EffectDurationInSec => _effectDurationInSec;
-        public float EffectSpeedInSec => _effectSpeedInSec;
+        public float EffectRepeats => _effectRepeats;
 
         #endregion
     }

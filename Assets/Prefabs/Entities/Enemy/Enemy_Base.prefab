@@ -112,7 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a91b092a9d299a4aa76f548a454ddc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterData: {fileID: 0}
 --- !u!114 &6469858864587082692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +162,7 @@ GameObject:
   - component: {fileID: 4826570620018450180}
   - component: {fileID: 3403255615484577592}
   - component: {fileID: 7047707243116785191}
+  - component: {fileID: 7118285593321603950}
   m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
@@ -270,6 +270,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69751365b6056d54bbabda4c413f4013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7118285593321603950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6241696916706957857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83dade73cea94ed4f96f07bde92bc932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialPropContainer:
+    _constMaterialProps: {fileID: 11400000, guid: 5a0424446a068a94d9661fffe9e4da3d, type: 2}
+    _properties:
+      FlashAmount: 0
+      FlashColor: {r: 0, g: 0, b: 0, a: 0}
+      EmissionAmount: 0
+      Seed: 0
+      DissolveAmount: 0
+      UseJitterFree: 0
+      RendMode: 0
 --- !u!1 &6483652320573773819
 GameObject:
   m_ObjectHideFlags: 0

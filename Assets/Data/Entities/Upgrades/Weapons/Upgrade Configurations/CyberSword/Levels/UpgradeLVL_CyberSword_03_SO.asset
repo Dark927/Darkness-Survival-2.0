@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseDescription: 
   _useDowngradesInfoInDesc: 1
-  _upgrades: []
+  _upgrades:
+  - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
   _downgrades: []
+  _customVisualDataUI: {fileID: 0}

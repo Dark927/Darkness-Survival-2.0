@@ -15,6 +15,6 @@ MonoBehaviour:
   _name: Regular
   _description: 
   _settings:
-    _effectColor: {r: 1, g: 0, b: 0.16288757, a: 1}
+    _effectColor: {r: 1, g: 0, b: 0.07738876, a: 1}
     _effectDurationInSec: 0.5
-    _effectSpeedInSec: 1
+    _effectRepeats: 1

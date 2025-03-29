@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 
@@ -10,6 +10,7 @@ namespace Materials.DarkMainFX
         [Header("HSV Replace")]
         [ColorUsage(false, false)]
         public Color _TargetColor;
+        public bool _UseMask;
 
         [Space]
         [Range(0, 1f)] public float Hk;
@@ -32,7 +33,9 @@ namespace Materials.DarkMainFX
 
         public void UpdateAllProperties(MaterialPropertyBlock mpb)
         {
+            // ToDo : use ShaderID instead of strings
             mpb.SetColor("_TargetColor", _TargetColor);
+            mpb.SetFloat("_UseMask", _UseMask ? 1f : 0f);
             mpb.SetVector("_ReplacementColorCoefK", new Vector4(Hk, Sk, Vk, 0));
             mpb.SetVector("_ReplacementColorCoefB", new Vector4(Hb, Sb, Vb, 0));
 

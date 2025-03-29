@@ -18,7 +18,7 @@ namespace Characters.Player.Upgrades
     {
         #region Fields 
 
-        private Dictionary<ICharacterLogic, List<UpgradeProvider>> _charactersUpgrades;
+        private Dictionary<IUpgradableCharacterLogic, List<UpgradeProvider>> _charactersUpgrades;
         private IUpgradeHandlerUI _upgradeHandlerUI;
 
         private CharacterLevelUI _characterLevelUI;
@@ -53,8 +53,13 @@ namespace Characters.Player.Upgrades
             IUpgradeHandlerUI upgradeHandler
             )
         {
-            AddCharacterWithUpgrades(player.CharacterLogic, upgradesSetData.UpgradesConfigurations);
+            if (player.CharacterLogic is not IUpgradableCharacterLogic upgradableCharacter)
+            {
+                ErrorLogger.Log($"{gameObject.name} | Player character does not implement {nameof(IUpgradableCharacterLogic)} | Can not add upgrades | Abort.");
+                return;
+            }
 
+            AddCharacterWithUpgrades(upgradableCharacter, upgradesSetData.UpgradesConfigurations);
             _characterLevelUI = characterLevelUI;
             _characterLevelUI.OnLevelNumberUpdate += CharacterLevelUpdateListener;
 
@@ -84,7 +89,7 @@ namespace Characters.Player.Upgrades
 
         #endregion
 
-        public void AddCharacterWithUpgrades(ICharacterLogic characterLogic, IEnumerable<UpgradeConfigurationSO> upgradeConfigurationsCollection)
+        public void AddCharacterWithUpgrades(IUpgradableCharacterLogic characterLogic, IEnumerable<UpgradeConfigurationSO> upgradeConfigurationsCollection)
         {
             _charactersUpgrades ??= new();
 
@@ -113,7 +118,7 @@ namespace Characters.Player.Upgrades
             _cts = null;
         }
 
-        private void UpgradeRequestListener(ICharacterLogic character, EntityLevelArgs level)
+        private void UpgradeRequestListener(IUpgradableCharacterLogic character, EntityLevelArgs level)
         {
             _upgradesToProcessCount += 1;
 
@@ -131,7 +136,7 @@ namespace Characters.Player.Upgrades
             _currentProcessTask = ProcessUpgradesAsync(character, _cts.Token);
         }
 
-        private async UniTask ProcessUpgradesAsync(ICharacterLogic character, CancellationToken token = default)
+        private async UniTask ProcessUpgradesAsync(IUpgradableCharacterLogic character, CancellationToken token = default)
         {
             if (!_charactersUpgrades.TryGetValue(character, out var upgradesProvidersList))
             {
@@ -209,7 +214,7 @@ namespace Characters.Player.Upgrades
         }
 
 
-        private void ApplyUpgrade(ICharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
+        private void ApplyUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
             if (!upgradeProvider.HasNextLevel)
             {
@@ -237,16 +242,16 @@ namespace Characters.Player.Upgrades
             }
         }
 
-        private void HandleCharacterUpgrade(ICharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
+        private void HandleCharacterUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            targetCharacter.Upgrades.ApplyCharacterUpgrade(upgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<ICharacterLogic>>());
+            targetCharacter.UpgradesCoordinator.ApplyCharacterUpgrade(upgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableCharacterLogic>>());
         }
 
-        private void HandleAbilityUpgrade(ICharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
+        private void HandleAbilityUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
             if (upgradeProvider is WeaponUpgradeProvider weaponUpgradeProvider)
             {
-                targetCharacter.Upgrades.ApplyWeaponUpgrade(weaponUpgradeProvider.TargetWeaponID, weaponUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IWeapon>>());
+                targetCharacter.UpgradesCoordinator.ApplyWeaponUpgrade(weaponUpgradeProvider.TargetWeaponID, weaponUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableWeapon>>());
             }
             else
             {
@@ -255,10 +260,10 @@ namespace Characters.Player.Upgrades
             }
         }
 
-        private void HandleAbilityUnlock(ICharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
+        private void HandleAbilityUnlock(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
             var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<WeaponUnlockLevelSO>();
-            targetCharacter.Upgrades.UnlockAbility(abilityUnlockLevel);
+            targetCharacter.UpgradesCoordinator.UnlockAbility(abilityUnlockLevel);
 
             // Add a new Upgrade Configuration from unlocked ability.
 
@@ -276,7 +281,7 @@ namespace Characters.Player.Upgrades
             }
         }
 
-        private void AddUpgradeConfiguration(ICharacterLogic targetCharacter, UpgradeConfigurationSO upgradeConfigurationSO, int extraTargetID = -1)
+        private void AddUpgradeConfiguration(IUpgradableCharacterLogic targetCharacter, UpgradeConfigurationSO upgradeConfigurationSO, int extraTargetID = -1)
         {
             UpgradeProvider upgradeProvider = null;
 

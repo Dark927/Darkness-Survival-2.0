@@ -8,7 +8,7 @@ namespace Characters.Player.Upgrades
     /// <summary>
     /// The base class for all upgrades where should be some stats, etc.
     /// </summary>
-    public abstract class SingleUpgradeBaseSO<TUpgradeTarget> : ScriptableObject, ISingleUpgrade
+    public abstract class SingleUpgradeBaseSO<TUpgradeTarget> : ScriptableObject, ISingleUpgrade where TUpgradeTarget : IUpgradable
     {
         public virtual string GetUpgradeInfo()
         {

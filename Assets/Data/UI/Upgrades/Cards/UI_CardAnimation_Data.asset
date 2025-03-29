@@ -24,4 +24,4 @@ MonoBehaviour:
     _targetCardScale: {x: 1.075, y: 1.075}
     _targetTitleColor: {r: 0, g: 0.8180356, b: 1, a: 1}
     _targetCardColor: {r: 0.2216981, g: 0.8461854, b: 1, a: 1}
-    _targetCardIconColor: {r: 1, g: 0, b: 0, a: 1}
+    _targetCardIconColor: {r: 1, g: 1, b: 1, a: 1}

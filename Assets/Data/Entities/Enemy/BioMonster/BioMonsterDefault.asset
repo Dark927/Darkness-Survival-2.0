@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: BioMonsterDefault
   m_EditorClassIdentifier: 
   _name: BioMonster
-  _id: 700055136
+  _id: 831806206
   _stats:
-    Health: 3
-    Speed: 0.1
+    Health: 15
+    Speed: 2
     InvincibilityTime: 0.1
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
   _damageMultiplier: 2

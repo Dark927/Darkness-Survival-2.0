@@ -51,10 +51,12 @@ Material:
     - _RendMode: 0
     m_Floats:
     - _DissolveAmount: 0
-    - _EmissionAmount: 0
+    - _DissolveNoise: 1000
+    - _DissolveOutline: 1.1
+    - _EmissionAmount: 0.163
     - _EnableExternalAlpha: 0
-    - _FlashAmount: 0
-    - _Gamma: 1.38
+    - _FlashAmount: 0.429
+    - _Gamma: 1
     - _HSVGamma: 1
     - _HueTolerance: 0.1
     - _SatTolerance: 0.2
@@ -62,6 +64,7 @@ Material:
     - _ValTolerance: 0.2
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _FlashColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}

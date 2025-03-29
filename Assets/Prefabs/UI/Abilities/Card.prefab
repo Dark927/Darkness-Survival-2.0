@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f956cf5762903834a904a29822312f71, type: 3}
+  m_Sprite: {fileID: 21300000, guid: afe37d2bfa07bff4f9585ce9cc71d8bb, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -179,8 +179,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ability type
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
-  m_sharedMaterial: {fileID: 4375066548158574088, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
+  m_sharedMaterial: {fileID: -8535534047717699282, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -311,17 +311,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 'Some upgrade description
+
+    +10% some stat
+
+    -25% some stat
+
+    <color=red>add
+    extra aura effect</color>'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
-  m_sharedMaterial: {fileID: 4375066548158574088, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
+  m_sharedMaterial: {fileID: -8535534047717699282, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278253567
+  m_fontColor: {r: 1, g: 0.97001815, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -344,19 +351,19 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 16
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 10
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 15
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 1
+  m_overflowMode: 3
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -678,15 +685,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: lvl 1 -> 2
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
-  m_sharedMaterial: {fileID: 4375066548158574088, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
+  m_sharedMaterial: {fileID: -8535534047717699282, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255594
-  m_fontColor: {r: 0.91665447, g: 1, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -713,7 +720,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -812,8 +819,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ability name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
-  m_sharedMaterial: {fileID: 4375066548158574088, guid: 799dff53e43430c4ba6a1c0619a9304b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
+  m_sharedMaterial: {fileID: -8535534047717699282, guid: 9d8fd4a7ba74dbd4fb30c9055bbc97d6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -837,8 +844,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -847,7 +854,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1013,7 +1020,8 @@ MonoBehaviour:
   _backgroundFadeDuration: 0
   _animationData: {fileID: 11400000, guid: e8a9b32723d04ec46b2c4f6e39c0d8a5, type: 2}
   _cardTitle: {fileID: 885838134830551269}
-  _cardImage: {fileID: 5183732884470048785}
+  _cardImage: {fileID: 3624528295251598850}
+  _cardIcon: {fileID: 5183732884470048785}
 --- !u!1 &8309840255375658870
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Characters.Common.Combat
 {
     [System.Serializable]
-    public class BasicAttackSettings : IAttackSettings
+    public struct BasicAttackSettings : IAttackSettings
     {
         [Space, Header("Main Settings")]
 

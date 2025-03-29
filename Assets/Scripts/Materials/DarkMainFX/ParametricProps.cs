@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 
@@ -7,21 +7,25 @@ namespace Materials.DarkMainFX
     [Serializable]
     public struct ParametricProps : IMaterialProps
     {
+        private static readonly int s_flashAmountID = Shader.PropertyToID("_FlashAmount");
+        private static readonly int s_emissionAmountID = Shader.PropertyToID("_EmissionAmount");
+        private static readonly int s_rendModeID = Shader.PropertyToID("_RendMode");
+
         [Range(0, 1)]
-        public float _FlashAmount;
+        public float FlashAmount;
         [Range(0, 1)]
-        public float _EmissionAmount;
-        public RendererMode _RendMode;
-        public bool _UseJitterFree;
+        [SerializeField] public float EmissionAmount;
+        public RendererMode RendMode;
+        public bool UseJitterFree;
 
         public bool NeedsUpdate { get; set; }
         public void UpdateAllProperties(MaterialPropertyBlock mpb)
         {
-            mpb.SetFloat("_FlashAmount", _FlashAmount);
-            mpb.SetFloat("_EmissionAmount", _EmissionAmount);
+            mpb.SetFloat(s_flashAmountID, FlashAmount);
+            mpb.SetFloat(s_emissionAmountID, EmissionAmount);
 
-            if (_RendMode != RendererMode.IGNORE)
-                mpb.SetInteger("_RendMode", (int)_RendMode | (_UseJitterFree ? 128 : 0));
+            if (RendMode != RendererMode.IGNORE)
+                mpb.SetInteger(s_rendModeID, (int)RendMode | (UseJitterFree ? 128 : 0));
         }
     }
 }

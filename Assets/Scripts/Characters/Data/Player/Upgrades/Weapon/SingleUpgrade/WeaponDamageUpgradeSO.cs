@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Characters.Player.Upgrades
 {
     [CreateAssetMenu(fileName = "NewWeaponDamageUpgradeSO", menuName = "Game/Upgrades/Weapon Upgrades/Single Upgrades/Damage Upgrade Data")]
-    public class WeaponDamageUpgradeSO : SingleUniversalUpgradeSO<IWeapon>
+    public class WeaponDamageUpgradeSO : SingleUniversalUpgradeSO<IUpgradableWeapon>
     {
         [SerializeField, Min(0)] private float _damageUpgradePercent = 0;
 
@@ -14,19 +14,14 @@ namespace Characters.Player.Upgrades
             return $"Max DMG : {sign}{_damageUpgradePercent}%";
         }
 
-        public override void ApplyUpgrade(IWeapon target)
+        public override void ApplyUpgrade(IUpgradableWeapon target)
         {
-            Apply(target, (1 + (_damageUpgradePercent / 100f)));
+            target.ApplyDamageUpgrade(1 + (_damageUpgradePercent / 100f));
         }
 
-        public override void ApplyDowngrade(IWeapon target)
+        public override void ApplyDowngrade(IUpgradableWeapon target)
         {
-            Apply(target, (1 - (_damageUpgradePercent / 100f)));
-        }
-
-        private void Apply(IWeapon target, float damageMult)
-        {
-            target.ApplyNewDamagePercent(damageMult);
+            target.ApplyDamageUpgrade(1 - (_damageUpgradePercent / 100f));
         }
     }
 }

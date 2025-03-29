@@ -49,6 +49,8 @@ namespace Characters.Player.Weapons
 
         #endregion
 
+        protected override bool CanAttack => base.CanAttack && (_sword != null);
+
         private void TriggerAttack(LocalType type)
         {
             if (_sword == null)

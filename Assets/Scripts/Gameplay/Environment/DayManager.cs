@@ -152,8 +152,7 @@ namespace World.Environment
                 return;
             }
 
-            _playerLight.SetLightIntensity(_playerLight.LightIntensityLimit - GlobalLightFx(currentLightParameter, 0f, _playerLight.LightIntensityLimit));
-            //_playerLight.SetLightIntensity(_playerLight.LightIntensityLimit - (_stageLight.Light.intensity * _playerLight.LightIntensityLimit));
+            _playerLight.SetLightIntensity(PlayerLightFx(currentLightParameter, 0f, _playerLight.LightIntensityLimit));
         }
 
         private DayStateData GetNewDayStateData()
@@ -163,6 +162,10 @@ namespace World.Environment
         public static float GlobalLightFx(float x, float minAmount = 0.3f, float maxAmount = 1)
         {
             return 4 * (maxAmount - minAmount) * Mathf.Pow(x - 0.5f, 2) + minAmount; //quadratic function with extremum in (0.5, minAmount)
+        }
+        public static float PlayerLightFx(float x, float minAmount = 0.3f, float maxAmount = 1)
+        {
+            return maxAmount - 4 * (maxAmount - minAmount) * Mathf.Pow(x - 0.5f, 2); //negative quadratic function with extremum in (0.5, maxAmount)
         }
     }
 }

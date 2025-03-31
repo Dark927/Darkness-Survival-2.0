@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f293dd64b67b33342af5e67f634f12c1, type: 3}
   m_Name: UpgradeLVL_CyberWalk_05_SO
   m_EditorClassIdentifier: 
+  _baseDescription: 
+  _useDowngradesInfoInDesc: 1
   _upgrades:
-  - {fileID: 11400000, guid: 754552ea998e5c5408d08eb9a236d4a0, type: 2}
-  - {fileID: 11400000, guid: f66874b127ee3e943b3ef372878c0906, type: 2}
-  _downgrades:
-  - {fileID: 11400000, guid: 754552ea998e5c5408d08eb9a236d4a0, type: 2}
+  - {fileID: 11400000, guid: 9221a6be872f19e4d8546ad0c0df6fab, type: 2}
+  - {fileID: 11400000, guid: cc0e1f4d9e58ef6429e915acc3ca16fb, type: 2}
+  _downgrades: []
+  _customVisualDataUI: {fileID: 0}

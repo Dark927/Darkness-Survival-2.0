@@ -25,5 +25,6 @@ namespace Characters.Player
 
         public override AnimatorController GetAnimatorController() => PlayerAnimController;
         public override T GetAnimatorController<T>() => PlayerAnimController as T;
+
     }
 }

@@ -12,6 +12,12 @@ namespace Utilities.ErrorHandling //TODO:
         }
 
         [System.Diagnostics.Conditional("ENABLE_LOG")]
+        public static void LogError(string message)
+        {
+            Debug.LogError(message);
+        }
+
+        [System.Diagnostics.Conditional("ENABLE_LOG")]
         public static void Log(string message)
         {
             Debug.Log(message);

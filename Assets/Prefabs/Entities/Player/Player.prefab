@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4114824868038369942}
-  - component: {fileID: 8629233726174148127}
   - component: {fileID: 9053780044762284656}
+  - component: {fileID: 713712034069569614}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -34,24 +34,6 @@ Transform:
   - {fileID: 8911839825840963857}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8629233726174148127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795527976360001243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5947ad6b6343efb4fa31e2f67d2d6215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _featuresSetDataRef:
-    m_AssetGUID: 5c96f1a7c862f0e4bae77854c71a9259
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  _characterData: {fileID: 11400000, guid: 60328aaa04dd0f84d9ece0d2ae31ac1c, type: 2}
 --- !u!114 &9053780044762284656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: f4515f74171d3ab44bca29ac9f41d289, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -79,7 +61,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8629233726174148127}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Characters.Player.PlayerCharacterController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -95,7 +77,7 @@ MonoBehaviour:
     m_ActionName: PlayerActions/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8629233726174148127}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Characters.Player.PlayerCharacterController, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
@@ -109,11 +91,33 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5b4e883e-e95c-45ae-b905-5664a0582fb3
     m_ActionName: PlayerActions/Attacks[/Mouse/leftButton,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 23d57413-8d8c-4eee-aca0-2df14eec6080
+    m_ActionName: GlobalCommands/PauseGame[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerActions
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &713712034069569614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795527976360001243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c137147bddecf42bd7a0fa77420f4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _featuresSetDataRef:
+    m_AssetGUID: 5c96f1a7c862f0e4bae77854c71a9259
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _characterData: {fileID: 11400000, guid: 60328aaa04dd0f84d9ece0d2ae31ac1c, type: 2}
 --- !u!1001 &6813526850882821064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,10 +165,6 @@ PrefabInstance:
     - target: {fileID: 2676182203403786969, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866157742723967205, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
-      propertyPath: _immunityTimeMs
-      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 7507303139750698719, guid: eea6fbbffe09f6842a1a13002b1ee471, type: 3}
       propertyPath: m_Name

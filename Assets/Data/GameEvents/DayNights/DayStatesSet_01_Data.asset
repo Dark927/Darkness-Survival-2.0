@@ -13,8 +13,5 @@ MonoBehaviour:
   m_Name: DayStatesSet_01_Data
   m_EditorClassIdentifier: 
   _dayList:
-  - {fileID: 11400000, guid: 2f3e5662f7acd32448470038ebd9b9d5, type: 2}
   - {fileID: 11400000, guid: ab15c6839037f8e42b22bc7d094a4f4e, type: 2}
-  - {fileID: 11400000, guid: e437a18fedc4f9347ab879a0b2f481fe, type: 2}
-  - {fileID: 11400000, guid: 0326de1a5ec798f48978c57e93132042, type: 2}
   _startDayState: {fileID: 11400000, guid: ec59e036c97a778498d3e2dc6df7d2a2, type: 2}

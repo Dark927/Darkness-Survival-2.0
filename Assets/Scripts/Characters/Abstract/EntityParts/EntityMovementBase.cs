@@ -12,6 +12,7 @@ namespace Characters.Common.Movement
         public virtual bool IsBlocked { get; }
 
         public event Action<Vector2> OnMovementPerformed;
+        public event EventHandler<bool> OnMovementStateChanged;
 
         public virtual UniTaskVoid MoveAsync(Vector2 direction)
         {
@@ -40,7 +41,6 @@ namespace Characters.Common.Movement
         /// </summary>
         public virtual void Stop()
         {
-
         }
 
         public virtual void Block(int timeInMs)
@@ -58,6 +58,11 @@ namespace Characters.Common.Movement
 
         }
 
+        public virtual void DropSpeed()
+        {
+            Speed.Stop();
+            OnMovementStateChanged?.Invoke(this, false);
+        }
 
         public virtual void ConfigureEventLinks()
         {
@@ -71,6 +76,7 @@ namespace Characters.Common.Movement
 
         protected void RaiseMovementPerformed()
         {
+            OnMovementStateChanged?.Invoke(this, true);
             OnMovementPerformed?.Invoke(Direction);
         }
     }

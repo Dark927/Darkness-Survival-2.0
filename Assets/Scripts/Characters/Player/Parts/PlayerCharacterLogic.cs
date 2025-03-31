@@ -114,9 +114,24 @@ namespace Characters.Player
             }
         }
 
+        public void ApplyLightIntensityUpgrade(float multiplier)
+        {
+            if (Body.TryGetEntityLight(out var light))
+            {
+                float targetIntensityLimit = light.LightIntensityLimit * multiplier;
+                light.SetLightIntensityLimit(targetIntensityLimit);
+            }
+        }
+
+        public void ApplyLightRadiusUpgrade(float multiplier)
+        {
+            if (Body.TryGetEntityLight(out var light))
+            {
+                light.UpdateLightRadius(multiplier);
+            }
+        }
+
         #endregion
-
-
     }
 
 }

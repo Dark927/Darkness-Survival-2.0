@@ -196,11 +196,12 @@ MonoBehaviour:
   _materialPropContainer:
     _constMaterialProps: {fileID: 11400000, guid: b4181006de98feb44819d759db357ed7, type: 2}
     _properties:
-      _FlashAmount: 0
+      FlashAmount: 0
+      FlashColor: {r: 0, g: 0, b: 0, a: 0}
       EmissionAmount: 0
-      _Seed: 0
-      _DissolveAmount: 0
-      _UseJitterFree: 0
+      Seed: 0
+      DissolveAmount: 0
+      UseJitterFree: 0
       RendMode: 0
 --- !u!1 &6172872057176967621
 GameObject:
@@ -315,11 +316,12 @@ MonoBehaviour:
   _materialPropContainer:
     _constMaterialProps: {fileID: 0}
     _properties:
-      _FlashAmount: 0
+      FlashAmount: 0
+      FlashColor: {r: 0, g: 0, b: 0, a: 0}
       EmissionAmount: 0
-      _Seed: 0.001
-      _DissolveAmount: 0
-      _UseJitterFree: 0
+      Seed: 0
+      DissolveAmount: 0
+      UseJitterFree: 0
       RendMode: -1
 --- !u!1 &7507303139750698719
 GameObject:
@@ -443,7 +445,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7507303139750698719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fce5aabb725ed8c489d030e9abb390dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 27ab87603e2ad6643b97422ff9791de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1741456745381354177
@@ -470,7 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266f86d163a13d945802574da00d039f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _immunityTimeMs: 1000
+  _immunityTimeMs: 1500
 --- !u!1 &8698328458444888489
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +522,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.5
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -541,8 +543,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 5
-  m_PointLightOuterRadius: 12
+  m_PointLightInnerRadius: 1.5
+  m_PointLightOuterRadius: 5
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

@@ -7,6 +7,8 @@ using Characters.Common.Visual;
 using Characters.Health;
 using Characters.Interfaces;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using Utilities.Characters;
 
 namespace Characters.Common
@@ -20,6 +22,8 @@ namespace Characters.Common
         private IEntityMovement _movement;
         private IEntityView _view;
         private IEntityVisual _visual;
+        private IEntityLight _entityLight;
+
         private IHealth _characterHealth;
         private IInvincibility _characterInvincibility;
         private bool _isReady = false;
@@ -65,6 +69,7 @@ namespace Characters.Common
             Visual.Initialize();
             InitView();
             PostInit();
+            InitLight();
             _isReady = true;
 
 #if UNITY_EDITOR
@@ -93,6 +98,17 @@ namespace Characters.Common
 
         }
 
+        protected virtual void InitLight()
+        {
+            Light2D targetLight = GetComponentInChildren<Light2D>();
+
+            if (targetLight != null)
+            {
+                _entityLight = new EntityLight(targetLight);
+                _entityLight.SetLightIntensityLimit(targetLight.intensity);
+            }
+        }
+
         protected virtual void PostInit()
         {
 
@@ -112,11 +128,6 @@ namespace Characters.Common
         {
             Visual?.Dispose();
             Health?.Dispose();
-        }
-
-        protected void OnDestroy()
-        {
-            Dispose();
         }
 
         #endregion
@@ -161,6 +172,12 @@ namespace Characters.Common
         {
             OnBodyDamaged?.Invoke();
             OnBodyDamagedWithArgs?.Invoke(this, damage);
+        }
+
+        public bool TryGetEntityLight(out IEntityLight light)
+        {
+            light = _entityLight;
+            return light != null;
         }
 
 

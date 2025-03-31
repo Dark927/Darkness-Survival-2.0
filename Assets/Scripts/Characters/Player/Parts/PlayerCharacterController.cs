@@ -101,43 +101,64 @@ namespace Characters.Player
 
         #endregion
 
-        public void OnMove(InputAction.CallbackContext context)
+        //public void OnMovement(InputAction.CallbackContext context)
+        //{
+        //    if (CharacterLogic.Body.Movement == null)
+        //    {
+        //        return;
+        //    }
+
+        //    if (context.performed)
+        //    {
+        //        Vector2 direction = context.ReadValue<Vector2>();
+        //        CharacterLogic.Body.Movement.MoveAsync(direction).Forget();
+        //    }
+
+        //    if (context.canceled)
+        //    {
+        //        CharacterLogic.Body.Movement.Stop();
+        //    }
+        //}
+
+        public void OnMovement(InputValue value)
         {
             if (CharacterLogic.Body.Movement == null)
             {
                 return;
             }
 
-            if (context.performed)
+            Vector2 direction = value.Get<Vector2>();
+
+            if (direction.sqrMagnitude > 0)
             {
-                Vector2 direction = context.ReadValue<Vector2>();
                 CharacterLogic.Body.Movement.MoveAsync(direction).Forget();
             }
-
-            if (context.canceled)
+            else
             {
                 CharacterLogic.Body.Movement.Stop();
             }
         }
+
 
         public void SetCanAttackFlag(bool value)
         {
             _canAttack = value;
         }
 
-        public void OnAttack(InputAction.CallbackContext context)
+        public void OnAttacks(InputValue value)
         {
             if (!_canAttack)
             {
                 return;
             }
 
-            if (context.performed)
+            if (value.isPressed)
             {
-                int contextValue = (int)context.ReadValue<float>();
+                int contextValue = (int)value.Get<float>();
                 CharacterLogic.PerformBasicAttack((BasicAttack.LocalType)contextValue);
             }
         }
+
 
         private void RaiseCharacterDies()
         {

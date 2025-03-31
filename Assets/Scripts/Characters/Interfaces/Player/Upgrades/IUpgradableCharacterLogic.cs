@@ -15,5 +15,7 @@ namespace Characters.Player.Upgrades
         public void ApplyDamageUpgrade(float percent);
         public void ApplyMaxHealthUpgrade(float percent);
         public void ApplyHealthRegenerationUpgrade(float hpPerSec, bool downgrade = false);
+        public void ApplyLightIntensityUpgrade(float multiplier);
+        public void ApplyLightRadiusUpgrade(float multiplier);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using ModestTree;
-using UI.Characters.Upgrades;
 using UnityEngine;
 using Utilities.Attributes;
 
@@ -28,14 +26,18 @@ namespace Characters.Player.Upgrades
         public virtual string GetDescription()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(_baseDescription);
+
+            if (!string.IsNullOrEmpty(_baseDescription))
+            {
+                sb.AppendLine(_baseDescription);
+            }
 
             string currentInfo;
 
             foreach (var upgrade in _upgrades)
             {
                 currentInfo = upgrade.GetUpgradeInfo();
-                if (!currentInfo.IsEmpty())
+                if (!string.IsNullOrEmpty(currentInfo))
                 {
                     sb.AppendLine(currentInfo);
                 }
@@ -46,7 +48,7 @@ namespace Characters.Player.Upgrades
                 foreach (var downgrade in _downgrades)
                 {
                     currentInfo = downgrade.GetDowngradeInfo();
-                    if (!currentInfo.IsEmpty())
+                    if (!string.IsNullOrEmpty(currentInfo))
                     {
                         sb.AppendLine(currentInfo);
                     }

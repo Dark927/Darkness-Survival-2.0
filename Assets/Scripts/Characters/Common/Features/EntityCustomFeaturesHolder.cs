@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Characters.Interfaces;
+﻿using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using Settings.AssetsManagement;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 #nullable enable
 

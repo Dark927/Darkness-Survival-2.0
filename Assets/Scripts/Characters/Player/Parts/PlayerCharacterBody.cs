@@ -3,7 +3,6 @@ using Characters.Common.Movement;
 using Characters.Health;
 using Characters.Interfaces;
 using Characters.Player.Animation;
-using Utilities.ErrorHandling;
 
 namespace Characters.Player
 {

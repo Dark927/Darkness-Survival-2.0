@@ -34,7 +34,8 @@ namespace Characters.Interfaces
         public event DamageEventHandler OnBodyDamaged;
         public event DamageEventHandlerWithArgs OnBodyDamagedWithArgs;
 
-
         #endregion
+
+        public bool TryGetEntityLight(out IEntityLight light);
     }
 }

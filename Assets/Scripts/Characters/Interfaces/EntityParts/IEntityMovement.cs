@@ -22,6 +22,7 @@ namespace Characters.Common.Movement
         #region Events
 
         public event Action<Vector2> OnMovementPerformed;
+        public event EventHandler<bool> OnMovementStateChanged;
 
         #endregion
 

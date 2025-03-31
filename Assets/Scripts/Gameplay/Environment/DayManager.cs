@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Characters.Player;
 using Gameplay.Components;
 using Gameplay.Stage;
 using Settings.Global;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using Utilities;
 using Utilities.Math;
 using Utilities.ErrorHandling;
 using World.Data;
 using World.Light;
+using Characters.Interfaces;
 
 #nullable enable
 
@@ -31,7 +29,7 @@ namespace World.Environment
         private List<DayStateData> _dayList = default!;
 
         private StageLight _stageLight = default!;
-        private Light2D _playerLight = default!;
+        private IEntityLight _playerLight = default!;
 
         private DayStateData _targetDayStateData = default!;
         private float _transitionState = 0;
@@ -68,13 +66,18 @@ namespace World.Environment
 
             var playerService = ServiceLocator.Current.Get<PlayerService>();
 
-            if (playerService.TryGetPlayer(out PlayerCharacterController player))
+            var character = playerService.GetCharacter();
+
+            if (character != null)
             {
-                _playerLight = player.GetComponentInChildren<Light2D>();
-            }
-            else
-            {
-                ErrorLogger.LogWarning($"# Player is null! - {gameObject.name}");
+                if (character.Body.TryGetEntityLight(out var light))
+                {
+                    _playerLight = light;
+                }
+                else
+                {
+                    ErrorLogger.LogWarning($"# Player character is null! - {gameObject.name}");
+                }
             }
         }
 
@@ -98,7 +101,7 @@ namespace World.Environment
 
                 //swap scriptable objects
                 _previousData = _targetDayStateData;
-                if (_dayList.Count > 1)
+                if (_dayList.Count > 0)
                     _dayList.Remove(_targetDayStateData);
 
                 _targetDayStateData = GetNewDayStateData();
@@ -129,9 +132,11 @@ namespace World.Environment
             // Color interpolation
             var color = Color.Lerp(_previousData.TargetColor, _targetDayStateData.TargetColor, _transitionState);
             _stageLight.Light.color = color;
-            _stageLight.Light.intensity = GlobalLightFx(CustomMath.Frac(_inGameTime)); //intensity curve
 
-            TryUpdatePlayerLight();
+            float inGameTimeFrac = CustomMath.Frac(_inGameTime);
+            _stageLight.Light.intensity = GlobalLightFx(inGameTimeFrac); //intensity curve
+
+            TryUpdatePlayerLight(inGameTimeFrac);
 
             //animation integration += dx (duration to [0,1] range)
 
@@ -140,14 +145,15 @@ namespace World.Environment
             _previousTime = currentTime;
         }
 
-        private void TryUpdatePlayerLight()
+        private void TryUpdatePlayerLight(float currentLightParameter)
         {
             if (_playerLight == null)
             {
                 return;
             }
 
-            _playerLight.intensity = 1 - _stageLight.Light.intensity;
+            _playerLight.SetLightIntensity(_playerLight.LightIntensityLimit - GlobalLightFx(currentLightParameter, 0f, _playerLight.LightIntensityLimit));
+            //_playerLight.SetLightIntensity(_playerLight.LightIntensityLimit - (_stageLight.Light.intensity * _playerLight.LightIntensityLimit));
         }
 
         private DayStateData GetNewDayStateData()

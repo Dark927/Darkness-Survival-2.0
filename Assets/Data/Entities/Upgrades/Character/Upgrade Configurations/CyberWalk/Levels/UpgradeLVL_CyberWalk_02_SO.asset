@@ -15,6 +15,7 @@ MonoBehaviour:
   _baseDescription: 
   _useDowngradesInfoInDesc: 1
   _upgrades:
-  - {fileID: 11400000, guid: 754552ea998e5c5408d08eb9a236d4a0, type: 2}
-  _downgrades:
-  - {fileID: 11400000, guid: 754552ea998e5c5408d08eb9a236d4a0, type: 2}
+  - {fileID: 11400000, guid: a80148d1459ea044d9dd073d83fcc5c1, type: 2}
+  - {fileID: 11400000, guid: 3d6814232a4533d4a8c318979f02b6f8, type: 2}
+  _downgrades: []
+  _customVisualDataUI: {fileID: 0}

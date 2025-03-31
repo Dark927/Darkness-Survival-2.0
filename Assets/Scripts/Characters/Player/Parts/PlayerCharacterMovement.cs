@@ -1,8 +1,9 @@
-using System.Threading;
+﻿using System.Threading;
 using Characters.Common;
 using Characters.Common.Movement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Utilities.ErrorHandling;
 
 
 namespace Characters.Player
@@ -49,7 +50,7 @@ namespace Characters.Player
             }
             else
             {
-                Debug.LogError("# Player does not implement a MonoBehaviour!");
+                ErrorLogger.LogError("# Player does not implement a MonoBehaviour!");
             }
         }
 
@@ -66,7 +67,6 @@ namespace Characters.Player
         }
 
         public override void RemoveEventLinks()
-
         {
             _speed.OnVelocityUpdate -= VelocityUpdateListener;
         }
@@ -113,19 +113,20 @@ namespace Characters.Player
 
         public override void Stop()
         {
+            base.Stop();
             StopMovementTask();
-            _speed.Stop();
+            DropSpeed();
         }
 
         public override void Block(int timeInMs)
         {
-            _speed.Stop();
+            DropSpeed();
             _movementBlock.Block(timeInMs);
         }
 
         public override void Block()
         {
-            _speed.Stop();
+            DropSpeed();
             _movementBlock.Block();
         }
 

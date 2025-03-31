@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Materials.DarkEntityFX;
 using UnityEngine;
+using Utilities.ErrorHandling;
 using Utilities.Math;
 
 namespace Characters.Common.Visual
@@ -15,6 +17,7 @@ namespace Characters.Common.Visual
         private CancellationTokenSource _blinkCts;
         private DarkEntityFXComponent _entityFXComponent;
         private ParametricProps _properties;
+        private List<IEntityCustomVisualPart> _customVisualParts;
 
         #endregion
 
@@ -42,11 +45,17 @@ namespace Characters.Common.Visual
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _entityFXComponent = GetComponent<DarkEntityFXComponent>();
+            _customVisualParts = new List<IEntityCustomVisualPart>();
         }
 
         public void Dispose()
         {
             DeactivateActualColorBlink();
+
+            foreach (var visualPart in _customVisualParts)
+            {
+                visualPart.Dispose();
+            }
         }
 
         #endregion
@@ -56,7 +65,7 @@ namespace Characters.Common.Visual
         {
             DeactivateActualColorBlink();
 
-            if(EntityFXComponent == null)
+            if (EntityFXComponent == null)
             {
                 return;
             }
@@ -75,6 +84,12 @@ namespace Characters.Common.Visual
             _blinkCts.Cancel();
             _blinkCts.Dispose();
             _blinkCts = null;
+        }
+
+        public void GiveCustomVisualPart(IEntityCustomVisualPart customVisualPart)
+        {
+            customVisualPart.gameObject.transform.SetParent(transform, false);
+            _customVisualParts.Add(customVisualPart);
         }
 
 

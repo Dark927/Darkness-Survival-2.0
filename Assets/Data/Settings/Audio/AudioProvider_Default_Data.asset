@@ -22,6 +22,7 @@ MonoBehaviour:
       _soundSourcesPoolSettings:
         _preloadInstancesCount: 10
         _maxPoolCapacity: 20
+      _defaultVolume: 1
       _offsetZ: -10
       _spatialBlend: 1
       _minDistance: 0.01

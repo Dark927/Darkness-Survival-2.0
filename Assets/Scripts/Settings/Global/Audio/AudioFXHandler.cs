@@ -12,27 +12,37 @@ namespace Assets.Scripts.Settings.Global.Audio
     {
         #region Fade Effects 
 
-        // Method to fade out the current music
-        public void FadeOut(AudioSource musicSource, float fadeDuration, TweenCallback onCompleteCallback)
+        public bool TryFadeOutPlayingSong(AudioSource musicSource, float fadeDuration, out Tween animation)
         {
-            if (musicSource.isPlaying)
+            animation = null;
+
+            if (musicSource != null && musicSource.isPlaying)
             {
-                musicSource
-                    .DOFade(0f, fadeDuration)
-                    .SetEase(Ease.InOutCubic)
-                    .OnComplete(onCompleteCallback)
-                    .SetUpdate(true);
+                animation = musicSource
+                                .DOFade(0f, fadeDuration)
+                                .SetEase(Ease.InOutCubic)
+                                .SetUpdate(true);
+
+                return true;
             }
-            else
-            {
-                onCompleteCallback?.Invoke();
-            }
+
+            return false;
+        }
+
+        // Method to fade out the audio source
+        public Tween FadeOut(AudioSource musicSource, float fadeDuration, Action onCompleteCallback = null)
+        {
+            return musicSource
+                .DOFade(0f, fadeDuration)
+                .SetEase(Ease.InOutCubic)
+                .OnComplete(() => onCompleteCallback?.Invoke())
+                .SetUpdate(true);
         }
 
 
         public void FadeIn(AudioSource musicSource, float startVolume, float targetVolume, float fadeDuration)
         {
-            if (musicSource.isPlaying)
+            if (musicSource != null && musicSource.isPlaying)
             {
                 musicSource
                     .DOFade(targetVolume, fadeDuration)

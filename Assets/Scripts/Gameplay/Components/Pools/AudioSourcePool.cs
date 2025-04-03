@@ -1,6 +1,5 @@
 ﻿
 
-using System.Collections.Generic;
 using Settings.Global.Audio;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace Gameplay.Components
 
         public AudioSourcePool(SoundsPlayerSettings settings, GameObject poolItemPrefab, Transform container) : base(settings.SoundSourcesPoolSettings, poolItemPrefab, container)
         {
-
+            _settings = settings;
         }
 
         protected override AudioSource PreloadFunc(Transform container = null)
@@ -25,6 +24,7 @@ namespace Gameplay.Components
         private void ConfigureSoundSource(AudioSource source, SoundsPlayerSettings settings)
         {
             source.transform.position = new Vector3(0f, 0f, settings.PositionOffsetZ);
+            source.volume = settings.DefaultVolume;
             source.rolloffMode = AudioRolloffMode.Custom;
             source.spatialBlend = settings.SpatialBlend;
             source.minDistance = settings.MinDistance;    // The distance at which the sound will be at its full volume
@@ -42,7 +42,7 @@ namespace Gameplay.Components
         protected override void ReturnAction(AudioSource source)
         {
             base.ReturnAction(source);
-            source.maxDistance = _settings.MaxDistance;
+            ConfigureSoundSource(source, _settings);
             source.gameObject.SetActive(false);
         }
     }

@@ -11,10 +11,11 @@ using System.Threading;
 using System.IO;
 using Utilities.Json;
 using Assets.Scripts.Settings.Global.Audio;
+using System;
 
 namespace Settings.Global.Audio
 {
-    public class MusicPlayer
+    public class MusicPlayer : IDisposable
     {
         #region Fields 
 
@@ -32,14 +33,14 @@ namespace Settings.Global.Audio
         private CancellationTokenSource _mainPlaylistCts;
         private bool _isMainQueuePaused;
 
-        public MusicPlayerDebug Debug;
+        private Tween _secondarySongAnimation;
 
         #endregion
 
 
         #region Properties 
 
-        public bool IsMainSourceBusy => _mainMusicSource.isPlaying || _isMainQueuePaused;
+        public bool IsMainSourceBusy => (_mainMusicSource != null) && _mainMusicSource.isPlaying || _isMainQueuePaused;
 
         #endregion
 
@@ -55,8 +56,6 @@ namespace Settings.Global.Audio
             _fxHandler = new AudioFXHandler();
             _mainMusicSource = CreateAndConfigureAudioSource(audioSourcesContainer);
             _secondarySource = CreateAndConfigureAudioSource(audioSourcesContainer);
-
-            Debug = new MusicPlayerDebug(this);
         }
 
         private AudioSource CreateAndConfigureAudioSource(Transform container)
@@ -72,6 +71,11 @@ namespace Settings.Global.Audio
             musicSource.spatialBlend = 0f;
             musicSource.playOnAwake = false;
             musicSource.loop = false;
+        }
+
+        public void Dispose()
+        {
+            Stop();
         }
 
 
@@ -113,7 +117,7 @@ namespace Settings.Global.Audio
         {
             if (_clipsOST.TryGetValue(MusicType.PauseMenu, out var availableSongs))
             {
-                int randomSongIndex = Random.Range(0, availableSongs.Count());
+                int randomSongIndex = UnityEngine.Random.Range(0, availableSongs.Count());
                 PlayInterruptingSong(availableSongs[randomSongIndex], _settings.SongInterruptionTransitionTime).Forget();
             }
             else
@@ -126,6 +130,8 @@ namespace Settings.Global.Audio
         {
             PauseMainSong(InstantTransitionTime);
             var clip = await LoadClipAsync(interruptClip);
+
+            TweenHelper.KillTweenIfActive(_secondarySongAnimation, false);
             _secondarySource.clip = clip;
             _secondarySource.Play();
             _fxHandler.FadeIn(_secondarySource, 0f, _settings.MaxVolume, fadeDuration);
@@ -138,13 +144,26 @@ namespace Settings.Global.Audio
                 return;
             }
 
-            _fxHandler.FadeOut(_secondarySource, fadeOutDuration, () =>
+            TweenHelper.KillTweenIfActive(_secondarySongAnimation, false);
+
+            Action onCompleteCallback = () =>
             {
                 _secondarySource.Stop();
                 _secondarySource.clip = null;
-            });
-        }
+                _secondarySongAnimation = null;
+            };
 
+
+            if (_fxHandler.TryFadeOutPlayingSong(_secondarySource, fadeOutDuration, out var animation))
+            {
+                _secondarySongAnimation = animation;
+                animation.OnComplete(() => onCompleteCallback());
+            }
+            else
+            {
+                onCompleteCallback();
+            }
+        }
 
         public void ResumeMainSong()
         {

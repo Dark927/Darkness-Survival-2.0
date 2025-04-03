@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: UI_MenuButtonAnimations_Data
   m_EditorClassIdentifier: 
   Description: 
-  _hoverCursor: {fileID: 2800000, guid: 90832a69b4f2e0141b7d991b1b82ae2a, type: 3}
   _hoverAnimationParams:
     _duration: 0.4
     _targetButtonScale: {x: 1.05, y: 1.05}
     _targetTitleColor: {r: 1, g: 0.88235295, b: 0.56078434, a: 1}
     _targetBordersColor: {r: 1, g: 1, b: 1, a: 1}
+  _clickCooldownTime: 0.5
   _clickAnimationParams:
     _duration: 0.075
     _targetButtonScale: {x: 0.975, y: 0.975}

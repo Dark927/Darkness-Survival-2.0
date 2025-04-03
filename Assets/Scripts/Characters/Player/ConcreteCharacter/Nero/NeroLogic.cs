@@ -33,7 +33,7 @@ namespace Characters.Player
                     {
                         return;
                     }
-                    SoundsPlayer.PlaySound(TestingAudioClips.ElementAt(Random.Range(0, TestingAudioClips.Count())));
+                    SoundsPlayer.Play3DSound(TestingAudioClips.ElementAt(Random.Range(0, TestingAudioClips.Count())));
                     isAltQPressed = true;  // Set the flag to true to prevent further triggers until released
                 }
             }
@@ -52,7 +52,7 @@ namespace Characters.Player
                     {
                         return;
                     }
-                    SoundsPlayer.PlaySound(TestingAudioClips.ElementAt(Random.Range(0, TestingAudioClips.Count())), transform.position, 10f);
+                    SoundsPlayer.Play3DSound(TestingAudioClips.ElementAt(Random.Range(0, TestingAudioClips.Count())), position: transform.position, maxDistance: 10f);
                     isPPressed = true;  // Set the flag to true to prevent further triggers until released
                 }
             }

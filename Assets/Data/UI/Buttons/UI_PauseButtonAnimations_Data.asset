@@ -23,3 +23,5 @@ MonoBehaviour:
     _targetButtonScale: {x: 0.975, y: 0.975}
     _targetTitleColor: {r: 0.011764706, g: 0.7176471, b: 0.5803922, a: 1}
     _targetBordersColor: {r: 0, g: 0.5188679, b: 0.41797695, a: 1}
+  _hoverSFX: {fileID: 8300000, guid: ad485408861e64175bd7490411c59b73, type: 3}
+  _clickSFX: {fileID: 8300000, guid: f2bf34398060748c48a261c9d3016bda, type: 3}

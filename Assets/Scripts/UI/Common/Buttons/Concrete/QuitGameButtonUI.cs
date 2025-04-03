@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace UI.Buttons
 {
@@ -6,6 +7,7 @@ namespace UI.Buttons
     {
         public override void Click()
         {
+            DOTween.KillAll(false);
             Application.Quit();
 
 #if UNITY_EDITOR

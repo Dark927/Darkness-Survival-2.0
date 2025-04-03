@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace UI.Buttons
 {

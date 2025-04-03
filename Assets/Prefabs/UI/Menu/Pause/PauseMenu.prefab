@@ -673,6 +673,10 @@ PrefabInstance:
       propertyPath: m_text
       value: restart
       objectReference: {fileID: 0}
+    - target: {fileID: 4189070096814460416, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
+      propertyPath: _audioEffectsData
+      value: 
+      objectReference: {fileID: 11400000, guid: ac5539826a0cf694386795b8d6bda818, type: 2}
     - target: {fileID: 4234279266858677609, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
       propertyPath: m_Name
       value: restart_btn
@@ -1199,6 +1203,14 @@ PrefabInstance:
     - target: {fileID: 1623163349063817611, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
       propertyPath: m_text
       value: menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189070096814460416, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
+      propertyPath: _audioEffectsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 19cd9ba7e99fbf643bc9e2f1b0c8deb5, type: 2}
+    - target: {fileID: 4189070096814460416, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
+      propertyPath: _audioEffectsSettings._clickSFX
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4234279266858677609, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
       propertyPath: m_Name

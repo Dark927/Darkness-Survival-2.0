@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Settings.Global.Audio
 {
-    public class AudioProviderMono : MonoBehaviour, IAudioProvider
+    public class AudioProviderMono : MonoBehaviour, IAudioProvider, IDisposable
     {
         #region Fields 
 
@@ -21,6 +22,7 @@ namespace Settings.Global.Audio
         public MusicPlayer MusicPlayer => _musicPlayer;
         public SoundsPlayer SoundsPlayer => _soundsPlayer;
 
+
         #endregion
 
 
@@ -38,13 +40,6 @@ namespace Settings.Global.Audio
             CreateSoundsPlayer(_settings.SoundsPlayer);
         }
 
-#if UNITY_EDITOR
-        private void OnGUI()
-        {
-            MusicPlayer.Debug.OnGUI();
-        }
-#endif
-
         /// <summary>
         /// Create music player
         /// </summary>
@@ -61,6 +56,25 @@ namespace Settings.Global.Audio
             _soundsPlayer = new SoundsPlayer(settings, _soundSourcesContainer.transform);
         }
 
+        public void Dispose()
+        {
+            _musicPlayer?.Dispose();
+            _soundsPlayer?.Dispose();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
+
+#if UNITY_EDITOR
+
+        //private void OnGUI()
+        //{
+        //    MusicPlayer.Debug.OnGUI();
+        //}
+#endif
 
         #endregion
     }

@@ -591,6 +591,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationData: {fileID: 11400000, guid: 36a4cda6a28dcec4287ae64ff0ae4b9e, type: 2}
+  _audioEffectsData: {fileID: 11400000, guid: 5cbdaece999c09c4882888135f386e62, type: 2}
+  _audioEffectsSettings:
+    _hoverSFX: {fileID: 0}
+    _unhoverSFX: {fileID: 0}
+    _clickSFX: {fileID: 0}
 --- !u!1 &6768505472165081865
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,6 +50,14 @@ namespace Settings.CameraManagement
             }
         }
 
+        public void ResetPosition()
+        {
+            if (_virtualCamera != null)
+            {
+                _virtualCamera.ForceCameraPosition(Vector2.zero, Quaternion.identity);
+            }
+        }
+
         #endregion
     }
 }

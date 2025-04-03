@@ -50,6 +50,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationData: {fileID: 11400000, guid: 5cd4b0f31fc5e31468583ce75306ba29, type: 2}
+  _audioEffectsData: {fileID: 11400000, guid: ac5539826a0cf694386795b8d6bda818, type: 2}
+  _audioEffectsSettings:
+    _playDelay: 0
+    _hoverSFX:
+      _clip: {fileID: 0}
+      _volume: 0
+    _unhoverSFX:
+      _clip: {fileID: 0}
+      _volume: 0
+    _clickSFX:
+      _clip: {fileID: 0}
+      _volume: 0
 --- !u!1 &1423467012282855443
 GameObject:
   m_ObjectHideFlags: 0

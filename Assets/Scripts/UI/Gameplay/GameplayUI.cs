@@ -4,6 +4,7 @@ using System.Linq;
 using Gameplay.Components;
 using Settings;
 using Settings.Global;
+using Settings.Global.Audio;
 using UnityEngine;
 using Zenject;
 
@@ -14,6 +15,7 @@ namespace UI
         private List<Canvas> _canvases;
         private GamePanelManagerUI _gamePanelManager;
         private GameStateService _gameStateService;
+        private MusicPlayer _musicPlayer;
 
         [Inject]
         public void Construct(GamePanelManagerUI panelManager)
@@ -31,6 +33,9 @@ namespace UI
             _gameStateService = ServiceLocator.Current.Get<GameStateService>();
             _gameStateService?.GameEvent?.Subscribe(this);
             _gameStateService?.PauseHandler.GamePauseEvent.Subscribe(this);
+
+            var audioService = ServiceLocator.Current.Get<GameAudioService>();
+            _musicPlayer = audioService.MusicPlayer;
         }
 
         private void OnDestroy()
@@ -89,6 +94,7 @@ namespace UI
             if (_gamePanelManager.TryOpenPanel(GamePanelManagerUI.PanelType.Pause))
             {
                 _gameStateService.PauseHandler.TryPauseGame();
+                _musicPlayer.InterruptWithPauseTypeSong();
             }
         }
 
@@ -97,6 +103,8 @@ namespace UI
             _gamePanelManager.ClosePauseMenu(() =>
             {
                 _gameStateService.PauseHandler.TryUnpauseGame();
+                var audioService = ServiceLocator.Current.Get<GameAudioService>();
+                _musicPlayer.ResumeMainSong();
             });
         }
 

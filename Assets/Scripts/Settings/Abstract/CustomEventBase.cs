@@ -21,7 +21,7 @@ namespace Settings.Global
 
         public abstract void EventRaiseAction(TListener listener, object sender, TArgs args);
 
-        public virtual void ListenEvent(object sender, TArgs args)
+        public virtual void RaiseEvent(object sender, TArgs args)
         {
             _callingListeners = true;
 

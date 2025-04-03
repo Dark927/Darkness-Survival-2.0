@@ -18,7 +18,7 @@ namespace UI
         {
             base.Activate(callback);
             _audioService = ServiceLocator.Current.Get<GameAudioService>();
-            _audioService.StartPlaylist(MusicType.MainMenu);
+            _audioService.MusicPlayer.StartPlaylist(MusicType.MainMenu);
         }
     }
 }

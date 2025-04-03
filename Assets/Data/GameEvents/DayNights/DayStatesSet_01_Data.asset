@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dayList:
   - {fileID: 11400000, guid: ab15c6839037f8e42b22bc7d094a4f4e, type: 2}
+  - {fileID: 11400000, guid: 876b0ef47bfeba342a3b8d8a5b4aaba2, type: 2}
   _startDayState: {fileID: 11400000, guid: ec59e036c97a778498d3e2dc6df7d2a2, type: 2}

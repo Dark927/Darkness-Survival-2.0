@@ -1,4 +1,4 @@
-using Characters.Enemy.Data;
+﻿using Characters.Enemy.Data;
 using Gameplay.Components;
 using UnityEngine;
 

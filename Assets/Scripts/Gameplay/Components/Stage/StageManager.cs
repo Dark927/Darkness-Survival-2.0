@@ -1,6 +1,8 @@
 ﻿using System;
+using Characters.Player.Upgrades;
 using Gameplay.Components;
 using Gameplay.Components.Enemy;
+using Settings;
 using Settings.Global;
 using Settings.Global.Audio;
 using World.Environment;
@@ -70,7 +72,17 @@ namespace Gameplay.Stage
             _enemySpawner.Initialize();
             _dayManager.Initialize();
 
+            _dayManager.DayStateChangeEvent.Subscribe(this);
+            _dayManager.RaiseCurrentDayStateEvent();
+
             _gameStateService.GameEvent.Subscribe(this);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _dayManager.DayStateChangeEvent.Unsubscribe(this);
+            _gameStateService.GameEvent.Unsubscribe(this);
         }
 
         private void InitServices()
@@ -90,7 +102,7 @@ namespace Gameplay.Stage
 
             if (_stageMusic != null)
             {
-                _audioService.AddMusicClips(_stageMusic);
+                _audioService.MusicPlayer.AddMusicClips(_stageMusic);
             }
         }
 
@@ -103,6 +115,10 @@ namespace Gameplay.Stage
             {
                 case GameStateService:
                     HandleGameEvent(args as GameEventArgs);
+                    break;
+
+                case DayManager:
+                    HandleDayStateEvent(args as DayChangedEventArgs);
                     break;
             }
         }
@@ -147,11 +163,24 @@ namespace Gameplay.Stage
             }
         }
 
+        private void HandleDayStateEvent(DayChangedEventArgs args)
+        {
+            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
+
+            playerService.PerformCharactersSpecificAction(characters =>
+            {
+                foreach (var character in characters)
+                {
+                    character.ReactToDayStateChange(args.DayTimeType);
+                }
+            });
+        }
+
         private void StageStarted()
         {
             ActivateStage();
             _enemySpawner.StartEnemySpawn();
-            _audioService.StartPlaylist(MusicType.Stage);
+            _audioService.MusicPlayer.StartPlaylist(MusicType.Stage);
         }
 
         private void StageFinished()

@@ -10,6 +10,6 @@ namespace Settings.Global
     {
         public void Subscribe(TListener listener);
         public void Unsubscribe(TListener listener);
-        public void ListenEvent(object sender, TEventArgs args);
+        public void RaiseEvent(object sender, TEventArgs args);
     }
 }

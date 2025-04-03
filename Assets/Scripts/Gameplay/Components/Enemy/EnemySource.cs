@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gameplay.Data;
 using UnityEngine;
 using Zenject;
@@ -40,7 +40,8 @@ namespace Gameplay.Components.Enemy
             {
                 container = _enemyContainer.GetChildContainer(enemySpawnData);
 
-                pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemySpawnData, container });
+                pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemySpawnData, container.transform });
+                pool.Initialize();
                 _poolsDict.Add(enemySpawnData.EnemyData.ID, pool);
             }
         }
@@ -51,8 +52,7 @@ namespace Gameplay.Components.Enemy
         {
             if (_poolsDict.ContainsKey(enemyId))
             {
-                GameObject requestedObj = _poolsDict[enemyId].RequestObject();
-                return requestedObj != null ? requestedObj.GetComponent<EnemyController>() : null;
+                return _poolsDict[enemyId].RequestObject();
             }
             return null;
         }
@@ -60,7 +60,7 @@ namespace Gameplay.Components.Enemy
         public void ReturnEnemy(EnemyController enemyController)
         {
             int enemyId = enemyController.Data.ID;
-            _poolsDict[enemyId].ReturnObject(enemyController.gameObject);
+            _poolsDict[enemyId].ReturnItem(enemyController);
         }
 
         #endregion

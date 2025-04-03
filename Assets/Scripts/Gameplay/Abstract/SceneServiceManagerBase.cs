@@ -41,7 +41,7 @@ namespace Gameplay.Components
             Dispose();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             foreach (var service in _services)
             {

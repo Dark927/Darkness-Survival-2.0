@@ -35,11 +35,11 @@ namespace Characters.Player.Upgrades
         public int CurrentLevelToApply => _currentUpgradeLevel;
         public int RemainingLevels => (CommonLevelsCount + 1) - CurrentLevelToApply;
         public bool HasNextLevel => RemainingLevels > 0;
-
         public UpgradeVisualDataUI VisualData => _upgradeLevel.CustomUpgradeVisualDataUI == null
                                                                     ? _upgradeConfigurationSO.VisualData
                                                                     : _upgradeLevel.CustomUpgradeVisualDataUI;
         public UpgradeType Type => _upgradeConfigurationSO.Type;
+        public UpgradeAppearTime AppearTime => _upgradeConfigurationSO.AppearTime;
 
         #endregion
 

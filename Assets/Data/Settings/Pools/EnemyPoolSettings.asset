@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0ca738a7725034696b3e5e2ed9333f, type: 3}
   m_Name: EnemyPoolSettings
   m_EditorClassIdentifier: 
-  _preloadInstancesCount: 100
-  _maxPoolCapacity: 100
+  _poolSettings:
+    _preloadInstancesCount: 20
+    _maxPoolCapacity: 20

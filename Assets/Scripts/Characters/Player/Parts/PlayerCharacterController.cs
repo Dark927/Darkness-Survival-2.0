@@ -101,24 +101,6 @@ namespace Characters.Player
 
         #endregion
 
-        //public void OnMovement(InputAction.CallbackContext context)
-        //{
-        //    if (CharacterLogic.Body.Movement == null)
-        //    {
-        //        return;
-        //    }
-
-        //    if (context.performed)
-        //    {
-        //        Vector2 direction = context.ReadValue<Vector2>();
-        //        CharacterLogic.Body.Movement.MoveAsync(direction).Forget();
-        //    }
-
-        //    if (context.canceled)
-        //    {
-        //        CharacterLogic.Body.Movement.Stop();
-        //    }
-        //}
 
         public void OnMovement(InputValue value)
         {
@@ -158,7 +140,6 @@ namespace Characters.Player
                 CharacterLogic.PerformBasicAttack((BasicAttack.LocalType)contextValue);
             }
         }
-
 
         private void RaiseCharacterDies()
         {

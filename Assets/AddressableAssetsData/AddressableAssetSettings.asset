@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_currentHash:
     serializedVersion: 2
-    Hash: b95a7228d3ecb4bc4270b67dc5d922e4
+    Hash: 845850c616f16cf6248ee085f7d68449
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -97,6 +97,7 @@ MonoBehaviour:
     - Weapon
     - Attack
     - Item
+    - Music
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: a233e0350e86ee24a818d2c084f67219, type: 2}

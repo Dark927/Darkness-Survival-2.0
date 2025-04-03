@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84f6dc985d0bb442b4b8b5298c91195, type: 3}
   m_Name: ItemPoolSettings
   m_EditorClassIdentifier: 
-  _preloadInstancesCount: 3
-  _maxPoolCapacity: 3
+  _poolSettings:
+    _preloadInstancesCount: 5
+    _maxPoolCapacity: 15

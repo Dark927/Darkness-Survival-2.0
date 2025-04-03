@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219b3233f4e0d1f40ad4d0d900525cee, type: 3}
   m_Name: IndicatorPoolSettings
   m_EditorClassIdentifier: 
-  _preloadInstancesCount: 5
-  _maxPoolCapacity: 5
+  _poolSettings:
+    _preloadInstancesCount: 20
+    _maxPoolCapacity: 40
   _forceReuseEnabled: 1

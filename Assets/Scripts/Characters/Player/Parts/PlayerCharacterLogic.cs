@@ -10,6 +10,7 @@ using Characters.Player.Upgrades;
 using Characters.Player.Weapons;
 using Characters.Stats;
 using UnityEngine;
+using World.Data;
 
 namespace Characters.Player
 {
@@ -19,6 +20,7 @@ namespace Characters.Player
         #region Events 
 
         public event Action<IUpgradableCharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
+        public event Action<IUpgradableCharacterLogic, UpgradeAppearTime> OnSpecificTimeUpgradesRequested;
 
         #endregion
 
@@ -66,9 +68,18 @@ namespace Characters.Player
 
         #endregion
 
-        private void LevelUpListener(object sender, EntityLevelArgs args)
+
+        public void ReactToDayStateChange(DayTimeType dayTime)
         {
-            OnReadyForUpgrade?.Invoke(this, args);
+            if (dayTime == DayTimeType.Day)
+            {
+                OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Day);
+            }
+
+            if (dayTime == DayTimeType.Night)
+            {
+                OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Night);
+            }
         }
 
         public void ApplySpeedUpgrade(float percent)
@@ -131,6 +142,10 @@ namespace Characters.Player
             }
         }
 
+        private void LevelUpListener(object sender, EntityLevelArgs args)
+        {
+            OnReadyForUpgrade?.Invoke(this, args);
+        }
         #endregion
     }
 

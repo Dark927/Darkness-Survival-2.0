@@ -1,43 +1,287 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using Utilities.UI;
+using Cysharp.Threading.Tasks;
+using Settings.AssetsManagement;
+using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
+using System.Linq;
+using Utilities.ErrorHandling;
+using System.Threading;
+using System.IO;
+using Utilities.Json;
+using Assets.Scripts.Settings.Global.Audio;
 
 namespace Settings.Global.Audio
 {
     public class MusicPlayer
     {
-        private AudioSource _musicSource;
-        private Sequence _activeTransition;
+        #region Fields 
 
-        public MusicPlayer(AudioSource targetSource)
+        private const float InstantTransitionTime = 0f;
+
+        private AudioSource _mainMusicSource;
+        private AudioSource _secondarySource;
+
+        private AudioFXHandler _fxHandler;
+        private MusicPlayerSettings _settings;
+
+        private Dictionary<MusicType, List<AssetReferenceT<AudioClip>>> _clipsOST;
+        private Queue<AssetReferenceT<AudioClip>> _musicQueue;
+
+        private CancellationTokenSource _mainPlaylistCts;
+        private bool _isMainQueuePaused;
+
+        public MusicPlayerDebug Debug;
+
+        #endregion
+
+
+        #region Properties 
+
+        public bool IsMainSourceBusy => _mainMusicSource.isPlaying || _isMainQueuePaused;
+
+        #endregion
+
+
+        #region Methods 
+
+        #region Init
+
+
+        public MusicPlayer(MusicPlayerSettings settings, Transform audioSourcesContainer)
         {
-            _musicSource = targetSource;
+            _settings = settings;
+            _fxHandler = new AudioFXHandler();
+            _mainMusicSource = CreateAndConfigureAudioSource(audioSourcesContainer);
+            _secondarySource = CreateAndConfigureAudioSource(audioSourcesContainer);
+
+            Debug = new MusicPlayerDebug(this);
         }
 
-        public void PlaySong(AudioClip targetClip, float transitionDuration = 1f)
+        private AudioSource CreateAndConfigureAudioSource(Transform container)
         {
-            TweenHelper.KillTweenIfActive(_activeTransition);
-
-            Sequence songTransition = DOTween.Sequence();
-
-            songTransition
-                .Append(
-                    _musicSource
-                        .DOFade(0f, transitionDuration / 2f)
-                        .From(_musicSource.volume)
-                        .OnComplete(() =>
-                        {
-                            _musicSource.clip = targetClip;
-                            _musicSource.Play();
-                        })
-                )
-                .Append(
-                    _musicSource
-                        .DOFade(1f, transitionDuration / 2f)
-                        .From(_musicSource.volume)
-                );
-
-            _activeTransition = songTransition;
+            AudioSource audioSource = container.gameObject.AddComponent<AudioSource>();
+            ConfigureMusicSource(audioSource);
+            return audioSource;
         }
+
+        private void ConfigureMusicSource(AudioSource musicSource)
+        {
+            musicSource.reverbZoneMix = _settings.ReverbZoneMix;
+            musicSource.spatialBlend = 0f;
+            musicSource.playOnAwake = false;
+            musicSource.loop = false;
+        }
+
+
+        #endregion
+
+        public void PlaySong(AudioClip targetClip, float fadeInOutDuration = 1f, float startTime = 0f)
+        {
+            float halfFadeDuration = fadeInOutDuration / 2f;
+
+            // Fade out the current music
+            _fxHandler.FadeOut(_mainMusicSource, halfFadeDuration, () =>
+            {
+                _mainMusicSource.clip = targetClip;
+                _mainMusicSource.time = startTime;
+                _mainMusicSource.Play();
+
+                _fxHandler.FadeIn(_mainMusicSource, 0f, _settings.MaxVolume, halfFadeDuration);
+            });
+        }
+
+        public void PauseMainSong(float fadeDuration = 0f)
+        {
+            _isMainQueuePaused = true;
+
+            if (!_mainMusicSource.isPlaying)
+            {
+                return;
+            }
+
+            _fxHandler.FadeOut(_mainMusicSource, fadeDuration, () =>
+            {
+                _mainMusicSource.Pause();
+            });
+        }
+
+        #region Music Pause & Resume 
+
+        public void InterruptWithPauseTypeSong()
+        {
+            if (_clipsOST.TryGetValue(MusicType.PauseMenu, out var availableSongs))
+            {
+                int randomSongIndex = Random.Range(0, availableSongs.Count());
+                PlayInterruptingSong(availableSongs[randomSongIndex], _settings.SongInterruptionTransitionTime).Forget();
+            }
+            else
+            {
+                PauseMainSong(InstantTransitionTime);
+            }
+        }
+
+        private async UniTask PlayInterruptingSong(AssetReferenceT<AudioClip> interruptClip, float fadeDuration = 1f)
+        {
+            PauseMainSong(InstantTransitionTime);
+            var clip = await LoadClipAsync(interruptClip);
+            _secondarySource.clip = clip;
+            _secondarySource.Play();
+            _fxHandler.FadeIn(_secondarySource, 0f, _settings.MaxVolume, fadeDuration);
+        }
+
+        private void StopSecondaryMusic(float fadeOutDuration = 1f)
+        {
+            if (!_secondarySource.isPlaying)
+            {
+                return;
+            }
+
+            _fxHandler.FadeOut(_secondarySource, fadeOutDuration, () =>
+            {
+                _secondarySource.Stop();
+                _secondarySource.clip = null;
+            });
+        }
+
+
+        public void ResumeMainSong()
+        {
+            if (!_isMainQueuePaused)
+            {
+                return;
+            }
+            StopSecondaryMusic(_settings.SongInterruptionTransitionTime / 2f);
+
+            _mainMusicSource.volume = 0f;
+            _mainMusicSource.UnPause();
+            _fxHandler.FadeIn(_mainMusicSource, _mainMusicSource.volume, _settings.MaxVolume, _settings.SongInterruptionTransitionTime / 2f);
+
+            DropPause();
+        }
+
+        public void Stop()
+        {
+            if (_mainMusicSource.clip == null)
+            {
+                return;
+            }
+
+            _mainMusicSource.Stop();
+            _mainMusicSource.clip = null;
+
+            StopMainPlaylist();
+            StopSecondaryMusic();
+            DropPause();
+        }
+
+
+        private void StopMainPlaylist()
+        {
+            if (_mainPlaylistCts == null)
+            {
+                return;
+            }
+
+            _mainPlaylistCts.Cancel();
+            _mainPlaylistCts.Dispose();
+            _mainPlaylistCts = null;
+        }
+
+        private void DropPause()
+        {
+            _isMainQueuePaused = false;
+        }
+
+        #endregion
+
+
+        public void AddMusicClips(params MusicData[] musicDataList)
+        {
+            _clipsOST ??= new();
+
+            foreach (var musicData in musicDataList)
+            {
+                if (musicData != null)
+                {
+                    _clipsOST.TryAdd(musicData.Type, musicData.MusicList);
+                }
+            }
+        }
+
+        public void StartPlaylist(MusicType type, bool skipCurrentPlaylist = true)
+        {
+            if ((_clipsOST == null) || (_mainMusicSource == null))
+            {
+                ErrorLogger.LogWarning("# The OST list is empty or Music Source is null, can not play it! - " + nameof(GameAudioService)
+                                + $"\nOST clips list -> {_clipsOST}"
+                                + $"\nMusicSource -> {_mainMusicSource}");
+                return;
+            }
+
+            if (_mainMusicSource.isPlaying && !skipCurrentPlaylist)
+            {
+                return;
+            }
+
+            Stop();
+            UpdateMusicQueue(type);
+
+            if (_mainPlaylistCts == null || _mainPlaylistCts.IsCancellationRequested)
+            {
+                _mainPlaylistCts = new CancellationTokenSource();
+            }
+
+            PlayMusicQueue(_mainPlaylistCts.Token).Forget();
+        }
+
+
+        public async UniTask PlayMusicQueue(CancellationToken token = default)
+        {
+            AudioClip nextClip;
+
+            while (_musicQueue.Count > 0 && !token.IsCancellationRequested)
+            {
+                if (!_isMainQueuePaused)
+                {
+                    nextClip = await LoadClipAsync(_musicQueue.Dequeue());
+
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    PlaySong(nextClip, _settings.SongTransitionTime);
+                    await UniTask.WaitUntil(() => !IsMainSourceBusy && Application.isFocused, cancellationToken: token);
+                }
+                else
+                {
+                    await UniTask.WaitUntil(() => !_isMainQueuePaused, cancellationToken: token);
+                }
+            }
+        }
+
+        private void UpdateMusicQueue(MusicType musicType)
+        {
+            if (_clipsOST == null || !_clipsOST.ContainsKey(musicType))
+            {
+                ErrorLogger.LogWarning($"# The OST list is null or does not contain this music type {musicType}! - {nameof(GameAudioService)}");
+                return;
+            }
+
+            _musicQueue = new Queue<AssetReferenceT<AudioClip>>(_clipsOST[musicType].Distinct()); // ToDo : check ordering
+        }
+
+        private async UniTask<AudioClip> LoadClipAsync(AssetReferenceT<AudioClip> musicRef)
+        {
+            var clipLoadHandle = AddressableAssetsHandler.Instance.TryLoadAssetAsync<AudioClip>(musicRef);
+            await clipLoadHandle.Task;
+
+            AddressableAssetsHandler.Instance.Cleaner.SubscribeOnCleaning(AddressableAssetsCleaner.CleanType.SceneSwitch, clipLoadHandle);
+            return clipLoadHandle.Result;
+        }
+
+        #endregion
     }
 }

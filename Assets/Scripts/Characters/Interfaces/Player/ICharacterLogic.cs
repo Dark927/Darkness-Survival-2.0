@@ -2,7 +2,7 @@
 using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
-using Characters.Player.Upgrades;
+using World.Data;
 
 namespace Characters.Interfaces
 {
@@ -13,6 +13,6 @@ namespace Characters.Interfaces
         public ICharacterLevel Level { get; }
 
         public void PerformBasicAttack(BasicAttack.LocalType type);
-
+        public void ReactToDayStateChange(DayTimeType dayTime);
     }
 }

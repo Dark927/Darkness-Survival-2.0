@@ -15,5 +15,5 @@ MonoBehaviour:
   _realTimeDuration: 30
   _targetGameTime: 0.51
   _targetColor: {r: 0, g: 0, b: 0.3490566, a: 1}
-  _dayTimeType: 0
+  _dayTimeType: 3
   _tag: 

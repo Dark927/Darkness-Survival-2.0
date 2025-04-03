@@ -17,6 +17,12 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1ee7ae6b3bcc2f1489482c5ce975a79c
   m_SerializeEntries:
+  - m_GUID: 079dbf1c763bb7e4a95fd63190c3c83e
+    m_Address: Assets/Audio/OST/Gameplay/darkness.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 152f54411af450843b4148c53318b35a
     m_Address: Assets/Prefabs/UI/Menu/GameOver/menu_gameOver.prefab
     m_ReadOnly: 0
@@ -57,10 +63,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 773228641b7b568459367a8e2898b11d
-    m_Address: Assets/Audio/OST/Gameplay/OST - When night come over.mp3
+  - m_GUID: 7371c2b3b2aa2124daa5132488b7d6e9
+    m_Address: Assets/Audio/OST/Gameplay/feel the void inside your soul before it's
+      too late.wav
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Music
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 831ba83b3c8fcae4d9700b535b04842d
     m_Address: Assets/Prefabs/UI/Menu/GameWin/menu_gameWin.prefab
@@ -87,15 +95,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ead5e61ccbe7694893e36eb00c8735c
+    m_Address: Assets/Audio/OST/MainMenu/You seem to enjoy dancing in your own blood.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a05ded130b118c94cb5d66aa52821b91
     m_Address: Assets/Prefabs/UI/LoadingScreen/LoadingScreen-Canvas.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a58687cd023173e4694c12b8cd9a9bc6
+    m_Address: Assets/Audio/OST/Gameplay/when night come over.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9a9648fd1503fd4d9ef01cc54eaef81
     m_Address: Assets/Prefabs/UI/Menu/Settings/Settings-Canvas.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b78da0e50a648f248a25caa9e8295606
+    m_Address: Assets/Audio/OST/Gameplay/nowhere to run.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b81171a0aac7ead4a8edee2e158159e4
     m_Address: Assets/Data/Entities/Player/NeroLevelData.asset
@@ -107,16 +133,34 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cb79bfbef0c4b7d4993631d7e08cb962
-    m_Address: Assets/Audio/OST/MainMenu/OST - You seem to enjoy dancing in your
-      own blood.mp3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d8fa77fbf61244341b8d611174eae9d4
     m_Address: Assets/Data/Entities/Features/EnemyFeatureSet.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e77dc410817c04f41b52c2ddf4ecf860
+    m_Address: Assets/Audio/OST/Gameplay/in the dark king's cave.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9498ab5037c3604789fb47f68da9853
+    m_Address: Assets/Audio/OST/MainMenu/calm down.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea04ee0cfedf4c34581974c5ae5ce43d
+    m_Address: Assets/Audio/OST/PauseMenu/king without his crown.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eec6a186c89cd3043aa4c2f64bf29620
+    m_Address: Assets/Audio/OST/Gameplay/dont close ur eye's.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 409abf5fd251b1345941243db22daff4, type: 2}

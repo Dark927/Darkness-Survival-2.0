@@ -84,7 +84,7 @@ namespace UI.Local.Health
 
         private void CharacterScaleChangedListener(object sender, EventArgs args)
         {
-            // ToDo : check this.
+            // ToDo : check this (sometimes healthbar has reverted scale).
 
             if (Mathf.Sign(_entityBody.Transform.localScale.x) != Mathf.Sign(transform.localScale.x))
             {

@@ -62,7 +62,7 @@ namespace Settings.SceneManagement
         {
             LoadSceneAsync(() =>
             {
-                SceneCleanEvent?.ListenEvent(this, EventArgs.Empty);
+                SceneCleanEvent?.RaiseEvent(this, EventArgs.Empty);
                 SceneLoader.UnloadAll();
 
                 return new List<AsyncOperationHandle<SceneInstance>>()
@@ -90,7 +90,7 @@ namespace Settings.SceneManagement
             LoadSceneAsync(() =>
             {
                 // Cleaning logic
-                SceneCleanEvent?.ListenEvent(this, EventArgs.Empty);
+                SceneCleanEvent?.RaiseEvent(this, EventArgs.Empty);
                 SceneLoader.UnloadAll();
 
                 // Loading logic 

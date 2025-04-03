@@ -18,7 +18,9 @@ namespace Utilities.Attributes
         public int depth;
         public string label;
         public string tooltip;
-        public Color headerColor;
+        public HeaderColor headerColor;
+
+        public Color ConcreteHeaderColor => GetColor(headerColor);
 
         /// <summary>
         /// Add a header above a field
@@ -32,7 +34,7 @@ namespace Utilities.Attributes
             this.count = count;
             this.depth = depth;
             this.label = label;
-            this.headerColor = GetColor(headerColor);
+            this.headerColor = headerColor;
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace Utilities.Attributes
             this.depth = depth;
             this.label = label;
             this.tooltip = tooltip;
-            this.headerColor = GetColor(headerColor);
+            this.headerColor = headerColor;
         }
 
         public static Color GetColor(HeaderColor colorType)

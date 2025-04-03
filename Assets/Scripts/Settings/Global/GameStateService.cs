@@ -52,7 +52,7 @@ namespace Settings.Global
         {
             GameSceneLoadHandler.Instance.RequestStageLoad(stageSceneData, () =>
             {
-                _gameEvent?.ListenEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
+                _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
             }, true);
         }
 
@@ -60,7 +60,7 @@ namespace Settings.Global
         {
             GameSceneLoadHandler.Instance.ReloadCurrentStage(() =>
             {
-                _gameEvent?.ListenEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
+                _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
             }, true);
         }
 
@@ -105,15 +105,15 @@ namespace Settings.Global
             switch (args.EventType)
             {
                 case PlayerEvent.Type.Dies:
-                    GameEvent.ListenEvent(this, new GameEventArgs(GameStateEventType.StageStartFinishing));
+                    GameEvent.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStartFinishing));
                     break;
 
                 case PlayerEvent.Type.Win:
-                    GameEvent.ListenEvent(this, new GameEventArgs(GameStateEventType.StageCompletelyPassed));
+                    GameEvent.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageCompletelyPassed));
                     break;
 
                 case PlayerEvent.Type.Dead:
-                    GameEvent.ListenEvent(this, new GameEventArgs(GameStateEventType.StageCompletelyOver));
+                    GameEvent.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageCompletelyOver));
                     break;
             }
         }
@@ -121,7 +121,7 @@ namespace Settings.Global
         private void HandleSceneSwitchEvent()
         {
             _pauseHandler.TryUnpauseGame();
-            GameEvent.ListenEvent(this, new GameEventArgs(GameStateEventType.StageStartFinishing));
+            GameEvent.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStartFinishing));
         }
 
         private void HandleGamePauseEvent(PauseEventArgs args)
@@ -129,10 +129,10 @@ namespace Settings.Global
             switch (args.EventType)
             {
                 case PauseEvent.Type.Paused:
-                    _gameEvent?.ListenEvent(this, new GameEventArgs(GameStateEventType.StagePaused));
+                    _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StagePaused));
                     break;
                 case PauseEvent.Type.Unpaused:
-                    _gameEvent?.ListenEvent(this, new GameEventArgs(GameStateEventType.StageUnpaused));
+                    _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageUnpaused));
                     break;
             }
         }

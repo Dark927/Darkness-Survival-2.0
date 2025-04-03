@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UpgradeConf_CyberHeart_SO
   m_EditorClassIdentifier: 
   _upgrade: {fileID: 11400000, guid: f9e20a4ffe033764fa1b4e4b8dc7f619, type: 2}
-  _appearTime: 0
+  _appearTime: 1
   _name: Cyber Heart
   _type: 0
   _description: Some extra info about upgrade which gives you some <b><color=green>

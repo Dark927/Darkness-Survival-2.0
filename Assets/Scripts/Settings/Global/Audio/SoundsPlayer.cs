@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using Cysharp.Threading.Tasks;
-using Utilities.ErrorHandling;
-using Gameplay.Components;
+﻿using System;
 using System.Threading;
-using System;
+using Cysharp.Threading.Tasks;
+using Gameplay.Components;
 using UI.Audio;
-using static Unity.VisualScripting.Member;
+using UnityEngine;
+using Utilities.ErrorHandling;
 
 namespace Settings.Global.Audio
 {

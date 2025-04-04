@@ -1,7 +1,6 @@
 ﻿
 
 using System;
-using Characters.Interfaces;
 using UnityEngine;
 
 namespace Characters.Common.Visual

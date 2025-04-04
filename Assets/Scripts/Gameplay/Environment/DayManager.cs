@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Characters.Common;
 using Gameplay.Components;
 using Gameplay.Stage;
+using Settings;
 using Settings.Global;
 using UnityEngine;
-using Utilities.Math;
 using Utilities.ErrorHandling;
+using Utilities.Math;
 using World.Data;
 using World.Light;
-using Characters.Interfaces;
-using Settings;
 
 #nullable enable
 

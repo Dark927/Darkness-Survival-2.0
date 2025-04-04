@@ -1,5 +1,6 @@
-﻿using Characters.Enemy.Data;
-using Gameplay.Data;
+﻿using Characters.Enemy;
+using Characters.Enemy.Settings;
+using Gameplay.GlobalSettings;
 using Settings;
 using UnityEngine;
 using Zenject;
@@ -42,7 +43,7 @@ namespace Gameplay.Components.Enemy
 
         protected override string GenerateDefaultItemName(EnemyController enemy)
         {
-            return $"{_enemyData.Name} {_enemyData.Type}".Replace(" ", "_");
+            return $"{_enemyData.CommonInfo.Name} {_enemyData.Type}".Replace(" ", "_");
         }
 
         protected override void ReturnAction(EnemyController enemy)

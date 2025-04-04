@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using Characters.Common;
 using Characters.Common.Combat.Weapons;
-using Characters.Common.Visual;
-using Characters.Enemy.Animation;
-using Characters.Enemy.Data;
-using Characters.Interfaces;
-using Characters.Stats;
-using Cysharp.Threading.Tasks;
+using Characters.Common.Settings;
+using Characters.Enemy.Settings;
 using Gameplay.Components.Items;
 using Settings.AssetsManagement;
 using UnityEngine;
@@ -16,7 +12,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Characters.Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class DefaultEnemyLogic : AttackableEntityLogic, IEnemyLogic, IAttackable<BasicAttack>
+    public class DefaultEnemyLogic : AttackableEntityLogicBase, IEnemyLogic
     {
         #region Fields 
 
@@ -64,10 +60,9 @@ namespace Characters.Enemy
             }
         }
 
-        protected override void InitBasicAttacks()
+        protected override BasicAttack GetBasicAttacks()
         {
-            SetBasicAttacks(new BasicAttack(Body, Weapons.ActiveOnesDict.Values));
-            base.InitBasicAttacks();
+            return new BasicAttack(Body, WeaponsHandler.ActiveOnes);
         }
 
         #endregion

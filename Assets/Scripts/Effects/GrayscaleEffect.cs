@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using DG.Tweening;
+using Settings.Global;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using DG.Tweening;
-using System;
 using Utilities.UI;
-using Settings.Global;
 
 public class GrayscaleEffect : IDisposable
 {

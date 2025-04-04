@@ -1,8 +1,7 @@
 ﻿using System;
 using Characters.Common;
 using Characters.Common.Combat.Weapons;
-using Characters.Interfaces;
-using Characters.Stats;
+using Characters.Common.Settings;
 using Cysharp.Threading.Tasks;
 using Gameplay.Components;
 using Settings.Global;

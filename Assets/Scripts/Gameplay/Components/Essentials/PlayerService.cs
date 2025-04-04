@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Characters.Interfaces;
+using Characters.Common;
 using Characters.Player;
-using Settings;
 using Settings.Global;
-using Settings.SceneManagement;
 using UnityEngine;
 
 namespace Gameplay.Components

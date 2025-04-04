@@ -1,6 +1,4 @@
-﻿
-using Characters.Interfaces;
-using Characters.Player;
+﻿using Characters.Player;
 using Characters.Player.Upgrades;
 using UnityEngine;
 

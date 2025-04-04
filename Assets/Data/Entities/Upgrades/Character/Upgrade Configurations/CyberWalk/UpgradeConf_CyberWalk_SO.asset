@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UpgradeConf_CyberWalk_SO
   m_EditorClassIdentifier: 
   _upgrade: {fileID: 11400000, guid: d9c539a6a5efbf547937d0e528858512, type: 2}
-  _appearTime: 2
+  _appearTime: 0
   _name: Cyber Walk
   _type: 0
   _description: Some extra info about upgrade which gives you some <b><color=blur>

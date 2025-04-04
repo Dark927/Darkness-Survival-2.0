@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
   m_Name: BioMonsterDefault
   m_EditorClassIdentifier: 
-  _name: BioMonster
-  _id: 831806206
+  _info:
+    _name: Bio Monster
+    _typeID: 0
   _stats:
     Health: 15
     Speed: 2

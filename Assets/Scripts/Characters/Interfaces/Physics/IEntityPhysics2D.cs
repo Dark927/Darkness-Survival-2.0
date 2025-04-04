@@ -1,7 +1,4 @@
-﻿
-
-using Characters.Interfaces;
-using Settings.Global;
+﻿using Settings.Global;
 using UnityEngine;
 
 namespace Characters.Common.Physics2D

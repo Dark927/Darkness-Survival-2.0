@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Characters.Common.Abilities;
 using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
+using Characters.Common.Features;
 using Characters.Common.Levels;
 using World.Data;
 
-namespace Characters.Interfaces
+namespace Characters.Common
 {
     public interface ICharacterLogic : IEntityDynamicLogic
     {
-        public event Action<BasicAttack> OnBasicAttacksReady;
-        public EntityWeaponsHolder Weapons { get; }
+        public EntityWeaponAbilitiesHandler WeaponsHandler { get; }
         public ICharacterLevel Level { get; }
 
         public void PerformBasicAttack(BasicAttack.LocalType type);

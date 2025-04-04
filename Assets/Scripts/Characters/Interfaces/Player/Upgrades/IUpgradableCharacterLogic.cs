@@ -1,8 +1,7 @@
 ﻿
-using Characters.Common.Levels;
 using System;
-using Characters.Interfaces;
-using World.Data;
+using Characters.Common;
+using Characters.Common.Levels;
 
 namespace Characters.Player.Upgrades
 {

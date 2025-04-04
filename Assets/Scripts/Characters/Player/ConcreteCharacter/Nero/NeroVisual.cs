@@ -1,6 +1,5 @@
 ﻿
 using System;
-using Characters.Common.Combat.Weapons;
 using Materials;
 using Materials.DarkEntityFX;
 using UnityEngine;

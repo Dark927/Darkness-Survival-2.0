@@ -6,7 +6,6 @@ using Settings.Global;
 using Settings.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Zenject;
 

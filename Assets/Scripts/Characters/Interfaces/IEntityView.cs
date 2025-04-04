@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace Characters.Interfaces
+namespace Characters.Common
 {
     public interface IEntityView
     {

@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using Characters.Common.Combat.Weapons;
-using Characters.Interfaces;
-using Characters.Player.Upgrades;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades

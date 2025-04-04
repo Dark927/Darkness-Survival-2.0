@@ -1,9 +1,4 @@
-﻿using Cinemachine;
-using Gameplay.Components;
-using Settings.CameraManagement;
-using Settings.Global;
-using Settings.Global.Audio;
-using UI.CustomCursor;
+﻿using UI.CustomCursor;
 using UnityEngine;
 using Zenject;
 

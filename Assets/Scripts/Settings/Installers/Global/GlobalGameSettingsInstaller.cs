@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Settings.Global.Audio;
+﻿using Settings.Global.Audio;
 using UI;
 using UnityEngine;
 using Utilities.Attributes;

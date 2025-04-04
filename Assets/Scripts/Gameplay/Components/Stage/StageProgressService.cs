@@ -1,6 +1,6 @@
 ﻿
 using System.Threading;
-using Characters.Interfaces;
+using Characters.Common;
 using Cysharp.Threading.Tasks;
 using Gameplay.Components;
 using Settings.Global;

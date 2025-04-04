@@ -1,5 +1,5 @@
 ﻿
-using Characters.Interfaces;
+using Characters.Common;
 using UnityEngine;
 
 namespace Gameplay.Components.Items

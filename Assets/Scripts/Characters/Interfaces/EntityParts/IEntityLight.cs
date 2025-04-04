@@ -1,8 +1,4 @@
-﻿
-
-using UnityEngine.Rendering.Universal;
-
-namespace Characters.Interfaces
+﻿namespace Characters.Common
 {
     public interface IEntityLight
     {

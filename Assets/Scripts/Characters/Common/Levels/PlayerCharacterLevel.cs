@@ -1,6 +1,6 @@
 ﻿using System;
 using Characters.Common.Levels;
-using Characters.Player.Data;
+using Characters.Player.Settings;
 using UnityEngine;
 using Utilities.Math;
 

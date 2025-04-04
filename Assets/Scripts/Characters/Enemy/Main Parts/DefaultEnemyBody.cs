@@ -1,8 +1,7 @@
 ﻿using Characters.Common;
 using Characters.Common.Movement;
-using Characters.Enemy.Data;
+using Characters.Enemy.Settings;
 using Characters.Health;
-using Characters.Interfaces;
 using Gameplay.Components.TargetDetection;
 using UnityEngine;
 

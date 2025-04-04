@@ -3,7 +3,7 @@
 using Characters.Common.Combat.Weapons.Data;
 using UnityEngine;
 
-namespace Characters.Stats
+namespace Characters.Common.Settings
 {
     public class AttackableCharacterData : EntityBaseData
     {

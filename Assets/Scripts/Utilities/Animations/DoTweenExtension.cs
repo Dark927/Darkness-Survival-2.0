@@ -1,6 +1,6 @@
-﻿using DG.Tweening.Core;
+﻿using DG.Tweening;
+using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
-using DG.Tweening;
 using TMPro;
 
 namespace Utilities.Animations
@@ -17,7 +17,7 @@ namespace Utilities.Animations
         {
             // Create a tween to animate the font size of the text
             TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.fontSize, x => target.fontSize = x, endValue, duration);
-           
+
             // Set the target to be the TextMeshProUGUI component for future filtered operations
             t.SetTarget(target);
             return t;

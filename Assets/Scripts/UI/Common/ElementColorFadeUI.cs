@@ -46,7 +46,7 @@ namespace UI
             _animation = PlayFadeAnimation(_target, fadeColor);
             _animation.timeScale = speedMult;
         }
-        
+
         private void StopActiveAnimation()
         {
             TweenHelper.KillTweenIfActive(_animation);

@@ -19,6 +19,8 @@ namespace Characters.Player.Upgrades
     {
         #region Fields 
 
+        private const int MaxUpgradesToSelectCount = 3;
+
         private Dictionary<IUpgradableCharacterLogic, List<UpgradeProvider>> _availableCharactersUpgrades;
         private Dictionary<IUpgradableCharacterLogic, List<UpgradeProvider>> _waitingCharactersUpgrades;
         private IUpgradeHandlerUI _upgradeHandlerUI;
@@ -231,27 +233,11 @@ namespace Characters.Player.Upgrades
 
         private IEnumerable<UpgradeProvider> GetRandomUpgrades(List<UpgradeProvider> availableUpgrades)
         {
-            int upgradesToTake = Mathf.Clamp(availableUpgrades.Count(), 0, 3);
-
-            if (availableUpgrades.Count <= upgradesToTake)
-            {
-                return availableUpgrades;
-            }
-
-            HashSet<UpgradeProvider> randomUpgrades = new(upgradesToTake);
-            int upgradeRandomIndex;
-            UpgradeProvider targetUpgrade;
-
-            while (randomUpgrades.Count < upgradesToTake)
-            {
-                upgradeRandomIndex = UnityEngine.Random.Range(0, availableUpgrades.Count());     // [0, available_count)
-                targetUpgrade = availableUpgrades[upgradeRandomIndex];
-
-                randomUpgrades.Add(targetUpgrade);
-            }
-
-            return randomUpgrades;
+            int upgradesToTake = Mathf.Clamp(availableUpgrades.Count(), 0, MaxUpgradesToSelectCount);
+            availableUpgrades.ShuffleElementsWithRange(upgradesToTake, availableUpgrades.Count());
+            return availableUpgrades.Take(upgradesToTake);
         }
+
 
         private void CharacterLevelUpdateListener(object sender, int currentLevel)
         {
@@ -270,7 +256,6 @@ namespace Characters.Player.Upgrades
             _isNewUpgradeReceived = false;
             return _receivedUpgrade;
         }
-
 
         private void ApplyUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
@@ -307,34 +292,44 @@ namespace Characters.Player.Upgrades
 
         private void HandleAbilityUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            if (upgradeProvider is WeaponUpgradeProvider weaponUpgradeProvider)
-            {
-                targetCharacter.UpgradesCoordinator.ApplyWeaponUpgrade(weaponUpgradeProvider.TargetWeaponID, weaponUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableWeapon>>());
-            }
-            else
+            if (upgradeProvider is not AbilityUpgradeProvider abilityUpgradeProvider)
             {
                 ErrorLogger.LogWarning($"Warning | Wrong type of upgrade provider | Can not upgrade the ability, deleting it.. | {gameObject.name}");
                 _availableCharactersUpgrades[targetCharacter].Remove(upgradeProvider);
+                return;
+            }
+
+            var coordinator = targetCharacter.UpgradesCoordinator;
+
+            switch (abilityUpgradeProvider.AbilityType)
+            {
+                case AbilityType.Weapon:
+                    coordinator.ApplyWeaponAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableWeapon>>());
+                    break;
+                case AbilityType.Passive:
+                    coordinator.ApplyPassiveAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableAbility>>());
+                    break;
             }
         }
 
+
         private void HandleAbilityUnlock(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<WeaponUnlockLevelSO>();
-            targetCharacter.UpgradesCoordinator.UnlockAbility(abilityUnlockLevel);
+            var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableCharacterLogic>>();
+            targetCharacter.UpgradesCoordinator.ApplyCharacterUpgrade(abilityUnlockLevel);
 
             // Add a new Upgrade Configuration from unlocked ability.
 
-            SingleWeaponUnlockSO singleWeaponUnlock = null;
+            SingleAbilityUnlockBaseSO singleAbilityUnlock = null;
 
             foreach (var singleUpgrade in abilityUnlockLevel.Upgrades)
             {
-                singleWeaponUnlock = (singleUpgrade as SingleWeaponUnlockSO);
+                singleAbilityUnlock = (singleUpgrade as SingleAbilityUnlockBaseSO);
 
-                if (singleWeaponUnlock != null)
+                if (singleAbilityUnlock != null)
                 {
-                    // Note : give the weapon ID to find the target weapon (if it is needed) when applying the upgrade.
-                    AddUpgradeConfiguration(targetCharacter, singleWeaponUnlock.WeaponUpgradeConfiguration, singleWeaponUnlock.WeaponID);
+                    // Note : give the ability ID to find the target ability (if it is needed) when applying the upgrade.
+                    AddUpgradeConfiguration(targetCharacter, singleAbilityUnlock.AbilityUpgradeConfiguration, singleAbilityUnlock.AbilityID);
                 }
             }
         }
@@ -343,14 +338,12 @@ namespace Characters.Player.Upgrades
         {
             UpgradeProvider upgradeProvider = null;
 
-            if (upgradeConfigurationSO.Upgrade is WeaponUpgradeSO)
+            upgradeProvider = upgradeConfigurationSO.Upgrade switch
             {
-                upgradeProvider = new WeaponUpgradeProvider(upgradeConfigurationSO, extraTargetID);
-            }
-            else
-            {
-                upgradeProvider = new UpgradeProvider(upgradeConfigurationSO);
-            }
+                WeaponUpgradeSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Weapon, extraTargetID),
+                AbilityUpgradeSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Passive, extraTargetID),
+                _ => new UpgradeProvider(upgradeConfigurationSO),
+            };
 
             _availableCharactersUpgrades[targetCharacter]?.Add(upgradeProvider);
         }

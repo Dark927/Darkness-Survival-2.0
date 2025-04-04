@@ -1,5 +1,5 @@
-﻿using Characters.Common.Combat.Weapons;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Characters.Common.Combat.Weapons;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades

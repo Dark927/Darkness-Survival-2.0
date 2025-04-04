@@ -1,7 +1,7 @@
-
+﻿
 using UnityEngine;
 
-namespace Characters.Player.Data
+namespace Characters.Player.Settings
 {
     [CreateAssetMenu(fileName = "NewCharacterLevelData", menuName = "Game/Characters/Player/Character Level Data")]
     public class CharacterLevelData : ScriptableObject

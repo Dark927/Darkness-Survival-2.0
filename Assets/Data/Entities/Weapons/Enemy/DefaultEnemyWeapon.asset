@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25376cf9829fa948b3ee8f9d758d23f, type: 3}
   m_Name: DefaultEnemyWeapon
   m_EditorClassIdentifier: 
-  _weaponName: DefaultEnemyWeapon
+  _weaponName: Default Enemy Weapon
   _weaponAsset:
     m_AssetGUID: 430f8d60607b154408485b25cda1c673
     m_SubObjectName: 

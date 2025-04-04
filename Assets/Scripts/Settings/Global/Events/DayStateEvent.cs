@@ -1,5 +1,4 @@
-﻿using System;
-using Settings.Global;
+﻿using Settings.Global;
 using World.Environment;
 
 namespace Settings

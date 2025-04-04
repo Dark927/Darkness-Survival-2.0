@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25376cf9829fa948b3ee8f9d758d23f, type: 3}
   m_Name: NeroSwordData
   m_EditorClassIdentifier: 
-  _weaponName: NeroSword
+  _weaponName: Cyber Sword
   _weaponAsset:
     m_AssetGUID: 678ad20c8e822e349b435b7f94b1face
     m_SubObjectName: 

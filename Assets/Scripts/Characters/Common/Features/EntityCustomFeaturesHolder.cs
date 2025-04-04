@@ -1,5 +1,4 @@
-﻿using Characters.Interfaces;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Settings.AssetsManagement;
 using UnityEngine;
 
@@ -7,21 +6,27 @@ using UnityEngine;
 
 namespace Characters.Common.Features
 {
-    public class EntityCustomFeaturesHolder : EntityFeaturesHolderBase<IEntityFeature>
+    public class EntityCustomFeaturesHolder<TFeature, TFeatureData> : EntityFeaturesHolderBase<TFeature, TFeatureData>
+        where TFeature : IEntityFeature
+        where TFeatureData : IFeatureData
     {
         #region Methods
 
         #region Init
-        public EntityCustomFeaturesHolder(IEntityDynamicLogic targetEntity) : base(targetEntity)
+        public EntityCustomFeaturesHolder(IEntityDynamicLogic targetEntity, string? containerName = null) : base(targetEntity, containerName)
         {
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            TryInitContainer();
         }
 
         #endregion
 
-        public async override UniTask GiveFeatureAsync<TFeatureData>(TFeatureData data)
+        public async override UniTask GiveAsync(TFeatureData featureData)
         {
-            FeatureData? featureData = data as FeatureData;
-
             if (featureData == null)
             {
                 return;
@@ -50,7 +55,7 @@ namespace Characters.Common.Features
             return ActiveOnesDict[ID] as T;
         }
 
-        protected override void DestroyFeatureLogic(IEntityFeature feature)
+        protected override void DestroyFeatureLogic(TFeature feature)
         {
             GameObject.Destroy(feature.RootObject);
         }
@@ -59,6 +64,7 @@ namespace Characters.Common.Features
         {
             return targetPart switch
             {
+                IEntityFeature.TargetEntityPart.UseContainerSettings => DefaultFeaturesContainer.transform,
                 IEntityFeature.TargetEntityPart.Base => EntityLogic is MonoBehaviour monoBehaviour ? monoBehaviour.transform : null,
                 IEntityFeature.TargetEntityPart.Body => EntityLogic.Body?.Transform,
                 _ => null,

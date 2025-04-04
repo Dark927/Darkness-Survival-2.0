@@ -1,4 +1,4 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Common;
 
 namespace Gameplay.Components.Items
 {

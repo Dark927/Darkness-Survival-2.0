@@ -1,8 +1,6 @@
 ﻿
-using DG.Tweening;
-using UnityEngine.UI;
-using UnityEngine;
 using System;
+using DG.Tweening;
 
 namespace Utilities.UI
 {

@@ -1,9 +1,9 @@
-﻿using Characters.Enemy.Data;
+﻿using Characters.Enemy.Settings;
 using Gameplay.Components;
 using UnityEngine;
 
 
-namespace Gameplay.Data
+namespace Gameplay.GlobalSettings
 {
     [CreateAssetMenu(fileName = "NewEnemySpawnData", menuName = "Game/World/Data/Enemy Spawn Data")]
     public class EnemySpawnData : ScriptableObject

@@ -1,4 +1,4 @@
-using Characters.Interfaces;
+﻿using Characters.Common;
 using Gameplay.Components.Items;
 using UnityEngine;
 

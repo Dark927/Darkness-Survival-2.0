@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Characters.Common;
 using Characters.Common.Combat;
-using Characters.Interfaces;
 using Gameplay.Data;
 using Gameplay.Stage;
 using Gameplay.Visual;
@@ -14,6 +14,7 @@ namespace Gameplay.Components.Enemy
 {
     public class EnemyManagementService : IService, IInitializable
     {
+
         #region Fields 
 
         private EnemyManagementData _data;
@@ -52,8 +53,9 @@ namespace Gameplay.Components.Enemy
             _enemyDamagedActions?.ForEach(action => action?.Invoke(enemyBody, receivedDamage));
         }
 
-        public void EnemyKilledListener()
+        public void EnemyKilledListener(IEntityDynamicLogic sender, IAttackable killer)
         {
+            killer.NotifyEnemyKilled(sender);
             _stageProgressService.IncrementKills();
         }
 

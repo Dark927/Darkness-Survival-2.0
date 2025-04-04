@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Characters.Interfaces;
-using Characters.Player.Upgrades;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace Characters.Player.Upgrades

@@ -1,5 +1,5 @@
-﻿using Utilities.Attributes;
-using UnityEngine;
+﻿using UnityEngine;
+using Utilities.Attributes;
 
 namespace Settings.Global.Audio
 {

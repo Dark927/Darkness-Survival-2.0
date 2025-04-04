@@ -4,7 +4,6 @@ using Characters.Player.Upgrades;
 using Settings.Global;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utilities.Attributes;
 using Utilities.ErrorHandling;

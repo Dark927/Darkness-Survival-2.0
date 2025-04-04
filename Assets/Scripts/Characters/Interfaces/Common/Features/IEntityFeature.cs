@@ -1,6 +1,5 @@
 ﻿
 using System;
-using Characters.Interfaces;
 using UnityEngine;
 
 namespace Characters.Common.Features
@@ -9,11 +8,11 @@ namespace Characters.Common.Features
     {
         public enum TargetEntityPart
         {
-            Base = 0,
+            UseContainerSettings = 0,
+            Base,
             Body,
         }
 
-        public bool IsReady { get; }
         public void Initialize(IEntityDynamicLogic characterLogic);
         public TargetEntityPart EntityConnectionPart { get; }
         public GameObject RootObject { get; }

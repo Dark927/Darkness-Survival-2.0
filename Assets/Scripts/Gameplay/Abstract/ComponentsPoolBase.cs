@@ -1,6 +1,4 @@
-﻿using System;
-using Gameplay.Components;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gameplay.Components
 {

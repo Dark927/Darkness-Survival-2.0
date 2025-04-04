@@ -2,7 +2,6 @@
 
 using Characters.Common.Combat.Weapons.Data;
 using Characters.Player;
-using Characters.Player.Animation;
 using Materials;
 
 namespace Characters.Common.Combat.Weapons

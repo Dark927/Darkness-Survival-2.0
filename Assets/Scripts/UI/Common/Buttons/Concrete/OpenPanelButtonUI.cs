@@ -1,6 +1,5 @@
 ﻿
 using UnityEngine;
-using Zenject;
 
 namespace UI.Buttons
 {

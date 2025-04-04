@@ -1,6 +1,6 @@
 ﻿
 
-namespace Characters.Interfaces
+namespace Characters.Common
 {
     public interface IStunnable
     {

@@ -1,9 +1,9 @@
-﻿using Characters.Player;
-using System;
+﻿using System;
+using Characters.Player;
+using Characters.Player.Controls;
 using Settings.Global;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Characters.Player.Controls;
 
 namespace Gameplay.Components
 {

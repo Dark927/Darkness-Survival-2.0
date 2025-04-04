@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Utilities.Attributes;
 
 namespace UI.Characters.Upgrades
 {

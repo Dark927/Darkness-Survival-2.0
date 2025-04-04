@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Characters.Stats
+namespace Characters.Common.Settings
 {
     [System.Serializable]
     public struct CharacterStats

@@ -1,14 +1,13 @@
 ﻿using System;
-using Characters.Player.Upgrades;
 using Gameplay.Components;
-using Gameplay.Components.Enemy;
-using Settings;
 using Settings.Global;
 using Settings.Global.Audio;
 using World.Environment;
 using Zenject;
+using Gameplay.Components.Enemy;
+using Gameplay.Stage;
 
-namespace Gameplay.Stage
+namespace Stage
 {
     public class StageManager : SceneServiceManagerBase, IEventListener
     {

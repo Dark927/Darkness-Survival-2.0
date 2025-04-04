@@ -1,5 +1,5 @@
-﻿using Characters.Common.Features;
-using Characters.Interfaces;
+﻿using Characters.Common;
+using Characters.Common.Features;
 using Settings.Global;
 
 namespace UI.Local.Health

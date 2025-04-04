@@ -1,5 +1,4 @@
-﻿using Characters.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 namespace Characters.Common

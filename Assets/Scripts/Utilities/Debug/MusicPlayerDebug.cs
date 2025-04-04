@@ -1,18 +1,11 @@
-﻿using UnityEngine;
-using DG.Tweening;
-using Utilities.UI;
-using Cysharp.Threading.Tasks;
-using Settings.AssetsManagement;
-using System.Collections.Generic;
-using UnityEngine.AddressableAssets;
-using System.Linq;
-using Utilities.ErrorHandling;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.IO;
-using Utilities.Json;
-using Assets.Scripts.Settings.Global.Audio;
+using System.Linq;
 using System.Reflection;
-using System;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using Utilities.Json;
 
 #if UNITY_EDITOR
 namespace Settings.Global.Audio

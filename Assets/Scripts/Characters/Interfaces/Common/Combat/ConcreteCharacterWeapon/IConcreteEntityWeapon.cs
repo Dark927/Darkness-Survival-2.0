@@ -1,6 +1,4 @@
-﻿
-using Characters.Interfaces;
-using Materials;
+﻿using Materials;
 
 namespace Characters.Common.Combat.Weapons
 {

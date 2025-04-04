@@ -1,8 +1,8 @@
 ﻿
 
-using Characters.Player.Upgrades;
 using System;
 using System.Collections.Generic;
+using Characters.Player.Upgrades;
 
 namespace UI.Characters.Upgrades
 {

@@ -1,6 +1,4 @@
 ﻿using System;
-using Characters.Common.Combat;
-using Characters.Interfaces;
 using Settings.Global;
 
 namespace Characters.Health

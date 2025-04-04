@@ -1,6 +1,4 @@
-﻿
-using System;
-using Settings.Global;
+﻿using Settings.Global;
 
 namespace Gameplay.Components
 {

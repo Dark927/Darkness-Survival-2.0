@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace Characters.Enemy.Data
+namespace Characters.Enemy.Settings
 {
     [System.Serializable]
     public class EnemyBodyStats

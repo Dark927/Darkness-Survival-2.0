@@ -43,6 +43,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e2d8a6d85343a9429bdc596db854962
+    m_Address: Assets/Prefabs/Entities/Abilities/Ability_DemonicAbsorption.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 56595c4855cb17445878fb61b91ffdb9
     m_Address: Assets/Data/Settings/Gameplay/GlobalGameplayStageConfig.asset
     m_ReadOnly: 0

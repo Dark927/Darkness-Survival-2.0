@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Gameplay.Data;
-using UnityEngine;
+using Characters.Enemy;
+using Gameplay.GlobalSettings;
 using Zenject;
 
 namespace Gameplay.Components.Enemy
@@ -42,7 +42,7 @@ namespace Gameplay.Components.Enemy
 
                 pool = _diContainer.Instantiate<EnemyPool>(new object[] { enemySpawnData, container.transform });
                 pool.Initialize();
-                _poolsDict.Add(enemySpawnData.EnemyData.ID, pool);
+                _poolsDict.Add(enemySpawnData.EnemyData.CommonInfo.TypeID, pool);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Gameplay.Components.Enemy
 
         public void ReturnEnemy(EnemyController enemyController)
         {
-            int enemyId = enemyController.Data.ID;
+            int enemyId = enemyController.Data.CommonInfo.TypeID;
             _poolsDict[enemyId].ReturnItem(enemyController);
         }
 

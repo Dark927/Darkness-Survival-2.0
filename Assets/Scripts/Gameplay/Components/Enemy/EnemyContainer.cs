@@ -1,4 +1,4 @@
-﻿using Characters.Enemy.Data;
+﻿using Characters.Enemy.Settings;
 using UnityEngine;
 
 namespace Gameplay.Components
@@ -51,7 +51,7 @@ namespace Gameplay.Components
 
         public GameObjectsContainer GetChildContainer(EnemyData data, bool forceCreate = true)
         {
-            string outerContainerName = ($"{data.Name} container").Replace(" ", "_");
+            string outerContainerName = ($"{data.CommonInfo.Name} container").Replace(" ", "_");
             string innerContainerName = ($"{data.Type}").Replace(" ", "_");
 
             return _objectsContainer.GetChild(outerContainerName, forceCreate).GetChild(innerContainerName, forceCreate);

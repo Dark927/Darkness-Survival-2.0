@@ -7,69 +7,32 @@ namespace Materials.DarkMainFX
     [Serializable]
     public struct MaterialProps : IMaterialProps
     {
-        private static readonly int s_gammaID = Shader.PropertyToID("_Gamma");
-        private static readonly int s_colorID = Shader.PropertyToID("_Color");
-
-        private static readonly int s_flashAmountID = Shader.PropertyToID("_FlashAmount");
-        private static readonly int s_flashColorID = Shader.PropertyToID("_FlashColor");
-
-        private static readonly int s_emissionColorID = Shader.PropertyToID("_EmissionColor");
-        private static readonly int s_emissionAmountID = Shader.PropertyToID("_EmissionAmount");
         private static readonly int s_rendModeID = Shader.PropertyToID("_RendMode");
+        internal static readonly int s_fxFeaturesID = Shader.PropertyToID("_FXFeatures");
 
-        [Header("Color")]
-        [Range(0, 3)]
-        public float _Gamma;
-        public Color _ColorTint;
-
-        [Header("Flash")]
-        [ColorUsage(false, false)]
-        public Color _FlashColor;
-        [Range(0, 1)]
-        [SerializeField] private float _FlashAmount;
-
-
-        public float FlashAmount
-        {
-            get => _FlashAmount;
-            set
-            {
-                _FlashAmount = value;
-                NeedsUpdate = true;
-            }
-        }
-
-
-        [Header("Emission")]
-        [ColorUsage(true, true)]
-        public Color _EmissionColor;
-
-        [Range(0, 1)]
-        public float _EmissionAmount;
-
-        public HSVReplaceProps _HSVParams;
+        public Features.Tint Tint;
+        public Features.Flash Flash;
+        public Features.Emission Emission;
+        public Features.HSVReplace HSVParams;
 
         [Header("Mode")]
-        public RendererMode _RendMode;
-        public bool _UseJitterFree;
-
+        public RendererMode RendMode;
+        public bool UseJitterFree;
 
         public bool NeedsUpdate { get; set; }
 
-        public void UpdateAllProperties(MaterialPropertyBlock mpb)
+        public readonly void UpdateAllProperties(MaterialPropertyBlock mpb)
         {
-            mpb.SetFloat(s_gammaID, _Gamma);
-            mpb.SetColor(s_colorID, _ColorTint);
+            var features = ShaderFeatures.NONE;
 
-            mpb.SetColor(s_flashColorID, _FlashColor);
-            mpb.SetFloat(s_flashAmountID, _FlashAmount);
+            features |= Flash.UpdateAllProperties(mpb);
+            features |= Emission.UpdateAllProperties(mpb);
+            features |= UseJitterFree ? ShaderFeatures.JITTERFREE : ShaderFeatures.NONE;
+            features |= HSVParams.UpdateAllProperties(mpb);
+            features |= Tint.UpdateAllProperties(mpb);
 
-            mpb.SetColor(s_emissionColorID, _EmissionColor);
-            mpb.SetFloat(s_emissionAmountID, _EmissionAmount);
-
-            mpb.SetInteger(s_rendModeID, (int)_RendMode | (_UseJitterFree ? 128 : 0));
-
-            _HSVParams.UpdateAllProperties(mpb);
+            mpb.SetInteger(s_rendModeID, (int)RendMode);
+            mpb.SetInteger(s_fxFeaturesID, (int)features);
         }
     }
 }

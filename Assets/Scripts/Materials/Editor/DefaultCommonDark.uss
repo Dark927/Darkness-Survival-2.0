@@ -1,0 +1,32 @@
+.matrix-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.unity-base-field__label {
+    min-width: 35px;
+}
+
+.small-label {
+    padding-left: 2%;
+    margin: 0;
+}
+
+.row-container {
+    margin-bottom: 4px;
+    flex-direction: row;
+}
+
+.small-label,
+.col-label {
+    width: 20%;
+    -unity-text-align: middle-right;
+}
+
+.row-label {
+    width:4%;
+}
+
+.reset-button {
+    margin-left: auto;
+}

@@ -21,7 +21,7 @@ namespace Materials.DarkEntityFX
 
         public DarkMainFX.RendererMode RendMode;
         public bool NeedsUpdate { get; set; }
-        public void UpdateAllProperties(MaterialPropertyBlock mpb)
+        public readonly void UpdateAllProperties(MaterialPropertyBlock mpb)
         {
             mpb.SetFloat("_FlashAmount", FlashAmount);
             mpb.SetColor("_FlashColor", FlashColor);
@@ -31,7 +31,7 @@ namespace Materials.DarkEntityFX
             mpb.SetFloat("_DissolveAmount", DissolveAmount);
 
             if (RendMode != DarkMainFX.RendererMode.IGNORE)
-                mpb.SetInteger("_RendMode", (int)RendMode | (UseJitterFree ? 128 : 0));
+                mpb.SetInteger("_RendMode", (int)RendMode);
         }
     }
 }

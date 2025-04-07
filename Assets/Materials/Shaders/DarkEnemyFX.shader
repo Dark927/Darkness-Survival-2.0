@@ -30,16 +30,12 @@ Shader "Dark/Sprites/DarkEnemyFX"
         _DissolveOutline ("Dissolve Outline", Range (1,2)) = 1.1
         _DissolveAmount ("Dissolve Amount", Range (0,1)) = 0
 
-        //
+        _HsvaB ("(Hb Sb Vb Ab)", Vector) = (0,0,0,0)
 
         [Space]
         [Header(HSV Replace)]
         [Space]
         _TargetColor ("Target Color", Color) = (1,0,0,1)
-
-        [Space]
-        _ReplacementColorCoefK ("(Hk Sk Vk)", Vector) = (1,1,1,0)
-        _ReplacementColorCoefB ("(Hb Sb Vb)", Vector) = (0,0,0,0)
 
         [Header(Tolerances HSV)]
         [Space]
@@ -52,6 +48,7 @@ Shader "Dark/Sprites/DarkEnemyFX"
 
         [Space]
         [Header(WARNING. Global for all sprites. Use only for debug)]
+        _FXFeatures ("FX Features", Integer) = 0
         _RendMode ("Renderer Mode", Integer) = 0
 
 
@@ -84,95 +81,19 @@ Shader "Dark/Sprites/DarkEnemyFX"
             #pragma multi_compile _ DEBUG_DISPLAY
             
             #include "Common/DarkCommonLit.hlsl"
+            #include "Common/DarkFX.hlsl"
 
-            TEXTURE2D(_ColorMaskTex);
+            TEXTURE2D(_ColorMaskTex);//TODO: remove
             SAMPLER(sampler_ColorMaskTex);
 
-            TEXTURE2D(_EmissionMaskTex);
-            SAMPLER(sampler_EmissionMaskTex);
-
-            float4 _FlashColor;
-            float4 _EmissionColor;
-            float _EmissionAmount;
-            float _Gamma;
-            float _FlashAmount;
-
-            float _Seed;
-            float _DissolveNoise;
-            float4 _DissolveColor;
-            float _DissolveAmount;
-            float _DissolveOutline;
-
-            float4 _TargetColor;
-            float4 _ReplacementColorCoefK;
-            float4 _ReplacementColorCoefB;
-            float _HueTolerance;
-            float _SatTolerance;
-            float _ValTolerance;
-            float _HSVGamma;
-
-            int _RendMode;
-
-
-            float4 ProcessHSV(float4 col)
-            {
-                float3 hsv = rgb_to_hsv(col.rgb);
-                float3 targetHSV = rgb_to_hsv(_TargetColor.rgb); //TODO: move to c#
-
-                // Calculate hue difference with wrap-around
-                float hueDiff = abs(hsv.x - targetHSV.x);
-                hueDiff = min(hueDiff, 1.0 - hueDiff);
-
-                // Create replacement color version
-                float3 replacedHsv = hsv;                
-                replacedHsv *= _ReplacementColorCoefK.xyz;
-                replacedHsv += _ReplacementColorCoefB.xyz;
-                float3 replacedRGB = hsv_to_rgb(replacedHsv);
-                
-                // STEP or MASKSTEP
-                if(_RendMode == 1 || _RendMode == 3){
-
-                    if (hueDiff <= _HueTolerance &&
-                        abs(hsv.y - targetHSV.y) <= _SatTolerance &&
-                        abs(hsv.z - targetHSV.z) <= _ValTolerance)
-                    { 
-                        //set mask
-                        if(_RendMode == 3) 
-                            replacedRGB.rgb = float3(1,0,1);
-
-                        return float4(replacedRGB.rgb, col.a);
-                    }
-                    return col;
-                }
-                else //INTERP or MASKINTERP
-                {
-                    // Calculate smooth transition factors for each component
-                    float hueBlend = 1 - smoothstep(0, _HueTolerance, hueDiff);
-                    float satBlend = 1 - smoothstep(0, _SatTolerance, abs(hsv.y - targetHSV.y));
-                    float valBlend = 1 - smoothstep(0, _ValTolerance, abs(hsv.z - targetHSV.z));
-                    
-                    // Combine all blend factors
-                    float totalBlend = hueBlend * satBlend * valBlend;
-                    totalBlend = pow(abs(totalBlend), 1.0 / _HSVGamma);
-
-                    // Smoothly interpolate between original and replaced color
-                    float3 interpolatedRGB = lerp(col.rgb, replacedRGB.rgb, saturate(totalBlend));
-
-                    // MASKINTERP
-                    if(_RendMode == 4)
-                        return float4(totalBlend.rrr, col.a);
-                    else
-                        return float4(interpolatedRGB, col.a);
-                }
-            }
             
             float4 Universal2DFragment(DarkVaryings2D i) : SV_Target
             {
                 float2 smoothUV;
                 
                 [branch]
-                if(_RendMode & 128){ 
-                    _RendMode &= ~128;
+                if (_FXFeatures & DARKFX_JITTERFREE)
+                { 
                     smoothUV = TexturePointSmoothUV(i.uv);
                 }
                 else
@@ -180,37 +101,13 @@ Shader "Dark/Sprites/DarkEnemyFX"
                     smoothUV = i.uv;
                 }
 
-                float colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV).r; //TODO: remove
                 float4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
 
-                if(_RendMode == 5) // unlit
+                [branch]
+                if(_RendMode == RENDMODE_UNLIT)
                     return main;
 
-                if(_RendMode != 0) // not original
-                    main = ProcessHSV(main);
-
-                if(_RendMode > 2) // masks
-                    return main;
-
-                float3 tinted = pow(abs(main.rgb * i.color.rgb), _Gamma);
-                main.rgb = lerp(main.rgb, tinted, colormaskCoef);
-                main.rgb = lerp(main.rgb, _FlashColor.rgb, _FlashAmount);
-
-                float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
-                main.rgb += _EmissionColor.rgb * emissionCoef * _EmissionAmount;
-                
-                float2 noiseUV = i.uv;
-                //uncomment to make noise fixed during animations.
-                //noiseUV.x = frac(noiseUV.x * 4);
-                //noiseUV.y = frac(noiseUV.y * 3);
-                float noiseTex = smoothstep(0,1,noise(noiseUV.xy * _DissolveNoise, _Seed));
-                float dissolve = step(noiseTex , _DissolveAmount);
-                float dissolveOutline = step(noiseTex , _DissolveAmount * _DissolveOutline);
-                float dissolveDiff = dissolveOutline-dissolve;
-
-                main.rgb = lerp(main.rgb,_DissolveColor,dissolveDiff);
-                main.a = saturate(main.a * (1-dissolve));
-                
+                ApplyDarkFX(main, i.color, smoothUV, i.uv);
 
                 SurfaceData2D surfaceData;
                 InputData2D inputData;

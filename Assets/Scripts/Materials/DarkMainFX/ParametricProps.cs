@@ -19,13 +19,13 @@ namespace Materials.DarkMainFX
         public bool UseJitterFree;
 
         public bool NeedsUpdate { get; set; }
-        public void UpdateAllProperties(MaterialPropertyBlock mpb)
+        public readonly void UpdateAllProperties(MaterialPropertyBlock mpb)
         {
             mpb.SetFloat(s_flashAmountID, FlashAmount);
             mpb.SetFloat(s_emissionAmountID, EmissionAmount);
 
             if (RendMode != RendererMode.IGNORE)
-                mpb.SetInteger(s_rendModeID, (int)RendMode | (UseJitterFree ? 128 : 0));
+                mpb.SetInteger(s_rendModeID, (int)RendMode);
         }
     }
 }

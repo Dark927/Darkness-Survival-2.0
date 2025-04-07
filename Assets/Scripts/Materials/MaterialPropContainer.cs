@@ -58,7 +58,7 @@ namespace Materials
                 _mpb ??= new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(_mpb);
 
-                _constMaterialProps?.UpdateAllProperties(_mpb);
+                _constMaterialProps.UpdateAllProperties(_mpb);
                 _properties.UpdateAllProperties(_mpb);
 
                 renderer.SetPropertyBlock(_mpb);

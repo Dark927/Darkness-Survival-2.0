@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 8250070002186630086}
   - component: {fileID: 6639766720558356931}
   - component: {fileID: 7933023451069079874}
+  - component: {fileID: 8474794458343219773}
   m_Layer: 5
   m_Name: Panel_Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8250070002186630086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 20
+    m_Top: 30
     m_Bottom: 30
   m_ChildAlignment: 1
   m_Spacing: 10
@@ -79,6 +80,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8474794458343219773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001292786742677916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66018404f9545164bb95edd5a9971910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8052474141514777860
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +257,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 324794887854182776, guid: 3561c160aa2e1454fa8fd32d25d36d71, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 762480707085292052, guid: 3561c160aa2e1454fa8fd32d25d36d71, type: 3}
       propertyPath: m_Name
@@ -350,7 +363,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 324794887854182776, guid: 3561c160aa2e1454fa8fd32d25d36d71, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 762480707085292052, guid: 3561c160aa2e1454fa8fd32d25d36d71, type: 3}
       propertyPath: m_Name
@@ -460,7 +473,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 324794887854182776, guid: 3561c160aa2e1454fa8fd32d25d36d71, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 762480707085292052, guid: 3561c160aa2e1454fa8fd32d25d36d71, type: 3}
       propertyPath: m_Name

@@ -1,7 +1,6 @@
 ﻿
 using System;
 using Characters.Common.Combat.Weapons.Data;
-using Characters.Interfaces;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
@@ -10,7 +9,7 @@ namespace Characters.Common.Combat.Weapons
     {
         #region Fields
 
-        private IEntityDynamicLogic _owner;
+        private IAttackableEntityLogic _owner;
         private Collider2D _ownerCollidder;
         private float _damageMultiplier = 1f;
         private IAttackSettings _attackSettings;
@@ -21,7 +20,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Properties
 
-        public IEntityDynamicLogic Owner => _owner;
+        public IAttackableEntityLogic Owner => _owner;
         public IAttackSettings AttackSettings => _attackSettings;
         public bool ImpactAvailable => AttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
@@ -37,7 +36,7 @@ namespace Characters.Common.Combat.Weapons
 
         public virtual void Initialize(WeaponAttackDataBase attackData)
         {
-            _owner = GetComponentInParent<IEntityDynamicLogic>(true);
+            _owner = GetComponentInParent<IAttackableEntityLogic>(true);
             _ownerCollidder = _owner.Body.Physics.Collider;
 
             _attackSettings = attackData.Settings;   // settings - value type
@@ -89,11 +88,11 @@ namespace Characters.Common.Combat.Weapons
             }
 
             _calculatedDamage.Amount = RequestDamageAmount();
-            IEntityPhysicsBody targetBody = (target as IEntityPhysicsBody);
+            var targetLogic = (target as IEntityDynamicLogic);
 
             if (target.CanAcceptDamage)
             {
-                target.TakeDamage(_calculatedDamage);
+                target.TakeDamage(Owner, _calculatedDamage);
                 PerformPostDamageActions(attackArgs.TargetCollider);
             }
         }

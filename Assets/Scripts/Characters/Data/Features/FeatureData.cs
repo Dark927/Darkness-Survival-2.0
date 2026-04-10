@@ -6,7 +6,7 @@ using Utilities.Math;
 namespace Characters.Common.Features
 {
     [CreateAssetMenu(fileName = "NewEntityFeaturesData", menuName = "Game/Characters/Features/Data/EntityFeatureData")]
-    public class FeatureData : ScriptableObject
+    public class FeatureData : ScriptableObject, IFeatureData
     {
         private int _featureID;
         [SerializeField] private string _name;

@@ -84,8 +84,8 @@ namespace UI
             _buttonsList.ForEach(button =>
             {
                 button.transform.localScale = Vector2.zero;
-                button.CanvasGroup.alpha = 0f;
-                button.CanvasGroup.interactable = false;
+                button.Alpha = 0f;
+                button.DisableInteraction();
             });
         }
 
@@ -155,13 +155,12 @@ namespace UI
 
             animationSequence
                 .Append(
-                    buttonContainer.CanvasGroup
-                        .DOFade(targetAlpha, _buttonFadeDuration)
-                        .From(buttonContainer.CanvasGroup.alpha))
+                    DOTween.To(() => buttonContainer.Alpha, x => buttonContainer.Alpha = x, targetAlpha, _buttonFadeDuration)
+                )
                 .Join(
                     buttonTransform.DOScale(targetScale, _buttonScaleDuration)
                         .From(buttonContainer.transform.localScale)
-                        .OnComplete(() => buttonContainer.CanvasGroup.interactable = true)
+                        .OnComplete(() => buttonContainer.EnableInteraction())
                 );
 
             animationSequence

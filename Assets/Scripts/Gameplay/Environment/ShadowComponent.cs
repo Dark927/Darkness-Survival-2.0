@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
-using Materials;
-using World.Data;
+﻿using Materials;
 using Materials.Shadow;
+using UnityEngine;
+using World.Data;
 using Zenject;
 
 

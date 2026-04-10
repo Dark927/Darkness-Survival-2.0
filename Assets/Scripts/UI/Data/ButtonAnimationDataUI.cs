@@ -1,7 +1,4 @@
-﻿
-using Settings;
-using UnityEngine;
-using Utilities.Attributes;
+﻿using UnityEngine;
 
 namespace UI.Buttons
 {

@@ -36,6 +36,7 @@ namespace Utilities.World
             return GetRandomPositionOutsideCamera(camera, Vector2.zero, Vector2.zero);
         }
 
+        // TODO : DEBUG
         public static Vector2 GetRandomPositionOutsideCamera(Camera camera, Vector2 range, Vector2 offset)
         {
             Vector2 cameraPosition = camera.transform.position;
@@ -48,6 +49,7 @@ namespace Utilities.World
 
             position += cameraPosition;
 
+            Debug.Log(position);
             return position;
         }
     }

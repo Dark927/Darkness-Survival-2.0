@@ -1,6 +1,6 @@
 ﻿using System;
+using Characters.Common;
 using Characters.Common.Features;
-using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -25,7 +25,6 @@ namespace UI.Local.Health
 
         #endregion
 
-        private bool _isReady;
         private bool _isVisible;
         private IEntityPhysicsBody _entityBody;
         private Slider _hpVisual;
@@ -39,7 +38,6 @@ namespace UI.Local.Health
         #region Properties 
 
         public IEntityFeature.TargetEntityPart EntityConnectionPart => _entityConnectionPart;
-        public bool IsReady => _isReady;
         public GameObject RootObject => gameObject;
 
         #endregion
@@ -48,11 +46,6 @@ namespace UI.Local.Health
         #region Methods 
 
         #region Init 
-
-        private void Awake()
-        {
-            _isReady = false;
-        }
 
         public void Initialize(IEntityDynamicLogic entityLogic)
         {
@@ -84,7 +77,7 @@ namespace UI.Local.Health
 
         private void CharacterScaleChangedListener(object sender, EventArgs args)
         {
-            // ToDo : check this.
+            // ToDo : check this (sometimes healthbar has reverted scale).
 
             if (Mathf.Sign(_entityBody.Transform.localScale.x) != Mathf.Sign(transform.localScale.x))
             {

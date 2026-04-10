@@ -3,7 +3,6 @@ using Characters.Player;
 using Gameplay.Components;
 using Settings.Global;
 using UnityEngine.EventSystems;
-using Zenject;
 
 namespace UI.Buttons
 {

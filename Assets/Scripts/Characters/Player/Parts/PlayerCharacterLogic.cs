@@ -1,24 +1,25 @@
 ﻿using System;
 using Characters.Common;
+using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
 using Characters.Common.Movement;
+using Characters.Common.Settings;
 using Characters.Health;
-using Characters.Interfaces;
-using Characters.Player.Data;
 using Characters.Player.Levels;
+using Characters.Player.Settings;
 using Characters.Player.Upgrades;
-using Characters.Player.Weapons;
-using Characters.Stats;
 using UnityEngine;
+using World.Data;
 
 namespace Characters.Player
 {
     [RequireComponent(typeof(IEntityPhysicsBody))]
-    public class PlayerCharacterLogic : AttackableEntityLogic, IUpgradableCharacterLogic
+    public class PlayerCharacterLogic : AttackableEntityLogicBase, IUpgradableCharacterLogic
     {
         #region Events 
 
         public event Action<IUpgradableCharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
+        public event Action<IUpgradableCharacterLogic, UpgradeAppearTime> OnSpecificTimeUpgradesRequested;
 
         #endregion
 
@@ -33,7 +34,6 @@ namespace Characters.Player
 
         #region Properties
 
-        public CharacterBasicAttack BasicAttack => base.BasicAttacks as CharacterBasicAttack;
         public ICharacterLevel Level => _level;
         public CharacterUpgradesCoordinator UpgradesCoordinator => _upgradesCoordinator;
 
@@ -66,9 +66,22 @@ namespace Characters.Player
 
         #endregion
 
-        private void LevelUpListener(object sender, EntityLevelArgs args)
+        public virtual void PerformBasicAttack(BasicAttack.LocalType type)
         {
-            OnReadyForUpgrade?.Invoke(this, args);
+            WeaponsHandler?.TryPerformBasicAttack(type);
+        }
+
+        public void ReactToDayStateChange(DayTimeType dayTime)
+        {
+            if (dayTime == DayTimeType.Day)
+            {
+                OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Day);
+            }
+
+            if (dayTime == DayTimeType.Night)
+            {
+                OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Night);
+            }
         }
 
         public void ApplySpeedUpgrade(float percent)
@@ -129,6 +142,11 @@ namespace Characters.Player
             {
                 light.UpdateLightRadius(multiplier);
             }
+        }
+
+        private void LevelUpListener(object sender, EntityLevelArgs args)
+        {
+            OnReadyForUpgrade?.Invoke(this, args);
         }
 
         #endregion

@@ -1,7 +1,7 @@
-﻿using Characters.Stats;
+﻿using Characters.Common.Settings;
 using UnityEngine;
 
-namespace Characters.Player.Data
+namespace Characters.Player.Settings
 {
     [CreateAssetMenu(fileName = "NewPlayerData", menuName = "Game/Characters/Player/PlayerData")]
     public class PlayerCharacterData : AttackableCharacterData

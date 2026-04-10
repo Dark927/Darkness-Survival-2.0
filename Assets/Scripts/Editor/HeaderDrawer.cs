@@ -22,7 +22,7 @@ namespace Utilities.Attributes
             EditorGUI.DrawRect(headerRect, Constants.BackgroundColor);
 
             var customLabelStyle = new GUIStyle(Constants.LabelStyle);
-            customLabelStyle.normal.textColor = attr.headerColor;
+            customLabelStyle.normal.textColor = attr.ConcreteHeaderColor;
 
             EditorGUI.LabelField(headerRect, new GUIContent(attr.label, attr.tooltip), customLabelStyle);
 

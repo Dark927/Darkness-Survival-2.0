@@ -1,4 +1,5 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Enemy;
+using Settings.CameraManagement;
 using Settings.Global;
 using UnityEngine;
 using Utilities.World;
@@ -38,6 +39,7 @@ namespace Gameplay.Components.Enemy
             _playerService ??= ServiceLocator.Current.Get<PlayerService>();
             _gameStateService ??= ServiceLocator.Current.Get<GameStateService>();
 
+            // ToDo : replace camera with DI maybe
             enemy.transform.position = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
 
             if (target == null)
@@ -52,17 +54,18 @@ namespace Gameplay.Components.Enemy
                 enemyLogic.SetTarget(target);
 
                 enemyLogic.Body.OnBodyDamagedWithArgs += _managementService.EnemyDamagedListener;
-                enemyLogic.Body.OnBodyDies += _managementService.EnemyKilledListener;
+                enemy.OnEntityKilled += _managementService.EnemyKilledListener;
+                enemy.ConfigureEventLinks();
                 _gameStateService?.GameEvent.Subscribe(enemy);
             }
-            enemy.ConfigureEventLinks();
         }
 
         public void Deconfigure(EnemyController enemy)
         {
+            enemy.RemoveEventLinks();
             enemy.ResetCharacter();
             enemy.EntityLogic.Body.OnBodyDamagedWithArgs -= _managementService.EnemyDamagedListener;
-            enemy.EntityLogic.Body.OnBodyDies -= _managementService.EnemyKilledListener;
+            enemy.OnEntityKilled -= _managementService.EnemyKilledListener;
             _gameStateService?.GameEvent.Unsubscribe(enemy);
         }
     }

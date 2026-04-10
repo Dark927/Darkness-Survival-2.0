@@ -1,8 +1,5 @@
 ﻿
 using Characters.Common.Combat.Weapons;
-using Characters.Common.Movement;
-using Characters.Interfaces;
-using Materials;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades

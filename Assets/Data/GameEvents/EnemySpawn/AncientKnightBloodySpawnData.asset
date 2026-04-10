@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822d7151ce9378448a9ca0c0db45f695, type: 3}
   m_Name: AncientKnightBloodySpawnData
   m_EditorClassIdentifier: 
-  EnemyData: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
-  Count: 20
-  SpawnTime:
-    Minutes: 0
-    Seconds: 1
-  SpawnDuration:
+  _enemyData: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
+  _enemyPrefab: {fileID: 748340546080213989, guid: ca75169a8804b8e4a99a0095322a3068, type: 3}
+  _count: 20
+  _spawnStartTime:
+    Minutes: 1
+    Seconds: 0
+  _spawnDuration:
     Minutes: 1
     Seconds: 0

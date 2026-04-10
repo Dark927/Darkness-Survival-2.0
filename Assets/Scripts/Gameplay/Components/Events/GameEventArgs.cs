@@ -1,5 +1,4 @@
 ﻿using System;
-using Settings.Global;
 
 namespace Gameplay.Components
 {

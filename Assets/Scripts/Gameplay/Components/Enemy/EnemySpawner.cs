@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Characters.Enemy;
 using Cysharp.Threading.Tasks;
-using Gameplay.Data;
+using Gameplay.GlobalSettings;
+using Settings;
 using Settings.Global;
 using UnityEngine;
 using Zenject;
@@ -14,7 +16,7 @@ namespace Gameplay.Components.Enemy
     {
         #region Fields 
 
-        [SerializeField] private List<Data.EnemySpawnData> _enemySpawnDataList;
+        [SerializeField] private List<EnemySpawnData> _enemySpawnDataList;
         private EnemyContainer _enemyContainer;
 
         private EnemySource _source;
@@ -22,7 +24,7 @@ namespace Gameplay.Components.Enemy
         private List<UniTask> _actualSpawnTasks;
         private CancellationTokenSource _cancellationTokenSource;
 
-        private Settings.EnemySpawnerSettingsData _spawnSettings;
+        private EnemySpawnerSettingsData _spawnSettings;
         private ICharacterConfigurator<EnemyController> _configurator;
 
         private DiContainer _diContainer;
@@ -36,7 +38,7 @@ namespace Gameplay.Components.Enemy
         #region Init
 
         [Inject]
-        public void Construct(DiContainer diContainer, Settings.EnemySpawnerSettingsData spawnSettings, GameTimer timer)
+        public void Construct(DiContainer diContainer, EnemySpawnerSettingsData spawnSettings, GameTimer timer)
         {
             _diContainer = diContainer;
             _spawnSettings = spawnSettings;
@@ -135,7 +137,7 @@ namespace Gameplay.Components.Enemy
             _enemySpawnDataList.RemoveAll(data => markedToSpawn.Contains(data));
         }
 
-        private async UniTask SpawnEnemyTask(Data.EnemySpawnData data, CancellationToken token)
+        private async UniTask SpawnEnemyTask(EnemySpawnData spawnData, CancellationToken token)
         {
             Transform targetPlayer = _playerService.GetCharacterTransform();
 
@@ -144,13 +146,13 @@ namespace Gameplay.Components.Enemy
                 return;
             }
 
-            int count = data.Count;
-            float spawnInterval = (data.SpawnDuration / (float)count);
+            int count = spawnData.Count;
+            float spawnInterval = (spawnData.SpawnDuration / (float)count);
             EnemyController enemy;
 
             while (count > 0 && !token.IsCancellationRequested)
             {
-                enemy = _source.GetEnemy(data.EnemyData.ID);
+                enemy = _source.GetEnemy(spawnData.EnemyData.CommonInfo.TypeID);
 
                 if (enemy != null)
                 {

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Characters.Common;
 using Gameplay.Components;
 using Gameplay.Stage;
+using Settings;
 using Settings.Global;
 using UnityEngine;
-using Utilities.Math;
 using Utilities.ErrorHandling;
+using Utilities.Math;
 using World.Data;
 using World.Light;
-using Characters.Interfaces;
 
 #nullable enable
 
@@ -19,7 +20,7 @@ namespace World.Environment
     {
         #region events
 
-        public event EventHandler<DayChangedEventArgs>? ThresholdReached;
+        public DayStateEvent? DayStateChangeEvent;
 
         #endregion
 
@@ -62,6 +63,7 @@ namespace World.Environment
                 return;
             }
 
+            DayStateChangeEvent = new DayStateEvent();
             _targetDayStateData = GetNewDayStateData();
 
             var playerService = ServiceLocator.Current.Get<PlayerService>();
@@ -88,6 +90,10 @@ namespace World.Environment
             _stageLight = targetLight;
         }
 
+        public void RaiseCurrentDayStateEvent()
+        {
+            DayStateChangeEvent?.RaiseEvent(this, new DayChangedEventArgs(_previousData));
+        }
 
         public void UpdateDayState(float currentTime)
         {
@@ -97,7 +103,7 @@ namespace World.Environment
                 _transitionState = 0;
 
                 //send event end, pass finished state
-                ThresholdReached?.Invoke(this, new DayChangedEventArgs(_targetDayStateData));
+                DayStateChangeEvent?.RaiseEvent(this, new DayChangedEventArgs(_targetDayStateData));
 
                 //swap scriptable objects
                 _previousData = _targetDayStateData;

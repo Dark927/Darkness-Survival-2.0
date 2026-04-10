@@ -1,7 +1,6 @@
 ﻿using Characters.Common;
 using Characters.Common.Movement;
 using Characters.Health;
-using Characters.Interfaces;
 using Characters.Player.Animation;
 
 namespace Characters.Player

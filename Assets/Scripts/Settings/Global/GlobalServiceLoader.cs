@@ -22,6 +22,7 @@ namespace Settings.Global
 
         private Dictionary<Type, IService> _services;
         private DiContainer _diContainer;
+        private IAudioProvider _audioProvider;
 
         #endregion
 
@@ -31,9 +32,10 @@ namespace Settings.Global
         #region Init
 
         [Inject]
-        public void Construct(DiContainer container)
+        public void Construct(DiContainer container, IAudioProvider audioProvider)
         {
             _diContainer = container;
+            _audioProvider = audioProvider;
         }
 
         private void Awake()
@@ -45,18 +47,25 @@ namespace Settings.Global
 
         private void CreateServices()
         {
+            //////////////
             // Create 
+            //////////////
 
-            AudioSource musicSource = Camera.main.GetComponent<AudioSource>();
-            GameAudioService audioService = new GameAudioService(musicSource);
-            audioService.AddMusicClips(_mainMenuTheme);
+            GameAudioService audioService = new GameAudioService(_audioProvider);
+            audioService.MusicPlayer.AddMusicClips(_mainMenuTheme);
+            audioService.MusicPlayer.AddMusicClips(_pauseMenuTheme);
 
+            // Player
             PlayerService playerService = new PlayerService();
+
+            // Game State
             GameStateService gameStateService = _diContainer.Instantiate<GameStateService>();
 
+            // Camera
             CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
             CameraService cameraService = new CameraService(virtualCamera);
 
+            // All Services 
             _services = new()
             {
                 [gameStateService.GetType()] = gameStateService,
@@ -65,7 +74,9 @@ namespace Settings.Global
                 [audioService.GetType()] = audioService,
             };
 
+            //////////////
             // Configure services and self
+            //////////////
 
             playerService.PlayerEvent.Subscribe(gameStateService);
 

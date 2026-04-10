@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.26
@@ -206,6 +210,10 @@ PrefabInstance:
     - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_Name
       value: SoulFragment (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -404,6 +412,10 @@ PrefabInstance:
     - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_Name
       value: SoulFragment (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -617,6 +629,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.75
@@ -689,6 +705,10 @@ PrefabInstance:
     - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_Name
       value: SoulFragment (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -968,6 +988,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.99
@@ -1040,6 +1064,10 @@ PrefabInstance:
     - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_Name
       value: SoulFragment (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1472,6 +1500,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.24
@@ -1715,6 +1747,10 @@ PrefabInstance:
     - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_Name
       value: SoulFragment (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2322,6 +2358,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.1920676
@@ -2543,6 +2583,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.08
@@ -2733,6 +2777,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoulFragment (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.21
@@ -2884,6 +2932,10 @@ PrefabInstance:
     - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_Name
       value: SoulFragment (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 399672738703198598, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922993575261439687, guid: 14d46bc86674dbf4e8252203049e54d9, type: 3}
       propertyPath: m_LocalPosition.x

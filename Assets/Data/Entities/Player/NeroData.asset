@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfc23447cca6bf40bc6d41ab4fc9742, type: 3}
   m_Name: NeroData
   m_EditorClassIdentifier: 
-  _name: Nero
-  _id: 2015363603
+  _info:
+    _name: Nero
   _stats:
     Health: 99
     Speed: 5

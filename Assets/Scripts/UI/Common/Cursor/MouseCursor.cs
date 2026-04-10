@@ -13,7 +13,7 @@ using Zenject;
 namespace UI.CustomCursor
 {
     [RequireComponent(typeof(Image))]
-    public class MouseCursor : LazySingletonMono<MouseCursor>, IEventListener, IResetable
+    public class MouseCursor : LazySingletonMonoBase<MouseCursor>, IEventListener, IResetable
     {
         #region Fields 
 

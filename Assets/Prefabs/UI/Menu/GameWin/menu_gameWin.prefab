@@ -70,6 +70,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 167254581315206581, guid: 152f54411af450843b4148c53318b35a, type: 3}
+      propertyPath: _audioEffectsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 19cd9ba7e99fbf643bc9e2f1b0c8deb5, type: 2}
     - target: {fileID: 368041487052800781, guid: 152f54411af450843b4148c53318b35a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

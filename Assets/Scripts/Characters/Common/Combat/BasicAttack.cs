@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Characters.Interfaces;
 using Settings.Global;
 using UnityEngine;
 
@@ -66,7 +65,7 @@ namespace Characters.Common.Combat.Weapons
 
         #endregion
 
-        public void TryPerformAttack(LocalType type)
+        public void TryPerformBasicAttack(LocalType type)
         {
             if (CanAttack)
             {

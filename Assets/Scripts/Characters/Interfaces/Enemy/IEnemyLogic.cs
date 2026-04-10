@@ -1,7 +1,7 @@
-﻿using Gameplay.Components;
+﻿using Characters.Common;
 using UnityEngine;
 
-namespace Characters.Interfaces
+namespace Characters.Enemy
 {
     public interface IEnemyLogic : IEntityDynamicLogic
     {

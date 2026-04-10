@@ -1,6 +1,5 @@
 
 using System.Threading;
-using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

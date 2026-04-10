@@ -1,13 +1,14 @@
 ﻿
-using Characters.Common.Levels;
 using System;
-using Characters.Interfaces;
+using Characters.Common;
+using Characters.Common.Levels;
 
 namespace Characters.Player.Upgrades
 {
     public interface IUpgradableCharacterLogic : IUpgradable, ICharacterLogic
     {
         public event Action<IUpgradableCharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
+        public event Action<IUpgradableCharacterLogic, UpgradeAppearTime> OnSpecificTimeUpgradesRequested;
 
         public CharacterUpgradesCoordinator UpgradesCoordinator { get; }
 

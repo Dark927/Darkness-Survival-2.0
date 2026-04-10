@@ -1,7 +1,4 @@
 ﻿using Settings.Global;
-using Settings.SceneManagement;
-using UnityEngine;
-using Zenject;
 
 
 namespace UI.Buttons

@@ -37,13 +37,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attacks"",
-                    ""type"": ""Value"",
-                    ""id"": ""5b4e883e-e95c-45ae-b905-5664a0582fb3"",
-                    ""expectedControlType"": ""Axis"",
+                    ""name"": ""FastAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""e05b8e71-b9db-4817-95ae-ea5a1d69d127"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HeavyAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c70eb71-4977-4662-9aa9-9ea219041db8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -213,70 +222,26 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Mouse"",
-                    ""id"": ""5cc1f0b7-37c4-4c82-97e0-dd71b734c4bf"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attacks"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""e87cc49e-89f9-4352-b45e-a4597c79b73a"",
+                    ""name"": """",
+                    ""id"": ""07314268-30a8-432c-bc97-44e1843936ae"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
-                    ""processors"": ""Scale"",
-                    ""groups"": """",
-                    ""action"": ""Attacks"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""2864fee8-2e2f-42d1-9122-b028fed3e100"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": ""Scale(factor=2)"",
-                    ""groups"": """",
-                    ""action"": ""Attacks"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""PlayStation Controller"",
-                    ""id"": ""664c35f3-90db-41ad-8185-f7c339621d2f"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attacks"",
-                    ""isComposite"": true,
+                    ""action"": ""FastAttack"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Positive"",
-                    ""id"": ""2c5f4c3f-2263-464c-b907-4ee503f080b9"",
-                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""name"": """",
+                    ""id"": ""d48fc145-1f41-4eeb-ba22-7d23b1c9ae95"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
-                    ""processors"": ""Scale"",
+                    ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attacks"",
+                    ""action"": ""HeavyAttack"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""d1949b54-1d8c-4689-9a7e-1a2db4f3546c"",
-                    ""path"": ""<DualShockGamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": ""Scale(factor=2)"",
-                    ""groups"": """",
-                    ""action"": ""Attacks"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -314,7 +279,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // PlayerActions
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_Movement = m_PlayerActions.FindAction("Movement", throwIfNotFound: true);
-        m_PlayerActions_Attacks = m_PlayerActions.FindAction("Attacks", throwIfNotFound: true);
+        m_PlayerActions_FastAttack = m_PlayerActions.FindAction("FastAttack", throwIfNotFound: true);
+        m_PlayerActions_HeavyAttack = m_PlayerActions.FindAction("HeavyAttack", throwIfNotFound: true);
         // GlobalCommands
         m_GlobalCommands = asset.FindActionMap("GlobalCommands", throwIfNotFound: true);
         m_GlobalCommands_PauseGame = m_GlobalCommands.FindAction("PauseGame", throwIfNotFound: true);
@@ -386,13 +352,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerActions;
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_Movement;
-    private readonly InputAction m_PlayerActions_Attacks;
+    private readonly InputAction m_PlayerActions_FastAttack;
+    private readonly InputAction m_PlayerActions_HeavyAttack;
     public struct PlayerActionsActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActionsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerActions_Movement;
-        public InputAction @Attacks => m_Wrapper.m_PlayerActions_Attacks;
+        public InputAction @FastAttack => m_Wrapper.m_PlayerActions_FastAttack;
+        public InputAction @HeavyAttack => m_Wrapper.m_PlayerActions_HeavyAttack;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -405,9 +373,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
-            @Attacks.started += instance.OnAttacks;
-            @Attacks.performed += instance.OnAttacks;
-            @Attacks.canceled += instance.OnAttacks;
+            @FastAttack.started += instance.OnFastAttack;
+            @FastAttack.performed += instance.OnFastAttack;
+            @FastAttack.canceled += instance.OnFastAttack;
+            @HeavyAttack.started += instance.OnHeavyAttack;
+            @HeavyAttack.performed += instance.OnHeavyAttack;
+            @HeavyAttack.canceled += instance.OnHeavyAttack;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -415,9 +386,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
-            @Attacks.started -= instance.OnAttacks;
-            @Attacks.performed -= instance.OnAttacks;
-            @Attacks.canceled -= instance.OnAttacks;
+            @FastAttack.started -= instance.OnFastAttack;
+            @FastAttack.performed -= instance.OnFastAttack;
+            @FastAttack.canceled -= instance.OnFastAttack;
+            @HeavyAttack.started -= instance.OnHeavyAttack;
+            @HeavyAttack.performed -= instance.OnHeavyAttack;
+            @HeavyAttack.canceled -= instance.OnHeavyAttack;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -484,7 +458,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IPlayerActionsActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnAttacks(InputAction.CallbackContext context);
+        void OnFastAttack(InputAction.CallbackContext context);
+        void OnHeavyAttack(InputAction.CallbackContext context);
     }
     public interface IGlobalCommandsActions
     {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,10 +8,11 @@ namespace Characters.Player.Controls
     public enum InputType
     {
         Movement = 1,
-        Attack = 2,
+        FastAttack = 2,
+        HeavyAttack = 3,
     }
 
-    public class InputHandler
+    public class CharacterInputHandler
     {
         public enum ActionState
         {
@@ -37,7 +38,7 @@ namespace Characters.Player.Controls
 
         #region Methods
 
-        public InputHandler(IControlLayout controlLayout)
+        public CharacterInputHandler(IControlLayout controlLayout)
         {
             _controlLayout = controlLayout;
             InitActionsCollection();
@@ -48,13 +49,19 @@ namespace Characters.Player.Controls
             _actions = new Dictionary<InputType, InputAction>()
             {
                 [InputType.Movement] = _controlLayout.PlayerMovement,
-                [InputType.Attack] = _controlLayout.PlayerBasicAttacks,
+                [InputType.FastAttack] = _controlLayout.PlayerAttacks.FastAttack,
+                [InputType.HeavyAttack] = _controlLayout.PlayerAttacks.HeavyAttack,
             };
         }
 
         public void Disable()
         {
             _controlLayout.DisableInputs();
+        }
+
+        public void Enable()
+        {
+            _controlLayout.EnableInputs();
         }
 
 

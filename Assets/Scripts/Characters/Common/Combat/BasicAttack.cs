@@ -8,11 +8,12 @@ namespace Characters.Common.Combat.Weapons
 {
     public class BasicAttack : IEventsConfigurable
     {
+        // !!! Don't change numbering for this Enum, coz Animator uses exact numbers
         public enum LocalType
         {
             Default = 0,
-            Fast,
-            Heavy
+            Fast = 1,
+            Heavy,
         }
 
         #region Fields 

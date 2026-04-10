@@ -58,6 +58,10 @@ namespace Settings.Global
             // Player
             PlayerService playerService = new PlayerService();
 
+            // Controls
+
+            InputService inputService = new InputService();
+
             // Game State
             GameStateService gameStateService = _diContainer.Instantiate<GameStateService>();
 
@@ -77,6 +81,7 @@ namespace Settings.Global
                 [cameraService.GetType()] = cameraService,
                 [audioService.GetType()] = audioService,
                 [graphicsService.GetType()] = graphicsService,
+                [inputService.GetType()] = inputService,
             };
 
             //////////////

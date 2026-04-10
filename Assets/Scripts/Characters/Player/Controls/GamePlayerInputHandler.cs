@@ -13,12 +13,12 @@ namespace Characters.Player.Controls
 
         public void TryBlockCharacterInput()
         {
-            DoPlayersAction(player => player.Input.DeactivateInput());
+            DoPlayersAction(player => player.Input.Disable());
         }
 
         public void TryUnblockCharacterInput()
         {
-            DoPlayersAction(player => player.Input.ActivateInput());
+            DoPlayersAction(player => player.Input.Enable());
         }
 
         private void DoPlayersAction(Action<PlayerCharacterController> action)

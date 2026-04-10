@@ -5,22 +5,19 @@ using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using Utilities.Json;
 using Settings.Global;
-using Characters.Player.Controls;
 
 public class InputService : IService, IInitializable
 {
     private readonly string _savePath = Path.Combine(Application.persistentDataPath, "Settings", "input_settings.json");
-    private InputSaveData _saveData;
-    private InputActionRebindingExtensions.RebindingOperation _rebindOperation;
 
-    // The single source of truth for game's inputs
     public PlayerInputActions InputActions { get; private set; }
 
+    private InputSaveData _saveData;
+    private InputActionRebindingExtensions.RebindingOperation _rebindOperation;
 
     public InputService()
     {
         InputActions = new PlayerInputActions();
-        // CRUCIAL: Enable the actions so they can be listened to while in the UI!
         InputActions.Enable();
     }
 
@@ -29,7 +26,6 @@ public class InputService : IService, IInitializable
         var (success, result) = await JsonHelper.TryLoadFromJsonAsync<InputSaveData>(_savePath);
         _saveData = success ? result : new InputSaveData();
 
-        // Apply saved overrides if they exist
         if (!string.IsNullOrEmpty(_saveData.BindingOverrides))
         {
             InputActions.LoadBindingOverridesFromJson(_saveData.BindingOverrides);
@@ -47,31 +43,38 @@ public class InputService : IService, IInitializable
         JsonHelper.SaveToJsonAsync(_saveData, _savePath).Forget();
     }
 
-    /// <summary>
-    /// Starts the interactive rebinding process for a specific action and binding index.
-    /// </summary>
-    public void StartRebind(InputAction actionToRebind, int bindingIndex, Action<string> onComplete, Action onCancel)
+    public void StartRebind(InputAction actionToRebind, int bindingIndex, Action<string> onComplete, Action onCancel, Action<string> onError)
     {
-        // Actions must be disabled before rebinding
         actionToRebind.Disable();
 
-        // Clean up any existing operation
         _rebindOperation?.Cancel();
         _rebindOperation?.Dispose();
 
         _rebindOperation = actionToRebind.PerformInteractiveRebinding(bindingIndex)
-            // Exclude mouse movement, otherwise moving the mouse instantly binds it
             .WithControlsExcluding("Mouse/position")
             .WithControlsExcluding("Mouse/delta")
-            // Pressing Escape cancels the rebind
             .WithCancelingThrough("<Keyboard>/escape")
             .OnComplete(operation =>
             {
                 operation.Dispose();
+
+                string newPath = actionToRebind.bindings[bindingIndex].effectivePath;
+
+                // Check if another action is already using this path
+                if (IsDuplicateBinding(newPath, actionToRebind, bindingIndex))
+                {
+                    // Reject the override
+                    actionToRebind.RemoveBindingOverride(bindingIndex);
+                    actionToRebind.Enable();
+
+                    // Fire the error callback to the UI
+                    onError?.Invoke("USED!");
+                    return;
+                }
+
                 actionToRebind.Enable();
                 SaveSettings();
 
-                // Return the new readable key name (e.g., "W", "LMB")
                 string newKey = actionToRebind.GetBindingDisplayString(bindingIndex);
                 onComplete?.Invoke(newKey);
             })
@@ -81,11 +84,30 @@ public class InputService : IService, IInitializable
                 actionToRebind.Enable();
                 onCancel?.Invoke();
             })
-            .Start(); // Begin listening for input
+            .Start();
     }
 
     public string GetBindingName(InputAction action, int bindingIndex)
     {
         return action.GetBindingDisplayString(bindingIndex);
+    }
+
+    // Duplication Checker
+    private bool IsDuplicateBinding(string newPath, InputAction actionToRebind, int bindingIndex)
+    {
+        // Loop through every action in your entire Input Map
+        foreach (InputAction action in InputActions)
+        {
+            for (int i = 0; i < action.bindings.Count; i++)
+            {
+                if (action == actionToRebind && i == bindingIndex) continue;
+
+                if (action.bindings[i].effectivePath == newPath)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

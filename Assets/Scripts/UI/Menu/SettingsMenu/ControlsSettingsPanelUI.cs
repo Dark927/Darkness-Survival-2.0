@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
 using Settings.Global;
+using Cysharp.Threading.Tasks;
 
 public class ControlsSettingsPanelUI : ScrollableSettingsPanelUI, IDisposable
 {
@@ -86,6 +87,21 @@ public class ControlsSettingsPanelUI : ScrollableSettingsPanelUI, IDisposable
             onCancel: () =>
             {
                 config.ButtonText.text = previousText;
+                SetButtonsInteractable(true);
+            },
+            // Handle the error dynamically
+            onError: async (errorMessage) =>
+            {
+                // Show the error in red
+                config.ButtonText.text = errorMessage;
+                config.ButtonText.color = Color.red;
+
+                // Wait for 1.5 seconds without freezing the game
+                await UniTask.Delay(1500);
+
+                // Revert the UI back to how it was before they clicked
+                config.ButtonText.text = previousText;
+                config.ButtonText.color = Color.white;
                 SetButtonsInteractable(true);
             }
         );

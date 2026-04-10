@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822d7151ce9378448a9ca0c0db45f695, type: 3}
   m_Name: SimbiotSpawnData
   m_EditorClassIdentifier: 
-  EnemyData: {fileID: 11400000, guid: 5a189e271870fd646854d9dace422c71, type: 2}
-  Count: 100
-  SpawnTime:
+  _enemyData: {fileID: 11400000, guid: 5a189e271870fd646854d9dace422c71, type: 2}
+  _enemyPrefab: {fileID: 1348048754059067960, guid: 429dd124083c2d7478f1a1d3077ec003, type: 3}
+  _count: 60
+  _spawnStartTime:
     Minutes: 0
-    Seconds: 20
-  SpawnDuration:
-    Minutes: 0
-    Seconds: 59
+    Seconds: 30
+  _spawnDuration:
+    Minutes: 2
+    Seconds: 0

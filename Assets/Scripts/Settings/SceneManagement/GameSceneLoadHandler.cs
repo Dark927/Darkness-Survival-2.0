@@ -18,7 +18,7 @@ namespace Settings.SceneManagement
     /// <summary>
     /// This class is a main class to load scenes with cleaning.
     /// </summary>
-    public class GameSceneLoadHandler : LazySingletonMono<GameSceneLoadHandler>
+    public class GameSceneLoadHandler : LazySingletonMonoBase<GameSceneLoadHandler>
     {
         #region Fields
 

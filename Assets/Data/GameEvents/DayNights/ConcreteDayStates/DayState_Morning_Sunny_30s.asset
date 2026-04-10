@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7f03a42fa1c5144986c6d4e393bdbc, type: 3}
   m_Name: DayState_Morning_Sunny_30s
   m_EditorClassIdentifier: 
-  _realTimeDuration: 30
+  _realTimeDuration: 20
   _targetGameTime: 1
   _targetColor: {r: 1, g: 0.6324872, b: 0.13333333, a: 1}
   _dayTimeType: 0

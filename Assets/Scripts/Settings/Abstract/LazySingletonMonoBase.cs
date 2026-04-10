@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Settings.Abstract
 {
-    public class LazySingletonMono<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class LazySingletonMonoBase<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static Lazy<T> _lazyInstance = new Lazy<T>(() =>
         {

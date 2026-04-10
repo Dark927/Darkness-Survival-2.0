@@ -48,14 +48,13 @@ namespace Characters.Enemy
             foreach (var itemDropDataRef in data)
             {
                 AsyncOperationHandle<ItemDropData> handle = AddressableAssetsHandler.Instance.TryLoadAssetAsync<ItemDropData>(itemDropDataRef);
-                handle.Completed +=
-                    (handle) =>
+                handle.Completed += (handle) =>
                     {
                         if (_dropData != null)
                         {
                             _dropData.Add(handle.Result.DropSettings);
                         }
-                        AddressableAssetsHandler.Instance.UnloadAsset(handle);
+                        // ToDo : use caching 
                     };
             }
         }

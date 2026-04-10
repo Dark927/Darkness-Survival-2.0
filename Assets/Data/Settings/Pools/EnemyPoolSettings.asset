@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnemyPoolSettings
   m_EditorClassIdentifier: 
   _poolSettings:
-    _preloadInstancesCount: 20
-    _maxPoolCapacity: 20
+    _preloadInstancesCount: 200
+    _maxPoolCapacity: 200

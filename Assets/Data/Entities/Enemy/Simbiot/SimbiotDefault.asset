@@ -12,14 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
   m_Name: SimbiotDefault
   m_EditorClassIdentifier: 
-  Name: Simbiot
+  _info:
+    _name: Simbiot
   _stats:
-    Health: 50
+    Health: 16
     Speed: 1
     InvincibilityTime: 0.5
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
   _damageMultiplier: 1
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
-  _id: 129679357
-  Type: 0
-  Prefab: {fileID: 1348048754059067960, guid: 429dd124083c2d7478f1a1d3077ec003, type: 3}
+  _type: 0
+  _dropItemReferences:
+  - m_AssetGUID: 87339b6478d6afd48ab828457b6c4636
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1

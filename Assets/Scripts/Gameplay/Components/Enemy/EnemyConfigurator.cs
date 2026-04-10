@@ -1,4 +1,5 @@
 ﻿using Characters.Enemy;
+using Settings.CameraManagement;
 using Settings.Global;
 using UnityEngine;
 using Utilities.World;
@@ -38,6 +39,7 @@ namespace Gameplay.Components.Enemy
             _playerService ??= ServiceLocator.Current.Get<PlayerService>();
             _gameStateService ??= ServiceLocator.Current.Get<GameStateService>();
 
+            // ToDo : replace camera with DI maybe
             enemy.transform.position = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
 
             if (target == null)

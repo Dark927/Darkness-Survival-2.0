@@ -146,6 +146,7 @@ namespace Settings.Global.Audio
             return string.Format("{0:D2}:{1:D2}", minutes, seconds);
         }
 
-#endif
     }
 }
+
+#endif

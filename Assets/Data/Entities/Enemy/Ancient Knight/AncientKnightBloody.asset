@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
   m_Name: AncientKnightBloody
   m_EditorClassIdentifier: 
-  _name: Ancient Knight
-  _id: -879331196
+  _info:
+    _name: Ancient Knight Bloody
   _stats:
     Health: 30
     Speed: 4
@@ -22,4 +22,8 @@ MonoBehaviour:
   _damageMultiplier: 1
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
   _type: 2
-  _enemyPrefab: {fileID: 748340546080213989, guid: ca75169a8804b8e4a99a0095322a3068, type: 3}
+  _dropItemReferences:
+  - m_AssetGUID: ec90cb18e0a18f04dbdf6c4a847838d7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

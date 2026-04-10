@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Settings.AssetsManagement
 {
-    public class AddressableAssetsHandler : LazySingletonMono<AddressableAssetsHandler>, IInitializable
+    public class AddressableAssetsHandler : LazySingletonMonoBase<AddressableAssetsHandler>, IInitializable
     {
         private AddressableAssetsCleaner _cleaner;
         private AddressableAssetsHolder _assetsHolder;

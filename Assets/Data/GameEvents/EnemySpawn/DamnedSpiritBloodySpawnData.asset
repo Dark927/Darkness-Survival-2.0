@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 822d7151ce9378448a9ca0c0db45f695, type: 3}
-  m_Name: AncientKnightBloodySpawnData
+  m_Name: DamnedSpiritBloodySpawnData
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 11400000, guid: d34bd1bedb980904892dfa450dba72e3, type: 2}
-  _enemyPrefab: {fileID: 748340546080213989, guid: ca75169a8804b8e4a99a0095322a3068, type: 3}
-  _count: 20
+  _enemyData: {fileID: 11400000, guid: edc8a8306d5a0de42b761cab8730db15, type: 2}
+  _enemyPrefab: {fileID: 1798694750783558851, guid: 5fc20e7ed38ba954e8a076cdd7721876, type: 3}
+  _count: 40
   _spawnStartTime:
     Minutes: 1
-    Seconds: 0
+    Seconds: 5
   _spawnDuration:
     Minutes: 1
     Seconds: 0

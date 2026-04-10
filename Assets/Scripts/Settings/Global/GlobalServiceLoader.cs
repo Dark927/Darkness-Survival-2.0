@@ -65,6 +65,10 @@ namespace Settings.Global
             CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
             CameraService cameraService = new CameraService(virtualCamera);
 
+            // Graphics
+
+            GraphicsService graphicsService = new GraphicsService();
+
             // All Services 
             _services = new()
             {
@@ -72,6 +76,7 @@ namespace Settings.Global
                 [playerService.GetType()] = playerService,
                 [cameraService.GetType()] = cameraService,
                 [audioService.GetType()] = audioService,
+                [graphicsService.GetType()] = graphicsService,
             };
 
             //////////////

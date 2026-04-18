@@ -684,6 +684,7 @@ MonoBehaviour:
   _panelData: {fileID: 11400000, guid: 48331013ce5240a4c8fb31b572a71414, type: 2}
   _settingsComponentsContainer: {fileID: 1373275061}
   _audioProviderData: {fileID: 11400000, guid: 5810b5b5578d8f14e820f383e0d4c45e, type: 2}
+  _mainAudioMixer: {fileID: 24100000, guid: 2b83cd07b8ec84d449bc2107d2bc6452, type: 2}
 --- !u!1 &781532798
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953e66f488aa3474dab06023c813a3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainAudioMixer: {fileID: 0}
   _mainMenuTheme: {fileID: 11400000, guid: 29ba11fc1484d1044acbcc3b07a759a0, type: 2}
   _pauseMenuTheme: {fileID: 11400000, guid: cfc37a11654651e468845b3ff5364884, type: 2}
 --- !u!1 &825283625

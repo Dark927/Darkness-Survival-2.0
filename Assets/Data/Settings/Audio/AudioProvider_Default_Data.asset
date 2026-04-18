@@ -18,6 +18,7 @@ MonoBehaviour:
       _reverbZoneMix: 1
       _songTransitionTime: 2
       _songInterruptionTransitionTime: 0.8
+      _mixerGroup: {fileID: 6655795461777989038, guid: 2b83cd07b8ec84d449bc2107d2bc6452, type: 2}
     _soundsPlayerSettings:
       _soundSourcesPoolSettings:
         _preloadInstancesCount: 10
@@ -27,3 +28,4 @@ MonoBehaviour:
       _spatialBlend: 1
       _minDistance: 0.01
       _maxDistance: 5
+      _mixerGroup: {fileID: 2533844488019844917, guid: 2b83cd07b8ec84d449bc2107d2bc6452, type: 2}

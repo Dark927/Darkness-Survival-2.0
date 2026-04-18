@@ -1,6 +1,7 @@
 ﻿using Settings.Global.Audio;
 using UI;
 using UnityEngine;
+using UnityEngine.Audio;
 using Utilities.Attributes;
 using Zenject;
 
@@ -15,8 +16,9 @@ namespace Settings.Global
         [CustomHeader("Core Settings", count = 1, depth = 0)]
         [SerializeField] private Transform _settingsComponentsContainer;
 
-        [CustomHeader("Audio Settings", count = 1, depth = 1, headerColor = CustomHeaderAttribute.HeaderColor.cyan)]
+        [CustomHeader("Audio Settings", count = 2, depth = 1, headerColor = CustomHeaderAttribute.HeaderColor.cyan)]
         [SerializeField] private AudioProviderData _audioProviderData;
+        [SerializeField] private AudioMixer _mainAudioMixer;
 
         #region Methods
 
@@ -24,6 +26,7 @@ namespace Settings.Global
         {
             BindPanelManager();
             BindAudioProvider();
+            BindAudioMixer();
         }
 
         private void BindAudioProvider()
@@ -38,6 +41,15 @@ namespace Settings.Global
                 .Bind<IAudioProvider>()
                 .To<AudioProviderMono>()
                 .FromInstance(audioProvider)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindAudioMixer()
+        {
+            Container
+                .Bind<AudioMixer>()
+                .FromInstance(_mainAudioMixer)
                 .AsSingle()
                 .NonLazy();
         }

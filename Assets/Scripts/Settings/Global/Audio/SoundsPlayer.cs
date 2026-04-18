@@ -116,6 +116,8 @@ namespace Settings.Global.Audio
 
         private void Configure3DSource(AudioSource source, float volume, Vector2? position = null, float? maxDistance = null)
         {
+            source.outputAudioMixerGroup = _settings.MixerGroup;
+
             // Position 
 
             Vector3 targetPosition = Vector2.zero;
@@ -150,6 +152,7 @@ namespace Settings.Global.Audio
 
         private void Configure2DSource(AudioSource source, float volume)
         {
+            source.outputAudioMixerGroup = _settings.MixerGroup;
             ConfigureSourceVolume(source, volume);
             source.spatialBlend = 0f;
         }

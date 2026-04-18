@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Characters.Player;
+using Characters.Player.Controls;
 using Cinemachine;
 using Gameplay.Components;
 using Settings.CameraManagement;
 using Settings.Global.Audio;
 using Settings.SceneManagement;
 using UnityEngine;
+using UnityEngine.Audio;
 using Utilities.Attributes;
 using Zenject;
 
@@ -16,13 +18,14 @@ namespace Settings.Global
     {
         #region Fields
 
-        [CustomHeader("Game Audio - Settings", 2, 0)]
+        [CustomHeader("Game Audio - Settings", 3, 0)]
         [SerializeField] private MusicData _mainMenuTheme;
         [SerializeField] private MusicData _pauseMenuTheme;
 
         private Dictionary<Type, IService> _services;
         private DiContainer _diContainer;
         private IAudioProvider _audioProvider;
+        private AudioMixer _mainAudioMixer;
 
         #endregion
 
@@ -32,10 +35,11 @@ namespace Settings.Global
         #region Init
 
         [Inject]
-        public void Construct(DiContainer container, IAudioProvider audioProvider)
+        public void Construct(DiContainer container, IAudioProvider audioProvider, AudioMixer mainMixer)
         {
             _diContainer = container;
             _audioProvider = audioProvider;
+            _mainAudioMixer = mainMixer;
         }
 
         private void Awake()
@@ -51,7 +55,7 @@ namespace Settings.Global
             // Create 
             //////////////
 
-            GameAudioService audioService = new GameAudioService(_audioProvider);
+            GameAudioService audioService = new GameAudioService(_audioProvider, _mainAudioMixer);
             audioService.MusicPlayer.AddMusicClips(_mainMenuTheme);
             audioService.MusicPlayer.AddMusicClips(_pauseMenuTheme);
 

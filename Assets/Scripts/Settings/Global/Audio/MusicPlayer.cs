@@ -65,6 +65,7 @@ namespace Settings.Global.Audio
 
         private void ConfigureMusicSource(AudioSource musicSource)
         {
+            musicSource.outputAudioMixerGroup = _settings.MixerGroup;
             musicSource.reverbZoneMix = _settings.ReverbZoneMix;
             musicSource.spatialBlend = 0f;
             musicSource.playOnAwake = false;

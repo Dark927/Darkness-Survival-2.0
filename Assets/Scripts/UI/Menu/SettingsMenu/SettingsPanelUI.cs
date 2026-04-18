@@ -1,40 +1,43 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class SettingsPanelUI : MonoBehaviour
+namespace UI.SettingsMenu
 {
-    protected CanvasGroup canvasGroup;
-
-    public virtual void Initialize()
+    [RequireComponent(typeof(CanvasGroup))]
+    public class SettingsPanelUI : MonoBehaviour
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-    }
+        protected CanvasGroup canvasGroup;
 
-    public virtual void Show()
-    {
-        canvasGroup.DOKill();
-
-        canvasGroup.DOFade(1f, 0.2f);
-
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
-    }
-
-    public virtual void Hide(bool instant = false)
-    {
-        canvasGroup.DOKill();
-
-        if (instant)
+        public virtual void Initialize()
         {
-            canvasGroup.alpha = 0f;
-        }
-        else
-        {
-            canvasGroup.DOFade(0f, 0.2f);
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        public virtual void Show()
+        {
+            canvasGroup.DOKill();
+
+            canvasGroup.DOFade(1f, 0.2f);
+
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+
+        public virtual void Hide(bool instant = false)
+        {
+            canvasGroup.DOKill();
+
+            if (instant)
+            {
+                canvasGroup.alpha = 0f;
+            }
+            else
+            {
+                canvasGroup.DOFade(0f, 0.2f);
+            }
+
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
     }
 }

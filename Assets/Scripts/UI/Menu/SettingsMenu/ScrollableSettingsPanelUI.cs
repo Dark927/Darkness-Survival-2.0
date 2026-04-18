@@ -1,24 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(ScrollRect))]
-public class ScrollableSettingsPanelUI : SettingsPanelUI
+namespace UI.SettingsMenu
 {
-    private ScrollJumpFixerUI _scrollFixer;
-
-    public override void Initialize()
+    [RequireComponent(typeof(ScrollRect))]
+    public class ScrollableSettingsPanelUI : SettingsPanelUI
     {
-        base.Initialize();
-        _scrollFixer = GetComponent<ScrollJumpFixerUI>();
-    }
+        private ScrollJumpFixerUI _scrollFixer;
 
-    public override void Show()
-    {
-        base.Show();
-
-        if (_scrollFixer != null)
+        public override void Initialize()
         {
-            _scrollFixer.SnapToTop();
+            base.Initialize();
+            _scrollFixer = GetComponent<ScrollJumpFixerUI>();
+        }
+
+        public override void Show()
+        {
+            base.Show();
+
+            if (_scrollFixer != null)
+            {
+                _scrollFixer.SnapToTop();
+            }
         }
     }
 }

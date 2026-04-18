@@ -4,7 +4,7 @@ using DG.Tweening;
 namespace UI.SettingsMenu
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class SettingsPanelUI : MonoBehaviour
+    public class PanelUI : MonoBehaviour
     {
         protected CanvasGroup canvasGroup;
 
@@ -16,8 +16,7 @@ namespace UI.SettingsMenu
         public virtual void Show()
         {
             canvasGroup.DOKill();
-
-            canvasGroup.DOFade(1f, 0.2f);
+            canvasGroup.DOFade(1f, 0.2f).SetUpdate(true);
 
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
@@ -33,11 +32,11 @@ namespace UI.SettingsMenu
             }
             else
             {
-                canvasGroup.DOFade(0f, 0.2f);
-            }
+                canvasGroup.DOFade(0f, 0.2f).SetUpdate(true);
 
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+            }
         }
     }
 }

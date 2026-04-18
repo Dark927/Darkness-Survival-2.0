@@ -10,7 +10,7 @@ using Characters.Player.Controls;
 
 namespace UI.SettingsMenu
 {
-    public class ControlsSettingsPanelUI : ScrollableSettingsPanelUI, IDisposable
+    public class ControlsSettingsPanelUI : ScrollablePanelUI, IDisposable
     {
         [Serializable]
         public class RebindUIConfig
@@ -101,7 +101,7 @@ namespace UI.SettingsMenu
                     config.ButtonText.color = Color.red;
 
                     // Wait for 1.5 seconds without freezing the game
-                    await UniTask.Delay(1500);
+                    await UniTask.Delay(1500, true);
 
                     // Revert the UI back to how it was before they clicked
                     config.ButtonText.text = previousText;

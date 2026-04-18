@@ -7,7 +7,7 @@ using Utilities.Attributes;
 
 namespace UI.SettingsMenu
 {
-    public class AudioSettingsPanelUI : SettingsPanelUI, IDisposable
+    public class AudioSettingsPanelUI : PanelUI, IDisposable
     {
         [CustomHeader("Sliders", 3, 0)]
         [Tooltip("Ensure sliders are set to Min Value: 0.0001 and Max Value: 1.0")]

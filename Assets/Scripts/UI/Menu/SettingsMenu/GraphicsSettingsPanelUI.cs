@@ -7,7 +7,7 @@ using Settings.Global;
 
 namespace UI.SettingsMenu
 {
-    public class GraphicsSettingsPanelUI : SettingsPanelUI, IDisposable
+    public class GraphicsSettingsPanelUI : PanelUI, IDisposable
     {
         [Header("UI Controls")]
         [SerializeField] private TMP_Dropdown _resolutionDropdown;

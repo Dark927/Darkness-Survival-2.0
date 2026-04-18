@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace UI.SettingsMenu
 {
     [RequireComponent(typeof(ScrollRect))]
-    public class ScrollableSettingsPanelUI : SettingsPanelUI
+    public class ScrollablePanelUI : PanelUI
     {
         private ScrollJumpFixerUI _scrollFixer;
 

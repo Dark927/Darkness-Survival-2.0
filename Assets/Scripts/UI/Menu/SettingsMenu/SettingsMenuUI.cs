@@ -6,16 +6,16 @@ namespace UI.SettingsMenu
     public class SettingsMenuUI : BasicMenuUI
     {
         [Header("Configuration")]
-        private SettingsPanelUI[] _allPanels;
-        private SettingsPanelUI _defaultPanel;
+        private PanelUI[] _allPanels;
+        private PanelUI _defaultPanel;
 
-        private SettingsPanelUI _currentActivePanel;
+        private PanelUI _currentActivePanel;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _allPanels = GetComponentsInChildren<SettingsPanelUI>();
+            _allPanels = GetComponentsInChildren<PanelUI>();
             _defaultPanel = _allPanels.FirstOrDefault();
 
             // Initialize all panels and hide them instantly
@@ -31,11 +31,12 @@ namespace UI.SettingsMenu
             // Open the default panel on start
             if (_defaultPanel != null)
             {
+                transform.SetAsLastSibling();
                 OpenTab(_defaultPanel);
             }
         }
 
-        public void OpenTab(SettingsPanelUI panelToOpen)
+        public void OpenTab(PanelUI panelToOpen)
         {
             // Ignore if we are already on this tab
             if (panelToOpen == _currentActivePanel)

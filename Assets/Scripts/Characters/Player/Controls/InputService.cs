@@ -1,36 +1,33 @@
 ﻿using System;
-using System.IO;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-using Utilities.Json;
 using Settings.Global;
 
 namespace Characters.Player.Controls
 {
     public class InputService : IService, IInitializable
     {
-        private readonly string _savePath = Path.Combine(Application.persistentDataPath, "Settings", "input_settings.json");
-
         public PlayerInputActions InputActions { get; private set; }
 
-        private InputSaveData _saveData;
         private InputActionRebindingExtensions.RebindingOperation _rebindOperation;
+        private ISettingsStorage _settingsStorage;
+        public InputSaveData SaveData => _settingsStorage.Data.Input;
 
-        public InputService()
+
+        public InputService(ISettingsStorage settingsStorage)
         {
             InputActions = new PlayerInputActions();
             InputActions.Enable();
+            _settingsStorage = settingsStorage;
         }
 
         public async UniTask InitializeAsync()
         {
-            var (success, result) = await JsonHelper.TryLoadFromJsonAsync<InputSaveData>(_savePath);
-            _saveData = success ? result : new InputSaveData();
+            await UniTask.WaitUntil(() => _settingsStorage.IsLoaded);
 
-            if (!string.IsNullOrEmpty(_saveData.BindingOverrides))
+            if (!string.IsNullOrEmpty(SaveData.BindingOverrides))
             {
-                InputActions.LoadBindingOverridesFromJson(_saveData.BindingOverrides);
+                InputActions.LoadBindingOverridesFromJson(SaveData.BindingOverrides);
             }
         }
 
@@ -41,13 +38,16 @@ namespace Characters.Player.Controls
 
         private void SaveSettings()
         {
-            _saveData.BindingOverrides = InputActions.SaveBindingOverridesAsJson();
-            JsonHelper.SaveToJsonAsync(_saveData, _savePath).Forget();
+            SaveData.BindingOverrides = InputActions.SaveBindingOverridesAsJson();
+            _settingsStorage.SaveAllSettings();
         }
 
         public void StartRebind(InputAction actionToRebind, int bindingIndex, Action<string> onComplete, Action onCancel, Action<string> onError)
         {
             actionToRebind.Disable();
+
+            // We must remember what the override was before the user messed with it
+            string previousOverridePath = actionToRebind.bindings[bindingIndex].overridePath;
 
             _rebindOperation?.Cancel();
             _rebindOperation?.Dispose();
@@ -62,11 +62,18 @@ namespace Characters.Player.Controls
 
                     string newPath = actionToRebind.bindings[bindingIndex].effectivePath;
 
-                    // Check if another action is already using this path
                     if (IsDuplicateBinding(newPath, actionToRebind, bindingIndex))
                     {
-                        // Reject the override
-                        actionToRebind.RemoveBindingOverride(bindingIndex);
+                        // RESTORE THE EXACT PREVIOUS STATE
+                        if (string.IsNullOrEmpty(previousOverridePath))
+                        {
+                            actionToRebind.RemoveBindingOverride(bindingIndex);
+                        }
+                        else
+                        {
+                            actionToRebind.ApplyBindingOverride(bindingIndex, previousOverridePath);
+                        }
+
                         actionToRebind.Enable();
 
                         // Fire the error callback to the UI
@@ -75,6 +82,8 @@ namespace Characters.Player.Controls
                     }
 
                     actionToRebind.Enable();
+
+                    // Only save settings if we successfully kept the new key
                     SaveSettings();
 
                     string newKey = actionToRebind.GetBindingDisplayString(bindingIndex);

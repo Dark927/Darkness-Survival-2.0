@@ -27,6 +27,7 @@ namespace Settings.Global
             BindPanelManager();
             BindAudioProvider();
             BindAudioMixer();
+            BindSettingsStorage();
         }
 
         private void BindAudioProvider()
@@ -50,6 +51,17 @@ namespace Settings.Global
             Container
                 .Bind<AudioMixer>()
                 .FromInstance(_mainAudioMixer)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSettingsStorage()
+        {
+            SettingsStorage settingsStorage = new SettingsStorage();
+            settingsStorage.Initialize();
+            Container
+                .Bind<ISettingsStorage>()
+                .FromInstance(settingsStorage)
                 .AsSingle()
                 .NonLazy();
         }

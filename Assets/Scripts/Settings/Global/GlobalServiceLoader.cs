@@ -26,6 +26,7 @@ namespace Settings.Global
         private DiContainer _diContainer;
         private IAudioProvider _audioProvider;
         private AudioMixer _mainAudioMixer;
+        private ISettingsStorage _settingsStorage;
 
         #endregion
 
@@ -35,11 +36,12 @@ namespace Settings.Global
         #region Init
 
         [Inject]
-        public void Construct(DiContainer container, IAudioProvider audioProvider, AudioMixer mainMixer)
+        public void Construct(DiContainer container, IAudioProvider audioProvider, AudioMixer mainMixer, ISettingsStorage settingsStorage)
         {
             _diContainer = container;
             _audioProvider = audioProvider;
             _mainAudioMixer = mainMixer;
+            _settingsStorage = settingsStorage;
         }
 
         private void Awake()
@@ -55,7 +57,7 @@ namespace Settings.Global
             // Create 
             //////////////
 
-            GameAudioService audioService = new GameAudioService(_audioProvider, _mainAudioMixer);
+            GameAudioService audioService = new GameAudioService(_audioProvider, _mainAudioMixer, _settingsStorage);
             audioService.MusicPlayer.AddMusicClips(_mainMenuTheme);
             audioService.MusicPlayer.AddMusicClips(_pauseMenuTheme);
 
@@ -64,7 +66,7 @@ namespace Settings.Global
 
             // Controls
 
-            InputService inputService = new InputService();
+            InputService inputService = new InputService(_settingsStorage);
 
             // Game State
             GameStateService gameStateService = _diContainer.Instantiate<GameStateService>();
@@ -75,7 +77,7 @@ namespace Settings.Global
 
             // Graphics
 
-            GraphicsService graphicsService = new GraphicsService();
+            GraphicsService graphicsService = new GraphicsService(_settingsStorage);
 
             // All Services 
             _services = new()

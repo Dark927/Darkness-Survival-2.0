@@ -75,6 +75,7 @@ namespace UI.SettingsMenu
         private void OnRebindButtonClicked(RebindUIConfig config, InputAction action)
         {
             string previousText = config.ButtonText.text;
+            Color previousTextColor = config.ButtonText.color;
             config.ButtonText.text = _listeningText;
 
             SetButtonsInteractable(false);
@@ -104,7 +105,7 @@ namespace UI.SettingsMenu
 
                     // Revert the UI back to how it was before they clicked
                     config.ButtonText.text = previousText;
-                    config.ButtonText.color = Color.white;
+                    config.ButtonText.color = previousTextColor;
                     SetButtonsInteractable(true);
                 }
             );

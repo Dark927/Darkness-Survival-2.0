@@ -1,9 +1,7 @@
 ﻿
-using System.IO;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
-using Utilities.Json;
 
 namespace Settings.Global.Audio
 {
@@ -19,10 +17,9 @@ namespace Settings.Global.Audio
     {
         #region Fields 
 
-        private readonly string _savePath = Path.Combine(Application.persistentDataPath, "Settings", "audio_settings.json");
-
         private IAudioProvider _audioProvider;
         private AudioMixer _mainMixer;
+        private ISettingsStorage _settingsStorage;
 
         #endregion
 
@@ -31,17 +28,18 @@ namespace Settings.Global.Audio
 
         public MusicPlayer MusicPlayer => _audioProvider.MusicPlayer;
         public SoundsPlayer SoundsPlayer => _audioProvider.SoundsPlayer;
-        public AudioSaveData SaveData { get; private set; }
+        public AudioSaveData SaveData => _settingsStorage.Data.Audio;
 
         #endregion
 
 
         #region Methods
 
-        public GameAudioService(IAudioProvider audioProvider, AudioMixer mainMixer)
+        public GameAudioService(IAudioProvider audioProvider, AudioMixer mainMixer, ISettingsStorage settingsStorage)
         {
             _audioProvider = audioProvider;
             _mainMixer = mainMixer;
+            _settingsStorage = settingsStorage;
         }
 
         public void Initialize()
@@ -51,9 +49,7 @@ namespace Settings.Global.Audio
 
         private async UniTask InitializeAsync()
         {
-            var (success, result) = await JsonHelper.TryLoadFromJsonAsync<AudioSaveData>(_savePath);
-            SaveData = success ? result : new AudioSaveData();
-
+            await UniTask.WaitUntil(() => _settingsStorage.IsLoaded);
             ApplyAllVolumes();
         }
 
@@ -65,7 +61,7 @@ namespace Settings.Global.Audio
 
         public void SaveSettings()
         {
-            JsonHelper.SaveToJsonAsync(SaveData, _savePath).Forget();
+            _settingsStorage.SaveAllSettings();
         }
 
         private void ApplyAllVolumes()

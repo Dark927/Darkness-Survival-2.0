@@ -15,12 +15,15 @@ namespace Gameplay.Components.Enemy
         private Vector2 _spawnPositionOffset = Vector2.zero;
         private Vector2 _spawnPositionRange = Vector2.zero;
 
+        private Transform _dropItemsContainer;
+
         public EnemyConfigurator() { }
 
-        public EnemyConfigurator(Vector2 spawnPositionRange, Vector2 spawnPositionOffset)
+        public EnemyConfigurator(Vector2 spawnPositionRange, Vector2 spawnPositionOffset, Transform dropItemsContainer = null)
         {
             SetSpawnPositionRange(spawnPositionRange);
             SetSpawnPositionOffset(spawnPositionOffset);
+            SetDropItemsContainer(dropItemsContainer);
         }
 
         public void SetSpawnPositionOffset(Vector2 spawnPositionOffset)
@@ -31,6 +34,11 @@ namespace Gameplay.Components.Enemy
         public void SetSpawnPositionRange(Vector2 spawnPositionRange)
         {
             _spawnPositionRange = spawnPositionRange;
+        }
+
+        public void SetDropItemsContainer(Transform container)
+        {
+            _dropItemsContainer = container;
         }
 
         public void Configure(EnemyController enemy, Transform target = null)
@@ -52,6 +60,7 @@ namespace Gameplay.Components.Enemy
             if (enemyLogic != null)
             {
                 enemyLogic.SetTarget(target);
+                enemyLogic.SetDropItemContainer(_dropItemsContainer);
 
                 enemyLogic.Body.OnBodyDamagedWithArgs += _managementService.EnemyDamagedListener;
                 enemy.OnEntityKilled += _managementService.EnemyKilledListener;

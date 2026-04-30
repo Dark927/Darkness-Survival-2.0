@@ -40,7 +40,7 @@ namespace Settings.Installers
         [SerializeField] private EnemyManagementData _enemyManagementData;
 
         [Header("Stage Audio - Settings")]
-        [SerializeField] private MusicData _stageMusicData;
+        [SerializeField] private StageMusicSetData _stageMusicSetData;
 
         public override void InstallBindings()
         {
@@ -109,8 +109,8 @@ namespace Settings.Installers
             // ----------------------------------------------------------
 
             Container
-                .Bind<MusicData>()
-                .FromInstance(_stageMusicData)
+                .Bind<StageMusicSetData>()
+                .FromInstance(_stageMusicSetData)
                 .AsSingle()
                 .NonLazy();
 

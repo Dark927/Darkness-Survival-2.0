@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MenuTheme_MusicData
   m_EditorClassIdentifier: 
   Description: Music for the main menu
-  _musicType: 1
+  _musicType: 2
   _musicList:
   - m_AssetGUID: 9ead5e61ccbe7694893e36eb00c8735c
     m_SubObjectName: 

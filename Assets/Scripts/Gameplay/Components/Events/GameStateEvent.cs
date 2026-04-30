@@ -5,6 +5,8 @@ namespace Gameplay.Components
     public enum GameStateEventType
     {
         Unspecified = 0,
+        StageIntroStarted,
+        StageIntroFinishing,
         StageStarted,
         StageStartFinishing,
         StagePaused,

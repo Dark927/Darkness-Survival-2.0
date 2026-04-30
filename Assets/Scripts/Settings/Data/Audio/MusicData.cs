@@ -6,6 +6,7 @@ namespace Settings.Global.Audio
 {
     public enum MusicType
     {
+        StageIntro,
         Stage,
         MainMenu,
         PauseMenu,

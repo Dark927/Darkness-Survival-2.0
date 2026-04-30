@@ -82,7 +82,7 @@ namespace Gameplay.Components
                     _playerInputHandler.TryBlockCharacterInput();
                     break;
 
-                case GameStateEventType.StageStarted:
+                case GameStateEventType.StageIntroStarted:
                 case GameStateEventType.StageUnpaused:
                     _globalInput.ActivateInput();
                     _playerInputHandler.TryUnblockCharacterInput();

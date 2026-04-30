@@ -33,12 +33,16 @@ namespace Settings.Global.Audio
 
         private Tween _secondarySongAnimation;
 
+        private MusicType _currentPlaylistType;
+        private bool _isPlaylistLooping;
+        private bool _isTransitioning;
+
         #endregion
 
 
         #region Properties 
 
-        public bool IsMainSourceBusy => (_mainMusicSource != null) && _mainMusicSource.isPlaying || _isMainQueuePaused;
+        public bool IsMainSourceBusy => (_mainMusicSource != null && _mainMusicSource.isPlaying) || _isMainQueuePaused || _isTransitioning;
 
         #endregion
 
@@ -82,17 +86,32 @@ namespace Settings.Global.Audio
 
         public void PlaySong(AudioClip targetClip, float fadeInOutDuration = 1f, float startTime = 0f)
         {
+            _isTransitioning = true;
+
             float halfFadeDuration = fadeInOutDuration / 2f;
 
-            // Fade out the current music
-            _fxHandler.FadeOut(_mainMusicSource, halfFadeDuration, () =>
+            // Local function to keep the code DRY
+            void PlayAndFadeIn()
             {
                 _mainMusicSource.clip = targetClip;
                 _mainMusicSource.time = startTime;
                 _mainMusicSource.Play();
 
                 _fxHandler.FadeIn(_mainMusicSource, 0f, _settings.MaxVolume, halfFadeDuration);
-            });
+
+                _isTransitioning = false;
+            }
+
+            // Check if there is actually a song playing that needs to be faded out
+            if (_mainMusicSource.isPlaying)
+            {
+                _fxHandler.FadeOut(_mainMusicSource, halfFadeDuration, PlayAndFadeIn);
+            }
+            else
+            {
+                // Nothing is playing! Skip the fade-out wait and start instantly.
+                PlayAndFadeIn();
+            }
         }
 
         public void PauseMainSong(float fadeDuration = 0f)
@@ -117,7 +136,7 @@ namespace Settings.Global.Audio
             if (_clipsOST.TryGetValue(MusicType.PauseMenu, out var availableSongs))
             {
                 int randomSongIndex = UnityEngine.Random.Range(0, availableSongs.Count());
-                PlayInterruptingSong(availableSongs[randomSongIndex], _settings.SongInterruptionTransitionTime).Forget();
+                PlayInterruptingSong(availableSongs[randomSongIndex], _settings.SongInterruptionTransitionTime, true).Forget();
             }
             else
             {
@@ -125,7 +144,7 @@ namespace Settings.Global.Audio
             }
         }
 
-        private async UniTask PlayInterruptingSong(AssetReferenceT<AudioClip> interruptClip, float fadeDuration = 1f)
+        private async UniTask PlayInterruptingSong(AssetReferenceT<AudioClip> interruptClip, float fadeDuration = 1f, bool isLoop = false)
         {
             PauseMainSong(InstantTransitionTime);
             var clip = await LoadClipAsync(interruptClip);
@@ -133,6 +152,7 @@ namespace Settings.Global.Audio
             TweenHelper.KillTweenIfActive(_secondarySongAnimation, false);
             _secondarySource.clip = clip;
             _secondarySource.Play();
+            _secondarySource.loop = isLoop;
             _fxHandler.FadeIn(_secondarySource, 0f, _settings.MaxVolume, fadeDuration);
         }
 
@@ -150,6 +170,7 @@ namespace Settings.Global.Audio
                 _secondarySource.Stop();
                 _secondarySource.clip = null;
                 _secondarySongAnimation = null;
+                _secondarySource.loop = false;
             };
 
 
@@ -181,6 +202,8 @@ namespace Settings.Global.Audio
 
         public void Stop()
         {
+            _isTransitioning = false;
+
             if (_mainMusicSource.clip == null)
             {
                 return;
@@ -228,7 +251,7 @@ namespace Settings.Global.Audio
             }
         }
 
-        public void StartPlaylist(MusicType type, bool skipCurrentPlaylist = true)
+        public void StartPlaylist(MusicType type, bool skipCurrentPlaylist = true, bool isLoop = false)
         {
             if ((_clipsOST == null) || (_mainMusicSource == null))
             {
@@ -242,6 +265,10 @@ namespace Settings.Global.Audio
             {
                 return;
             }
+
+            // Cache playlist state for looping
+            _currentPlaylistType = type;
+            _isPlaylistLooping = isLoop;
 
             Stop();
             UpdateMusicQueue(type);
@@ -259,8 +286,20 @@ namespace Settings.Global.Audio
         {
             AudioClip nextClip;
 
-            while (_musicQueue.Count > 0 && !token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
+                if (_musicQueue.Count == 0)
+                {
+                    if (_isPlaylistLooping)
+                    {
+                        UpdateMusicQueue(_currentPlaylistType);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
                 if (!_isMainQueuePaused)
                 {
                     nextClip = await LoadClipAsync(_musicQueue.Dequeue());
@@ -288,7 +327,7 @@ namespace Settings.Global.Audio
                 return;
             }
 
-            _musicQueue = new Queue<AssetReferenceT<AudioClip>>(_clipsOST[musicType].Distinct()); // ToDo : check ordering
+            _musicQueue = new Queue<AssetReferenceT<AudioClip>>(_clipsOST[musicType]); // ToDo : check ordering
         }
 
         private async UniTask<AudioClip> LoadClipAsync(AssetReferenceT<AudioClip> musicRef)

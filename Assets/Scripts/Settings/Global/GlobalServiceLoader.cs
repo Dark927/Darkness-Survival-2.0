@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Characters.Player;
 using Characters.Player.Controls;
 using Cinemachine;
 using Gameplay.Components;
 using Settings.CameraManagement;
 using Settings.Global.Audio;
 using Settings.SceneManagement;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Audio;
 using Utilities.Attributes;
+using Utilities.ErrorHandling;
 using Zenject;
 
 namespace Settings.Global
@@ -18,9 +19,13 @@ namespace Settings.Global
     {
         #region Fields
 
-        [CustomHeader("Game Audio - Settings", 3, 0)]
+        [CustomHeader("Game Audio - Settings", 2, 0)]
         [SerializeField] private MusicData _mainMenuTheme;
         [SerializeField] private MusicData _pauseMenuTheme;
+
+        [CustomHeader("Cameras", 2, 0)]
+        [SerializeField] private CinemachineVirtualCamera _playerCamera;
+        [SerializeField] private CinemachineVirtualCamera _introCamera;
 
         private Dictionary<Type, IService> _services;
         private DiContainer _diContainer;
@@ -72,8 +77,12 @@ namespace Settings.Global
             GameStateService gameStateService = _diContainer.Instantiate<GameStateService>();
 
             // Camera
-            CinemachineVirtualCamera virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
-            CameraService cameraService = new CameraService(virtualCamera);
+            if (_playerCamera == null || _introCamera == null)
+            {
+                ErrorLogger.LogError("[GlobalServiceLoader] Player or Intro Camera is missing! Please assign them in the Inspector.");
+            }
+
+            CameraService cameraService = new CameraService(_playerCamera, _introCamera);
 
             // Graphics
 
@@ -96,7 +105,7 @@ namespace Settings.Global
 
             playerService.PlayerEvent.Subscribe(gameStateService);
 
-            RegisterOwnEvents(gameStateService);
+            RegisterOwnEvents();
         }
 
         private void RegisterServices()
@@ -120,9 +129,8 @@ namespace Settings.Global
             }
         }
 
-        private void RegisterOwnEvents(GameStateService gameStateService)
+        private void RegisterOwnEvents()
         {
-            gameStateService.GameEvent.Subscribe(this);
             GameSceneLoadHandler.Instance.SceneCleanEvent.Subscribe(this);
         }
 
@@ -149,8 +157,6 @@ namespace Settings.Global
 
         private void UnregisterOwnEvents()
         {
-            var gameStateService = ServiceLocator.Current.Get<GameStateService>();
-            gameStateService.GameEvent.Unsubscribe(this);
             GameSceneLoadHandler.Instance.SceneCleanEvent.Unsubscribe(this);
         }
 
@@ -158,29 +164,9 @@ namespace Settings.Global
         {
             switch (sender)
             {
-                case GameStateService:
-                    HandleGameStateEvent(args as GameEventArgs);
-                    break;
-
                 case GameSceneLoadHandler:
                     HandleSceneCleanEvent();
                     break;
-            }
-        }
-
-        private void HandleGameStateEvent(GameEventArgs args)
-        {
-            if (args.EventType != GameStateEventType.StageStarted)
-            {
-                return;
-            }
-
-            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
-            CameraService cameraService = ServiceLocator.Current.Get<CameraService>();
-
-            if (playerService.TryGetPlayer(out PlayerCharacterController player))
-            {
-                cameraService.FollowPlayer(player);
             }
         }
 

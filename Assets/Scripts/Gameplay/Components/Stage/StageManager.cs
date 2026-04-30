@@ -6,6 +6,8 @@ using World.Environment;
 using Zenject;
 using Gameplay.Components.Enemy;
 using Gameplay.Stage;
+using Characters.Player;
+using Settings.CameraManagement;
 
 namespace Stage
 {
@@ -13,11 +15,13 @@ namespace Stage
     {
         #region Fields 
 
-        private MusicData _stageMusic;
+        private StageMusicSetData _stageMusicSet;
         private StagePostProcessService _postProcessService;
 
         private GameStateService _gameStateService;
         private StageProgressService _stageProgress;
+        private PlayerService _playerService;
+        private CameraService _cameraService;
 
         private GameTimer _stageTimer;
         private EnemySpawner _enemySpawner;
@@ -25,12 +29,15 @@ namespace Stage
 
         private GameAudioService _audioService;
 
-        private bool _stageActive;
+        private bool _stageActive = false;
+        private bool _isIntroActive = false;
 
         #endregion
 
 
         #region Properties
+
+        public bool CanUpdateStage => _stageActive && !_isIntroActive;
 
         #endregion
 
@@ -41,13 +48,13 @@ namespace Stage
 
         [Inject]
         public void Construct(
-            MusicData stageMusic,
+            StageMusicSetData stageMusicSet,
             GameTimer timer,
             EnemySpawner enemySpawner,
             DayManager dayManager)
         {
             _stageTimer = timer;
-            _stageMusic = stageMusic;
+            _stageMusicSet = stageMusicSet;
             _enemySpawner = enemySpawner;
             _dayManager = dayManager;
         }
@@ -61,6 +68,8 @@ namespace Stage
             _stageProgress = new StageProgressService();
             _postProcessService = ServiceLocator.Current.Get<StagePostProcessService>();
             _gameStateService = ServiceLocator.Current.Get<GameStateService>();
+            _playerService = ServiceLocator.Current.Get<PlayerService>();
+            _cameraService = ServiceLocator.Current.Get<CameraService>();
         }
 
         private void Start()
@@ -99,9 +108,9 @@ namespace Stage
         {
             _audioService = ServiceLocator.Current.Get<GameAudioService>();
 
-            if (_stageMusic != null)
+            if (_stageMusicSet != null)
             {
-                _audioService.MusicPlayer.AddMusicClips(_stageMusic);
+                _audioService.MusicPlayer.AddMusicClips(_stageMusicSet.GetAllMusicData());
             }
         }
 
@@ -124,21 +133,27 @@ namespace Stage
 
         private void Update()
         {
-            if (!_stageActive)
+            if (CanUpdateStage)
             {
-                return;
+                _stageTimer.UpdateTime();
+                _dayManager.UpdateDayState(_stageTimer.ElapsedTime);
             }
-
-            _stageTimer.UpdateTime();
-            _dayManager.UpdateDayState(_stageTimer.ElapsedTime);
         }
 
         private void HandleGameEvent(GameEventArgs args)
         {
             switch (args.EventType)
             {
+                case GameStateEventType.StageIntroStarted:
+                    StartStageIntro();
+                    break;
+
+                case GameStateEventType.StageIntroFinishing:
+                    FinishStageIntro();
+                    break;
+
                 case GameStateEventType.StageStarted:
-                    StageStarted();
+                    StartStage();
                     break;
 
                 case GameStateEventType.Unspecified:
@@ -164,9 +179,7 @@ namespace Stage
 
         private void HandleDayStateEvent(DayChangedEventArgs args)
         {
-            PlayerService playerService = ServiceLocator.Current.Get<PlayerService>();
-
-            playerService.PerformCharactersSpecificAction(characters =>
+            _playerService.PerformCharactersSpecificAction(characters =>
             {
                 foreach (var character in characters)
                 {
@@ -175,8 +188,21 @@ namespace Stage
             });
         }
 
-        private void StageStarted()
+        private void StartStageIntro()
         {
+            _cameraService.ResetCamera();
+            _dayManager.UpdateDayState(_stageTimer.ElapsedTime);
+            _audioService.MusicPlayer.StartPlaylist(MusicType.StageIntro, skipCurrentPlaylist: true, isLoop: true);
+            _isIntroActive = true;
+        }
+
+        private void StartStage()
+        {
+            if (_playerService.TryGetPlayer(out PlayerCharacterController player))
+            {
+                _cameraService.FollowPlayer(player);
+            }
+
             ActivateStage();
             _enemySpawner.StartEnemySpawn();
             _audioService.MusicPlayer.StartPlaylist(MusicType.Stage);
@@ -196,6 +222,11 @@ namespace Stage
         private void ActivateStage()
         {
             _stageActive = true;
+        }
+
+        private void FinishStageIntro()
+        {
+            _isIntroActive = false;
         }
 
         private void DeactivateStage()

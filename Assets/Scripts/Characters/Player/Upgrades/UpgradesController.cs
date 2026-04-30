@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Characters.Common;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
 using Cysharp.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace Characters.Player.Upgrades
 
         private bool _isNewUpgradeReceived = false;
         private UpgradeProvider _receivedUpgrade;
+
+        private bool _isUpgradePanelActive; // Prevents artifacts and level-ups from overlapping
 
         #endregion
 
@@ -87,6 +90,7 @@ namespace Characters.Player.Upgrades
             foreach (var characterInfo in _availableCharactersUpgrades)
             {
                 characterInfo.Key.OnReadyForUpgrade -= UpgradeRequestListener;
+                characterInfo.Key.OnCustomUpgradesReceived -= UpgradeRequestListener;
                 characterInfo.Key.OnSpecificTimeUpgradesRequested -= ConfigureTimeSpecificUpgrades;
             }
 
@@ -121,6 +125,7 @@ namespace Characters.Player.Upgrades
             }
 
             characterLogic.OnReadyForUpgrade += UpgradeRequestListener;
+            characterLogic.OnCustomUpgradesReceived += UpgradeRequestListener;
             characterLogic.OnSpecificTimeUpgradesRequested += ConfigureTimeSpecificUpgrades;
         }
 
@@ -193,11 +198,21 @@ namespace Characters.Player.Upgrades
             }
 
             // Future ToDo : update this logic to process upgrades for multiple players 
-            _currentProcessTask = ProcessUpgradesAsync(character, _cts.Token);
+            _currentProcessTask = ProcessLevelUpgradesAsync(character, _cts.Token);
         }
 
+        private void UpgradeRequestListener(IUpgradableCharacterLogic character, List<UpgradeProvider> customUpgrades)
+        {
+            if ((_cts == null) || _cts.IsCancellationRequested)
+            {
+                _cts = new CancellationTokenSource();
+            }
 
-        private async UniTask ProcessUpgradesAsync(IUpgradableCharacterLogic character, CancellationToken token = default)
+            // Process the custom upgrades immediately without affecting the level-up queue.
+            ProcessCustomUpgradesAsync(character, customUpgrades, _cts.Token).Forget();
+        }
+
+        private async UniTask ProcessLevelUpgradesAsync(IUpgradableCharacterLogic character, CancellationToken token = default)
         {
             if (!_availableCharactersUpgrades.TryGetValue(character, out var upgradesProvidersList))
             {
@@ -207,29 +222,61 @@ namespace Characters.Player.Upgrades
             while (_upgradesToProcessCount > 0)
             {
                 await UniTask.WaitUntil(() => _levelUpdated, cancellationToken: token);
-                _gameStateService.PauseHandler.TryPauseGame();
                 _levelUpdated = false;
 
                 if (token.IsCancellationRequested || upgradesProvidersList.Count == 0)
                 {
-                    _gameStateService.PauseHandler.TryUnpauseGame();
                     return;
                 }
 
-                var upgradesToDisplay = GetRandomUpgrades(upgradesProvidersList);
-                _upgradeHandlerUI.DisplayUpgrades(upgradesToDisplay);
+                // Wait until the screen is clear (in case a custom artifact panel is currently open)
+                await UniTask.WaitUntil(() => !_isUpgradePanelActive, cancellationToken: token);
 
-                var targetUpgrade = await WaitForUpgradeReceiveAsync(token);
+                var upgradesToDisplay = GetRandomUpgrades(upgradesProvidersList).ToList();
 
-                if (targetUpgrade != null)
-                {
-                    ApplyUpgrade(character, targetUpgrade);
-                }
+                // Call the shared presentation logic
+                await PresentAndApplyUpgradesAsync(character, upgradesToDisplay, token);
 
-                _gameStateService.PauseHandler.TryUnpauseGame();
                 _upgradesToProcessCount -= 1;
             }
         }
+
+        private async UniTask ProcessCustomUpgradesAsync(IUpgradableCharacterLogic character, List<UpgradeProvider> customUpgrades, CancellationToken token = default)
+        {
+            if (customUpgrades == null || customUpgrades.Count == 0)
+            {
+                ErrorLogger.LogWarning($"# Attempted to process empty custom upgrades list! - {gameObject.name}");
+                return;
+            }
+
+            // Wait until the screen is clear (in case a level-up panel is currently open)
+            await UniTask.WaitUntil(() => !_isUpgradePanelActive, cancellationToken: token);
+
+            // Directly pass the custom list, ignoring the global randomized list
+            await PresentAndApplyUpgradesAsync(character, customUpgrades, token);
+        }
+
+        /// <summary>
+        /// Core shared logic for pausing the game, displaying the UI, and applying the user's choice.
+        /// </summary>
+        private async UniTask PresentAndApplyUpgradesAsync(IUpgradableCharacterLogic character, List<UpgradeProvider> upgradesToDisplay, CancellationToken token)
+        {
+            _isUpgradePanelActive = true;
+            _gameStateService.PauseHandler.TryPauseGame();
+
+            _upgradeHandlerUI.DisplayUpgrades(upgradesToDisplay);
+
+            var targetUpgrade = await WaitForUpgradeReceiveAsync(token);
+
+            if (targetUpgrade != null)
+            {
+                ApplyUpgrade(character, targetUpgrade);
+            }
+
+            _gameStateService.PauseHandler.TryUnpauseGame();
+            _isUpgradePanelActive = false;
+        }
+
 
         private IEnumerable<UpgradeProvider> GetRandomUpgrades(List<UpgradeProvider> availableUpgrades)
         {
@@ -278,6 +325,8 @@ namespace Characters.Player.Upgrades
                     HandleAbilityUpgrade(targetCharacter, upgradeProvider);
                     break;
             }
+
+            targetCharacter.NotifyUpgradeApplied();
 
             if (!upgradeProvider.HasNextLevel)
             {

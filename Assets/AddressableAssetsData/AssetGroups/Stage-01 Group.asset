@@ -22,6 +22,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6b209d6955b2b1478cc8a2873ae3471
+    m_Address: Assets/Data/Settings/Audio/Stages/Stage-01_MusicSet.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 409abf5fd251b1345941243db22daff4, type: 2}
   m_SchemaSet:

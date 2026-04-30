@@ -16,7 +16,6 @@ namespace Settings.Global
         private GamePauseHandler _pauseHandler;
         private GamePanelManagerUI _panelManagerUI;
 
-
         #endregion
 
         public GameStateEvent GameEvent => _gameEvent;
@@ -52,7 +51,7 @@ namespace Settings.Global
         {
             GameSceneLoadHandler.Instance.RequestStageLoad(stageSceneData, () =>
             {
-                _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
+                _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageIntroStarted));
             }, true);
         }
 
@@ -60,8 +59,13 @@ namespace Settings.Global
         {
             GameSceneLoadHandler.Instance.ReloadCurrentStage(() =>
             {
-                _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
+                _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageIntroStarted));
             }, true);
+        }
+
+        public void BeginMainGameplay()
+        {
+            _gameEvent?.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageStarted));
         }
 
         public void ExitToMenu()
@@ -114,6 +118,11 @@ namespace Settings.Global
 
                 case PlayerEvent.Type.Dead:
                     GameEvent.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageCompletelyOver));
+                    break;
+
+                case PlayerEvent.Type.FinishIntro:
+                    GameEvent.RaiseEvent(this, new GameEventArgs(GameStateEventType.StageIntroFinishing));
+                    BeginMainGameplay();
                     break;
             }
         }

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Dark_VFX_ThunderAura
+  m_Shader: {fileID: 4800000, guid: f20a2f9c0a8ba794b9b3c8511e2ebb0c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Pulse: 0.1
+    - _Sharpness: 18
+    - _Speed: 1.5
+    - _SpikeCount: 12
+    m_Colors:
+    - _CoreColor: {r: 2.670157, g: 0.5919687, b: 0.5919687, a: 1}
+    - _EdgeColor: {r: 11.984311, g: 0, b: 0.18529476, a: 0}
+  m_BuildTextureStacks: []

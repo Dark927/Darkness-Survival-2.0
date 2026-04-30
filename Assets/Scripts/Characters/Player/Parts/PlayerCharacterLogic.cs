@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Characters.Common;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
@@ -20,6 +21,8 @@ namespace Characters.Player
 
         public event Action<IUpgradableCharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
         public event Action<IUpgradableCharacterLogic, UpgradeAppearTime> OnSpecificTimeUpgradesRequested;
+        public event Action<IUpgradableCharacterLogic, List<UpgradeProvider>> OnCustomUpgradesReceived;
+        public event Action<IUpgradableCharacterLogic> OnIntroUpgradesReceived;
 
         #endregion
 
@@ -28,6 +31,7 @@ namespace Characters.Player
 
         private ICharacterLevel _level;
         private CharacterUpgradesCoordinator _upgradesCoordinator;
+        private bool _introUpgradesApplied = false;
 
         #endregion
 
@@ -81,6 +85,25 @@ namespace Characters.Player
             if (dayTime == DayTimeType.Night)
             {
                 OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Night);
+            }
+        }
+
+        public void ReceiveCustomUpgrades(List<UpgradeProvider> upgrades)
+        {
+            OnCustomUpgradesReceived?.Invoke(this, upgrades);
+        }
+
+        public void ReceiveIntroUpgrades(List<UpgradeProvider> upgrades)
+        {
+            ReceiveCustomUpgrades(upgrades);
+        }
+
+        public void NotifyUpgradeApplied()
+        {
+            if (!_introUpgradesApplied)
+            {
+                OnIntroUpgradesReceived?.Invoke(this);
+                _introUpgradesApplied = true;
             }
         }
 

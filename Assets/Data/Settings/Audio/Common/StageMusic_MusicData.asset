@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StageMusic_MusicData
   m_EditorClassIdentifier: 
   Description: Music for the stage
-  _musicType: 0
+  _musicType: 1
   _musicList:
   - m_AssetGUID: 079dbf1c763bb7e4a95fd63190c3c83e
     m_SubObjectName: 

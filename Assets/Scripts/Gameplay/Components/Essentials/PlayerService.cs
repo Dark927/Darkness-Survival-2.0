@@ -42,6 +42,7 @@ namespace Gameplay.Components
         {
             if (TryGetPlayer(out var player))
             {
+                player.OnCharacterFinishesIntro -= PlayerFinishesIntro;
                 player.OnCharacterDies -= PlayerDiesNotification;
                 player.OnCharacterDeathEnd -= PlayerDeadNotification;
             }
@@ -59,6 +60,7 @@ namespace Gameplay.Components
                 _players.Add(player);
                 OnPlayerReady?.Invoke(player);
 
+                player.OnCharacterFinishesIntro += PlayerFinishesIntro;
                 player.OnCharacterDies += PlayerDiesNotification;
                 player.OnCharacterDeathEnd += PlayerDeadNotification;
             }
@@ -69,6 +71,11 @@ namespace Gameplay.Components
             player = Players?.FirstOrDefault();
 
             return player != null;
+        }
+
+        private void PlayerFinishesIntro(PlayerCharacterController player)
+        {
+            _playerEvent.RaiseEvent(player, new PlayerEventArgs(PlayerEvent.Type.FinishIntro));
         }
 
         private void PlayerDiesNotification(PlayerCharacterController player)

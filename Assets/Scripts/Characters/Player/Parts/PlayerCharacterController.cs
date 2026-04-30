@@ -3,6 +3,7 @@ using Characters.Common;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Settings;
 using Characters.Player.Controls;
+using Characters.Player.Upgrades;
 using Cysharp.Threading.Tasks;
 using Gameplay.Components;
 using Settings.Global;
@@ -32,6 +33,7 @@ namespace Characters.Player
 
         public event Action<PlayerCharacterController> OnCharacterDeathEnd;
         public event Action<PlayerCharacterController> OnCharacterDies;
+        public event Action<PlayerCharacterController> OnCharacterFinishesIntro;
 
         #endregion
 
@@ -82,6 +84,13 @@ namespace Characters.Player
             // Subscribe to separated attacks
             _input.SubscribeOnActionPerformed(InputType.FastAttack, OnFastAttack);
             _input.SubscribeOnActionPerformed(InputType.HeavyAttack, OnHeavyAttack);
+
+            // Subscribe to upgrades events
+
+            if (CharacterLogic is IUpgradableCharacterLogic upgradableCharacterLogic)
+            {
+                upgradableCharacterLogic.OnIntroUpgradesReceived += RaiseCharacterFinishesIntro;
+            }
         }
 
         private void InitInput()
@@ -102,6 +111,11 @@ namespace Characters.Player
 
             _input.RemoveSubscriber(InputType.FastAttack, CharacterInputHandler.ActionState.Performed, OnFastAttack);
             _input.RemoveSubscriber(InputType.HeavyAttack, CharacterInputHandler.ActionState.Performed, OnHeavyAttack);
+
+            if (CharacterLogic is IUpgradableCharacterLogic upgradableCharacterLogic)
+            {
+                upgradableCharacterLogic.OnIntroUpgradesReceived -= RaiseCharacterFinishesIntro;
+            }
         }
 
         public override void Dispose()
@@ -152,6 +166,11 @@ namespace Characters.Player
             if (!_canAttack) return;
 
             CharacterLogic.PerformBasicAttack(BasicAttack.LocalType.Heavy);
+        }
+
+        private void RaiseCharacterFinishesIntro(IUpgradableCharacterLogic characterLogic)
+        {
+            OnCharacterFinishesIntro?.Invoke(this);
         }
 
         private void RaiseCharacterDies()

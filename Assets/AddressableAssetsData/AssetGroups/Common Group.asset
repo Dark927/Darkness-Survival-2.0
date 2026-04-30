@@ -63,6 +63,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61153805ae60efd41a858e79a30d73a9
+    m_Address: Assets/Audio/OST/Intro/loop 140 F# dorian strings.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Music
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 64e53ea1bf6d6e04893c035d25173c26
     m_Address: Assets/Prefabs/UI/Menu/Credits/menu_credits.prefab
     m_ReadOnly: 0

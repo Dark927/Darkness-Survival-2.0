@@ -17,6 +17,7 @@ namespace Gameplay.Components.Enemy
         #region Fields 
 
         [SerializeField] private List<EnemySpawnData> _enemySpawnDataList;
+        [SerializeField] private Transform _enemyDropItemsContainer;
         private EnemyContainer _enemyContainer;
 
         private EnemySource _source;
@@ -54,7 +55,7 @@ namespace Gameplay.Components.Enemy
                 InitEnemySource();
 
                 _actualSpawnTasks = new List<UniTask>();
-                _configurator = new EnemyConfigurator(_spawnSettings.SpawnPositionRange, _spawnSettings.SpawnPositionOffset);
+                _configurator = new EnemyConfigurator(_spawnSettings.SpawnPositionRange, _spawnSettings.SpawnPositionOffset, _enemyDropItemsContainer);
             }
             catch (Exception ex)
             {

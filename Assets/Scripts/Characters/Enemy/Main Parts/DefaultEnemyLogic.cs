@@ -18,6 +18,7 @@ namespace Characters.Enemy
 
         private List<ItemDropSettings> _dropData;
         private IPickupItem _currentDropItem;
+        private Transform _dropItemContainer;
 
         #endregion
 
@@ -87,7 +88,7 @@ namespace Characters.Enemy
 
                 if (itemDropData.Data != null && randomValue < itemDropData.DropChance)
                 {
-                    GameObject itemObj = GameObject.Instantiate(itemDropData.Data.Prefab, transform.position, Quaternion.identity);
+                    GameObject itemObj = GameObject.Instantiate(itemDropData.Data.Prefab, transform.position, Quaternion.identity, _dropItemContainer);
                     _currentDropItem = itemObj.GetComponent<IPickupItem>();
                     _currentDropItem.SetAllParameters(itemDropData.Data.Parameters);
                     break;
@@ -95,6 +96,10 @@ namespace Characters.Enemy
             }
         }
 
+        public void SetDropItemContainer(Transform container)
+        {
+            _dropItemContainer = container;
+        }
 
         #endregion
     }

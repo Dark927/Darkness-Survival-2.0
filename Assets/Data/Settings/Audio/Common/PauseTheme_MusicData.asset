@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PauseTheme_MusicData
   m_EditorClassIdentifier: 
   Description: Music for the main menu
-  _musicType: 2
+  _musicType: 3
   _musicList:
   - m_AssetGUID: ea04ee0cfedf4c34581974c5ae5ce43d
     m_SubObjectName: 

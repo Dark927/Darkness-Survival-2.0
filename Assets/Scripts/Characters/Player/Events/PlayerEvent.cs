@@ -10,6 +10,7 @@ namespace Characters.Player
             Dies,
             Dead,
             Win,
+            FinishIntro,
         }
 
         public override void EventRaiseAction(IEventListener listener, object sender, PlayerEventArgs args)

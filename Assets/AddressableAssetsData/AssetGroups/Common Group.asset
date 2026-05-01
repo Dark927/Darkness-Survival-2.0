@@ -81,6 +81,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Music
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76b9ef4dec0a9074a9b8488d1a184ff4
+    m_Address: Assets/Prefabs/Entities/Abilities/Ability_SoulMagnet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 831ba83b3c8fcae4d9700b535b04842d
     m_Address: Assets/Prefabs/UI/Menu/GameWin/menu_gameWin.prefab
     m_ReadOnly: 0

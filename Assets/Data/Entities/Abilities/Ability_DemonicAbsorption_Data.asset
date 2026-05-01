@@ -19,6 +19,11 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   _abilityStats:
-    Strength: 1
+    StrengthValue: 0
+    StrengthPercent: 1.5
     Radius: 0
     Duration: 0
+  _abilityStatsUIOverrides:
+    _strengthUIName: Heal Per Kill
+    _radiusUIName: 
+    _durationUIName: 

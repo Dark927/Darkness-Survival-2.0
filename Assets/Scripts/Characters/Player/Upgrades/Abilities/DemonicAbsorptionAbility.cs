@@ -14,7 +14,7 @@ namespace Characters.Player.Upgrades
         [SerializeField] private IEntityFeature.TargetEntityPart _entityConnectionPart;
 
         // An internal tracker for the total percentage Sum (5.0f + 1.25f + 2.25f = 8.5f)
-        private float _currentHealPercentageTotal;
+        private float _currentHealMultiplierTotal = 0;
 
         private IAttackableEntityLogic _ownerLogic;
         private IHealth _ownerHealth;
@@ -48,6 +48,11 @@ namespace Characters.Player.Upgrades
 
         public void Dispose()
         {
+            Debug.Log("DISPOSE DDDDDD");
+            Debug.Log("DISPOSE DDDDDD");
+            Debug.Log("DISPOSE DDDDDD");
+            Debug.Log("DISPOSE DDDDDD");
+            Debug.Log("DISPOSE DDDDDD");
             _ownerLogic.OnEnemyKilled -= ListenEnemyKilled;
         }
 
@@ -55,19 +60,19 @@ namespace Characters.Player.Upgrades
 
         #region IUpgradableAbility Implementation
 
-        public void ApplyStrengthUpgrade(float incomingPercentage)
+        public void ApplyStrengthUpgrade(float multiplier)
         {
-            _currentHealPercentageTotal += incomingPercentage;
+            _currentHealMultiplierTotal += multiplier;
 
             //Debug.Log($"[DemonicAbsorption] Heal Percent Upgraded! New Total: {_currentHealPercentageTotal}% HP per kill.");
         }
 
-        public void ApplyRadiusUpgrade(float percent)
+        public void ApplyRadiusUpgrade(float multiplier)
         {
             // Ignored: Demonic Absorption does not use Radius
         }
 
-        public void ApplyDurationUpgrade(float percent)
+        public void ApplyDurationUpgrade(float multiplier)
         {
             // Ignored: Demonic Absorption does not use Duration
         }
@@ -76,20 +81,16 @@ namespace Characters.Player.Upgrades
 
         private void ListenEnemyKilled(object sender, IEntityDynamicLogic killedEnemy)
         {
-            // Example total is 8.5% (Heal 8.5% of max health per kill)
-            // actualHealMultiplier = 8.5f / 100f = 0.085f
-            float actualHealMultiplier = _currentHealPercentageTotal / 100f;
-
             // Calculate the exact heal amount based on player's Max Health
             // Max Health 1000 * 0.085f = Heal 85HP per kill.
-            float healAmount = _ownerHealth.MaxHp * actualHealMultiplier;
+            float healAmount = _ownerHealth.MaxHp * _currentHealMultiplierTotal;
 
             _ownerHealth.Heal(healAmount);
         }
 
         public void SetStaticStats(AbilityStats abilityStats)
         {
-            _currentHealPercentageTotal = abilityStats.Strength;
+            _currentHealMultiplierTotal += (abilityStats.StrengthPercent / 100f);
         }
 
         #endregion

@@ -24,7 +24,6 @@ namespace Characters.Player.Upgrades
         private UpgradeSO _upgradeSO;
         private List<IUpgradeLevelSO> _upgradeLevelsList;
         private int _currentUpgradeLevel;
-        private IUpgradeLevelSO _upgradeLevel;
 
         #endregion
 
@@ -35,11 +34,23 @@ namespace Characters.Player.Upgrades
         public int CurrentLevelToApply => _currentUpgradeLevel;
         public int RemainingLevels => (CommonLevelsCount + 1) - CurrentLevelToApply;
         public bool HasNextLevel => RemainingLevels > 0;
-        public UpgradeVisualDataUI VisualData => _upgradeLevel.CustomUpgradeVisualDataUI == null
-                                                                    ? _upgradeConfigurationSO.VisualData
-                                                                    : _upgradeLevel.CustomUpgradeVisualDataUI;
+
+        private IUpgradeLevelSO UpcomingLevel => HasNextLevel ? _upgradeLevelsList[_currentUpgradeLevel - 1] : null;
+        public UpgradeVisualDataUI VisualData
+        {
+            get
+            {
+                var level = UpcomingLevel;
+                return level != null && level.CustomUpgradeVisualDataUI != null
+                    ? level.CustomUpgradeVisualDataUI
+                    : _upgradeConfigurationSO.VisualData;
+            }
+        }
+
         public UpgradeType Type => _upgradeConfigurationSO.Type;
         public UpgradeAppearTime AppearTime => _upgradeConfigurationSO.AppearTime;
+
+
 
         #endregion
 
@@ -88,9 +99,9 @@ namespace Characters.Player.Upgrades
 
         public TTargetUpgradeLevel GetNextUpgradeLevel<TTargetUpgradeLevel>() where TTargetUpgradeLevel : class, IUpgradeLevelSO
         {
-            _upgradeLevel = _upgradeLevelsList[CurrentLevelToApply - 1];
+            var level = UpcomingLevel;
             _currentUpgradeLevel++;
-            return _upgradeLevel as TTargetUpgradeLevel;
+            return level as TTargetUpgradeLevel;
         }
 
         public UpgradeInfoUI GetUpgradeMainInfo()
@@ -110,22 +121,14 @@ namespace Characters.Player.Upgrades
 
         public string GetCurrentUpgradeLevelInfo()
         {
-            _upgradeLevel = PeekNextLevel();
-            Debug.Assert(_upgradeLevel != null, "Upgrade level is null! - " + this.ToString());
-
-            return _upgradeLevel.Description;
+            var level = UpcomingLevel;
+            return level != null ? level.Description : string.Empty;
         }
 
-        private IUpgradeLevelSO PeekNextLevel()
+        public Sprite GetCurrentUpgradeLevelIcon()
         {
-            if (HasNextLevel)
-            {
-                return _upgradeLevelsList[CurrentLevelToApply - 1];
-            }
-            else
-            {
-                return null;
-            }
+            var level = UpcomingLevel;
+            return level != null && level.CustomIconUI != null ? level.CustomIconUI : _upgradeConfigurationSO.Icon;
         }
 
         private string GetUpgradeTypeInfo(UpgradeType type)

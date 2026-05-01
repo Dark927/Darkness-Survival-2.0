@@ -10,19 +10,24 @@ namespace Characters.Player.Upgrades
 
         protected override string GetInfo(char sign)
         {
-            return $"Effect strength : {sign}{_strengthUpgradePercent}%";
+            return $"{StatNameUI} : {sign}{_strengthUpgradePercent}%";
+        }
+
+        protected override string GetDefaultStatNameUI()
+        {
+            return "Effect strength";
         }
 
         public override void ApplyUpgrade(IUpgradableAbility target)
         {
-            // Pass the RAW value. 1.25 stays 1.25.
-            target.ApplyStrengthUpgrade(_strengthUpgradePercent);
+            // Pass the multiplier value. 1.25 converts to 0.125
+            target.ApplyStrengthUpgrade(_strengthUpgradePercent / 100f);
         }
 
         public override void ApplyDowngrade(IUpgradableAbility target)
         {
-            // Invert the RAW value to subtract it.
-            target.ApplyStrengthUpgrade(-_strengthUpgradePercent);
+            // Invert the multiplier value to subtract it.
+            target.ApplyStrengthUpgrade(-(_strengthUpgradePercent / 100f));
         }
     }
 }

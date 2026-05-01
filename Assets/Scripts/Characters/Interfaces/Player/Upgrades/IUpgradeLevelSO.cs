@@ -1,5 +1,7 @@
 ﻿
 
+using UnityEngine;
+
 namespace Characters.Player.Upgrades
 {
     /// <summary>
@@ -10,5 +12,8 @@ namespace Characters.Player.Upgrades
     {
         public string Description { get; }
         public UpgradeVisualDataUI CustomUpgradeVisualDataUI { get; }
+
+        // Custom Icon separated from UpgradeVisualDataUI for better reuse
+        public Sprite CustomIconUI { get; }
     }
 }

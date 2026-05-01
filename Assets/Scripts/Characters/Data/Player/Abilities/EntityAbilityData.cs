@@ -8,6 +8,10 @@ namespace Characters.Common.Abilities
     public class EntityAbilityData : FeatureData, IAbilityData
     {
         [SerializeField] private AbilityStats _abilityStats;
+
+        [Header("UI Text Overrides")]
+        [SerializeField] private AbilityStatsUI _abilityStatsUIOverrides;
         public AbilityStats AbilityStats => _abilityStats;
+        public AbilityStatsUI AbilityStatsUI => _abilityStatsUIOverrides;
     }
 }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78201425a9a80a4384a341e09fa1933, type: 3}
+  m_Name: Ability_SoulMagnet_Data
+  m_EditorClassIdentifier: 
+  _name: Soul Magnet
+  _assetRef:
+    m_AssetGUID: 76b9ef4dec0a9074a9b8488d1a184ff4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _abilityStats:
+    StrengthValue: 3
+    StrengthPercent: 0
+    Radius: 1.5
+    Duration: 2
+  _abilityStatsUIOverrides:
+    _strengthUIName: Magnetic Force
+    _radiusUIName: Harvest Domain
+    _durationUIName: Convergence Time

@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5805cf4b28b9c7748a3dc5c30f67f75d, type: 3}
-  m_Name: AB_Upgrade_Single_Strength_5.0_SO
+  m_Script: {fileID: 11500000, guid: 3a799981a87570f4aba45219002a198d, type: 3}
+  m_Name: AB_Upgrade_Single_ConvergenceTime_5_SO
   m_EditorClassIdentifier: 
-  _strengthUpgradePercent: 5
+  _upgradeStatNameUIOverride: Convergence Time
+  _durationUpgradePercent: 5
+  _mode: 1

@@ -1,7 +1,6 @@
 ﻿
 using System.Collections.Generic;
 using Characters.Common.Abilities;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades
@@ -23,19 +22,24 @@ namespace Characters.Player.Upgrades
             AbilityStats stats = _abilityData.AbilityStats;
 
             // Format floats using ":0.##" so "5.0" prints as "5", but "5.25" prints as "5.25"
-            if (stats.Strength > 0f)
+            if (stats.StrengthValue > 0f)
             {
-                lines.Add($"Effect strength : {stats.Strength:0.##}%");
+                lines.Add($"{_abilityData.AbilityStatsUI.StrengthUIName} : {stats.StrengthValue:0.##}");
+            }
+
+            if (stats.StrengthPercent > 0f)
+            {
+                lines.Add($"{_abilityData.AbilityStatsUI.StrengthUIName} : {stats.StrengthPercent:0.##}%");
             }
 
             if (stats.Radius > 0f)
             {
-                lines.Add($"Effect radius : {stats.Radius:0.##}m.");
+                lines.Add($"{_abilityData.AbilityStatsUI.RadiusUIName} : {stats.Radius:0.##}");
             }
 
             if (stats.Duration > 0f)
             {
-                lines.Add($"Effect duration : {stats.Duration:0.##}s.");
+                lines.Add($"{_abilityData.AbilityStatsUI.DurationUIName} : {stats.Duration:0.##} s.");
             }
 
             // Join them all together with a line break (\n)

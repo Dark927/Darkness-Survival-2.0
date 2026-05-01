@@ -49,7 +49,7 @@ namespace Utilities.World
 
             position += cameraPosition;
 
-            Debug.Log(position);
+            //Debug.Log(position);
             return position;
         }
     }

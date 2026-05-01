@@ -18,3 +18,7 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  _abilityStats:
+    Strength: 1
+    Radius: 0
+    Duration: 0

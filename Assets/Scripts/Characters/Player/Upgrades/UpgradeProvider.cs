@@ -135,6 +135,8 @@ namespace Characters.Player.Upgrades
                 UpgradeType.Character => "Character Upgrade",
                 UpgradeType.Ability => "Ability Upgrade",
                 UpgradeType.AbilityUnlock => "Ability Unlock",
+                UpgradeType.Weapon => "Weapon Upgrade",
+                UpgradeType.WeaponUnlock => "Weapon Unlock",
                 _ => throw new NotImplementedException(),
             };
 

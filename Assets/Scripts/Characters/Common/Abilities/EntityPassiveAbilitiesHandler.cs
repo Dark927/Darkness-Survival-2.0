@@ -60,7 +60,15 @@ namespace Characters.Common.Abilities
 
         public UniTask GiveAbilityAsync(IAbilityData abilityData)
         {
-            return _abilitiesHolder.GiveAsync(abilityData);
+            UniTask task = _abilitiesHolder.GiveAsync(abilityData);
+
+            task.ContinueWith(() =>
+            {
+                IEntityAbility ability = _abilitiesHolder.GetFeature<IEntityAbility>(abilityData.ID);
+                ability.SetStaticStats(abilityData.AbilityStats);
+            }).Forget();
+
+            return task;
         }
 
         #endregion

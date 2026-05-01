@@ -318,10 +318,12 @@ namespace Characters.Player.Upgrades
                     break;
 
                 case UpgradeType.AbilityUnlock:
+                case UpgradeType.WeaponUnlock:
                     HandleAbilityUnlock(targetCharacter, upgradeProvider);
                     break;
 
                 case UpgradeType.Ability:
+                case UpgradeType.Weapon:
                     HandleAbilityUpgrade(targetCharacter, upgradeProvider);
                     break;
             }

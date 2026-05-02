@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
   m_Name: AncientKnightDefault
   m_EditorClassIdentifier: 
-  _name: Ancient Knight
-  _id: 1701518228
+  _info:
+    _entityType: 2
+    _name: Ancient Knight Default
   _stats:
     Health: 14
     Speed: 4
@@ -22,4 +23,4 @@ MonoBehaviour:
   _damageMultiplier: 1
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
   _type: 0
-  _enemyPrefab: {fileID: 0}
+  _dropItemReferences: []

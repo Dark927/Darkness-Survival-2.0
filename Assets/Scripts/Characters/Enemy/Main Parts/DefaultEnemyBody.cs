@@ -1,4 +1,5 @@
 ﻿using Characters.Common;
+using Characters.Common.Combat;
 using Characters.Common.Movement;
 using Characters.Enemy.Settings;
 using Characters.Health;

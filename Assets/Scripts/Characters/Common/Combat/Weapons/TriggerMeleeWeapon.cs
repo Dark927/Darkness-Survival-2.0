@@ -1,10 +1,9 @@
 ﻿using Characters.Common.Combat.Weapons.Data;
-using Characters.Player;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class DefaultEnemyWeapon : WeaponBase
+    public class TriggerMeleeWeapon : WeaponBase
     {
         #region Fields 
 
@@ -64,13 +63,6 @@ namespace Characters.Common.Combat.Weapons
             _impact.PerformPhysicsImpact(targetCollider);
 
             _impact.ReloadImpact();
-        }
-
-        protected override bool CheckHitTargetCondition(GameObject targetObject, out IDamageable target)
-        {
-            target = targetObject.GetComponent<IDamageable>();
-
-            return (target != null) && (target is PlayerCharacterBody);
         }
 
         #endregion

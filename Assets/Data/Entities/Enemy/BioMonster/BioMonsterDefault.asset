@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BioMonsterDefault
   m_EditorClassIdentifier: 
   _info:
+    _entityType: 2
     _name: Bio Monster
-    _typeID: 0
   _stats:
     Health: 15
     Speed: 2

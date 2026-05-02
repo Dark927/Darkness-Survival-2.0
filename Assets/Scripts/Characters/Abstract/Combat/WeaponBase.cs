@@ -137,7 +137,27 @@ namespace Characters.Common.Combat.Weapons
         protected virtual bool CheckHitTargetCondition(GameObject targetObject, out IDamageable target)
         {
             target = targetObject.GetComponent<IDamageable>();
-            return (target != null);
+
+            if (target == null)
+            {
+                return false;
+            }
+
+            // We need to know who is holding the weapon to prevent friendly fire.
+            IDamageable ownerDamageable = Owner.Body as IDamageable;
+
+            if (ownerDamageable != null)
+            {
+                // If the owner is an Enemy, and the target is an Enemy -> FALSE (No friendly fire)
+                // If the owner is an Enemy, and the target is a Player -> TRUE (Hit!)
+                // If the owner is a Player, and the target is an Enemy -> TRUE (Hit!)
+                if (ownerDamageable.Type == target.Type)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void OnDestroy()

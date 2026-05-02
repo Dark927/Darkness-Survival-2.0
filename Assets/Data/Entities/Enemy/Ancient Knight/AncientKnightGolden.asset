@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
   m_Name: AncientKnightGolden
   m_EditorClassIdentifier: 
-  _name: Ancient Knight
-  _id: -1391784002
+  _info:
+    _entityType: 2
+    _name: Ancient Knight Golden
   _stats:
     Health: 30
     Speed: 2.5
@@ -22,3 +23,4 @@ MonoBehaviour:
   _damageMultiplier: 1
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
   _type: 3
+  _dropItemReferences: []

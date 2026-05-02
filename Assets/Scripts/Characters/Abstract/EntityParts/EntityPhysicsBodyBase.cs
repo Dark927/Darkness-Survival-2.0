@@ -15,7 +15,6 @@ namespace Characters.Common
     public abstract class EntityPhysicsBodyBase : MonoBehaviour, IEntityPhysicsBody
     {
         #region Fields
-
         private IEntityPhysics2D _entityPhysics;
         private IEntityMovement _movement;
         private IEntityView _view;
@@ -24,6 +23,8 @@ namespace Characters.Common
 
         private IHealth _characterHealth;
         private IInvincibility _characterInvincibility;
+
+        private DamageableType _damageableType;
         private bool _isReady = false;
 
         #endregion
@@ -52,6 +53,7 @@ namespace Characters.Common
         public bool IsReady => _isReady;
         public bool IsDying => (Health != null) && Health.IsEmpty;
         public bool CanAcceptDamage => !Invincibility.IsActive && !IsDying;
+        public DamageableType Type => _damageableType;
 
 
         #endregion
@@ -178,6 +180,11 @@ namespace Characters.Common
         {
             light = _entityLight;
             return light != null;
+        }
+
+        public void SetDamageableType(DamageableType type)
+        {
+            _damageableType = type;
         }
 
 

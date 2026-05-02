@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: NeroData
   m_EditorClassIdentifier: 
   _info:
+    _entityType: 1
     _name: Nero
   _stats:
     Health: 99

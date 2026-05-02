@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DriedSoulDefault
   m_EditorClassIdentifier: 
   _info:
+    _entityType: 2
     _name: Dried Soul
   _stats:
     Health: 5

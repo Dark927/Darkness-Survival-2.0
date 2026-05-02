@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SimbiotDefault
   m_EditorClassIdentifier: 
   _info:
+    _entityType: 2
     _name: Simbiot
   _stats:
     Health: 16

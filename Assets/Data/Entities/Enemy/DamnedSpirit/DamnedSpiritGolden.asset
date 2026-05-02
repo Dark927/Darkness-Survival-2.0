@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: DamnedSpiritGolden
   m_EditorClassIdentifier: 
   _info:
-    _name: 
+    _entityType: 2
+    _name: Damned Spirit Golden
   _stats:
     Health: 15
     Speed: 4

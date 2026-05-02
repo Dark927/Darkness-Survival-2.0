@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AncientKnightBloody
   m_EditorClassIdentifier: 
   _info:
+    _entityType: 2
     _name: Ancient Knight Bloody
   _stats:
     Health: 30

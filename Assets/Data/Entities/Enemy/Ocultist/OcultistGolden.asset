@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecd3a20b89ade47aa2f5c502218a3a, type: 3}
   m_Name: OcultistGolden
   m_EditorClassIdentifier: 
-  Name: Ocultist
+  _info:
+    _entityType: 2
+    _name: Ocultist Golden
   _stats:
     Health: 15
     Speed: 0.5
@@ -20,6 +22,5 @@ MonoBehaviour:
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
   _damageMultiplier: 1
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
-  _id: -135041931
-  Type: 3
-  Prefab: {fileID: 5471779191525873443, guid: 79ff90be291190648aea17691444e7f6, type: 3}
+  _type: 0
+  _dropItemReferences: []

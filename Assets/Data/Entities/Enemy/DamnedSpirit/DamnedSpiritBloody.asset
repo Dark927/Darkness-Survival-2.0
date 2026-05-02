@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DamnedSpiritBloody
   m_EditorClassIdentifier: 
   _info:
+    _entityType: 2
     _name: Damned Spirit Bloody
   _stats:
     Health: 8

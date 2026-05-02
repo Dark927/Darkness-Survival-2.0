@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Characters.Common.Abilities;
+using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Settings;
 using Cysharp.Threading.Tasks;
@@ -52,6 +53,15 @@ namespace Characters.Common
         {
             _body = GetComponent<IEntityPhysicsBody>();
             _body.Initialize();
+
+            DamageableType damageableType = _entityData.CommonInfo.EntityType switch
+            {
+                EntityType.Enemy => DamageableType.Enemy,
+                EntityType.Player => DamageableType.Player,
+                _ => DamageableType.Undefined,
+            };
+
+            _body.SetDamageableType(damageableType);
         }
 
         private void InitWeaponsAsync()

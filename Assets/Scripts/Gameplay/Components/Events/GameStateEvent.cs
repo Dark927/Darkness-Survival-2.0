@@ -1,12 +1,12 @@
-﻿
-using System;
-using Settings.Global;
+﻿using Settings.Global;
 
 namespace Gameplay.Components
 {
     public enum GameStateEventType
     {
         Unspecified = 0,
+        StageIntroStarted,
+        StageIntroFinishing,
         StageStarted,
         StageStartFinishing,
         StagePaused,

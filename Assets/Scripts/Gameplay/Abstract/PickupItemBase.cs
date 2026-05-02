@@ -1,4 +1,4 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Common;
 using UnityEngine;
 
 

@@ -1,5 +1,4 @@
 ﻿using Settings.Global;
-using Settings.SceneManagement;
 
 namespace UI.Buttons
 {

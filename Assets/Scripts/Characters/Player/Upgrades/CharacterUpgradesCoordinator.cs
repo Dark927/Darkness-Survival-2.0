@@ -1,6 +1,5 @@
-﻿
-using System.Diagnostics;
-using Characters.Common.Combat.Weapons;
+﻿using Characters.Common.Combat.Weapons;
+using Characters.Common.Features;
 using Utilities.ErrorHandling;
 
 namespace Characters.Player.Upgrades
@@ -19,25 +18,35 @@ namespace Characters.Player.Upgrades
             ApplyUpgradeToTheTarget(_character, upgradeLevel);
         }
 
-        public void UnlockAbility(WeaponUnlockLevelSO unlockAbilityUpgrade)
+        public void ApplyPassiveAbilityUpgrade(int abilityID, UpgradeLevelSO<IUpgradableAbility> upgradeLevel)
         {
-            ApplyUpgradeToTheTarget(_character, unlockAbilityUpgrade);
+            ApplyAbilityUpgrade(_character.AbilitiesHandler, abilityID, upgradeLevel);
         }
 
-        public void ApplyWeaponUpgrade(int weaponID, UpgradeLevelSO<IUpgradableWeapon> upgradeLevel)
+        public void ApplyWeaponAbilityUpgrade(int weaponID, UpgradeLevelSO<IUpgradableWeapon> upgradeLevel)
         {
-            if (_character.Weapons.ActiveOnesDict.TryGetValue(weaponID, out var weapon))
-            {
-                if (weapon is IUpgradableWeapon upgradableWeapon)
-                {
-                    ApplyUpgradeToTheTarget(upgradableWeapon, upgradeLevel);
-                }
-            }
-            else
-            {
-                ErrorLogger.LogWarning($" Warning | There are no weapon with ID == {weaponID} | Upgrade will be ignored | {_character}");
-            }
+
+            ApplyAbilityUpgrade(_character.WeaponsHandler, weaponID, upgradeLevel);
         }
+
+        private void ApplyAbilityUpgrade<TSearchTarget, TUpgradableTarget>(IFeaturesHolderProvider<TSearchTarget> abilitiesProvider, int targetID, UpgradeLevelSO<TUpgradableTarget> upgradeLevel)
+            where TUpgradableTarget : IUpgradable
+        {
+            if (!abilitiesProvider.TryGetFeatureByID(targetID, out var ability))
+            {
+                ErrorLogger.LogWarning($"Warning | No ability with ID == {targetID} found in collection | Upgrade will be ignored | {_character}");
+                return;
+            }
+
+            if (ability is not TUpgradableTarget upgradableAbility)
+            {
+                ErrorLogger.LogWarning($"Warning | Ability ID == {targetID} is not of the expected type in collection | Upgrade will be ignored | {_character}");
+                return;
+            }
+
+            ApplyUpgradeToTheTarget(upgradableAbility, upgradeLevel);
+        }
+
 
         private void ApplyUpgradeToTheTarget<TTarget>(TTarget target, UpgradeLevelSO<TTarget> upgradeLevel) where TTarget : IUpgradable
         {

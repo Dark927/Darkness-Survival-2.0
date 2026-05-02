@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: a04ae2839cef4c444a6da856696baced
   m_SerializeEntries:
+  - m_GUID: 14d46bc86674dbf4e8252203049e54d9
+    m_Address: Assets/Prefabs/Gameplay/Items/SoulFragment.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2d1c221c47141f044bce1cf2b7e8e791
     m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Golden_DropData.asset
     m_ReadOnly: 0
@@ -38,6 +43,11 @@ MonoBehaviour:
     - Data
     - Enemy
     - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 630abed2e26e7f8408903b884659463d
+    m_Address: Assets/Prefabs/Gameplay/Items/HealCapsule.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70e625da83cf2774c87c44f39a3b334e
     m_Address: Assets/Data/Entities/Items/DropData/Hp/HealCapsule_Blue_DropData.asset

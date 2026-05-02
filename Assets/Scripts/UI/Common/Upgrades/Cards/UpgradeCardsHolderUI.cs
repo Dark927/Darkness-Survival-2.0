@@ -54,7 +54,7 @@ namespace UI.Characters.Upgrades
                 .Where(card => card.gameObject.activeInHierarchy)
                 .Select((card) => card.GetComponent<RectTransform>()).ToList();
 
-            if(activeCardTransforms.Count == 0)
+            if (activeCardTransforms.Count == 0)
             {
                 return;
             }
@@ -139,7 +139,7 @@ namespace UI.Characters.Upgrades
         [ExecuteAlways]
         private void Update()
         {
-            if(Application.isPlaying)
+            if (Application.isPlaying)
             {
                 return;
             }

@@ -30,7 +30,7 @@ namespace Settings.CameraManagement
 
         public void Invoke(float timeInSec, float amplitude)
         {
-            Invoke(timeInSec, amplitude, _defaultShakeFrequency); 
+            Invoke(timeInSec, amplitude, _defaultShakeFrequency);
         }
 
 

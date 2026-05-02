@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833373eb84fc4a04197e1068168f188a, type: 3}
+  m_Name: UpgradeLVL_SoulMagnet_06_SO
+  m_EditorClassIdentifier: 
+  _baseDescription: 
+  _useDowngradesInfoInDesc: 1
+  _upgrades:
+  - {fileID: 11400000, guid: ecb8bafbaac1bba479b5cea5da85072e, type: 2}
+  - {fileID: 11400000, guid: ba79bf16468010a4aa70178d03876e1f, type: 2}
+  - {fileID: 11400000, guid: a2d95302313b2db49a90506023913937, type: 2}
+  - {fileID: 11400000, guid: f0f647f09f3f4224e9fd8d6338596845, type: 2}
+  _downgrades: []
+  _customVisualDataUI: {fileID: 0}
+  _customIconUI: {fileID: 21300000, guid: 985f3d2c1758c27409d23388dff0aaea, type: 3}

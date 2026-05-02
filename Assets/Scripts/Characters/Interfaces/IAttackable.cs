@@ -1,11 +1,13 @@
-using Characters.Common.Combat;
-using Characters.Common.Combat.Weapons;
+﻿using System;
+using Characters.Common.Abilities;
 
-namespace Characters.Interfaces
+namespace Characters.Common
 {
-    public interface IAttackable<out T> where T : BasicAttack
+    public interface IAttackable
     {
-        public EntityWeaponsHolder Weapons { get; }
-        public T BasicAttacks { get; }
+        public event EventHandler<IEntityDynamicLogic> OnEnemyKilled;
+        public EntityWeaponAbilitiesHandler WeaponsHandler { get; }
+
+        public void NotifyEnemyKilled(IEntityDynamicLogic killedEnemy);
     }
 }

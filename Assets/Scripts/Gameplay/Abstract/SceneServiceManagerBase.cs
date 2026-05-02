@@ -41,7 +41,7 @@ namespace Gameplay.Components
             Dispose();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             foreach (var service in _services)
             {
@@ -59,7 +59,7 @@ namespace Gameplay.Components
         public void CreateService<T>() where T : IService
         {
             T service = DiContainer.Instantiate<T>();
-            ServiceLocator.Current.Register(service);
+            ServiceLocator.Current?.Register(service);
             Services.Add(service);
         }
 

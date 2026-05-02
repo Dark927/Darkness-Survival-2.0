@@ -1,5 +1,5 @@
-using System.Collections;
-using Characters.Interfaces;
+﻿using System.Collections;
+using Characters.Common;
 using UnityEngine;
 
 namespace Gameplay.Stage.Design

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Characters.Common.Combat.Weapons.Data;
-using Characters.Interfaces;
-using Characters.Player;
 using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons

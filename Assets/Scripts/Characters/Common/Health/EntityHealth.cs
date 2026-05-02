@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Characters.Common.Combat;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -76,7 +75,10 @@ namespace Characters.Health
             {
                 return;
             }
+
             _maxHp = amount;
+            AdjustCurrentHpToMax();
+
             OnCurrentHpPercentChanged?.Invoke(CurrentHpPercent);
         }
 
@@ -85,6 +87,14 @@ namespace Characters.Health
             if ((amount > 0) && (_currentHp < _maxHp))
             {
                 UpdateCurrentHp(amount);
+            }
+        }
+
+        private void AdjustCurrentHpToMax()
+        {
+            if (_currentHp > _maxHp)
+            {
+                _currentHp = _maxHp;
             }
         }
 

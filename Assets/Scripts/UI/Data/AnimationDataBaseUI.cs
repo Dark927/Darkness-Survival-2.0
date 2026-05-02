@@ -14,8 +14,9 @@ namespace UI
 
         [SerializeField] private TAnimationParametersUI _hoverAnimationParams = new();
 
-        [Space, CustomHeader("Click", count: 2, depth: 0, headerColor: CustomHeaderAttribute.HeaderColor.defaultColor)]
+        [Space, CustomHeader("Click", count: 3, depth: 0, headerColor: CustomHeaderAttribute.HeaderColor.defaultColor)]
 
+        [SerializeField] private float _clickCooldownTime = 0.5f;
         [SerializeField] private TAnimationParametersUI _clickAnimationParams = new();
 
         #endregion
@@ -23,6 +24,7 @@ namespace UI
 
         #region Properties
 
+        public float ClickCooldownTime => _clickCooldownTime;
         public TAnimationParametersUI HoverAnimationParams => _hoverAnimationParams;
         public TAnimationParametersUI ClickAnimationParams => _clickAnimationParams;
 

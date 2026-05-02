@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Combat.Weapons.Data;
-using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using Settings.AssetsManagement;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Characters.Common.Combat
 {
-    public class EntityWeaponsHolder : EntityFeaturesHolderBase<IWeapon>
+    public class EntityWeaponsHolder : EntityFeaturesHolderBase<IWeapon, EntityWeaponData>
     {
-        #region Fields
-
-        private GameObject _defaultWeaponContainer;
-        private string _weaponsContainerName;
+        #region Events
 
         public event Action<IWeapon> OnNewWeaponGiven;
 
@@ -24,8 +18,7 @@ namespace Characters.Common.Combat
 
         #region Properties
 
-        public string DefaultContainerName => $"{EntityLogic.Data.Name ?? "default"}_weapons";
-        public string WeaponsContainerName => _weaponsContainerName;
+        public override string DefaultContainerName => $"{EntityLogic.Info.Name ?? "default"}_weapons";
 
         #endregion
 
@@ -40,42 +33,21 @@ namespace Characters.Common.Combat
 
         #region Init
 
-        public EntityWeaponsHolder(IEntityDynamicLogic entityLogic, string weaponsContainerName = null) : base(entityLogic)
+        public EntityWeaponsHolder(IEntityDynamicLogic entityLogic, string weaponsContainerName = null) : base(entityLogic, weaponsContainerName)
         {
-            _weaponsContainerName = weaponsContainerName;
         }
 
         public override void Initialize()
         {
             base.Initialize();
-            TryInitContainer(_weaponsContainerName);
-        }
-
-        private void TryInitContainer(string name)
-        {
-            if (_defaultWeaponContainer != null)
-            {
-                return;
-            }
-
-            string targetName = DefaultContainerName;
-
-            if (!String.IsNullOrEmpty(name))
-            {
-                targetName = name;
-            }
-
-            _defaultWeaponContainer = new GameObject(targetName);
-            _defaultWeaponContainer.transform.SetParent(EntityLogic.Body.Transform, false);
+            TryInitContainer();
         }
 
         #endregion
 
 
-        public override async UniTask GiveFeatureAsync<TWeaponsData>(TWeaponsData data)
+        public override async UniTask GiveAsync(EntityWeaponData weaponData)
         {
-            EntityWeaponData weaponData = data as EntityWeaponData;
-
             if ((weaponData == null) || !AddressableAssetsHandler.IsAssetRefValid(weaponData.WeaponAsset))
             {
                 return;
@@ -84,7 +56,7 @@ namespace Characters.Common.Combat
             var weaponLoadHandle = AddressableAssetsHandler.Instance.LoadAssetAndCacheAsync<GameObject>(weaponData.WeaponAsset, AddressableAssetsCleaner.CleanType.SceneSwitch, false);
             await weaponLoadHandle;
 
-            var weapon = CreateFeature(weaponLoadHandle.Result, weaponData.WeaponName, _defaultWeaponContainer.transform);
+            var weapon = CreateFeature(weaponLoadHandle.Result, weaponData.WeaponName, DefaultFeaturesContainer.transform);
             weapon.Initialize(weaponData.AttackData);
 
             ActiveOnesDict.TryAdd(weaponData.ID, weapon);

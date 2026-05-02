@@ -1,6 +1,6 @@
 ﻿using System;
 using Characters.Common.Levels;
-using Characters.Player.Data;
+using Characters.Player.Settings;
 using UnityEngine;
 using Utilities.Math;
 
@@ -12,7 +12,7 @@ namespace Characters.Player.Levels
         #region Fields
 
         private float _actualXp = 0f;
-        private float _gainedXpFactor;
+        private float _gainedXpFactor = 0f;
         private CharacterLevelData _levelData;
 
         #endregion

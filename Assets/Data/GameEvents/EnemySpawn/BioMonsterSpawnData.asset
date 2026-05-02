@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyData: {fileID: 11400000, guid: 5f29235eea2a1d843afc19e0d9f6b38c, type: 2}
   _enemyPrefab: {fileID: 8939332253459055817, guid: e7daa05a3a6ce7d4286ba572dcf85951, type: 3}
-  _count: 60
+  _count: 5
   _spawnStartTime:
     Minutes: 0
     Seconds: 0
   _spawnDuration:
     Minutes: 0
-    Seconds: 26
+    Seconds: 21

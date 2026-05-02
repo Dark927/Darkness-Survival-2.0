@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -64,11 +63,6 @@ namespace UI
             await UniTask.WaitForSeconds(_deactivationDelay);
 
             return true;
-        }
-
-        private IEnumerator DeactivationRoutine()
-        {
-            yield return new WaitForSeconds(_deactivationDelay);
         }
 
         private void UpdateProgressText(float progressPercent)

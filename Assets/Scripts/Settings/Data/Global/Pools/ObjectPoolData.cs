@@ -1,3 +1,4 @@
+﻿using Gameplay.Components;
 using UnityEngine;
 
 namespace Settings
@@ -5,14 +6,8 @@ namespace Settings
     [CreateAssetMenu(fileName = "NewDefaultPoolSettings", menuName = "Game/Settings/Pool/Default Pool Data")]
     public class ObjectPoolData : ScriptableObject
     {
-        [Header("Main Settings")]
+        [SerializeField] private ObjectPoolSettings _poolSettings;
 
-        public const short NotIdentifiedPreloadCount = -1;
-
-        [SerializeField] private int _preloadInstancesCount;
-        [SerializeField] private int _maxPoolCapacity;
-
-        public int PreloadInstancesCount => _preloadInstancesCount;
-        public int MaxPoolCapacity => _maxPoolCapacity;
+        public ObjectPoolSettings Settings => _poolSettings;
     }
 }

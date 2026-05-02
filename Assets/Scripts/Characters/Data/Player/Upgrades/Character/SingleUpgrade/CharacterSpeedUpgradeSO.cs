@@ -1,6 +1,4 @@
-﻿using Characters.Common.Movement;
-using Characters.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Characters.Player.Upgrades
 {

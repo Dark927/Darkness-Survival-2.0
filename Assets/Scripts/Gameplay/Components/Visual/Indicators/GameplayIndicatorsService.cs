@@ -9,7 +9,7 @@ namespace Gameplay.Visual
     public class GameplayIndicatorsService : IService
     {
         private IndicatorPoolData _poolData;
-        private IndicatorsPool _indicatorsPool;
+        private TextIndicatorsPool _indicatorsPool;
         private IndicatorServiceData _data;
         private GameObjectsContainer _container;
 
@@ -21,46 +21,54 @@ namespace Gameplay.Visual
             _container = container;
             _data = data;
 
-            _indicatorsPool = new IndicatorsPool(
-                _poolData,
+            _indicatorsPool = new TextIndicatorsPool(
+                _poolData.Settings,
                 data.TextIndicator.gameObject,
-                _container.GetChild(data.TextIndicator.name, true),
-                _poolData.PreloadInstancesCount
+                _container.GetChild(data.TextIndicator.name, true).transform
                 );
+
+            _indicatorsPool.Initialize();
         }
 
+        // ToDo : refactore indicator logic, remove GameObject from ITextIndicator interface 
         public void DisplayIndicator(string text, Vector3 position, Color color)
         {
-            GameObject indicatorObj = _indicatorsPool.RequestObjectForce();
+            ITextIndicator textIndicator;
 
-            if (indicatorObj == null)
+            if (_poolData.ForceReuseEnabled)
+            {
+                textIndicator = _indicatorsPool.RequestObjectForce();
+            }
+            else
+            {
+                textIndicator = _indicatorsPool.RequestObject();
+            }
+
+            if (textIndicator == null)
             {
                 return;
             }
-
-            ITextIndicator textIndicator = indicatorObj.GetComponent<ITextIndicator>();
 
             textIndicator.TMPText.text = text;
             textIndicator.TMPText.color = color;
             textIndicator.OnLifeTimeEnd += HideIndicatorListener;
 
-            indicatorObj.transform.position = position
+            textIndicator.gameObject.transform.position = position
                 + new Vector3(_data.Offset.x, _data.Offset.y, 0f)
                 + new Vector3(Random.Range(-_data.RandomOffset.x, _data.RandomOffset.x), Random.Range(0, _data.RandomOffset.y), 0);
 
-            indicatorObj.SetActive(true);
+            textIndicator.gameObject.SetActive(true);
         }
 
-        public void HideIndicator(GameObject indicatorObj)
+        public void HideIndicator(ITextIndicator indicator)
         {
-            _indicatorsPool.ReturnObject(indicatorObj);
+            _indicatorsPool.ReturnItem(indicator as TextIndicator); // ToDo : maybe create IndicatorBase and use it instead.
         }
 
         private void HideIndicatorListener(ITextIndicator sender)
         {
             sender.OnLifeTimeEnd -= HideIndicatorListener;
-            MonoBehaviour indicatorMono = sender as MonoBehaviour;
-            HideIndicator(indicatorMono.gameObject);
+            HideIndicator(sender);
         }
     }
 }

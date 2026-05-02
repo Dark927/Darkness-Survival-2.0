@@ -16,6 +16,8 @@ namespace Characters.Player.Upgrades
         Character,
         Ability,
         AbilityUnlock,
+        Weapon,
+        WeaponUnlock
     }
 
     [CreateAssetMenu(fileName = "NewUpgradeConfigurationData", menuName = "Game/Upgrades/Main/Upgrade Configuration Data")]

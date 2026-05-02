@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using Characters.Common;
 using Characters.Common.Combat.Weapons;
-using Characters.Common.Visual;
-using Characters.Enemy.Animation;
-using Characters.Enemy.Data;
-using Characters.Interfaces;
-using Characters.Stats;
-using Cysharp.Threading.Tasks;
+using Characters.Common.Settings;
+using Characters.Enemy.Settings;
 using Gameplay.Components.Items;
 using Settings.AssetsManagement;
 using UnityEngine;
@@ -16,12 +12,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Characters.Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class DefaultEnemyLogic : AttackableEntityLogic, IEnemyLogic, IAttackable<BasicAttack>
+    public class DefaultEnemyLogic : AttackableEntityLogicBase, IEnemyLogic
     {
         #region Fields 
 
         private List<ItemDropSettings> _dropData;
         private IPickupItem _currentDropItem;
+        private Transform _dropItemContainer;
 
         #endregion
 
@@ -52,22 +49,20 @@ namespace Characters.Enemy
             foreach (var itemDropDataRef in data)
             {
                 AsyncOperationHandle<ItemDropData> handle = AddressableAssetsHandler.Instance.TryLoadAssetAsync<ItemDropData>(itemDropDataRef);
-                handle.Completed +=
-                    (handle) =>
+                handle.Completed += (handle) =>
                     {
                         if (_dropData != null)
                         {
                             _dropData.Add(handle.Result.DropSettings);
                         }
-                        AddressableAssetsHandler.Instance.UnloadAsset(handle);
+                        // ToDo : use caching 
                     };
             }
         }
 
-        protected override void InitBasicAttacks()
+        protected override BasicAttack GetBasicAttacks()
         {
-            SetBasicAttacks(new BasicAttack(Body, Weapons.ActiveOnesDict.Values));
-            base.InitBasicAttacks();
+            return new BasicAttack(Body, WeaponsHandler.ActiveOnes);
         }
 
         #endregion
@@ -93,7 +88,7 @@ namespace Characters.Enemy
 
                 if (itemDropData.Data != null && randomValue < itemDropData.DropChance)
                 {
-                    GameObject itemObj = GameObject.Instantiate(itemDropData.Data.Prefab, transform.position, Quaternion.identity);
+                    GameObject itemObj = GameObject.Instantiate(itemDropData.Data.Prefab, transform.position, Quaternion.identity, _dropItemContainer);
                     _currentDropItem = itemObj.GetComponent<IPickupItem>();
                     _currentDropItem.SetAllParameters(itemDropData.Data.Parameters);
                     break;
@@ -101,6 +96,10 @@ namespace Characters.Enemy
             }
         }
 
+        public void SetDropItemContainer(Transform container)
+        {
+            _dropItemContainer = container;
+        }
 
         #endregion
     }

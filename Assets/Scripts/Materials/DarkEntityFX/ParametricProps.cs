@@ -12,6 +12,7 @@ namespace Materials.DarkEntityFX
         public Color FlashColor;
         [Range(0, 1)]
         public float EmissionAmount;
+        public Color EmissionColor;
 
         [Range(0.001f, 1f)]
         public float Seed;
@@ -26,6 +27,7 @@ namespace Materials.DarkEntityFX
             mpb.SetFloat("_FlashAmount", FlashAmount);
             mpb.SetColor("_FlashColor", FlashColor);
             mpb.SetFloat("_EmissionAmount", EmissionAmount);
+            mpb.SetColor("_EmissionColor", EmissionColor);
 
             mpb.SetFloat("_Seed", Seed);
             mpb.SetFloat("_DissolveAmount", DissolveAmount);

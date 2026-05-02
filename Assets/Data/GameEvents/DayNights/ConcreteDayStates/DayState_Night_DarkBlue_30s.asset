@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7f03a42fa1c5144986c6d4e393bdbc, type: 3}
   m_Name: DayState_Night_DarkBlue_30s
   m_EditorClassIdentifier: 
-  _realTimeDuration: 30
+  _realTimeDuration: 200
   _targetGameTime: 0.51
   _targetColor: {r: 0, g: 0, b: 0.3490566, a: 1}
-  _dayTimeType: 0
+  _dayTimeType: 3
   _tag: 

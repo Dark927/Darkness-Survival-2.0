@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d1f15d97de8c94ebfa246bcadbc428, type: 3}
   m_Name: HealCapsule_Red_DropData
   m_EditorClassIdentifier: 
-  _itemData: {fileID: 11400000, guid: 30f79e33587a0d64aa3b14e24e17136d, type: 2}
-  _dropChance: 100
+  _dropSettings:
+    _itemData: {fileID: 11400000, guid: 30f79e33587a0d64aa3b14e24e17136d, type: 2}
+    _dropChance: 50

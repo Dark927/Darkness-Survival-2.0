@@ -1,5 +1,4 @@
-﻿using Gameplay.Components;
-using Gameplay.Visual;
+﻿using Gameplay.Visual;
 using Settings.Global;
 using UnityEngine;
 using Zenject;

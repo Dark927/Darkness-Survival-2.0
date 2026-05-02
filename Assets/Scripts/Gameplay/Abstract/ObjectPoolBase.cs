@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Settings;
 using UnityEngine;
 
 namespace Gameplay.Components
@@ -10,13 +9,12 @@ namespace Gameplay.Components
     {
         #region Fields 
 
-        private T _poolItem;
-        private ObjectPoolData _poolSettings;
+        private ObjectPoolSettings _poolSettings;
 
         private Queue<T> _objectsQueue;
         private LinkedList<T> _activeObjects;
 
-        private GameObjectsContainer _container;
+        private Transform _container;
 
         #endregion
 
@@ -24,7 +22,7 @@ namespace Gameplay.Components
         #region Properties
 
         public bool CanExtend => (_objectsQueue.Count + _activeObjects.Count) < _poolSettings.MaxPoolCapacity;
-        public GameObjectsContainer Container => _container;
+        public Transform Container => _container;
 
         #endregion
 
@@ -33,11 +31,12 @@ namespace Gameplay.Components
 
         #region Init
 
-        public ObjectPoolBase(ObjectPoolData poolSettings, T poolItem)
+        public void SetSettings(ObjectPoolSettings poolSettings, Transform container = null)
         {
             try
             {
-                InitSettings(poolSettings, poolItem);
+                _poolSettings = poolSettings;
+                _container = container;
             }
             catch (Exception ex)
             {
@@ -46,30 +45,9 @@ namespace Gameplay.Components
             }
         }
 
-        public ObjectPoolBase(ObjectPoolData poolSettings, T poolItem, GameObjectsContainer container)
+        public virtual void Initialize(int preloadCount = ObjectPoolSettings.NotIdentifiedPreloadCount)
         {
-            try
-            {
-                InitSettings(poolSettings, poolItem, container);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex);
-                Dispose();
-            }
-        }
-
-
-        private void InitSettings(ObjectPoolData poolSettings, T poolItem, GameObjectsContainer container = null)
-        {
-            _poolItem = poolItem;
-            _poolSettings = poolSettings;
-            _container = container;
-        }
-
-        protected virtual void InitPool(int preloadCount)
-        {
-            preloadCount = (preloadCount == ObjectPoolData.NotIdentifiedPreloadCount) ? (_poolSettings.PreloadInstancesCount) : preloadCount;
+            preloadCount = (preloadCount == ObjectPoolSettings.NotIdentifiedPreloadCount) ? (_poolSettings.PreloadInstancesCount) : preloadCount;
 
             _objectsQueue = new Queue<T>(preloadCount);
             _activeObjects = new LinkedList<T>();
@@ -84,7 +62,7 @@ namespace Gameplay.Components
                 {
                     break;
                 }
-                ReturnObject(PreloadFunc(_poolItem, _container) as T);
+                ReturnItem(PreloadFunc(_container));
             }
         }
 
@@ -96,17 +74,19 @@ namespace Gameplay.Components
         {
             _objectsQueue = null;
             _activeObjects = null;
-            _poolSettings = null;
         }
 
         #endregion
 
-        public void ReturnObject(T obj)
+        protected abstract T PreloadFunc(Transform container = null);
+
+        public void ReturnItem(T item)
         {
-            ReturnAction(obj as GameObject);
-            _activeObjects.Remove(obj);
-            _objectsQueue.Enqueue(obj);
+            ReturnAction(item);
+            _activeObjects.Remove(item);
+            _objectsQueue.Enqueue(item);
         }
+
 
         public T RequestObject()
         {
@@ -130,52 +110,39 @@ namespace Gameplay.Components
 
             if ((obj == null) && (_activeObjects.Count > 0))
             {
-                ReturnObject(_activeObjects.First());
+                ReturnItem(_activeObjects.First());
                 obj = RequestObject();
             }
 
             return obj;
         }
 
-        protected virtual GameObject PreloadFunc(T poolItem, GameObjectsContainer container = null)
-        {
-            GameObject prefab = poolItem as GameObject;
-            GameObject createdObj = UnityEngine.Object.Instantiate(prefab);
-
-            createdObj.name = GenerateDefaultItemName(poolItem);
-
-            if (container != null)
-            {
-                createdObj.transform.SetParent(container.transform, false);
-            }
-
-            return createdObj;
-        }
 
         protected virtual void RequestAction(T obj)
         {
 
         }
 
-        protected virtual string GenerateDefaultItemName(T poolItem)
+        protected virtual void ReturnAction(T item)
         {
-            GameObject obj = poolItem as GameObject;
-            return $"{obj.name}".Replace(" ", "_");
-        }
-
-        protected virtual void ReturnAction(GameObject obj)
-        {
-            if (obj == null)
+            if (item == null)
             {
-                throw new ArgumentNullException($"# Returning the null object to the object pool! - {nameof(ReturnAction)}");
+                throw new ArgumentNullException($"# Returning the null item to the object pool! - {nameof(ReturnAction)}");
             }
         }
+
+
+        protected virtual string GenerateDefaultItemName(T poolItem)
+        {
+            return typeof(T).Name;
+        }
+
 
         private T TryPreloadElement()
         {
             if (CanExtend)
             {
-                T obj = PreloadFunc(_poolItem, _container) as T;
+                T obj = PreloadFunc(_container);
                 return obj;
             }
             return null;

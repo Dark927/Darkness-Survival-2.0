@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -7,6 +6,7 @@ namespace Settings.Global.Audio
 {
     public enum MusicType
     {
+        StageIntro,
         Stage,
         MainMenu,
         PauseMenu,

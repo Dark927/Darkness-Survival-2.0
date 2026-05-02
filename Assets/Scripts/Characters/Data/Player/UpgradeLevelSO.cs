@@ -14,14 +14,15 @@ namespace Characters.Player.Upgrades
         [Space, SerializeField] private List<SingleUpgradeBaseSO<TTarget>> _upgrades;
         [SerializeField] private List<SingleUniversalUpgradeSO<TTarget>> _downgrades;
 
-        [CustomHeader("Extra Settings (optional)", 1, 0)]
+        [CustomHeader("Extra Settings (optional)", 2, 0)]
 
         [SerializeField] private UpgradeVisualDataUI _customVisualDataUI;
-
+        [SerializeField] private Sprite _customIconUI;
         public string Description => GetDescription();
         public IEnumerable<SingleUpgradeBaseSO<TTarget>> Upgrades => _upgrades;
         public IEnumerable<SingleUniversalUpgradeSO<TTarget>> Downgrades => _downgrades;
         public UpgradeVisualDataUI CustomUpgradeVisualDataUI => _customVisualDataUI;
+        public Sprite CustomIconUI => _customIconUI;
 
         public virtual string GetDescription()
         {

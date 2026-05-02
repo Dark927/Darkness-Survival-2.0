@@ -1,8 +1,9 @@
 ﻿using System;
 using Characters.Common;
 using Characters.Common.Combat.Weapons;
-using Characters.Interfaces;
-using Characters.Stats;
+using Characters.Common.Settings;
+using Characters.Player.Controls;
+using Characters.Player.Upgrades;
 using Cysharp.Threading.Tasks;
 using Gameplay.Components;
 using Settings.Global;
@@ -15,28 +16,26 @@ namespace Characters.Player
     {
         #region Fields 
 
-        private PlayerInput _input;
         private bool _canAttack = true;
         [SerializeField] private EntityBaseData _characterData;
+        private CharacterInputHandler _input;
 
         #endregion
-
 
         #region Properties
 
         public ICharacterLogic CharacterLogic => EntityLogic as ICharacterLogic;
-        public PlayerInput Input => _input;
+        public CharacterInputHandler Input => _input;
 
         #endregion
-
 
         #region Events
 
         public event Action<PlayerCharacterController> OnCharacterDeathEnd;
         public event Action<PlayerCharacterController> OnCharacterDies;
+        public event Action<PlayerCharacterController> OnCharacterFinishesIntro;
 
         #endregion
-
 
         #region Methods
 
@@ -59,7 +58,6 @@ namespace Characters.Player
         {
             base.Start();
             ServiceLocator.Current.Get<PlayerService>()?.AddPlayer(this);
-
             ConfigureEventLinks();
         }
 
@@ -78,11 +76,27 @@ namespace Characters.Player
             EntityLogic.ConfigureEventLinks();
             EntityLogic.Body.OnBodyDies += RaiseCharacterDies;
             EntityLogic.Body.OnBodyDiedCompletely += RaiseCharacterCompletelyDied;
+
+            // subscribe to both Performed (key down) and Canceled (key up) for movement
+            _input.SubscribeOnActionPerformed(InputType.Movement, OnMovement);
+            _input.SubscribeOnActionCanceled(InputType.Movement, OnMovement);
+
+            // Subscribe to separated attacks
+            _input.SubscribeOnActionPerformed(InputType.FastAttack, OnFastAttack);
+            _input.SubscribeOnActionPerformed(InputType.HeavyAttack, OnHeavyAttack);
+
+            // Subscribe to upgrades events
+
+            if (CharacterLogic is IUpgradableCharacterLogic upgradableCharacterLogic)
+            {
+                upgradableCharacterLogic.OnIntroUpgradesReceived += RaiseCharacterFinishesIntro;
+            }
         }
 
         private void InitInput()
         {
-            _input = GetComponent<PlayerInput>();
+            // grabs the active DefaultControlLayout, which grabs the active InputService
+            _input = new CharacterInputHandler(new DefaultControlLayout());
         }
 
         public override void RemoveEventLinks()
@@ -90,44 +104,37 @@ namespace Characters.Player
             base.RemoveEventLinks();
             EntityLogic.RemoveEventLinks();
             EntityLogic.Body.OnBodyDies -= RaiseCharacterDies;
-
             EntityLogic.Body.OnBodyDiedCompletely -= RaiseCharacterCompletelyDied;
+
+            _input.RemoveSubscriber(InputType.Movement, CharacterInputHandler.ActionState.Performed, OnMovement);
+            _input.RemoveSubscriber(InputType.Movement, CharacterInputHandler.ActionState.Canceled, OnMovement);
+
+            _input.RemoveSubscriber(InputType.FastAttack, CharacterInputHandler.ActionState.Performed, OnFastAttack);
+            _input.RemoveSubscriber(InputType.HeavyAttack, CharacterInputHandler.ActionState.Performed, OnHeavyAttack);
+
+            if (CharacterLogic is IUpgradableCharacterLogic upgradableCharacterLogic)
+            {
+                upgradableCharacterLogic.OnIntroUpgradesReceived -= RaiseCharacterFinishesIntro;
+            }
         }
 
         public override void Dispose()
         {
+            // turn off the inputs when the player is destroyed
+            _input?.Disable();
             base.Dispose();
         }
 
         #endregion
 
-        //public void OnMovement(InputAction.CallbackContext context)
-        //{
-        //    if (CharacterLogic.Body.Movement == null)
-        //    {
-        //        return;
-        //    }
-
-        //    if (context.performed)
-        //    {
-        //        Vector2 direction = context.ReadValue<Vector2>();
-        //        CharacterLogic.Body.Movement.MoveAsync(direction).Forget();
-        //    }
-
-        //    if (context.canceled)
-        //    {
-        //        CharacterLogic.Body.Movement.Stop();
-        //    }
-        //}
-
-        public void OnMovement(InputValue value)
+        private void OnMovement(InputAction.CallbackContext context)
         {
             if (CharacterLogic.Body.Movement == null)
             {
                 return;
             }
 
-            Vector2 direction = value.Get<Vector2>();
+            Vector2 direction = context.ReadValue<Vector2>();
 
             if (direction.sqrMagnitude > 0)
             {
@@ -139,26 +146,32 @@ namespace Characters.Player
             }
         }
 
-
         public void SetCanAttackFlag(bool value)
         {
             _canAttack = value;
         }
 
-        public void OnAttacks(InputValue value)
+        private void OnFastAttack(InputAction.CallbackContext context)
         {
             if (!_canAttack)
             {
                 return;
             }
 
-            if (value.isPressed)
-            {
-                int contextValue = (int)value.Get<float>();
-                CharacterLogic.PerformBasicAttack((BasicAttack.LocalType)contextValue);
-            }
+            CharacterLogic.PerformBasicAttack(BasicAttack.LocalType.Fast);
         }
 
+        private void OnHeavyAttack(InputAction.CallbackContext context)
+        {
+            if (!_canAttack) return;
+
+            CharacterLogic.PerformBasicAttack(BasicAttack.LocalType.Heavy);
+        }
+
+        private void RaiseCharacterFinishesIntro(IUpgradableCharacterLogic characterLogic)
+        {
+            OnCharacterFinishesIntro?.Invoke(this);
+        }
 
         private void RaiseCharacterDies()
         {

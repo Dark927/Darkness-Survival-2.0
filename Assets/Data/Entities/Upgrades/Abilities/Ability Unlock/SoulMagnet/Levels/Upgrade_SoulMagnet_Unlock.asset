@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ffb0e8323b9c641822e9677243756e, type: 3}
+  m_Name: Upgrade_SoulMagnet_Unlock
+  m_EditorClassIdentifier: 
+  _abilityUpgradeConfiguration: {fileID: 11400000, guid: 3edb297649229374580726e86611f071, type: 2}
+  _abilityData: {fileID: 11400000, guid: 4da0fc2e01dedf94c8f69e419f25fc0c, type: 2}

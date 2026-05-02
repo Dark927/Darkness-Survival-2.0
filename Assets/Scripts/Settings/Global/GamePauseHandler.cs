@@ -35,7 +35,7 @@ namespace Settings.Global
                 return;
             }
 
-            GamePauseEvent?.ListenEvent(this, new PauseEventArgs(PauseEvent.Type.PauseRequested));
+            GamePauseEvent?.RaiseEvent(this, new PauseEventArgs(PauseEvent.Type.PauseRequested));
         }
 
         public void RequestGameUnpause()
@@ -45,7 +45,7 @@ namespace Settings.Global
                 return;
             }
 
-            GamePauseEvent?.ListenEvent(this, new PauseEventArgs(PauseEvent.Type.UnpauseRequested));
+            GamePauseEvent?.RaiseEvent(this, new PauseEventArgs(PauseEvent.Type.UnpauseRequested));
         }
 
         public bool TryPauseGame()
@@ -57,7 +57,7 @@ namespace Settings.Global
 
             _savedTimeScale = Time.timeScale;
             Time.timeScale = 0;
-            GamePauseEvent?.ListenEvent(this, new PauseEventArgs(PauseEvent.Type.Paused));
+            GamePauseEvent?.RaiseEvent(this, new PauseEventArgs(PauseEvent.Type.Paused));
 
             _isPaused = true;
             return true;
@@ -71,7 +71,7 @@ namespace Settings.Global
             }
 
             Time.timeScale = _savedTimeScale;
-            GamePauseEvent?.ListenEvent(this, new PauseEventArgs(PauseEvent.Type.Unpaused));
+            GamePauseEvent?.RaiseEvent(this, new PauseEventArgs(PauseEvent.Type.Unpaused));
 
             _isPaused = false;
             return true;

@@ -179,6 +179,7 @@ Shader "Dark/Sprites/DarkMainFX"
                 float4 colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV); //TODO: remove
                 float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
                 float4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
+                main.a *= i.color.a;
 
                 if(_RendMode == 5) // unlit
                     return main;

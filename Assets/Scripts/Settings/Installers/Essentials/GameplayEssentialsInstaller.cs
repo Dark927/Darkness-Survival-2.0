@@ -1,7 +1,4 @@
-﻿using Gameplay.Components;
-using Gameplay.Visual;
-using Settings;
-using Settings.Global;
+﻿using Gameplay.Visual;
 using UI;
 using UI.Characters.Upgrades;
 using UnityEngine;

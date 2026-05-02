@@ -476,14 +476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca436f60f1b45e469c20e9b81cb45f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _videoFade:
-    _transitionDuration: 0
-    _fadeCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
 --- !u!1001 &567305563190459965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -747,6 +739,14 @@ PrefabInstance:
     - target: {fileID: 2871237315921954211, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
       propertyPath: m_Color.r
       value: 0.010145942
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189070096814460416, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
+      propertyPath: _audioEffectsData
+      value: 
+      objectReference: {fileID: 11400000, guid: ac5539826a0cf694386795b8d6bda818, type: 2}
+    - target: {fileID: 4189070096814460416, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
+      propertyPath: _audioEffectsSettings._clickSFX
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4234279266858677609, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
       propertyPath: m_Name
@@ -1225,6 +1225,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.011764706
       objectReference: {fileID: 0}
+    - target: {fileID: 4189070096814460416, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
+      propertyPath: _audioEffectsData
+      value: 
+      objectReference: {fileID: 11400000, guid: 19cd9ba7e99fbf643bc9e2f1b0c8deb5, type: 2}
     - target: {fileID: 4234279266858677609, guid: 1eb041d64b05a8741979f439c8fa44c4, type: 3}
       propertyPath: m_Name
       value: btn_exit

@@ -1,4 +1,6 @@
+﻿using Settings.Global;
 using UnityEngine.InputSystem;
+using static IControlLayout;
 
 namespace Characters.Player.Controls
 {
@@ -8,7 +10,7 @@ namespace Characters.Player.Controls
 
         private PlayerInputActions _inputActions;
         private InputAction _playerMovement;
-        private InputAction _playerBasicAttacks;
+        private PlayerBasicAttacks _playerBasicAttacks;
 
         #endregion
 
@@ -16,7 +18,7 @@ namespace Characters.Player.Controls
         #region Properties
 
         public InputAction PlayerMovement { get => _playerMovement; private set => _playerMovement = value; }
-        public InputAction PlayerBasicAttacks { get => _playerBasicAttacks; private set => _playerBasicAttacks = value; }
+        public PlayerBasicAttacks PlayerAttacks { get => _playerBasicAttacks; private set => _playerBasicAttacks = value; }
 
         #endregion
 
@@ -41,9 +43,9 @@ namespace Characters.Player.Controls
 
         private void InitInputActions()
         {
-            _inputActions = new PlayerInputActions();
+            _inputActions = ServiceLocator.Current.Get<InputService>().InputActions;
             _playerMovement = _inputActions.PlayerActions.Movement;
-            _playerBasicAttacks = _inputActions.PlayerActions.Attacks;
+            _playerBasicAttacks = new PlayerBasicAttacks(_inputActions.PlayerActions.FastAttack, _inputActions.PlayerActions.HeavyAttack);
         }
 
         #endregion

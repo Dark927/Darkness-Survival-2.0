@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2f0b591e4bb3847a032929968280b0, type: 3}
   m_Name: EnemyFeatureSet
   m_EditorClassIdentifier: 
-  _featureAssetList:
-  - {fileID: 11400000, guid: c2db3205638f7dc46a44cb6ec02b429d, type: 2}
+  _featureAssetList: []

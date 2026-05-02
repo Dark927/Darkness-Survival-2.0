@@ -3,7 +3,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Materials.DarkEntityFX;
 using UnityEngine;
-using Utilities.ErrorHandling;
 using Utilities.Math;
 
 namespace Characters.Common.Visual

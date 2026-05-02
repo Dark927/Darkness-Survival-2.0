@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7771356577eaa4b9c39390836287dd, type: 3}
+  m_Name: Upgrade_Ability_DemonicAbsorption_SO
+  m_EditorClassIdentifier: 
+  _upgradeLevels:
+  - {fileID: 11400000, guid: 335824b5c0ece024ea78e1a1f2ac6e65, type: 2}
+  - {fileID: 11400000, guid: 398ccde067d3bf849a1f717930369bd0, type: 2}
+  - {fileID: 11400000, guid: 4c414e84c6a869347b576e283928b4b1, type: 2}
+  - {fileID: 11400000, guid: 2bdf3af773b5cd74b956f6f59c0b4079, type: 2}
+  - {fileID: 11400000, guid: f6975b80ec9de24429314052de0561e9, type: 2}
+  - {fileID: 11400000, guid: 70f475f5ffd64c74a9c97df2e124d7b8, type: 2}

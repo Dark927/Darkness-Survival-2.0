@@ -1,9 +1,9 @@
-using Characters.Enemy.Data;
+﻿using Characters.Enemy.Settings;
 using Settings;
 using Settings.Abstract;
 using Zenject;
 
-public sealed class GlobalEnemyDataManager : LazySingletonMono<GlobalEnemyDataManager>
+public sealed class GlobalEnemyDataManager : LazySingletonMonoBase<GlobalEnemyDataManager>
 {
     private EnemyGlobalData _enemySettings;
 

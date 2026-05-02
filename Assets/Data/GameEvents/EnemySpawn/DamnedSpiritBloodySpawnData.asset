@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822d7151ce9378448a9ca0c0db45f695, type: 3}
+  m_Name: DamnedSpiritBloodySpawnData
+  m_EditorClassIdentifier: 
+  _enemyData: {fileID: 11400000, guid: edc8a8306d5a0de42b761cab8730db15, type: 2}
+  _enemyPrefab: {fileID: 1798694750783558851, guid: 5fc20e7ed38ba954e8a076cdd7721876, type: 3}
+  _count: 40
+  _spawnStartTime:
+    Minutes: 1
+    Seconds: 5
+  _spawnDuration:
+    Minutes: 1
+    Seconds: 0

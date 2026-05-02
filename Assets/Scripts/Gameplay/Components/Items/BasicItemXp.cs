@@ -1,5 +1,5 @@
 ﻿
-using Characters.Interfaces;
+using Characters.Common;
 using UnityEngine;
 
 namespace Gameplay.Components.Items
@@ -17,6 +17,7 @@ namespace Gameplay.Components.Items
         #region Properties
 
         public override IItemParameters Parameters => _parameters;
+        public int XpAmount => _parameters.XpAmount;
 
         #endregion
 
@@ -27,7 +28,7 @@ namespace Gameplay.Components.Items
 
         public override void Pickup(ICharacterLogic targetCharacter)
         {
-            targetCharacter.Level.AddXp(_parameters.XpAmount);
+            targetCharacter.Level.AddXp(XpAmount);
         }
 
         #endregion

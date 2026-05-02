@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Characters.Interfaces;
+using Characters.Common;
 using Characters.Player;
-using Settings;
 using Settings.Global;
-using Settings.SceneManagement;
 using UnityEngine;
 
 namespace Gameplay.Components
@@ -44,6 +42,7 @@ namespace Gameplay.Components
         {
             if (TryGetPlayer(out var player))
             {
+                player.OnCharacterFinishesIntro -= PlayerFinishesIntro;
                 player.OnCharacterDies -= PlayerDiesNotification;
                 player.OnCharacterDeathEnd -= PlayerDeadNotification;
             }
@@ -61,6 +60,7 @@ namespace Gameplay.Components
                 _players.Add(player);
                 OnPlayerReady?.Invoke(player);
 
+                player.OnCharacterFinishesIntro += PlayerFinishesIntro;
                 player.OnCharacterDies += PlayerDiesNotification;
                 player.OnCharacterDeathEnd += PlayerDeadNotification;
             }
@@ -73,14 +73,19 @@ namespace Gameplay.Components
             return player != null;
         }
 
+        private void PlayerFinishesIntro(PlayerCharacterController player)
+        {
+            _playerEvent.RaiseEvent(player, new PlayerEventArgs(PlayerEvent.Type.FinishIntro));
+        }
+
         private void PlayerDiesNotification(PlayerCharacterController player)
         {
-            _playerEvent.ListenEvent(player, new PlayerEventArgs(PlayerEvent.Type.Dies));
+            _playerEvent.RaiseEvent(player, new PlayerEventArgs(PlayerEvent.Type.Dies));
         }
 
         private void PlayerDeadNotification(PlayerCharacterController player)
         {
-            _playerEvent.ListenEvent(player, new PlayerEventArgs(PlayerEvent.Type.Dead));
+            _playerEvent.RaiseEvent(player, new PlayerEventArgs(PlayerEvent.Type.Dead));
         }
 
         public void RemovePlayer(PlayerCharacterController player)
@@ -92,8 +97,12 @@ namespace Gameplay.Components
         {
             // ToDo (future) : implement the logic for several players in the future.
 
-            PlayerCharacterController player = _players.FirstOrDefault();
-            return (player != null) ? player.CharacterLogic : null;
+            return GetAllCharacters().FirstOrDefault();
+        }
+
+        public IEnumerable<ICharacterLogic> GetAllCharacters()
+        {
+            return _players.Select(player => player.CharacterLogic);
         }
 
         public Transform GetCharacterTransform()
@@ -109,6 +118,10 @@ namespace Gameplay.Components
             return characterTransform;
         }
 
+        public void PerformCharactersSpecificAction(Action<IEnumerable<ICharacterLogic>> action)
+        {
+            action?.Invoke(GetAllCharacters());
+        }
 
         #endregion
     }

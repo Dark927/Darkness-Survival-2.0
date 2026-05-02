@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Characters.Common
 {
-    public abstract class EntityFeaturesHolderBase<TFeature> : IDisposable, IInitializable where TFeature : IDisposable
+    public abstract class EntityFeaturesHolderBase<TFeature, TFeatureData> : IDisposable, IInitializable
+        where TFeature : IDisposable
     {
         #region Fields 
 
         private Dictionary<int, TFeature> _featuresDict;
         private IEntityDynamicLogic _entityLogic;
+        private GameObject _defaultFeaturesContainer;
+        private string _targetContainerName;
 
         #endregion
 
@@ -22,26 +24,53 @@ namespace Characters.Common
         public IEntityDynamicLogic EntityLogic => _entityLogic;
         public Dictionary<int, TFeature> ActiveOnesDict => _featuresDict;
 
+        public GameObject DefaultFeaturesContainer => _defaultFeaturesContainer;
+        public virtual string DefaultContainerName => $"{EntityLogic.Info.Name ?? "default"}_container";
+
         #endregion
 
 
         #region Methods
 
         protected abstract void DestroyFeatureLogic(TFeature feature);
-        public abstract UniTask GiveFeatureAsync<TFeatureData>(TFeatureData featureData);
+        public abstract UniTask GiveAsync(TFeatureData featureData);
 
 
         #region Init
 
-        public EntityFeaturesHolderBase(IEntityDynamicLogic targetEntity)
+        public EntityFeaturesHolderBase(IEntityDynamicLogic targetEntity, string containerName = null)
         {
             _entityLogic = targetEntity;
             _featuresDict = new();
+            _targetContainerName = containerName;
         }
 
         public virtual void Initialize()
         {
 
+        }
+
+        protected void TryInitContainer()
+        {
+            TryInitContainer(_targetContainerName);
+        }
+
+        protected virtual void TryInitContainer(string targetContainerName)
+        {
+            if (_defaultFeaturesContainer != null)
+            {
+                return;
+            }
+
+            string targetName = DefaultContainerName;
+
+            if (!String.IsNullOrEmpty(targetContainerName))
+            {
+                targetName = targetContainerName;
+            }
+
+            _defaultFeaturesContainer = new GameObject(targetName);
+            _defaultFeaturesContainer.transform.SetParent(EntityLogic.Body.Transform, false);
         }
 
         public virtual void Dispose()
@@ -51,14 +80,14 @@ namespace Characters.Common
 
         #endregion
 
-        public async UniTask GiveMultipleFeaturesAsync<TFeatureData>(IEnumerable<TFeatureData> featuresDataCollection) where TFeatureData : ScriptableObject
+        public async UniTask GiveMultipleFeaturesAsync(IEnumerable<TFeatureData> featuresDataCollection)
         {
             List<UniTask> activeTasks = new List<UniTask>();
 
             UniTask currentTask;
             foreach (var featureData in featuresDataCollection)
             {
-                currentTask = GiveFeatureAsync(featureData);
+                currentTask = GiveAsync(featureData);
                 activeTasks.Add(currentTask);
             }
 
@@ -75,10 +104,10 @@ namespace Characters.Common
 
         public virtual void RemoveAll()
         {
-            foreach (var feature in _featuresDict)
+            foreach (var feature in _featuresDict.Values)
             {
-                feature.Value.Dispose();
-                DestroyFeatureLogic(feature.Value);
+                feature.Dispose();
+                DestroyFeatureLogic(feature);
             }
 
             _featuresDict.Clear();

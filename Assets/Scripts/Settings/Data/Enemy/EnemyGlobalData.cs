@@ -1,4 +1,4 @@
-using Characters.Enemy.Data;
+﻿using Characters.Enemy.Settings;
 using UnityEngine;
 
 namespace Settings

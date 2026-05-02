@@ -15,7 +15,7 @@ MonoBehaviour:
   _upgrade: {fileID: 11400000, guid: 5e24bdf0404e01d42bd14750f25a0ab3, type: 2}
   _appearTime: 0
   _name: Cyber Sword
-  _type: 2
+  _type: 4
   _description: Some extra info about upgrade which gives you some <b><color=green>
     speed % </color></b>
   _icon: {fileID: 21300000, guid: 399680eca06bb4e4eb60a6af1156457a, type: 3}

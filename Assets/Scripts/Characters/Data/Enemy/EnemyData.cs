@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Characters.Stats;
+using Characters.Common.Settings;
 using Gameplay.Components.Items;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace Characters.Enemy.Data
+namespace Characters.Enemy.Settings
 {
     public enum EnemyType
     {
@@ -45,7 +45,7 @@ namespace Characters.Enemy.Data
         public override int GetHashCode()
         {
             int hash = HashCode.Combine(
-                Name != null ? Name.GetHashCode() : 0,
+                CommonInfo.Name != null ? CommonInfo.Name.GetHashCode() : 0,
                 Type.GetHashCode(),
                 Stats.GetHashCode()
             );
@@ -57,7 +57,7 @@ namespace Characters.Enemy.Data
             if (obj is not EnemyData other)
                 return false;
 
-            return Name == other.Name &&
+            return CommonInfo.Name == other.CommonInfo.Name &&
                    Type == other.Type &&
                    Stats.Equals(other.Stats);
         }

@@ -1,14 +1,16 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Characters.Common;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
-using Characters.Interfaces;
 using Cysharp.Threading.Tasks;
 using Settings.Global;
 using UI.Characters.Upgrades;
 using UnityEngine;
+using Utilities;
 using Utilities.ErrorHandling;
 using Zenject;
 
@@ -18,7 +20,10 @@ namespace Characters.Player.Upgrades
     {
         #region Fields 
 
-        private Dictionary<IUpgradableCharacterLogic, List<UpgradeProvider>> _charactersUpgrades;
+        private const int MaxUpgradesToSelectCount = 3;
+
+        private Dictionary<IUpgradableCharacterLogic, List<UpgradeProvider>> _availableCharactersUpgrades;
+        private Dictionary<IUpgradableCharacterLogic, List<UpgradeProvider>> _waitingCharactersUpgrades;
         private IUpgradeHandlerUI _upgradeHandlerUI;
 
         private CharacterLevelUI _characterLevelUI;
@@ -32,6 +37,8 @@ namespace Characters.Player.Upgrades
 
         private bool _isNewUpgradeReceived = false;
         private UpgradeProvider _receivedUpgrade;
+
+        private bool _isUpgradePanelActive; // Prevents artifacts and level-ups from overlapping
 
         #endregion
 
@@ -60,6 +67,7 @@ namespace Characters.Player.Upgrades
             }
 
             AddCharacterWithUpgrades(upgradableCharacter, upgradesSetData.UpgradesConfigurations);
+
             _characterLevelUI = characterLevelUI;
             _characterLevelUI.OnLevelNumberUpdate += CharacterLevelUpdateListener;
 
@@ -79,19 +87,21 @@ namespace Characters.Player.Upgrades
             _characterLevelUI.OnLevelNumberUpdate -= CharacterLevelUpdateListener;
             _upgradeHandlerUI.OnUpgradeSelected -= ReceiveUpgradeToApply;
 
-            foreach (var characterInfo in _charactersUpgrades)
+            foreach (var characterInfo in _availableCharactersUpgrades)
             {
                 characterInfo.Key.OnReadyForUpgrade -= UpgradeRequestListener;
+                characterInfo.Key.OnCustomUpgradesReceived -= UpgradeRequestListener;
+                characterInfo.Key.OnSpecificTimeUpgradesRequested -= ConfigureTimeSpecificUpgrades;
             }
 
-            _charactersUpgrades = null;
+            _availableCharactersUpgrades = null;
         }
 
         #endregion
 
         public void AddCharacterWithUpgrades(IUpgradableCharacterLogic characterLogic, IEnumerable<UpgradeConfigurationSO> upgradeConfigurationsCollection)
         {
-            _charactersUpgrades ??= new();
+            TryInitCollections(characterLogic);
 
             UpgradeProvider upgradeProvider;
             List<UpgradeProvider> upgradeProvidersList = new List<UpgradeProvider>();
@@ -102,8 +112,62 @@ namespace Characters.Player.Upgrades
                 upgradeProvidersList.Add(upgradeProvider);
             }
 
-            _charactersUpgrades.Add(characterLogic, upgradeProvidersList);
+            foreach (var provider in upgradeProvidersList)
+            {
+                if (provider.AppearTime == UpgradeAppearTime.Any)
+                {
+                    _availableCharactersUpgrades[characterLogic].Add(provider);
+                }
+                else
+                {
+                    _waitingCharactersUpgrades[characterLogic].Add(provider);
+                }
+            }
+
             characterLogic.OnReadyForUpgrade += UpgradeRequestListener;
+            characterLogic.OnCustomUpgradesReceived += UpgradeRequestListener;
+            characterLogic.OnSpecificTimeUpgradesRequested += ConfigureTimeSpecificUpgrades;
+        }
+
+
+        private void ConfigureTimeSpecificUpgrades(IUpgradableCharacterLogic targetCharacter, UpgradeAppearTime appearTime)
+        {
+            var waitingUpgrades = _waitingCharactersUpgrades.GetOrAdd(targetCharacter, () => new List<UpgradeProvider>());
+            var availableUpgrades = _availableCharactersUpgrades.GetOrAdd(targetCharacter, () => new List<UpgradeProvider>());
+
+            MoveUpgradesBasedOnTime(waitingUpgrades, availableUpgrades, appearTime, isMatching: true);  // Move matching upgrades from waiting to available
+            MoveUpgradesBasedOnTime(availableUpgrades, waitingUpgrades, appearTime, isMatching: false); // Move non-matching upgrades from available to waiting
+        }
+
+        /// <summary>
+        /// Moves upgrades from the source list to the target list based on the specified appearance time and condition.
+        /// </summary>
+        /// <param name="source">The source list from which upgrades will be moved.</param>
+        /// <param name="target">The target list to which upgrades will be added.</param>
+        /// <param name="appearTime">The time at which the upgrade is available (e.g., Day, Night, or Any).</param>
+        /// <param name="isMatching">A flag indicating whether the condition should check for matching (true) or non-matching (false) appearance time.</param>
+        private void MoveUpgradesBasedOnTime(List<UpgradeProvider> source, List<UpgradeProvider> target, UpgradeAppearTime appearTime, bool isMatching)
+        {
+            Predicate<UpgradeProvider> condition = isMatching
+                ? (provider) => provider.AppearTime == appearTime || provider.AppearTime == UpgradeAppearTime.Any
+                : (provider) => provider.AppearTime != appearTime && provider.AppearTime != UpgradeAppearTime.Any;
+
+            var upgradesToMove = source.Where(provider => condition(provider)).ToList();
+
+            if (upgradesToMove.Count() > 0)
+            {
+                target.AddRange(upgradesToMove);
+                source.RemoveAll(upgradesToMove.Contains);
+            }
+        }
+
+        private void TryInitCollections(IUpgradableCharacterLogic characterLogic)
+        {
+            _availableCharactersUpgrades ??= new();
+            _waitingCharactersUpgrades ??= new();
+
+            _availableCharactersUpgrades.TryAdd(characterLogic, new List<UpgradeProvider>());
+            _waitingCharactersUpgrades.TryAdd(characterLogic, new List<UpgradeProvider>());
         }
 
         public void StopAllUpgradesProcessing()
@@ -117,6 +181,7 @@ namespace Characters.Player.Upgrades
             _cts.Dispose();
             _cts = null;
         }
+
 
         private void UpgradeRequestListener(IUpgradableCharacterLogic character, EntityLevelArgs level)
         {
@@ -133,67 +198,93 @@ namespace Characters.Player.Upgrades
             }
 
             // Future ToDo : update this logic to process upgrades for multiple players 
-            _currentProcessTask = ProcessUpgradesAsync(character, _cts.Token);
+            _currentProcessTask = ProcessLevelUpgradesAsync(character, _cts.Token);
         }
 
-        private async UniTask ProcessUpgradesAsync(IUpgradableCharacterLogic character, CancellationToken token = default)
+        private void UpgradeRequestListener(IUpgradableCharacterLogic character, List<UpgradeProvider> customUpgrades)
         {
-            if (!_charactersUpgrades.TryGetValue(character, out var upgradesProvidersList))
+            if ((_cts == null) || _cts.IsCancellationRequested)
+            {
+                _cts = new CancellationTokenSource();
+            }
+
+            // Process the custom upgrades immediately without affecting the level-up queue.
+            ProcessCustomUpgradesAsync(character, customUpgrades, _cts.Token).Forget();
+        }
+
+        private async UniTask ProcessLevelUpgradesAsync(IUpgradableCharacterLogic character, CancellationToken token = default)
+        {
+            if (!_availableCharactersUpgrades.TryGetValue(character, out var upgradesProvidersList))
             {
                 return;
             }
 
-
             while (_upgradesToProcessCount > 0)
             {
                 await UniTask.WaitUntil(() => _levelUpdated, cancellationToken: token);
-                _gameStateService.PauseHandler.TryPauseGame();
                 _levelUpdated = false;
 
                 if (token.IsCancellationRequested || upgradesProvidersList.Count == 0)
                 {
-                    _gameStateService.PauseHandler.TryUnpauseGame();
                     return;
                 }
 
-                var upgradesToDisplay = GetRandomUpgrades(upgradesProvidersList);
-                _upgradeHandlerUI.DisplayUpgrades(upgradesToDisplay);
+                // Wait until the screen is clear (in case a custom artifact panel is currently open)
+                await UniTask.WaitUntil(() => !_isUpgradePanelActive, cancellationToken: token);
 
-                var targetUpgrade = await WaitForUpgradeReceiveAsync(token);
+                var upgradesToDisplay = GetRandomUpgrades(upgradesProvidersList).ToList();
 
-                if (targetUpgrade != null)
-                {
-                    ApplyUpgrade(character, targetUpgrade);
-                }
+                // Call the shared presentation logic
+                await PresentAndApplyUpgradesAsync(character, upgradesToDisplay, token);
 
-                _gameStateService.PauseHandler.TryUnpauseGame();
                 _upgradesToProcessCount -= 1;
             }
         }
 
+        private async UniTask ProcessCustomUpgradesAsync(IUpgradableCharacterLogic character, List<UpgradeProvider> customUpgrades, CancellationToken token = default)
+        {
+            if (customUpgrades == null || customUpgrades.Count == 0)
+            {
+                ErrorLogger.LogWarning($"# Attempted to process empty custom upgrades list! - {gameObject.name}");
+                return;
+            }
+
+            // Wait until the screen is clear (in case a level-up panel is currently open)
+            await UniTask.WaitUntil(() => !_isUpgradePanelActive, cancellationToken: token);
+
+            // Directly pass the custom list, ignoring the global randomized list
+            await PresentAndApplyUpgradesAsync(character, customUpgrades, token);
+        }
+
+        /// <summary>
+        /// Core shared logic for pausing the game, displaying the UI, and applying the user's choice.
+        /// </summary>
+        private async UniTask PresentAndApplyUpgradesAsync(IUpgradableCharacterLogic character, List<UpgradeProvider> upgradesToDisplay, CancellationToken token)
+        {
+            _isUpgradePanelActive = true;
+            _gameStateService.PauseHandler.TryPauseGame();
+
+            _upgradeHandlerUI.DisplayUpgrades(upgradesToDisplay);
+
+            var targetUpgrade = await WaitForUpgradeReceiveAsync(token);
+
+            if (targetUpgrade != null)
+            {
+                ApplyUpgrade(character, targetUpgrade);
+            }
+
+            _gameStateService.PauseHandler.TryUnpauseGame();
+            _isUpgradePanelActive = false;
+        }
+
+
         private IEnumerable<UpgradeProvider> GetRandomUpgrades(List<UpgradeProvider> availableUpgrades)
         {
-            int upgradesToTake = Mathf.Clamp(availableUpgrades.Count(), 0, 3);
-
-            if (availableUpgrades.Count <= upgradesToTake)
-            {
-                return availableUpgrades;
-            }
-
-            HashSet<UpgradeProvider> randomUpgrades = new(upgradesToTake);
-            int upgradeRandomIndex;
-            UpgradeProvider targetUpgrade;
-
-            while (randomUpgrades.Count < upgradesToTake)
-            {
-                upgradeRandomIndex = Random.Range(0, availableUpgrades.Count());     // [0, available_count)
-                targetUpgrade = availableUpgrades[upgradeRandomIndex];
-
-                randomUpgrades.Add(targetUpgrade);
-            }
-
-            return randomUpgrades;
+            int upgradesToTake = Mathf.Clamp(availableUpgrades.Count(), 0, MaxUpgradesToSelectCount);
+            availableUpgrades.ShuffleElementsWithRange(upgradesToTake, availableUpgrades.Count());
+            return availableUpgrades.Take(upgradesToTake);
         }
+
 
         private void CharacterLevelUpdateListener(object sender, int currentLevel)
         {
@@ -213,7 +304,6 @@ namespace Characters.Player.Upgrades
             return _receivedUpgrade;
         }
 
-
         private void ApplyUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
             if (!upgradeProvider.HasNextLevel)
@@ -228,17 +318,21 @@ namespace Characters.Player.Upgrades
                     break;
 
                 case UpgradeType.AbilityUnlock:
+                case UpgradeType.WeaponUnlock:
                     HandleAbilityUnlock(targetCharacter, upgradeProvider);
                     break;
 
                 case UpgradeType.Ability:
+                case UpgradeType.Weapon:
                     HandleAbilityUpgrade(targetCharacter, upgradeProvider);
                     break;
             }
 
+            targetCharacter.NotifyUpgradeApplied();
+
             if (!upgradeProvider.HasNextLevel)
             {
-                _charactersUpgrades[targetCharacter].Remove(upgradeProvider);
+                _availableCharactersUpgrades[targetCharacter].Remove(upgradeProvider);
             }
         }
 
@@ -249,34 +343,44 @@ namespace Characters.Player.Upgrades
 
         private void HandleAbilityUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            if (upgradeProvider is WeaponUpgradeProvider weaponUpgradeProvider)
-            {
-                targetCharacter.UpgradesCoordinator.ApplyWeaponUpgrade(weaponUpgradeProvider.TargetWeaponID, weaponUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableWeapon>>());
-            }
-            else
+            if (upgradeProvider is not AbilityUpgradeProvider abilityUpgradeProvider)
             {
                 ErrorLogger.LogWarning($"Warning | Wrong type of upgrade provider | Can not upgrade the ability, deleting it.. | {gameObject.name}");
-                _charactersUpgrades[targetCharacter].Remove(upgradeProvider);
+                _availableCharactersUpgrades[targetCharacter].Remove(upgradeProvider);
+                return;
+            }
+
+            var coordinator = targetCharacter.UpgradesCoordinator;
+
+            switch (abilityUpgradeProvider.AbilityType)
+            {
+                case AbilityType.Weapon:
+                    coordinator.ApplyWeaponAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableWeapon>>());
+                    break;
+                case AbilityType.Passive:
+                    coordinator.ApplyPassiveAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableAbility>>());
+                    break;
             }
         }
 
+
         private void HandleAbilityUnlock(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<WeaponUnlockLevelSO>();
-            targetCharacter.UpgradesCoordinator.UnlockAbility(abilityUnlockLevel);
+            var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableCharacterLogic>>();
+            targetCharacter.UpgradesCoordinator.ApplyCharacterUpgrade(abilityUnlockLevel);
 
             // Add a new Upgrade Configuration from unlocked ability.
 
-            SingleWeaponUnlockSO singleWeaponUnlock = null;
+            SingleAbilityUnlockBaseSO singleAbilityUnlock = null;
 
             foreach (var singleUpgrade in abilityUnlockLevel.Upgrades)
             {
-                singleWeaponUnlock = (singleUpgrade as SingleWeaponUnlockSO);
+                singleAbilityUnlock = (singleUpgrade as SingleAbilityUnlockBaseSO);
 
-                if (singleWeaponUnlock != null)
+                if (singleAbilityUnlock != null)
                 {
-                    // Note : give the weapon ID to find the target weapon (if it is needed) when applying the upgrade.
-                    AddUpgradeConfiguration(targetCharacter, singleWeaponUnlock.WeaponUpgradeConfiguration, singleWeaponUnlock.WeaponID);
+                    // Note : give the ability ID to find the target ability (if it is needed) when applying the upgrade.
+                    AddUpgradeConfiguration(targetCharacter, singleAbilityUnlock.AbilityUpgradeConfiguration, singleAbilityUnlock.AbilityID);
                 }
             }
         }
@@ -285,16 +389,14 @@ namespace Characters.Player.Upgrades
         {
             UpgradeProvider upgradeProvider = null;
 
-            if (upgradeConfigurationSO.Upgrade is WeaponUpgradeSO)
+            upgradeProvider = upgradeConfigurationSO.Upgrade switch
             {
-                upgradeProvider = new WeaponUpgradeProvider(upgradeConfigurationSO, extraTargetID);
-            }
-            else
-            {
-                upgradeProvider = new UpgradeProvider(upgradeConfigurationSO);
-            }
+                WeaponUpgradeSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Weapon, extraTargetID),
+                AbilityUpgradeSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Passive, extraTargetID),
+                _ => new UpgradeProvider(upgradeConfigurationSO),
+            };
 
-            _charactersUpgrades[targetCharacter]?.Add(upgradeProvider);
+            _availableCharactersUpgrades[targetCharacter]?.Add(upgradeProvider);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Characters.Interfaces;
+﻿using Characters.Enemy;
+using Settings.CameraManagement;
 using Settings.Global;
 using UnityEngine;
 using Utilities.World;
@@ -14,12 +15,15 @@ namespace Gameplay.Components.Enemy
         private Vector2 _spawnPositionOffset = Vector2.zero;
         private Vector2 _spawnPositionRange = Vector2.zero;
 
+        private Transform _dropItemsContainer;
+
         public EnemyConfigurator() { }
 
-        public EnemyConfigurator(Vector2 spawnPositionRange, Vector2 spawnPositionOffset)
+        public EnemyConfigurator(Vector2 spawnPositionRange, Vector2 spawnPositionOffset, Transform dropItemsContainer = null)
         {
             SetSpawnPositionRange(spawnPositionRange);
             SetSpawnPositionOffset(spawnPositionOffset);
+            SetDropItemsContainer(dropItemsContainer);
         }
 
         public void SetSpawnPositionOffset(Vector2 spawnPositionOffset)
@@ -32,12 +36,18 @@ namespace Gameplay.Components.Enemy
             _spawnPositionRange = spawnPositionRange;
         }
 
+        public void SetDropItemsContainer(Transform container)
+        {
+            _dropItemsContainer = container;
+        }
+
         public void Configure(EnemyController enemy, Transform target = null)
         {
             _managementService ??= ServiceLocator.Current.Get<EnemyManagementService>();
             _playerService ??= ServiceLocator.Current.Get<PlayerService>();
             _gameStateService ??= ServiceLocator.Current.Get<GameStateService>();
 
+            // ToDo : replace camera with DI maybe
             enemy.transform.position = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
 
             if (target == null)
@@ -50,19 +60,21 @@ namespace Gameplay.Components.Enemy
             if (enemyLogic != null)
             {
                 enemyLogic.SetTarget(target);
+                enemyLogic.SetDropItemContainer(_dropItemsContainer);
 
                 enemyLogic.Body.OnBodyDamagedWithArgs += _managementService.EnemyDamagedListener;
-                enemyLogic.Body.OnBodyDies += _managementService.EnemyKilledListener;
+                enemy.OnEntityKilled += _managementService.EnemyKilledListener;
+                enemy.ConfigureEventLinks();
                 _gameStateService?.GameEvent.Subscribe(enemy);
             }
-            enemy.ConfigureEventLinks();
         }
 
         public void Deconfigure(EnemyController enemy)
         {
+            enemy.RemoveEventLinks();
             enemy.ResetCharacter();
             enemy.EntityLogic.Body.OnBodyDamagedWithArgs -= _managementService.EnemyDamagedListener;
-            enemy.EntityLogic.Body.OnBodyDies -= _managementService.EnemyKilledListener;
+            enemy.OnEntityKilled -= _managementService.EnemyKilledListener;
             _gameStateService?.GameEvent.Unsubscribe(enemy);
         }
     }

@@ -5,16 +5,14 @@ using Characters.Common.Movement;
 using Characters.Common.Physics2D;
 using Characters.Common.Visual;
 using Characters.Health;
-using Characters.Interfaces;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using Utilities.Characters;
 
 namespace Characters.Common
 {
     [RequireComponent(typeof(IEntityPhysics2D))]
-    public abstract class EntityPhysicsBodyBase : MonoBehaviour, IEntityPhysicsBody, IDamageable
+    public abstract class EntityPhysicsBodyBase : MonoBehaviour, IEntityPhysicsBody
     {
         #region Fields
 
@@ -34,6 +32,7 @@ namespace Characters.Common
         #region Events
 
         public event Action OnBodyDies;
+        public event Action<IAttackable> OnKilled;
         public event Action OnBodyDiedCompletely;
         public event DamageEventHandler OnBodyDamaged;
         public event DamageEventHandlerWithArgs OnBodyDamagedWithArgs;
@@ -136,7 +135,7 @@ namespace Characters.Common
         {
             Health.ResetState();
         }
-        public virtual void TakeDamage(Damage damage)
+        public virtual void TakeDamage(IAttackable sender, Damage damage)
         {
             if (!CanAcceptDamage)
             {
@@ -148,6 +147,7 @@ namespace Characters.Common
 
             if (IsDying)
             {
+                OnKilled?.Invoke(sender);
                 RaiseOnBodyDies();
                 StartBodyDieActions();
             }

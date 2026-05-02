@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Characters.Common.Levels;
 using Characters.Player;
 using Characters.Player.Levels;
@@ -18,12 +19,17 @@ public class CharacterLevelUI : MonoBehaviour
 
     #region Fields 
 
-    [SerializeField] private float _levelDropTimeSec = 0.1f;
     [SerializeField] private float _levelRaiseTimeMult = 1f;
 
     private PlayerCharacterController _targetCharacter;
     private TMP_Text _levelText;
     private SliderUI _levelXpSlider;
+
+    private bool _canUpdateXpSlider = true;
+    private Queue<Action> _xpUpdateQueue = new();
+
+    private bool _isLevelUpPlaying;
+    private readonly Queue<CharacterLevelArgs> _levelUpQueue = new();
 
     #endregion
 
@@ -61,32 +67,73 @@ public class CharacterLevelUI : MonoBehaviour
         _targetCharacter.CharacterLogic.Level.OnUpdateXp -= XpUpdatedListener;
     }
 
-
     private void LevelChangedListener(object sender, EntityLevelArgs args)
     {
         var characterArgs = args as CharacterLevelArgs;
-        float duration = CalculateXpLerpDuration(characterArgs);
-        //TODO: fix race condition with async
+        _levelUpQueue.Enqueue((CharacterLevelArgs)args);
+        TryPlayNextLevelUp();
+    }
+
+    private void TryPlayNextLevelUp()
+    {
+        if (_isLevelUpPlaying || _levelUpQueue.Count == 0)
+        {
+            return;
+        }
+
+        _isLevelUpPlaying = true;
+        _canUpdateXpSlider = false;
+
+        var characterArgs = _levelUpQueue.Dequeue();
+        var duration = CalculateXpLerpDuration(characterArgs.ActualXpBounds);
+
         _levelXpSlider.UpdatePercent(1f, duration, false, callback: () =>
         {
-            _levelText.text = args.ActualLevel.ToString();
-            OnLevelNumberUpdate?.Invoke(this, args.ActualLevel);
+            _levelText.text = characterArgs.ActualLevel.ToString();
+            OnLevelNumberUpdate?.Invoke(this, characterArgs.ActualLevel);
+
+            _levelXpSlider.UpdatePercent(0f, 0f, false, callback: () =>
+            {
+                _isLevelUpPlaying = false;
+
+                if (_levelUpQueue.Count == 0)
+                {
+                    FlushXpQueue();
+                    _canUpdateXpSlider = true;
+                }
+
+                TryPlayNextLevelUp();
+            });
         }, true);
-        _levelXpSlider.UpdatePercent(0f, _levelDropTimeSec, false); //TODO: fix race condition with async, set to zero for temp debug
     }
 
     private void XpUpdatedListener(object sender, CharacterLevelArgs args)
     {
-        float duration = CalculateXpLerpDuration(args);
-        _levelXpSlider.UpdatePercent(args.XpProgressRatio, duration, false);
+        float duration = CalculateXpLerpDuration(args.ActualXpBounds);
+
+        if (_canUpdateXpSlider)
+        {
+            _levelXpSlider.UpdatePercent(args.XpProgressRatio, duration, false);
+        }
+        else
+        {
+            _xpUpdateQueue.Enqueue(() => _levelXpSlider.UpdatePercent(args.XpProgressRatio, duration, false));
+        }
     }
 
-    private float CalculateXpLerpDuration(CharacterLevelArgs args)
+    private void FlushXpQueue()
     {
-        var (previousXpBound, nextXpBound) = args.ActualXpBounds;
+        while (_xpUpdateQueue.Count > 0)
+        {
+            _xpUpdateQueue.Dequeue().Invoke();
+        }
+    }
+
+    private float CalculateXpLerpDuration((float previous, float next) actualXpBounds)
+    {
+        var (previousXpBound, nextXpBound) = actualXpBounds;
         return 1f * (_levelRaiseTimeMult) / ((nextXpBound / previousXpBound));
     }
-
 
     #endregion
 }

@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using Characters.Common;
 using Characters.Common.Combat.Weapons;
-using Characters.Interfaces;
 using Characters.Player.Animation;
 
 namespace Characters.Player.Weapons

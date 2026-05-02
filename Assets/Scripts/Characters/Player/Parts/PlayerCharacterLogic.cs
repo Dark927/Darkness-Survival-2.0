@@ -1,24 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using Characters.Common;
+using Characters.Common.Combat.Weapons;
 using Characters.Common.Levels;
 using Characters.Common.Movement;
+using Characters.Common.Settings;
 using Characters.Health;
-using Characters.Interfaces;
-using Characters.Player.Data;
 using Characters.Player.Levels;
+using Characters.Player.Settings;
 using Characters.Player.Upgrades;
-using Characters.Player.Weapons;
-using Characters.Stats;
 using UnityEngine;
+using World.Data;
 
 namespace Characters.Player
 {
     [RequireComponent(typeof(IEntityPhysicsBody))]
-    public class PlayerCharacterLogic : AttackableEntityLogic, IUpgradableCharacterLogic
+    public class PlayerCharacterLogic : AttackableEntityLogicBase, IUpgradableCharacterLogic
     {
         #region Events 
 
         public event Action<IUpgradableCharacterLogic, EntityLevelArgs> OnReadyForUpgrade;
+        public event Action<IUpgradableCharacterLogic, UpgradeAppearTime> OnSpecificTimeUpgradesRequested;
+        public event Action<IUpgradableCharacterLogic, List<UpgradeProvider>> OnCustomUpgradesReceived;
+        public event Action<IUpgradableCharacterLogic> OnIntroUpgradesReceived;
 
         #endregion
 
@@ -27,13 +31,13 @@ namespace Characters.Player
 
         private ICharacterLevel _level;
         private CharacterUpgradesCoordinator _upgradesCoordinator;
+        private bool _introUpgradesApplied = false;
 
         #endregion
 
 
         #region Properties
 
-        public CharacterBasicAttack BasicAttack => base.BasicAttacks as CharacterBasicAttack;
         public ICharacterLevel Level => _level;
         public CharacterUpgradesCoordinator UpgradesCoordinator => _upgradesCoordinator;
 
@@ -66,9 +70,41 @@ namespace Characters.Player
 
         #endregion
 
-        private void LevelUpListener(object sender, EntityLevelArgs args)
+        public virtual void PerformBasicAttack(BasicAttack.LocalType type)
         {
-            OnReadyForUpgrade?.Invoke(this, args);
+            WeaponsHandler?.TryPerformBasicAttack(type);
+        }
+
+        public void ReactToDayStateChange(DayTimeType dayTime)
+        {
+            if (dayTime == DayTimeType.Day)
+            {
+                OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Day);
+            }
+
+            if (dayTime == DayTimeType.Night)
+            {
+                OnSpecificTimeUpgradesRequested?.Invoke(this, UpgradeAppearTime.Night);
+            }
+        }
+
+        public void ReceiveCustomUpgrades(List<UpgradeProvider> upgrades)
+        {
+            OnCustomUpgradesReceived?.Invoke(this, upgrades);
+        }
+
+        public void ReceiveIntroUpgrades(List<UpgradeProvider> upgrades)
+        {
+            ReceiveCustomUpgrades(upgrades);
+        }
+
+        public void NotifyUpgradeApplied()
+        {
+            if (!_introUpgradesApplied)
+            {
+                OnIntroUpgradesReceived?.Invoke(this);
+                _introUpgradesApplied = true;
+            }
         }
 
         public void ApplySpeedUpgrade(float percent)
@@ -129,6 +165,11 @@ namespace Characters.Player
             {
                 light.UpdateLightRadius(multiplier);
             }
+        }
+
+        private void LevelUpListener(object sender, EntityLevelArgs args)
+        {
+            OnReadyForUpgrade?.Invoke(this, args);
         }
 
         #endregion

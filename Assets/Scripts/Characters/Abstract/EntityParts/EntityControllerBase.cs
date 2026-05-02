@@ -1,10 +1,8 @@
 ﻿using System;
 using Characters.Common.Features;
-using Characters.Interfaces;
-using Characters.Stats;
+using Characters.Common.Settings;
 using Cysharp.Threading.Tasks;
 using Settings.AssetsManagement;
-using Settings.Global;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -12,6 +10,8 @@ namespace Characters.Common
 {
     public abstract class EntityControllerBase : MonoBehaviour, IEntityController
     {
+        public event Action<IEntityDynamicLogic, IAttackable> OnEntityKilled;
+
         #region Fields 
 
         private IEntityDynamicLogic _entityLogic;
@@ -22,7 +22,7 @@ namespace Characters.Common
         [Header("Features Settings")]
         [SerializeField] private AssetReferenceSO _featuresSetDataRef;
 
-        private EntityCustomFeaturesHolder _featuresHolder;
+        private EntityCustomFeaturesHolder<IEntityFeature, IFeatureData> _featuresHolder;
         private AsyncOperationHandle<FeatureSetData> _asyncOperationHandle;
 
         #endregion
@@ -30,7 +30,7 @@ namespace Characters.Common
 
         #region Properties 
 
-        public EntityCustomFeaturesHolder FeaturesHolder => _featuresHolder;
+        public EntityCustomFeaturesHolder<IEntityFeature, IFeatureData> FeaturesHolder => _featuresHolder;
         public IEntityDynamicLogic EntityLogic => _entityLogic;
 
         #endregion
@@ -55,7 +55,7 @@ namespace Characters.Common
             _asyncOperationHandle = AddressableAssetsHandler.Instance.LoadAssetAsync<FeatureSetData>(_featuresSetDataRef);
             await _asyncOperationHandle;
 
-            _featuresHolder = new EntityCustomFeaturesHolder(_entityLogic);
+            _featuresHolder = new(_entityLogic);
             _featuresHolder.GiveMultipleFeaturesAsync(_asyncOperationHandle.Result.FeatureAssetList).Forget();
         }
 
@@ -75,12 +75,12 @@ namespace Characters.Common
 
         public virtual void ConfigureEventLinks()
         {
-
+            _entityLogic.Body.OnKilled += RaiseEntityWasKilled;
         }
 
         public virtual void RemoveEventLinks()
         {
-
+            _entityLogic.Body.OnKilled -= RaiseEntityWasKilled;
         }
 
         protected virtual void OnDisable()
@@ -108,6 +108,11 @@ namespace Characters.Common
                 AddressableAssetsHandler.Instance.UnloadAsset(_asyncOperationHandle);
                 _featuresHolder = null;
             }
+        }
+
+        private void RaiseEntityWasKilled(IAttackable killer)
+        {
+            OnEntityKilled?.Invoke(this.EntityLogic, killer);
         }
 
         #endregion

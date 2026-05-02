@@ -1,9 +1,7 @@
-using System;
-using Characters.Enemy.Data;
-using Unity.Collections;
+﻿using System;
 using UnityEngine;
 
-namespace Characters.Stats
+namespace Characters.Common.Settings
 {
     [CreateAssetMenu(fileName = "NewEntityData", menuName = "Game/Characters/DefaultEntityData")]
     public class EntityBaseData : ScriptableObject, IEntityData
@@ -12,8 +10,7 @@ namespace Characters.Stats
 
         [Header("Stats")]
 
-        [SerializeField] private string _name;
-        [SerializeField, ReadOnly] private int _id;
+        [SerializeField] private EntityInfo _info;
         [SerializeField] private CharacterStats _stats;
 
         #endregion
@@ -21,8 +18,8 @@ namespace Characters.Stats
 
         #region Properties
 
-        public int ID { get => _id; private set => _id = value; }
-        public string Name => _name;
+
+        public EntityInfo CommonInfo => _info;
         public CharacterStats Stats => _stats;
 
         #endregion
@@ -30,15 +27,15 @@ namespace Characters.Stats
 
         #region Methods
 
-        private void OnValidate()
+        private void Awake()
         {
-            ID = GetHashCode();
+            _info.UpdateTypeID(GetHashCode());
         }
 
         public override int GetHashCode()
         {
             int hash = HashCode.Combine(
-                Name != null ? Name.GetHashCode() : 0,
+                CommonInfo.Name != null ? CommonInfo.Name.GetHashCode() : 0,
                 Stats.GetHashCode()
             );
             return hash;
@@ -46,10 +43,10 @@ namespace Characters.Stats
 
         public override bool Equals(object obj)
         {
-            if (obj is not EnemyData other)
+            if (obj is not EntityBaseData other)
                 return false;
 
-            return Name == other.Name &&
+            return CommonInfo.Name == other.CommonInfo.Name &&
                    Stats.Equals(other.Stats);
         }
 

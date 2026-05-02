@@ -154,7 +154,7 @@ void ApplyDarkFX(inout float4 main, uniform float4 vertColor, uniform float2 uv,
     }
 
     [branch]
-    if(_FXFeatures & DARKFX_OUTLINE || 1)
+    if(_FXFeatures & DARKFX_OUTLINE)
     {
         float _OutlineWidth = 2;
         float _OutlineAlpha = 1;

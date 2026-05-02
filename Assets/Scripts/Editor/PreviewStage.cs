@@ -37,16 +37,16 @@ namespace Dark.Tile
             previewQuad.name = "Tile Map Preview Quad";
 
             // Apply material with the tile map shader
-            Shader? shader = Shader.Find("Darkness/tile_chunk_unlit"); // Replace with your shader name
+            var shader = Shader.Find("Dark/Tile/tile_chunk_unlit"); // Replace with your shader name
             if (shader == null)
             {
-                Debug.LogError("Shader Darkness/tile_chunk_unlit not found!");
+                Debug.LogError("Shader Dark/Tile/tile_chunk_unlit not found!");
                 return;
             }
-            Material previewMaterial = new Material(shader);
-            previewMaterial.SetTexture("_MainTex", tileMapData.TextureAtlas); // Replace "_MainTex" with your shader property
+            var previewMaterial = new Material(shader);
+            previewMaterial.SetTexture("_MainTex", tileMapData!.TextureAtlas); // Replace "_MainTex" with your shader property
             previewMaterial.SetVector("_GridSize", new Vector4(9, 9, 8, 8));
-            ComputeBuffer buffer = new ComputeBuffer(121, sizeof(uint), ComputeBufferType.Default);
+            var buffer = new ComputeBuffer(121, sizeof(uint), ComputeBufferType.Default);
             previewMaterial.SetBuffer("_TileIndices", buffer);
             previewQuad.GetComponent<MeshRenderer>().sharedMaterial = previewMaterial;
 
@@ -54,7 +54,7 @@ namespace Dark.Tile
             previewQuad.transform.position = Vector3.zero;
             previewQuad.transform.localScale = Vector3.one * 10f;
 
-            DarkTileMapDraw mapDraw = previewQuad.AddComponent<DarkTileMapDraw>();
+            var mapDraw = previewQuad.AddComponent<DarkTileMapDraw>();
             mapDraw.tileMapAsset = tileMapData;
             //add quad to scene
             UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(previewQuad, scene);
@@ -64,7 +64,7 @@ namespace Dark.Tile
 
         private void addCamera()
         {
-            GameObject cameraObject = new GameObject("Preview Camera (for thumbnails)");
+            var cameraObject = new GameObject("Preview Camera (for thumbnails)");
             UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(cameraObject, scene);
             previewCamera = cameraObject.AddComponent<Camera>();
             previewCamera.scene = scene;
@@ -82,7 +82,7 @@ namespace Dark.Tile
             if (tileMapData == null) return;
             if (previewCamera == null) return;
             // Create a RenderTexture
-            RenderTexture renderTexture = new RenderTexture(512, 512, 16);
+            var renderTexture = new RenderTexture(512, 512, 16);
             previewCamera.targetTexture = renderTexture;
 
             // Render the camera's view to the RenderTexture

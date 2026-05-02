@@ -25,6 +25,12 @@ namespace Materials
             }
         }
 
+        /// <summary>
+        /// Returns a managed reference to the propertiers
+        /// You need to manually set NeedsUpdate to true after modifications
+        /// </summary>
+        public ref T PropRef => ref _properties;
+
         public ScriptableMaterialPropsBase? ConstMaterialProps
         {
             get => _constMaterialProps;
@@ -46,7 +52,7 @@ namespace Materials
             var updateOverride = false;
 
 #if UNITY_EDITOR
-            if (!Application.isPlaying)
+            //if (!Application.isPlaying)
             {
                 updateOverride = true;
             }
@@ -58,7 +64,8 @@ namespace Materials
                 _mpb ??= new MaterialPropertyBlock();
                 renderer.GetPropertyBlock(_mpb);
 
-                _constMaterialProps.UpdateAllProperties(_mpb);
+                if (_constMaterialProps != null)
+                    _constMaterialProps.UpdateAllProperties(_mpb);
                 _properties.UpdateAllProperties(_mpb);
 
                 renderer.SetPropertyBlock(_mpb);

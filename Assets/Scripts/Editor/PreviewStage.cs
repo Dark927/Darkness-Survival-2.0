@@ -1,4 +1,4 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,7 +37,12 @@ namespace Dark.Tile
             previewQuad.name = "Tile Map Preview Quad";
 
             // Apply material with the tile map shader
-            Shader shader = Shader.Find("Darkness/tile_chunk_unlit"); // Replace with your shader name
+            Shader? shader = Shader.Find("Darkness/tile_chunk_unlit"); // Replace with your shader name
+            if (shader == null)
+            {
+                Debug.LogError("Shader Darkness/tile_chunk_unlit not found!");
+                return;
+            }
             Material previewMaterial = new Material(shader);
             previewMaterial.SetTexture("_MainTex", tileMapData.TextureAtlas); // Replace "_MainTex" with your shader property
             previewMaterial.SetVector("_GridSize", new Vector4(9, 9, 8, 8));

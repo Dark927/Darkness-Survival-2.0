@@ -8,12 +8,14 @@
 #define DARKFX_NONE 0
 #define DARKFX_FLASH 1
 #define DARKFX_EMISSION 2
-#define DARKFX_DISSOLVE 4
-#define DARKFX_HSVREPLACE 8
-#define DARKFX_HSVINTERP 16
-#define DARKFX_HSVMASK 32
-#define DARKFX_JITTERFREE 64
-#define DARKFX_TINT 128
+#define DARKFX_EMISSION_TEX 4
+#define DARKFX_DISSOLVE 8
+#define DARKFX_HSVREPLACE 16
+#define DARKFX_HSVINTERP 32
+#define DARKFX_HSVMASK 64
+#define DARKFX_JITTERFREE 128
+#define DARKFX_TINT 256
+#define DARKFX_OUTLINE 512
 
 //Flash
 float4 _FlashColor;
@@ -45,7 +47,7 @@ float _HSVGamma;
 
 //Tint
 float _Gamma;
-//float4 _Color (built-in)
+//float4 _Color (built - in)
 
 //Misc
 int _RendMode;
@@ -56,15 +58,15 @@ float4 ProcessHSV(float4 col)
     float3 hsv = rgb_to_hsv(col.rgb);
     float3 targetHSV = rgb_to_hsv(_TargetColor.rgb); //TODO: move to c#
 
-    // Calculate hue difference with wrap-around
+    // Calculate hue difference with wrap - around
     float hueDiff = abs(hsv.x - targetHSV.x);
     hueDiff = min(hueDiff, 1.0 - hueDiff);
 
     // Create replacement color version
-    float4 replacedHsv = float4(hsv, col.a);                
+    float4 replacedHsv = float4(hsv, col.a);
     replacedHsv = mul(_HsvaK, replacedHsv) + _HsvaB;
     float3 replacedRGB = hsv_to_rgb(replacedHsv.xyz);
-    
+
     //INTERP
     if(_RendMode & DARKFX_HSVINTERP)
     {
@@ -72,7 +74,7 @@ float4 ProcessHSV(float4 col)
         float hueBlend = 1 - smoothstep(0, _HueTolerance, hueDiff);
         float satBlend = 1 - smoothstep(0, _SatTolerance, abs(hsv.y - targetHSV.y));
         float valBlend = 1 - smoothstep(0, _ValTolerance, abs(hsv.z - targetHSV.z));
-        
+
         // Combine all blend factors
         float totalBlend = hueBlend * satBlend * valBlend;
         totalBlend = pow(abs(totalBlend), 1.0 / _HSVGamma);
@@ -84,11 +86,11 @@ float4 ProcessHSV(float4 col)
     }
     //STEP
     else
-    {    
+    {
         if (hueDiff <= _HueTolerance &&
-            abs(hsv.y - targetHSV.y) <= _SatTolerance &&
-            abs(hsv.z - targetHSV.z) <= _ValTolerance)
-        { 
+        abs(hsv.y - targetHSV.y) <= _SatTolerance &&
+        abs(hsv.z - targetHSV.z) <= _ValTolerance)
+        {
             return float4(replacedRGB.rgb, replacedHsv.a);
         }
         return col;
@@ -98,6 +100,7 @@ float4 ProcessHSV(float4 col)
 
 void ApplyDarkFX(inout float4 main, uniform float4 vertColor, uniform float2 uv, uniform float2 origUV)
 {
+    float4 unlitColor = main;
     [branch]
     if(_RendMode == RENDMODE_NOFX)
     {
@@ -125,8 +128,14 @@ void ApplyDarkFX(inout float4 main, uniform float4 vertColor, uniform float2 uv,
     [branch]
     if(_FXFeatures & DARKFX_EMISSION)
     {
-        float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, uv).r;
-        main.rgb += _EmissionColor.rgb * 1 * _EmissionAmount;
+        float3 colorFinal = _EmissionColor.rgb * _EmissionAmount;
+        [branch]
+        if(_FXFeatures & DARKFX_EMISSION_TEX)
+        {
+            float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, uv).r;
+            colorFinal *= emissionCoef;
+        }
+        main.rgb += colorFinal;
     }
 
     [branch]
@@ -142,6 +151,39 @@ void ApplyDarkFX(inout float4 main, uniform float4 vertColor, uniform float2 uv,
 
         main.rgb = lerp(main.rgb, _DissolveColor, dissolveDiff);
         main.a = saturate(main.a * (1 - dissolve));
+    }
+
+    [branch]
+    if(_FXFeatures & DARKFX_OUTLINE || 1)
+    {
+        float _OutlineWidth = 2;
+        float _OutlineAlpha = 1;
+        float4 _OutlineColor = float4(1,0,1,1);
+        float2 destUv = _OutlineWidth * _MainTex_TexelSize.xy;
+        
+        half spriteLeft = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + half2(destUv.x, 0)).a;
+        half spriteRight = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv - half2(destUv.x, 0)).a;
+        half spriteBottom = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + half2(0, destUv.y)).a;
+        half spriteTop = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv - half2(0, destUv.y)).a;
+        half result = spriteLeft + spriteRight + spriteBottom + spriteTop;
+
+        //#if OUTBASE8DIR_ON
+        half spriteTopLeft = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex,uv + half2(destUv.x, destUv.y)).a;
+        half spriteTopRight = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex,uv + half2(-destUv.x, destUv.y)).a;
+        half spriteBotLeft = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex,uv + half2(destUv.x, -destUv.y)).a;
+        half spriteBotRight = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex,uv + half2(-destUv.x, -destUv.y)).a;
+        result = result + spriteTopLeft + spriteTopRight + spriteBotLeft + spriteBotRight;
+        //#endif
+
+        result = step(0.05, saturate(result));
+        result *= (1 - unlitColor.a) * _OutlineAlpha;
+
+        half4 outline = _OutlineColor * vertColor.a;
+        //outline.rgb *= _OutlineGlow;
+        outline.a = result;
+
+        main = lerp(main, outline, result);
+
     }
 
 }

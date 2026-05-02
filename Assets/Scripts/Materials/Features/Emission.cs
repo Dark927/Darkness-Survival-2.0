@@ -24,7 +24,8 @@ namespace Materials.Features
             if (!Enabled) return ShaderFeatures.NONE;
             mpb.SetColor(s_emissionColorID, EmissionColor);
             mpb.SetFloat(s_emissionAmountID, EmissionAmount);
-            return ShaderFeatures.EMISSION;
+            return ShaderFeatures.EMISSION
+                   | (UseTexture ? ShaderFeatures.EMISSION_TEX : ShaderFeatures.NONE);
         }
     }
 }

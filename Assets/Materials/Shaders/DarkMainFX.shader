@@ -8,6 +8,11 @@ Shader "Dark/Sprites/DarkMainFX"
         _EmissionMaskTex("Emission Mask", 2D) = "black" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
 
+        [Space]
+        [Header(VFX Settings)]
+        [Toggle] _RemoveBlackBg("Remove Black Background", Float) = 0
+        [Toggle] _UseSameTexForEmission("Use Main Tex for Emission", Float) = 0 
+
         [Header(Mask Tint)]
         [Gamma] _Gamma("Gamma", Range(0.0, 3)) = 1
         _Color("Tint", Color) = (1,1,1,1)
@@ -99,6 +104,9 @@ Shader "Dark/Sprites/DarkMainFX"
             float _ValTolerance;
             float _HSVGamma;
 
+            float _RemoveBlackBg;
+            float _UseSameTexForEmission;
+
             int _RendMode;
 
 
@@ -177,8 +185,29 @@ Shader "Dark/Sprites/DarkMainFX"
 
 
                 float4 colormaskCoef = SAMPLE_TEXTURE2D(_ColorMaskTex, sampler_ColorMaskTex, smoothUV); //TODO: remove
-                float emissionCoef = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV).r;
+                
                 float4 main = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, smoothUV);
+                
+                // Decide where Emission comes from
+                float4 emTex;
+                if (_UseSameTexForEmission > 0.5)
+                {
+                    emTex = main; // Recycle the main texture data (Saves GPU performance)
+                }
+                else
+                {
+                    emTex = SAMPLE_TEXTURE2D(_EmissionMaskTex, sampler_EmissionMaskTex, smoothUV);
+                }
+
+                // Calculate emission strength based on the brightest color channel
+                float emissionCoef = max(emTex.r, max(emTex.g, emTex.b));
+
+                // Remove Black Background Logic
+                if (_RemoveBlackBg > 0.5)
+                {
+                    main.a = max(main.r, max(main.g, main.b));
+                }
+
                 main.a *= i.color.a;
 
                 if(_RendMode == 5) // unlit

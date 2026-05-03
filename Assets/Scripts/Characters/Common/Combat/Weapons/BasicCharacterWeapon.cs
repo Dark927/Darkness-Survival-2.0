@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections.Generic;
 using Characters.Common.Combat.Weapons.Data;
 using Characters.Player;
 
@@ -7,6 +8,12 @@ namespace Characters.Common.Combat.Weapons
 {
     public class BasicCharacterWeapon : UpgradableWeaponBase
     {
+        private Dictionary<BasicAttack.LocalType, float> _attackSpeedMultipliers = new()
+        {
+            { BasicAttack.LocalType.Fast, 1f },
+            { BasicAttack.LocalType.Heavy, 1f }
+        };
+
         private PlayerCharacterVisual _ownerVisual;
 
         public PlayerCharacterVisual OwnerVisual => _ownerVisual;
@@ -18,15 +25,26 @@ namespace Characters.Common.Combat.Weapons
         }
 
 
-        public override void ApplyAttackSpeedUpgrade(float percent)
+        public override void ApplyAttackSpeedUpgrade(float multiplier)
         {
-            ApplyConcreteAttackSpeedUpgrade(BasicAttack.LocalType.Fast, percent);
-            ApplyConcreteAttackSpeedUpgrade(BasicAttack.LocalType.Heavy, percent);
+            ApplyConcreteAttackSpeedUpgrade(BasicAttack.LocalType.Fast, multiplier);
+            ApplyConcreteAttackSpeedUpgrade(BasicAttack.LocalType.Heavy, multiplier);
         }
 
-        public void ApplyConcreteAttackSpeedUpgrade(BasicAttack.LocalType attackType, float percent)
+        public void ApplyConcreteAttackSpeedUpgrade(BasicAttack.LocalType attackType, float multiplier)
         {
-            OwnerVisual.PlayerAnimController.UpdateAttackSpeed(attackType, percent);
+            if (_attackSpeedMultipliers.ContainsKey(attackType))
+            {
+                _attackSpeedMultipliers[attackType] += multiplier;
+            }
+            else
+            {
+                // Fallback just in case a new type gets added later
+                _attackSpeedMultipliers[attackType] = 1f + multiplier;
+            }
+
+            // Send the final, mathematically correct total to the Animator
+            OwnerVisual.PlayerAnimController.UpdateAttackSpeed(attackType, _attackSpeedMultipliers[attackType]);
         }
     }
 }

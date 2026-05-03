@@ -1,12 +1,15 @@
-﻿using Characters.Common.Combat.Weapons;
+﻿using System.Collections.Generic;
+using Characters.Common.Combat.Weapons;
 using Characters.Common.Visual;
 using Characters.Player.Weapons;
 using UnityEngine;
+using Utilities.ErrorHandling;
 
 namespace Characters.Player.Animation
 {
     public class CharacterAnimatorController : AnimatorController
     {
+        private Dictionary<int, float> _baseAttackSpeeds = new();
 
         #region Properties
 
@@ -34,10 +37,18 @@ namespace Characters.Player.Animation
 
         public CharacterAnimatorController(Animator characterAnimator, CharacterAnimatorParameters parameters) : base(characterAnimator, parameters)
         {
+            CacheBaseSpeeds();
         }
 
         public CharacterAnimatorController(Animator characterAnimator, CharacterAnimatorParameters parameters, CharacterAnimationEvents events) : base(characterAnimator, parameters, events)
         {
+            CacheBaseSpeeds();
+        }
+
+        private void CacheBaseSpeeds()
+        {
+            _baseAttackSpeeds[Parameters.FastAttackSpeedMultiplierID] = Animator.GetFloat(Parameters.FastAttackSpeedMultiplierID);
+            _baseAttackSpeeds[Parameters.HeavyAttackSpeedMultiplierID] = Animator.GetFloat(Parameters.HeavyAttackSpeedMultiplierID);
         }
 
         #endregion
@@ -54,21 +65,21 @@ namespace Characters.Player.Animation
             Animator.SetTrigger(Parameters.DeathTriggerID);
         }
 
-        public void UpdateAttackSpeed(CharacterBasicAttack.LocalType targetAttackType, float percent)
+        public void UpdateAttackSpeed(CharacterBasicAttack.LocalType targetAttackType, float speedMultiplier)
         {
             switch (targetAttackType)
             {
                 case BasicAttack.LocalType.Fast:
-                    UpdateAttackSpeedByID(Parameters.FastAttackSpeedMultiplierID, percent);
+                    UpdateAttackSpeedByID(Parameters.FastAttackSpeedMultiplierID, speedMultiplier);
                     break;
 
                 case BasicAttack.LocalType.Heavy:
-                    UpdateAttackSpeedByID(Parameters.HeavyAttackSpeedMultiplierID, percent);
+                    UpdateAttackSpeedByID(Parameters.HeavyAttackSpeedMultiplierID, speedMultiplier);
                     break;
 
                 case BasicAttack.LocalType.Default:
-                    UpdateAttackSpeedByID(Parameters.FastAttackSpeedMultiplierID, percent);
-                    UpdateAttackSpeedByID(Parameters.HeavyAttackSpeedMultiplierID, percent);
+                    UpdateAttackSpeedByID(Parameters.FastAttackSpeedMultiplierID, speedMultiplier);
+                    UpdateAttackSpeedByID(Parameters.HeavyAttackSpeedMultiplierID, speedMultiplier);
                     break;
                 default:
                     throw new System.NotImplementedException();
@@ -76,10 +87,13 @@ namespace Characters.Player.Animation
 
         }
 
-        private void UpdateAttackSpeedByID(int attackParameterID, float percent)
+        private void UpdateAttackSpeedByID(int attackParameterID, float totalMultiplier)
         {
-            var initialSpeed = Animator.GetFloat(attackParameterID);
-            Animator.SetFloat(attackParameterID, initialSpeed * percent);
+            if (_baseAttackSpeeds.TryGetValue(attackParameterID, out float baseSpeed))
+            {
+                //ErrorLogger.Log("Base speed : " + baseSpeed + '\n' + "Total Multiplier : " + totalMultiplier + '\n' + "Result : " + baseSpeed * totalMultiplier);
+                Animator.SetFloat(attackParameterID, baseSpeed * totalMultiplier);
+            }
         }
 
         public void SpeedUpdateListener(object sender, SpeedChangedArgs args)

@@ -26,5 +26,10 @@ namespace Characters.Common.Combat
         {
             return new DamageSettings(damageSettings.Min + value, damageSettings.Max + value);
         }
+
+        public float GenerateRandomDamage()
+        {
+            return Random.Range(Min, Max);
+        }
     }
 }

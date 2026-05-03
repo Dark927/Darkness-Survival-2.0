@@ -15,7 +15,7 @@ MonoBehaviour:
   _upgrade: {fileID: 11400000, guid: 6994c9634e18ed04e8a69c2ea67a85e4, type: 2}
   _appearTime: 0
   _name: Electro Blade
-  _type: 1
+  _type: 3
   _description: Upgrade electro blade
   _icon: {fileID: 21300000, guid: 7f812083773e4f7488d9c47cd059de86, type: 3}
   _visualDataUI: {fileID: 11400000, guid: c89b5aad41240be4392dcadac7f8b834, type: 2}

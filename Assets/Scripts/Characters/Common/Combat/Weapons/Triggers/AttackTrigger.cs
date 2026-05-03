@@ -28,6 +28,8 @@ namespace Characters.Common.Combat
 
         #endregion
 
+        public float CurrentActivationTime { get; private set; }
+
 
         #region Events
 
@@ -35,6 +37,7 @@ namespace Characters.Common.Combat
         public event EventHandler OnTriggerStay;
         public event EventHandler OnTriggerExit;
         public event Action<IAttackTrigger> OnTriggerDeactivation;
+        public event Action<IAttackTrigger> OnTriggerActivation;
 
         #endregion
 
@@ -76,6 +79,7 @@ namespace Characters.Common.Combat
         public void Activate()
         {
             _collider.enabled = true;
+            OnTriggerActivation?.Invoke(this);
         }
 
         public void Activate(float timeInSec)
@@ -84,6 +88,8 @@ namespace Characters.Common.Combat
             {
                 CancelActiveTask();
             }
+
+            CurrentActivationTime = timeInSec;
 
             Activate();
             _cancellationTokenSource = new CancellationTokenSource();
@@ -171,5 +177,29 @@ namespace Characters.Common.Combat
         }
 
         #endregion
+
+        #region Debugging
+
+        private void OnDrawGizmos()
+        {
+            Collider2D col = _collider != null ? _collider : GetComponent<Collider2D>();
+
+            // Only draw the Gizmo if the collider exists AND is actively enabled (attacking)
+            if (col != null && col.enabled)
+            {
+                // Semi-transparent red for danger
+                Gizmos.color = new Color(1f, 0f, 0f, 0.4f);
+
+                // Draw a box that perfectly matches the physical bounds of the collider
+                Gizmos.DrawCube(col.bounds.center, col.bounds.extents * 2);
+
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireCube(col.bounds.center, col.bounds.extents * 2);
+            }
+        }
+
+        #endregion
+
+
     }
 }

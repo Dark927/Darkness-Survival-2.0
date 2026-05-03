@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Characters.Common.Combat.Weapons.Data;
-using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
@@ -57,9 +56,23 @@ namespace Characters.Common.Combat.Weapons
             }
         }
 
+        protected override void SetDefaultPosRelatedToOwner()
+        {
+            transform.position = Owner.Body.Transform.position;
+        }
+
         private void InitSwordImpact(AttackType targetAttackType)
         {
-            AttackImpact impact = base.InitImpact(GetImpactSettings(targetAttackType));
+            AttackImpact impact;
+
+            if (targetAttackType == AttackType.Fast)
+            {
+                impact = BaseImpact;
+            }
+            else
+            {
+                impact = base.InitImpact(Settings.HeavyImpact);
+            }
             _attackImpactDict.Add(targetAttackType, impact);
         }
 
@@ -97,26 +110,16 @@ namespace Characters.Common.Combat.Weapons
         {
             return _currentAttackType switch
             {
-                AttackType.Fast => CalculateDamage(Settings.Damage, DamageMultiplier),
-                AttackType.Heavy => CalculateDamage(Settings.HeavyDamage, DamageMultiplier),
+                AttackType.Fast => CalculateCurrentDamage(Settings.Damage),
+                AttackType.Heavy => CalculateCurrentDamage(Settings.HeavyDamage),
                 _ => throw new NotImplementedException()
             };
         }
 
-        protected override void PerformImpact(Collider2D targetCollider)
+        protected override AttackImpact GetActiveImpact()
         {
-            if (!ImpactAvailable
-                || !_attackImpactDict.TryGetValue(_currentAttackType, out AttackImpact impact)
-                || !impact.IsReady
-                || !impact.CanUseRandomly())
-            {
-                return;
-            }
-
-            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
-
-            impact.AddKnockback(CalculatePushDirection(Center, targetCollider.bounds.center));
-            impact.PerformPhysicsImpact(targetCollider);
+            // The base class will automatically call this and use the correct dictionary impact
+            return _attackImpactDict.GetValueOrDefault(_currentAttackType, null);
         }
 
         private void TriggerDeactivationListener(IAttackTrigger trigger)
@@ -132,16 +135,6 @@ namespace Characters.Common.Combat.Weapons
         private AttackImpact GetImpact(AttackType attackType)
         {
             return _attackImpactDict.GetValueOrDefault(attackType, null);
-        }
-
-        private ImpactSettings GetImpactSettings(AttackType type)
-        {
-            return type switch
-            {
-                AttackType.Fast => Settings.Impact,
-                AttackType.Heavy => Settings.HeavyImpact,
-                _ => throw new NotImplementedException(),
-            };
         }
 
         #endregion

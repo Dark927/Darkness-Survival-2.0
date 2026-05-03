@@ -24,6 +24,7 @@ namespace Characters.Common.Combat
         #region Properties
 
         public ShakeImpact Shake => _shake;
+        public int ChancePercent => _settings.ChancePercent;
         public bool IsReady => _isReady;
 
         #endregion
@@ -66,15 +67,6 @@ namespace Characters.Common.Combat
         {
             _physicsActions
                 .AddKnockback(_settings.PushForce, direction);
-        }
-
-
-        /// <summary>
-        /// Calculates that impact can be used considering the existing chance.
-        /// </summary>
-        public bool CanUseRandomly()
-        {
-            return (UnityEngine.Random.Range(0, 100) <= _settings.ChancePercent);
         }
 
         public virtual void PerformPhysicsImpact(Collider2D targetCollider)

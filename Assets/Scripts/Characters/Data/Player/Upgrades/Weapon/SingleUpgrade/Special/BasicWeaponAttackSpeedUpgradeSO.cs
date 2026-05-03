@@ -27,7 +27,7 @@ namespace Characters.Player.Upgrades
         {
             if (target is BasicCharacterWeapon basicWeapon)
             {
-                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, 1 + (_speedUpgradePercent / 100f));
+                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, _speedUpgradePercent / 100f);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Characters.Player.Upgrades
         {
             if (target is BasicCharacterWeapon basicWeapon)
             {
-                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, 1 - (_speedUpgradePercent / 100f));
+                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, -(_speedUpgradePercent / 100f));
             }
         }
     }

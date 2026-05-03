@@ -12,7 +12,7 @@ namespace Materials.DarkEntityFX
         public Color FlashColor;
         [Range(0, 1)]
         public float EmissionAmount;
-        public Color EmissionColor;
+        [ColorUsage(true, true)] public Color EmissionColor;
 
         [Range(0.001f, 1f)]
         public float Seed;

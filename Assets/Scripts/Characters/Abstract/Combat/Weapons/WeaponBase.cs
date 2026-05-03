@@ -11,10 +11,12 @@ namespace Characters.Common.Combat.Weapons
 
         private IAttackableEntityLogic _owner;
         private Collider2D _ownerCollidder;
-        private float _damageMultiplier = 1f;
         private IAttackSettings _attackSettings;
 
         private Damage _calculatedDamage;
+        private AttackImpact _impact;
+
+        private float _basicDamageMultiplier = 1f;
 
         #endregion
 
@@ -22,9 +24,9 @@ namespace Characters.Common.Combat.Weapons
 
         public IAttackableEntityLogic Owner => _owner;
         public IAttackSettings AttackSettings => _attackSettings;
+        public AttackImpact BaseImpact => _impact;
         public bool ImpactAvailable => AttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
-        public float DamageMultiplier => _damageMultiplier;
         public GameObject GameObject => this.gameObject;
 
         #endregion
@@ -45,6 +47,10 @@ namespace Characters.Common.Combat.Weapons
             {
                 _calculatedDamage.NegativeStatus = attackData.Settings.NegativeStatus.Settings;
             }
+
+            _impact = InitImpact(attackData.Settings.Impact);
+
+            SetDefaultPosRelatedToOwner();
         }
 
         protected virtual AttackImpact InitImpact(ImpactSettings impactSettings)
@@ -54,6 +60,17 @@ namespace Characters.Common.Combat.Weapons
             return impact;
         }
 
+        protected virtual void SetDefaultPosRelatedToOwner()
+        {
+            if (_owner == null)
+            {
+                return;
+            }
+
+            var ownerCollider = _owner.Body.Physics.Collider;
+            transform.position = ownerCollider.bounds.center;
+        }
+
         public virtual void Dispose()
         {
 
@@ -61,20 +78,19 @@ namespace Characters.Common.Combat.Weapons
 
         #endregion
 
-        public static float CalculateDamage(DamageSettings damageSettings, float damageMultiplier = 1f)
+        protected virtual float CalculateCurrentDamage(DamageSettings damageSettings)
         {
-            return UnityEngine.Random.Range(damageSettings.Min, damageSettings.Max) * damageMultiplier;
+            return damageSettings.GenerateRandomDamage() * _basicDamageMultiplier;
+        }
+
+        public void SetBasicDamageMultiplier(float multiplier)
+        {
+            _basicDamageMultiplier = multiplier;
         }
 
         public static Vector2 CalculatePushDirection(Vector2 source, Vector2 target)
         {
             return (target - source).normalized;
-        }
-
-
-        public void SetCharacterDamageMultiplier(float damageMultiplier)
-        {
-            _damageMultiplier = damageMultiplier;
         }
 
         protected virtual void HitTargetListener(object sender, EventArgs args)
@@ -99,7 +115,7 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual float RequestDamageAmount()
         {
-            return CalculateDamage(AttackSettings.Damage, _damageMultiplier);
+            return CalculateCurrentDamage(AttackSettings.Damage);
         }
 
         protected virtual void PerformPostDamageActions(Collider2D targetCollider)
@@ -131,8 +147,39 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual void PerformImpact(Collider2D targetCollider)
         {
+            AttackImpact activeImpact = GetActiveImpact();
 
+            if (!CanUseImpactThisTime(activeImpact))
+            {
+                return;
+            }
+
+            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
+            activeImpact.AddKnockback(CalculatePushDirection(Center, targetCollider.bounds.center));
+            activeImpact.PerformPhysicsImpact(targetCollider);
+
+            activeImpact.ReloadImpact();
         }
+
+        protected virtual AttackImpact GetActiveImpact()
+        {
+            return _impact;
+        }
+
+        protected virtual bool CanUseImpactThisTime(AttackImpact activeImpact)
+        {
+            return ImpactAvailable && activeImpact != null && activeImpact.IsReady && CanUseImpactWithChance(activeImpact.ChancePercent);
+        }
+
+
+        /// <summary>
+        /// Calculates that impact can be used considering the existing chance.
+        /// </summary>
+        protected bool CanUseImpactWithChance(int impactChancePercent)
+        {
+            return (UnityEngine.Random.Range(0, 100) <= (impactChancePercent));
+        }
+
 
         protected virtual bool CheckHitTargetCondition(GameObject targetObject, out IDamageable target)
         {

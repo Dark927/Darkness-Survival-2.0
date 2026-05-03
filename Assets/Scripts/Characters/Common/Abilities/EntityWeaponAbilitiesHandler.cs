@@ -137,7 +137,7 @@ namespace Characters.Common.Abilities
         {
             foreach (var weapon in _weaponsHolder.ActiveOnesDict.Values)
             {
-                weapon.SetCharacterDamageMultiplier(damageMultiplier);
+                weapon.SetBasicDamageMultiplier(damageMultiplier);
             }
         }
 

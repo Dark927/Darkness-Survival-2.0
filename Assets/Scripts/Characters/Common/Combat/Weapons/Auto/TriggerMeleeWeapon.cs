@@ -9,7 +9,6 @@ namespace Characters.Common.Combat.Weapons
 
         [SerializeField] private float _triggerScaleMultiplier = 1f;
         private AttackTrigger _attackTrigger;
-        private AttackImpact _impact;
 
         #endregion
 
@@ -34,8 +33,6 @@ namespace Characters.Common.Combat.Weapons
             _attackTrigger.Activate();
 
             _attackTrigger.OnTriggerStay += HitTargetListener;
-
-            _impact = InitImpact(attackData.Settings.Impact);
         }
 
         public override void Dispose()
@@ -45,24 +42,6 @@ namespace Characters.Common.Combat.Weapons
             _attackTrigger.Deactivate();
 
             _attackTrigger.OnTriggerStay -= HitTargetListener;
-        }
-
-        protected override void PerformImpact(Collider2D targetCollider)
-        {
-            if (!ImpactAvailable
-                || _impact == null
-                || !_impact.IsReady
-                || !_impact.CanUseRandomly())
-            {
-                return;
-            }
-
-            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
-
-            _impact.AddKnockback(CalculatePushDirection(Center, targetBody.Physics.Collider.bounds.center));
-            _impact.PerformPhysicsImpact(targetCollider);
-
-            _impact.ReloadImpact();
         }
 
         #endregion

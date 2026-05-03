@@ -16,10 +16,10 @@ namespace Characters.Common.Combat
 
         [Space, Header("Activation Settings")]
 
-        [SerializeField] private float _triggerActivityTimeSec;
 
         [Header("<color=yellow><i>These parameters are related to weapons" +
                 "\nthat can be activated for the certain duration and have the reload time</i></color>")]
+        [SerializeField] private float _triggerActivityTimeSec;
         [SerializeField] private float _fullDurationTimeSec;
         [SerializeField] private float _reloadTimeSec;
 

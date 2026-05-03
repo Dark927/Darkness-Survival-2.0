@@ -80,6 +80,13 @@ MonoBehaviour:
     - Data
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de7aaa96e39445a4199bff642de9e334
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/ElectroBladeWeapon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f49b0c2b14aedcf4e817f6ab75f7e1cd
     m_Address: Assets/Data/Entities/Weapons/Player/NeroSword/NeroSwordAttackData.asset
     m_ReadOnly: 0

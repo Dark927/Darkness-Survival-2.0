@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public interface IWeapon : IDisposable, IUpgradable
+    public interface IWeapon : IDisposable
     {
         GameObject GameObject { get; }
         public IAttackableEntityLogic Owner { get; }
 
         public void Initialize(WeaponAttackDataBase weaponAttackData);
-        public void SetCharacterDamageMultiplier(float damageMultiplier);
+        public void SetBasicDamageMultiplier(float multiplier);
     }
 }

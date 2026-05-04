@@ -8,7 +8,7 @@ namespace Characters.Player.Upgrades
         public enum RadiusMode
         {
             ExpandRadius,
-            ReduceRadius // Useful if an ability gets stronger by concentrating its AoE into a smaller zone
+            ReduceRadius
         }
 
         [Tooltip("The percentage to modify the core effect by (e.g., 10 for 10%)")]
@@ -19,22 +19,11 @@ namespace Characters.Player.Upgrades
 
         private float ActualUpgradePercent => _mode == RadiusMode.ReduceRadius ? -_radiusUpgradePercent : _radiusUpgradePercent;
 
+        protected override string GetDefaultUpgradeName() => "Effect radius";
 
-        protected override string GetInfo(char sign)
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            char displaySign = sign;
-
-            if (_mode == RadiusMode.ReduceRadius)
-            {
-                displaySign = sign == '+' ? '-' : '+';
-            }
-
-            return $"{StatNameUI} : {displaySign}{_radiusUpgradePercent}%";
-        }
-
-        protected override string GetDefaultStatNameUI()
-        {
-            return "Effect radius";
+            return $"{displaySign}{_radiusUpgradePercent}%";
         }
 
         public override void ApplyUpgrade(IUpgradableAbility target)

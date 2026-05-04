@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Characters.Common.Abilities;
 using UnityEngine;
 
@@ -12,34 +11,57 @@ namespace Characters.Player.Upgrades
 
         public override int AbilityID => _abilityData.ID;
 
-        protected override string GetInfo(char sign)
+        protected override string GetDefaultUpgradeName() => "Open";
+
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign) => _abilityData.Name;
+
+        protected override string GetInfo(char originalSign)
         {
+            // Abort and use custom text if the designer checked the override box
+            if (_uiSettings.UseFullOverride)
+            {
+                return _uiSettings.FullOverrideString;
+            }
+
+            // Let the base class generate the first line: "<color>Open</color> <color>AbilityName</color>"
             List<string> lines = new List<string>
             {
-                $"Open <color=orange>{_abilityData.Name}</color>"
+                base.GetInfo(originalSign)
             };
 
-            AbilityStats stats = _abilityData.AbilityStats;
+            // Calculate the hex colors so our extra lines perfectly match the UI settings
+            bool isUpgrade = originalSign == '+';
+            if (_uiSettings.ReverseSignLogic)
+            {
+                isUpgrade = !isUpgrade;
+            }
 
-            // Format floats using ":0.##" so "5.0" prints as "5", but "5.25" prints as "5.25"
+            Color valueColor = isUpgrade ? _uiSettings.UpgradeValueColor : _uiSettings.DowngradeValueColor;
+            string nameHex = ColorUtility.ToHtmlStringRGBA(_uiSettings.UpgradeNameColor);
+            string valueHex = ColorUtility.ToHtmlStringRGBA(valueColor);
+
+            // Append the ability stats using the helper method
+            AbilityStats stats = _abilityData.AbilityStats;
+            AbilityStatsUI statsUI = _abilityData.AbilityStatsUI;
+
             if (stats.StrengthValue > 0f)
             {
-                lines.Add($"{_abilityData.AbilityStatsUI.StrengthUIName} : {stats.StrengthValue:0.##}");
+                lines.Add(FormatAbilityConcreteStatInfo(statsUI.StrengthUIName, nameHex, stats.StrengthValue, valueHex));
             }
 
             if (stats.StrengthPercent > 0f)
             {
-                lines.Add($"{_abilityData.AbilityStatsUI.StrengthUIName} : {stats.StrengthPercent:0.##}%");
+                lines.Add(FormatAbilityConcreteStatInfo(statsUI.StrengthUIName, nameHex, stats.StrengthPercent, valueHex, "%"));
             }
 
             if (stats.Radius > 0f)
             {
-                lines.Add($"{_abilityData.AbilityStatsUI.RadiusUIName} : {stats.Radius:0.##}");
+                lines.Add(FormatAbilityConcreteStatInfo(statsUI.RadiusUIName, nameHex, stats.Radius, valueHex));
             }
 
             if (stats.Duration > 0f)
             {
-                lines.Add($"{_abilityData.AbilityStatsUI.DurationUIName} : {stats.Duration:0.##} s.");
+                lines.Add(FormatAbilityConcreteStatInfo(statsUI.DurationUIName, nameHex, stats.Duration, valueHex, " s."));
             }
 
             // Join them all together with a line break (\n)

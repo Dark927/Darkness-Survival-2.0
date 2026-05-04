@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 965580e02f7232943a12b36676687bdf, type: 3}
   m_Name: Upgrade_Single_Damage_5_SO
   m_EditorClassIdentifier: 
+  _uiSettings:
+    UseFullOverride: 0
+    FullOverrideString: 
+    UpgradeNameOverride: Damage
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 0
   _damageUpgradePercent: 5

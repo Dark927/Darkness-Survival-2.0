@@ -8,25 +8,20 @@ namespace Characters.Player.Upgrades
         [Tooltip("The percentage to increase the core effect by (e.g., 10 for +10%)")]
         [SerializeField, Min(0)] private float _strengthUpgradePercent = 10f;
 
-        protected override string GetInfo(char sign)
-        {
-            return $"{StatNameUI} : {sign}{_strengthUpgradePercent}%";
-        }
+        protected override string GetDefaultUpgradeName() => "Effect strength";
 
-        protected override string GetDefaultStatNameUI()
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return "Effect strength";
+            return $"{displaySign}{_strengthUpgradePercent}%";
         }
 
         public override void ApplyUpgrade(IUpgradableAbility target)
         {
-            // Pass the multiplier value. 1.25 converts to 0.125
             target.ApplyStrengthUpgrade(_strengthUpgradePercent / 100f);
         }
 
         public override void ApplyDowngrade(IUpgradableAbility target)
         {
-            // Invert the multiplier value to subtract it.
             target.ApplyStrengthUpgrade(-(_strengthUpgradePercent / 100f));
         }
     }

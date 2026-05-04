@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10988c5969c81ea4b9de9074713e8181, type: 3}
   m_Name: Upgrade_Single_WhiteEnergyTrail_SO
   m_EditorClassIdentifier: 
+  _uiSettings:
+    UseFullOverride: 1
+    FullOverrideString: Unlock <color=white>light energy</color> trail</color>
+    UpgradeNameOverride: 
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 0
   _trailVisualPrefab: {fileID: 3581960396715552312, guid: 23b1079a3fd1ce749b269ec84e7421cd, type: 3}
-  _description: <#bf00ff>Unlock <color=white>light energy</color> trail</color>

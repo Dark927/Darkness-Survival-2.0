@@ -7,15 +7,16 @@ namespace Characters.Player.Upgrades
 {
     public abstract class UpgradeLevelSO<TTarget> : ScriptableObject, IUpgradeLevelSO where TTarget : IUpgradable
     {
-        [CustomHeader("Main Settings", 5, 0)]
+        [CustomHeader("Main Settings", 9, 0)]
         [SerializeField, TextArea] private string _baseDescription;
         [SerializeField] private bool _useDowngradesInfoInDesc = true;
 
         [Space, SerializeField] private List<SingleUpgradeBaseSO<TTarget>> _upgrades;
         [SerializeField] private List<SingleUniversalUpgradeSO<TTarget>> _downgrades;
 
-        [CustomHeader("Extra Settings (optional)", 2, 0)]
+        [CustomHeader("Extra Settings (optional)", 3, 0)]
 
+        [SerializeField] private Color _baseDescriptionColor = new Color(255, 230, 0, 255);
         [SerializeField] private UpgradeVisualDataUI _customVisualDataUI;
         [SerializeField] private Sprite _customIconUI;
         public string Description => GetDescription();
@@ -30,7 +31,9 @@ namespace Characters.Player.Upgrades
 
             if (!string.IsNullOrEmpty(_baseDescription))
             {
-                sb.AppendLine(_baseDescription);
+                string colorHex = ColorUtility.ToHtmlStringRGBA(_baseDescriptionColor);
+                string finalDescription = $"<color=#{colorHex}>{_baseDescription}</color>";
+                sb.AppendLine(finalDescription);
             }
 
             string currentInfo;

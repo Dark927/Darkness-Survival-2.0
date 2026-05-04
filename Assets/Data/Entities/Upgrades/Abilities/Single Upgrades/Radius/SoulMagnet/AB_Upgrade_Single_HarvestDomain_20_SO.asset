@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b691918edb5e47142a391d9cee334565, type: 3}
   m_Name: AB_Upgrade_Single_HarvestDomain_20_SO
   m_EditorClassIdentifier: 
-  _upgradeStatNameUIOverride: Harvest Domain
+  _uiSettings:
+    UseFullOverride: 0
+    FullOverrideString: 
+    UpgradeNameOverride: Harvest Domain
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 0
   _radiusUpgradePercent: 20
   _mode: 0

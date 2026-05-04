@@ -8,12 +8,11 @@ namespace Characters.Player.Upgrades
     public class SingleWeaponUnlockSO : SingleAbilityUnlockBaseSO
     {
         [SerializeField] private EntityWeaponData _weaponData;
-
         public override int AbilityID => _weaponData.ID;
 
-        protected override string GetInfo(char sign)
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return $"Open <color=blue>{_weaponData.WeaponName}</color>";
+            return _weaponData.WeaponName;
         }
 
         public override void ApplyUpgrade(IUpgradableCharacterLogic target)

@@ -8,12 +8,11 @@ namespace Characters.Player.Upgrades
     [CreateAssetMenu(fileName = "NewNeroWeaponAuraUpgradeSO", menuName = "Game/Upgrades/Weapon Upgrades/Single Upgrades/Nero/Weapon Aura Upgrade Data")]
     public class NeroWeaponAuraUpgradeSO : SingleUpgradeBaseSO<IUpgradableWeapon>
     {
-        [SerializeField] private string _auraDescription;
         [SerializeField] private ScriptableMaterialPropsBase _auraMaterialPropsData;
 
-        protected override string GetInfo(char sign)
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return _auraDescription;
+            return "Unlock";
         }
 
         public override void ApplyUpgrade(IUpgradableWeapon target)

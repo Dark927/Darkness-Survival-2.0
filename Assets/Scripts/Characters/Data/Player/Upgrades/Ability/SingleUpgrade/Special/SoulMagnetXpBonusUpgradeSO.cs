@@ -9,14 +9,11 @@ namespace Characters.Player.Upgrades
         [Tooltip("The flat percentage of BONUS EXP granted when pulling a soul.")]
         [SerializeField] private float _xpBonusPercent = 20f;
 
-        protected override string GetInfo(char sign)
-        {
-            return $"{StatNameUI} : {sign}{_xpBonusPercent}% xp.";
-        }
+        protected override string GetDefaultUpgradeName() => "Bonus Soul XP";
 
-        protected override string GetDefaultStatNameUI()
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return "Bonus Soul XP";
+            return $"{displaySign}{_xpBonusPercent}% xp.";
         }
 
         public override void ApplyUpgrade(IUpgradableAbility target)

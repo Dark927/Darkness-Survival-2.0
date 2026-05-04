@@ -1,5 +1,4 @@
-﻿
-using Characters.Common.Combat.Weapons;
+﻿using Characters.Common.Combat.Weapons;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades
@@ -9,19 +8,14 @@ namespace Characters.Player.Upgrades
     {
         [SerializeField, Min(0)] private float _damageUpgradePercent = 0;
 
-        protected override string GetInfo(char sign)
+        protected override string GetDefaultUpgradeName() => "Max DMG";
+
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return $"Max DMG : {sign}{_damageUpgradePercent}%";
+            return $"{displaySign}{_damageUpgradePercent}%";
         }
 
-        public override void ApplyUpgrade(IUpgradableWeapon target)
-        {
-            target.ApplyDamageUpgrade(_damageUpgradePercent / 100f);
-        }
-
-        public override void ApplyDowngrade(IUpgradableWeapon target)
-        {
-            target.ApplyDamageUpgrade(-(_damageUpgradePercent / 100f));
-        }
+        public override void ApplyUpgrade(IUpgradableWeapon target) => target.ApplyDamageUpgrade(_damageUpgradePercent / 100f);
+        public override void ApplyDowngrade(IUpgradableWeapon target) => target.ApplyDamageUpgrade(-(_damageUpgradePercent / 100f));
     }
 }

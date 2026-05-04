@@ -9,12 +9,10 @@ namespace Characters.Player.Upgrades
     public class CharacterTrailUpgradeSO : SingleUpgradeBaseSO<IUpgradableCharacterLogic>
     {
         [SerializeField] private GameObject _trailVisualPrefab;
-        [SerializeField, TextArea] private string _description;
 
-
-        protected override string GetInfo(char sign)
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return _description;
+            return "Unlock";
         }
 
         public override void ApplyUpgrade(IUpgradableCharacterLogic target)

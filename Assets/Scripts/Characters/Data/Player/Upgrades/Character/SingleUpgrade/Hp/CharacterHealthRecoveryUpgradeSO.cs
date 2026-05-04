@@ -3,32 +3,18 @@ using UnityEngine;
 
 namespace Characters.Player.Upgrades
 {
-    [CreateAssetMenu(fileName = "NewCharacterHealthExtraBonusSO", menuName = "Game/Upgrades/Character Upgrades/Bonuses/Health Extra Bonus Data")]
-    public class CharacterHealthExtraBonusSO : SingleUniversalUpgradeSO<IUpgradableCharacterLogic>
+    [CreateAssetMenu(fileName = "NewCharacterHealthExtraBonusSO", menuName = "Game/Upgrades/Character Upgrades/Single Upgrades/Health Recovery Upgrade Data")]
+    public class CharacterHealthRecoveryUpgradeSO : SingleUniversalUpgradeSO<IUpgradableCharacterLogic>
     {
         [SerializeField, Range(0, 95f)] private float _hpPercent = 0;
 
         [Header("<color=yellow>Note : this parameter overrides previous ones</color>")]
         [SerializeField] private bool _healFullHp = false;
 
-        protected override string GetInfo(char sign)
+        protected override string GetDefaultUpgradeName() => "HP fast recovery";
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            if (_healFullHp)
-            {
-                return $"<color=green>fully recover current HP</color>";
-            }
-
-            if (sign == '+')
-            {
-                return $"<color=green>Current HP : {sign}{_hpPercent}% of Max HP </color>";
-            }
-
-            if (sign == '-')
-            {
-                return $"<color=red>Current HP : {sign}{_hpPercent}%</color>";
-            }
-
-            return "<color=red>error<color=red";
+            return $"{displaySign}{_hpPercent}%";
         }
 
         public override void ApplyUpgrade(IUpgradableCharacterLogic target)

@@ -19,24 +19,11 @@ namespace Characters.Player.Upgrades
 
         private float ActualUpgradePercent => _mode == DurationMode.ReduceDuration ? -_durationUpgradePercent : _durationUpgradePercent;
 
+        protected override string GetDefaultUpgradeName() => "Effect duration";
 
-        protected override string GetInfo(char sign)
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            // If the caller passes '+' (Upgrade) but our mode is Reduce, we want to display '-'.
-            // If the caller passes '-' (Downgrade) but our mode is Reduce, we want to display '+'.
-            char displaySign = sign;
-
-            if (_mode == DurationMode.ReduceDuration)
-            {
-                displaySign = sign == '+' ? '-' : '+';
-            }
-
-            return $"{StatNameUI} : {displaySign}{_durationUpgradePercent}%";
-        }
-
-        protected override string GetDefaultStatNameUI()
-        {
-            return "Effect duration";
+            return $"{displaySign}{_durationUpgradePercent}%";
         }
 
         public override void ApplyUpgrade(IUpgradableAbility target)

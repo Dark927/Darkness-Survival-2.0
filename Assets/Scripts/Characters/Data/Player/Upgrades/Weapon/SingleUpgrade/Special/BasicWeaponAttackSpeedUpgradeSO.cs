@@ -12,15 +12,20 @@ namespace Characters.Player.Upgrades
         [Header("<color=yellow>Note : Default value modifies speed for all attack types</color>")]
         [SerializeField] private BasicAttack.LocalType _attackType;
 
-        protected override string GetInfo(char sign)
+        protected override string GetDefaultUpgradeName()
         {
             return _attackType switch
             {
-                BasicAttack.LocalType.Default => $"All attacks speed : {sign}{_speedUpgradePercent}%",
-                BasicAttack.LocalType.Fast => $"Fast attack speed : {sign}{_speedUpgradePercent}%",
-                BasicAttack.LocalType.Heavy => $"Heavy attack speed : {sign}{_speedUpgradePercent}%",
+                BasicAttack.LocalType.Default => "All attacks speed",
+                BasicAttack.LocalType.Fast => "Light attack speed",
+                BasicAttack.LocalType.Heavy => "Heavy attack speed",
                 _ => throw new System.NotImplementedException()
             };
+        }
+
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
+        {
+            return $"{displaySign}{_speedUpgradePercent}%";
         }
 
         public override void ApplyUpgrade(IUpgradableWeapon target)

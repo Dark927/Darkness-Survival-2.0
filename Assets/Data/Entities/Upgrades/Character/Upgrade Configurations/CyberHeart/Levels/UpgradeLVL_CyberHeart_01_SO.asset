@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: UpgradeLVL_CyberHeart_01_SO
   m_EditorClassIdentifier: 
   _baseDescription: Upgrade <color=red><b>max HP</b></color>
-  _useDowngradesInfoInDesc: 0
+  _useDowngradesInfoInDesc: 1
   _upgrades:
   - {fileID: 11400000, guid: cbf5e1bdd79ecf54682d0acceaf75916, type: 2}
   _downgrades: []
+  _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
   _customVisualDataUI: {fileID: 0}
+  _customIconUI: {fileID: 0}

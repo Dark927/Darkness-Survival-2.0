@@ -6,30 +6,18 @@ namespace Characters.Player.Upgrades
     [CreateAssetMenu(fileName = "WeaponReloadUpgradeSO", menuName = "Game/Upgrades/Weapon Upgrades/Single Upgrades/Reload Speed Upgrade")]
     public class WeaponReloadUpgradeSO : SingleUniversalUpgradeSO<IUpgradableWeapon>
     {
-        [Tooltip("Percentage to REDUCE reload time (e.g., 10 for -10% time)")]
         [SerializeField, Min(0)] private float _reloadReductionPercent = 10f;
 
-        private float ActualUpgradePercent => -_reloadReductionPercent;
+        protected override string GetDefaultUpgradeName() => "Reload Time";
 
-        protected override string GetInfo(char sign)
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            char displaySign = sign == '+' ? '-' : '+';
-            return $" {StatNameUI} : {displaySign}{_reloadReductionPercent}%";
+            // the base class handles the ReverseSignLogic - displaySign will automatically be
+            // '-' when it's an upgrade, and '+' when it's a downgrade
+            return $"{displaySign}{_reloadReductionPercent}%";
         }
 
-        protected override string GetDefaultStatNameUI()
-        {
-            return "Reload Time";
-        }
-
-        public override void ApplyUpgrade(IUpgradableWeapon target)
-        {
-            target.ApplyReloadSpeedUpgrade(ActualUpgradePercent / 100f);
-        }
-
-        public override void ApplyDowngrade(IUpgradableWeapon target)
-        {
-            target.ApplyReloadSpeedUpgrade(-(ActualUpgradePercent / 100f));
-        }
+        public override void ApplyUpgrade(IUpgradableWeapon target) => target.ApplyReloadSpeedUpgrade(-_reloadReductionPercent / 100f);
+        public override void ApplyDowngrade(IUpgradableWeapon target) => target.ApplyReloadSpeedUpgrade(_reloadReductionPercent / 100f);
     }
 }

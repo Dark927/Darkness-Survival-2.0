@@ -7,20 +7,15 @@ namespace Characters.Player.Upgrades
     {
         [SerializeField, Range(0, 25f)] private float _hpPercentPerSec = 0;
 
-        protected override string GetInfo(char sign)
+        protected override string GetDefaultUpgradeName() => "HP Regeneration";
+        protected override string GetUpgradeValueInfo(char originalSign, char displaySign)
         {
-            return $"HP regen : {sign}{_hpPercentPerSec}% hp/sec";
+            return $"{displaySign}{_hpPercentPerSec}% hp/sec";
         }
 
-        public override void ApplyUpgrade(IUpgradableCharacterLogic target)
-        {
-            target.ApplyHealthRegenerationUpgrade(_hpPercentPerSec / 100f, false);
-        }
+        public override void ApplyUpgrade(IUpgradableCharacterLogic target) => target.ApplyHealthRegenerationUpgrade(_hpPercentPerSec / 100f, false);
 
-        public override void ApplyDowngrade(IUpgradableCharacterLogic target)
-        {
-            target.ApplyHealthRegenerationUpgrade(_hpPercentPerSec / 100f, true);
-        }
+        public override void ApplyDowngrade(IUpgradableCharacterLogic target) => target.ApplyHealthRegenerationUpgrade(_hpPercentPerSec / 100f, true);
 
         private void OnValidate()
         {

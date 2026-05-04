@@ -10,7 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25a3771b3c63ea04e959507a0c38609b, type: 3}
-  m_Name: Upgrade_Single_Light_i12.5-r0_SO
+  m_Name: Upgrade_Single_SightFlare_15_SO
   m_EditorClassIdentifier: 
-  _lightIntensityUpgradePercent: 12.5
-  _lightRadiusUpgradePercent: 0
+  _uiSettings:
+    UseFullOverride: 0
+    FullOverrideString: 
+    UpgradeNameOverride: Sight Flare
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 0
+  _intensityUpgradePercent: 15

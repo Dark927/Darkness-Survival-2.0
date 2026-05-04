@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a799981a87570f4aba45219002a198d, type: 3}
   m_Name: AB_Upgrade_Single_ConvergenceTime_15_SO
   m_EditorClassIdentifier: 
-  _upgradeStatNameUIOverride: Convergence Time
+  _uiSettings:
+    UseFullOverride: 0
+    FullOverrideString: 
+    UpgradeNameOverride: Convergence Time
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 1
   _durationUpgradePercent: 15
   _mode: 1

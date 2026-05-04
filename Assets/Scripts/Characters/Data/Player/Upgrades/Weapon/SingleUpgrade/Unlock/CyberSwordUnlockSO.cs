@@ -1,8 +1,6 @@
-﻿using Characters.Player;
-using Characters.Player.Upgrades;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Characters.Data.Player.Upgrades.Weapon.SingleUpgrade.Unlock
+namespace Characters.Player.Upgrades
 {
     /// <summary>
     /// This weapon is special for Nero character (with special animations set)

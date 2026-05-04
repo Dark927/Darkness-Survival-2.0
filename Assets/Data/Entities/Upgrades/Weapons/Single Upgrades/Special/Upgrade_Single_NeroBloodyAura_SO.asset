@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b701cccea45623d44b34fb81a4d431b3, type: 3}
   m_Name: Upgrade_Single_NeroBloodyAura_SO
   m_EditorClassIdentifier: 
-  _auraDescription: <color=red>Add bloody aura to the sword</color>
+  _uiSettings:
+    UseFullOverride: 1
+    FullOverrideString: Unlock <color=red>Bloody Aura</color>
+    UpgradeNameOverride: 
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 0
   _auraMaterialPropsData: {fileID: 11400000, guid: db12382d105bca147b2697e50dbc66ef, type: 2}

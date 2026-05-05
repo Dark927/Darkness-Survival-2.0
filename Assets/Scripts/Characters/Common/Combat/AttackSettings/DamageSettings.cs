@@ -31,5 +31,15 @@ namespace Characters.Common.Combat
         {
             return Random.Range(Min, Max);
         }
+
+        public void SetMin(float value)
+        {
+            _min = Mathf.Clamp(value, 0, Max);
+        }
+
+        public void SetMax(float value)
+        {
+            _max = Mathf.Max(value, Min);
+        }
     }
 }

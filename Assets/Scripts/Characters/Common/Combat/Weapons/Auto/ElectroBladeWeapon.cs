@@ -20,7 +20,7 @@ namespace Characters.Common.Combat.Weapons
         public bool IsSpecialAttackActive => _isSpecialAttackActive;
 
         // helper to get the dynamically scaled time for a single attack pulse
-        private float CurrentPulseTime => AttackSettings.TriggerActivityTimeSec * CurrentAttackSpeedMultiplier;
+        private float CurrentPulseTime => UpgradedAttackSettings.TriggerActivityTimeSec;
 
         public override void Initialize(WeaponAttackDataBase attackData)
         {
@@ -63,7 +63,7 @@ namespace Characters.Common.Combat.Weapons
             float pulseTime = CurrentPulseTime;
 
             // calculate how many pulses fit into the total attack window
-            int attackCount = Mathf.FloorToInt(AttackSettings.FullDurationTimeSec / pulseTime);
+            int attackCount = Mathf.FloorToInt(UpgradedAttackSettings.FullDurationTimeSec / pulseTime);
 
             // guarantee at least one attack fires
             if (attackCount < 1) attackCount = 1;
@@ -75,19 +75,12 @@ namespace Characters.Common.Combat.Weapons
                 await UniTask.WaitForSeconds(pulseTime, cancellationToken: token);
             }
 
-            // calculate any leftover time in the attack window so we stay perfectly synced
-            float totalTimeUsed = attackCount * pulseTime;
-            float leftoverTime = AttackSettings.FullDurationTimeSec - totalTimeUsed;
-
-            if (leftoverTime > 0)
-            {
-                await UniTask.WaitForSeconds(leftoverTime, cancellationToken: token);
-            }
+            // We don't need to wait leftover time after main pulses finished.
         }
 
         protected override void FireWeapon()
         {
-            BaseImpact.Shake?.Activate();
+            BaseAttackImpact.Shake?.Activate();
 
             // pass the dynamically calculated pulse time to the triggers
             _frontTrigger.Activate(CurrentPulseTime);

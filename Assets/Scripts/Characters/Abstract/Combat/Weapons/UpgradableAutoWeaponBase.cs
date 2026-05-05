@@ -26,20 +26,20 @@ namespace Characters.Common.Combat.Weapons
 
         private async UniTaskVoid AutoAttackLoop(CancellationToken token)
         {
-            await UniTask.WaitForSeconds(CurrentReloadTime, cancellationToken: token);
+            await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token);
 
             while (!token.IsCancellationRequested)
             {
                 await PerformAttackPhase(token);
 
-                await UniTask.WaitForSeconds(CurrentReloadTime, cancellationToken: token);
+                await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token);
             }
         }
 
         protected virtual async UniTask PerformAttackPhase(CancellationToken token)
         {
             FireWeapon();
-            await UniTask.WaitForSeconds(AttackSettings.FullDurationTimeSec, cancellationToken: token);
+            await UniTask.WaitForSeconds(UpgradedAttackSettings.FullDurationTimeSec, cancellationToken: token);
         }
 
         // Every auto-weapon MUST define what happens when the timer hits zero

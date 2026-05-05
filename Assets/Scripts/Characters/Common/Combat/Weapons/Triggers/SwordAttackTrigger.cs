@@ -5,9 +5,9 @@ namespace Characters.Common.Combat
 {
     public class SwordAttackTrigger : AttackTrigger
     {
-        [SerializeField] private CharacterSword.AttackType _attackType;
+        [SerializeField] private BasicAttack.LocalType _attackType;
 
-        public CharacterSword.AttackType TargetAttackType => _attackType;
+        public BasicAttack.LocalType TargetAttackType => _attackType;
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {

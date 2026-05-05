@@ -23,9 +23,9 @@ namespace Characters.Common.Combat.Weapons
         #region Properties
 
         public IAttackableEntityLogic Owner => _owner;
-        public IAttackSettings AttackSettings => _attackSettings;
-        public AttackImpact BaseImpact => _impact;
-        public bool ImpactAvailable => AttackSettings.Impact.UseImpact;
+        public IAttackSettings InitialAttackSettings => _attackSettings;
+        public AttackImpact BaseAttackImpact => _impact;
+        public bool ImpactAvailable => InitialAttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
         public GameObject GameObject => this.gameObject;
 
@@ -115,7 +115,7 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual float RequestDamageAmount()
         {
-            return CalculateCurrentDamage(AttackSettings.Damage);
+            return CalculateCurrentDamage(InitialAttackSettings.Damage);
         }
 
         protected virtual void PerformPostDamageActions(Collider2D targetCollider)
@@ -147,27 +147,24 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual void PerformImpact(Collider2D targetCollider)
         {
-            AttackImpact activeImpact = GetActiveImpact();
-
-            if (!CanUseImpactThisTime(activeImpact))
+            if (CanUseActiveImpactThisTime(out AttackImpact activeImpact))
             {
-                return;
+                IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
+                activeImpact.AddKnockback(CalculatePushDirection(Center, targetCollider.bounds.center));
+                activeImpact.PerformPhysicsImpact(targetCollider);
+
+                activeImpact.ReloadImpact();
             }
-
-            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
-            activeImpact.AddKnockback(CalculatePushDirection(Center, targetCollider.bounds.center));
-            activeImpact.PerformPhysicsImpact(targetCollider);
-
-            activeImpact.ReloadImpact();
         }
 
-        protected virtual AttackImpact GetActiveImpact()
+        protected virtual AttackImpact GetActiveAttackImpact()
         {
-            return _impact;
+            return BaseAttackImpact;
         }
 
-        protected virtual bool CanUseImpactThisTime(AttackImpact activeImpact)
+        protected virtual bool CanUseActiveImpactThisTime(out AttackImpact activeImpact)
         {
+            activeImpact = GetActiveAttackImpact();
             return ImpactAvailable && activeImpact != null && activeImpact.IsReady && CanUseImpactWithChance(activeImpact.ChancePercent);
         }
 
@@ -175,9 +172,10 @@ namespace Characters.Common.Combat.Weapons
         /// <summary>
         /// Calculates that impact can be used considering the existing chance.
         /// </summary>
-        protected bool CanUseImpactWithChance(int impactChancePercent)
+        protected bool CanUseImpactWithChance(float impactChancePercent)
         {
-            return (UnityEngine.Random.Range(0, 100) <= (impactChancePercent));
+            // Use 0.0 to 1.0 internally
+            return UnityEngine.Random.value <= (impactChancePercent / 100f);
         }
 
 

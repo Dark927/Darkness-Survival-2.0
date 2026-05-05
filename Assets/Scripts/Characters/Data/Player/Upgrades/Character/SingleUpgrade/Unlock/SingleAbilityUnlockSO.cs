@@ -29,14 +29,7 @@ namespace Characters.Player.Upgrades
                 base.GetInfo(originalSign)
             };
 
-            // Calculate the hex colors so our extra lines perfectly match the UI settings
-            bool isUpgrade = originalSign == '+';
-            if (_uiSettings.ReverseSignLogic)
-            {
-                isUpgrade = !isUpgrade;
-            }
-
-            Color valueColor = isUpgrade ? _uiSettings.UpgradeValueColor : _uiSettings.DowngradeValueColor;
+            Color valueColor = _uiSettings.UpgradeValueColor;
             string nameHex = ColorUtility.ToHtmlStringRGBA(_uiSettings.UpgradeNameColor);
             string valueHex = ColorUtility.ToHtmlStringRGBA(valueColor);
 

@@ -1,4 +1,4 @@
-﻿using Characters.Common.Combat.Weapons.Data;
+﻿using Characters.Common.Combat.Weapons;
 using UnityEngine;
 
 namespace Characters.Common.Combat
@@ -23,8 +23,9 @@ namespace Characters.Common.Combat
         public AttackNegativeStatusData NegativeStatus { get => _commonSettings.NegativeStatus; set => _commonSettings.NegativeStatus = value; }
         public DamageSettings Damage { get => _commonSettings.Damage; set => _commonSettings.Damage = value; }
         public ImpactSettings Impact { get => _commonSettings.Impact; set => _commonSettings.Impact = value; }
-        public float TriggerActivityTimeSec => _commonSettings.TriggerActivityTimeSec;
-        public float FullDurationTimeSec => _commonSettings.FullDurationTimeSec;
-        public float ReloadTimeSec => _commonSettings.ReloadTimeSec;
+
+        public float TriggerActivityTimeSec { get => _commonSettings.TriggerActivityTimeSec; set => _commonSettings.TriggerActivityTimeSec = value; }
+        public float FullDurationTimeSec { get => _commonSettings.FullDurationTimeSec; set => _commonSettings.FullDurationTimeSec = value; }
+        public float ReloadTimeSec { get => _commonSettings.ReloadTimeSec; set => _commonSettings.ReloadTimeSec = value; }
     }
 }

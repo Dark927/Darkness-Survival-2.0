@@ -5,9 +5,9 @@ namespace Characters.Common.Combat
 {
     public class SwordAttackTriggerArgs : AttackTriggerArgs
     {
-        public CharacterSword.AttackType AttackType { get; }
+        public BasicAttack.LocalType AttackType { get; }
 
-        public SwordAttackTriggerArgs(Collider2D targetCollider, CharacterSword.AttackType attackType) : base(targetCollider)
+        public SwordAttackTriggerArgs(Collider2D targetCollider, BasicAttack.LocalType attackType) : base(targetCollider)
         {
             AttackType = attackType;
         }

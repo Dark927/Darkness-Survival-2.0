@@ -13,7 +13,7 @@ namespace Characters.Common.Combat
         [SerializeField] private float _pushForce;
         [Space]
         [SerializeField] private int _reloadTimeMs;
-        [SerializeField, Range(0, 100)] private int _chancePercent;
+        [SerializeField, Range(0, 100)] private float _chancePercent;
         [Space]
         [SerializeField] private ShakeSettings _shakeSettings;
 
@@ -21,7 +21,7 @@ namespace Characters.Common.Combat
         public int StunDurationMs => _stunDurationMs;
         public float PushForce => _pushForce;
         public int ReloadTimeMs => _reloadTimeMs;
-        public int ChancePercent => _chancePercent;
+        public float ChancePercent => _chancePercent;
         public ShakeSettings ShakeSettings => _shakeSettings;
 
 
@@ -33,6 +33,11 @@ namespace Characters.Common.Combat
             _reloadTimeMs = reloadTimeMs;
             _chancePercent = chancePercent;
             _shakeSettings = ShakeSettings.Default;
+        }
+
+        public void SetChancePercent(float percent)
+        {
+            _chancePercent = Mathf.Clamp(percent, 0f, 100f);
         }
 
         public void SetShake(ShakeSettings shakeSettings)

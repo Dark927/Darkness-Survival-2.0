@@ -23,7 +23,7 @@ MonoBehaviour:
         _stunDurationMs: 400
         _pushForce: 2
         _reloadTimeMs: 250
-        _chancePercent: 0
+        _chancePercent: 25
         _shakeSettings:
           m_Amplitude: 1
           m_Frequency: 1
@@ -36,10 +36,10 @@ MonoBehaviour:
       _max: 16
     _heavyImpactSettings:
       _useImpact: 1
-      _stunDurationMs: 1000
+      _stunDurationMs: 800
       _pushForce: 4
       _reloadTimeMs: 500
-      _chancePercent: 0
+      _chancePercent: 10
       _shakeSettings:
         m_Amplitude: 5
         m_Frequency: 1

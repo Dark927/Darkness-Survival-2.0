@@ -16,4 +16,9 @@ MonoBehaviour:
   _useDowngradesInfoInDesc: 1
   _upgrades:
   - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+  - {fileID: 11400000, guid: 8e0b5d7f10b6fb849b5a329fe32fa11f, type: 2}
+  - {fileID: 11400000, guid: 4c6b20e4a6396984f860959e493c86d0, type: 2}
   _downgrades: []
+  _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+  _customVisualDataUI: {fileID: 0}
+  _customIconUI: {fileID: 0}

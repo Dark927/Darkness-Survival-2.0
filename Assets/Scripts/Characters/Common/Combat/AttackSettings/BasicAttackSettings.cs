@@ -1,4 +1,4 @@
-﻿using Characters.Common.Combat.Weapons.Data;
+﻿using Characters.Common.Combat.Weapons;
 using UnityEngine;
 
 namespace Characters.Common.Combat
@@ -23,12 +23,21 @@ namespace Characters.Common.Combat
         [SerializeField] private float _fullDurationTimeSec;
         [SerializeField] private float _reloadTimeSec;
 
+        public BasicAttackSettings(IAttackSettings source)
+        {
+            _attackNegativeStatus = source.NegativeStatus;
+            _damageSettings = source.Damage;
+            _impact = source.Impact;
+            _triggerActivityTimeSec = source.TriggerActivityTimeSec;
+            _fullDurationTimeSec = source.FullDurationTimeSec;
+            _reloadTimeSec = source.ReloadTimeSec;
+        }
 
         public AttackNegativeStatusData NegativeStatus { get => _attackNegativeStatus; set => _attackNegativeStatus = value; }
         public DamageSettings Damage { get => _damageSettings; set => _damageSettings = value; }
         public ImpactSettings Impact { get => _impact; set => _impact = value; }
-        public float TriggerActivityTimeSec => _triggerActivityTimeSec;
-        public float FullDurationTimeSec => _fullDurationTimeSec;
-        public float ReloadTimeSec => _reloadTimeSec;
+        public float TriggerActivityTimeSec { get => _triggerActivityTimeSec; set => _triggerActivityTimeSec = value; }
+        public float FullDurationTimeSec { get => _fullDurationTimeSec; set => _fullDurationTimeSec = value; }
+        public float ReloadTimeSec { get => _reloadTimeSec; set => _reloadTimeSec = value; }
     }
 }

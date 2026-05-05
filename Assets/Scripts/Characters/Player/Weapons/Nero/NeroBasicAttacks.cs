@@ -75,12 +75,12 @@ namespace Characters.Player.Weapons
 
         private void TriggerFastAttack()
         {
-            _sword.TriggerAttack(CharacterSword.AttackType.Fast);
+            _sword.TriggerAttack(LocalType.Fast);
         }
 
         private void TriggerHeavyAttack()
         {
-            _sword.TriggerAttack(CharacterSword.AttackType.Heavy);
+            _sword.TriggerAttack(LocalType.Heavy);
         }
 
         protected override void AnyAttackStarted()

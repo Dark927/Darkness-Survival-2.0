@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Characters.Common.Combat.Weapons.Data
+namespace Characters.Common.Combat.Weapons
 {
     [CreateAssetMenu(fileName = "NewAttackNegativeStatusData", menuName = "Game/Combat/Data/Attacks/AttackNegativeStatusData")]
     public class AttackNegativeStatusData : ScriptableObject

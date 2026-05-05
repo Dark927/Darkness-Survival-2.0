@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75ab2575b13428f409903b091466ff22, type: 3}
+  m_Name: UpgradeLVL_ElectroBlade_06_SO
+  m_EditorClassIdentifier: 
+  _baseDescription: 
+  _useDowngradesInfoInDesc: 1
+  _upgrades:
+  - {fileID: 11400000, guid: d9d79ca1825d6f949bd0de6036db0c3a, type: 2}
+  - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+  - {fileID: 11400000, guid: af2349b4615bc634baa21dffb282a485, type: 2}
+  - {fileID: 11400000, guid: 8843f9b111e91ee4b8661dc9171f9d35, type: 2}
+  _downgrades: []
+  _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+  _customVisualDataUI: {fileID: 0}
+  _customIconUI: {fileID: 0}

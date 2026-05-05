@@ -17,6 +17,11 @@ namespace Characters.Player.Upgrades
             return $"<color=#{statNameHex}>{statName}</color> : <color=#{statValueHex}>{statValue:0.##}{statValueUnits}</color>";
         }
 
+        protected virtual string FormatAbilityConcreteStatInfo(string statName, string statNameHex, string statValue, string statValueHex, string statValueUnits = "")
+        {
+            return $"<color=#{statNameHex}>{statName}</color> : <color=#{statValueHex}>{statValue}{statValueUnits}</color>";
+        }
+
         protected override string GetDefaultUpgradeName()
         {
             return "Open";

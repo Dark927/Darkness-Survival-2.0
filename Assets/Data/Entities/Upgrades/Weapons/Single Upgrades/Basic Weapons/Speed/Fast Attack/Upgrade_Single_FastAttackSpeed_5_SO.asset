@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447934e919dcdf44ea418c0384b51ca9, type: 3}
   m_Name: Upgrade_Single_FastAttackSpeed_5_SO
   m_EditorClassIdentifier: 
+  _uiSettings:
+    UseFullOverride: 0
+    FullOverrideString: 
+    UpgradeNameOverride: 
+    UpgradeNameColor: {r: 1, g: 1, b: 1, a: 1}
+    UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
+    DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
+    ReverseSignLogic: 0
   _speedUpgradePercent: 5
   _attackType: 1

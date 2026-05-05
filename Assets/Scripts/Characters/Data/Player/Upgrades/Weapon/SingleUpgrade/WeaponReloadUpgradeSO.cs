@@ -17,7 +17,7 @@ namespace Characters.Player.Upgrades
             return $"{displaySign}{_reloadReductionPercent}%";
         }
 
-        public override void ApplyUpgrade(IUpgradableWeapon target) => target.ApplyReloadSpeedUpgrade(-_reloadReductionPercent / 100f);
-        public override void ApplyDowngrade(IUpgradableWeapon target) => target.ApplyReloadSpeedUpgrade(_reloadReductionPercent / 100f);
+        public override void ApplyUpgrade(IUpgradableWeapon target) => target.ApplyReloadSpeedUpgrade(_reloadReductionPercent / 100f);
+        public override void ApplyDowngrade(IUpgradableWeapon target) => target.ApplyReloadSpeedUpgrade(-_reloadReductionPercent / 100f);
     }
 }

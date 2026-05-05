@@ -24,7 +24,8 @@ namespace Characters.Common.Combat
         #region Properties
 
         public ShakeImpact Shake => _shake;
-        public int ChancePercent => _settings.ChancePercent;
+        public ImpactSettings CurrentSettings => _settings;
+        public float ChancePercent => CurrentSettings.ChancePercent;
         public bool IsReady => _isReady;
 
         #endregion
@@ -34,15 +35,22 @@ namespace Characters.Common.Combat
 
         public AttackImpact(ImpactSettings settings)
         {
-            _settings = settings;
-            _shake = new ShakeImpact(settings.ShakeSettings);
+            _shake = new ShakeImpact(); // order is important (coz SetImpactSettings)
             _physicsActions = new EntityPhysicsActions();
+            SetImpactSettings(settings);
+            
             _isReady = true;
         }
 
         public void SetShakeImpact(ShakeImpact shake)
         {
             _shake = shake;
+        }
+
+        public void SetImpactSettings(ImpactSettings settings)
+        {
+            _settings = settings;
+            _shake.SetSettings(settings.ShakeSettings);
         }
 
         public void ReloadImpact(bool forceReload = false)

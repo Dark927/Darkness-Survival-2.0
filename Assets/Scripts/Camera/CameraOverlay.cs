@@ -14,7 +14,7 @@ namespace Settings.CameraManagement
             UpdateCameraReference();
         }
 
-        private void LateUpdate()
+        private void FixedUpdate()
         {
             if (_targetCameraTransform == null)
             {

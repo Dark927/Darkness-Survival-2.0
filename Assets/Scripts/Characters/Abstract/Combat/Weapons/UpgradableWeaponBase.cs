@@ -11,6 +11,7 @@ namespace Characters.Common.Combat.Weapons
         private float _attackSpeedMultiplier = 1f;
         private float _activeDurationMultiplier = 1f;
         private float _damageMultiplier = 1f;
+        private float _attackRadiusMultiplier = 1f;
         private float _extraImpactChancePercent = 0;
 
         protected IAttackSettings UpgradedAttackSettings;
@@ -25,11 +26,11 @@ namespace Characters.Common.Combat.Weapons
 
         #region Methods
 
-        public override void Initialize(WeaponAttackDataBase attackData)
+        public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
 
-            UpgradedAttackSettings = new BasicAttackSettings(InitialAttackSettings);
+            UpgradedAttackSettings = InitialAttackSettings.Clone();
         }
 
         protected float CalculateUpgradedDamage()
@@ -88,6 +89,24 @@ namespace Characters.Common.Combat.Weapons
             UpgradedAttackSettings.FullDurationTimeSec = InitialAttackSettings.FullDurationTimeSec * _activeDurationMultiplier;
 
             //ErrorLogger.Log($"Upgraded Active Duration: {UpgradedAttackSettings.FullDurationTimeSec:0.##}s");
+        }
+
+        public virtual void ApplyAttackRadiusUpgrade(float multiplier)
+        {
+            // Apply this upgrade only for AoE attacks
+            if (InitialAttackSettings is AoeAttackSettings initialAoe &&
+                UpgradedAttackSettings is AoeAttackSettings upgradedAoe)
+            {
+                _attackRadiusMultiplier += multiplier;
+
+                upgradedAoe.AttackRadius = initialAoe.AttackRadius * _attackRadiusMultiplier;
+
+                ErrorLogger.Log($"Upgraded Attack Radius: {upgradedAoe.AttackRadius:0.##}s");
+            }
+            else
+            {
+                ErrorLogger.LogWarning(this.name + " :: " + "Trying to upgrade Attack Radius, but settings are not AoE!");
+            }
         }
 
         #endregion

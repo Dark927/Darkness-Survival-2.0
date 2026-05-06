@@ -9,24 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4005e23c4506ea41a8906ea711dfac4, type: 3}
+  m_Script: {fileID: 11500000, guid: 821d0561ebcedc74ba7ece78239f958e, type: 3}
   m_Name: ElectroBladeAttackData
   m_EditorClassIdentifier: 
-  _defaultAttackSettings:
-    _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
-    _damageSettings:
-      _min: 3
-      _max: 4
-    _impact:
-      _useImpact: 1
-      _stunDurationMs: 500
-      _pushForce: 4
-      _reloadTimeMs: 2000
-      _chancePercent: 75
-      _shakeSettings:
-        m_Amplitude: 0
-        m_Frequency: 0
-        m_Time: 0
-    _triggerActivityTimeSec: 1
-    _fullDurationTimeSec: 1
-    _reloadTimeSec: 4
+  _settings:
+    rid: 1713407583140970510
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407583140970510
+      type: {class: BasicAttackSettings, ns: Characters.Common.Combat, asm: Assembly-CSharp}
+      data:
+        _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
+        _damageSettings:
+          _min: 3
+          _max: 4
+        _impact:
+          _useImpact: 1
+          _stunDurationMs: 500
+          _pushForce: 4
+          _reloadTimeMs: 2000
+          _chancePercent: 75
+          _shakeSettings:
+            m_Amplitude: 0
+            m_Frequency: 0
+            m_Time: 0
+        _triggerActivityTimeSec: 1
+        _fullDurationTimeSec: 1
+        _reloadTimeSec: 4

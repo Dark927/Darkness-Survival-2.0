@@ -52,9 +52,11 @@ Material:
     m_Ints:
     - _RendMode: 0
     m_Floats:
+    - _BlackBgSmoothness: 0.2
+    - _BlackBgThreshold: 0
     - _EmissionAmount: 1
     - _EnableExternalAlpha: 0
-    - _FlashAmount: 1
+    - _FlashAmount: 0
     - _Gamma: 1
     - _HSVGamma: 1
     - _HueTolerance: 0.1
@@ -65,8 +67,8 @@ Material:
     - _ValTolerance: 0.2
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 255.99991, g: 255.99991, b: 255.99991, a: 1}
-    - _FlashColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1.6436746, g: 1.6436746, b: 1.6436746, a: 1}
+    - _FlashColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReplacementColorCoefB: {r: 0, g: 0, b: 0, a: 0}

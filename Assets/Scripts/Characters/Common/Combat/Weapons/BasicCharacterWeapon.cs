@@ -19,7 +19,7 @@ namespace Characters.Common.Combat.Weapons
 
         public PlayerCharacterVisual OwnerVisual => _ownerVisual;
 
-        public override void Initialize(WeaponAttackDataBase attackData)
+        public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
             _ownerVisual = Owner.Body.Visual as PlayerCharacterVisual;

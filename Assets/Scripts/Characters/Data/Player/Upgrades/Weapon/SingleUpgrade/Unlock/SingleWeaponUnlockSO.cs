@@ -47,6 +47,11 @@ namespace Characters.Player.Upgrades
                     lines.Add(FormatAbilityConcreteStatInfo("Damage", nameHex, damageRange, valueHex, " hp."));
                 }
 
+                if (stats is AoeAttackSettings AoeAttackSettings && AoeAttackSettings.AttackRadius > 0f)
+                {
+                    lines.Add(FormatAbilityConcreteStatInfo("Attack Radius", nameHex, AoeAttackSettings.AttackRadius.ToString("0.##"), valueHex, " s."));
+                }
+
                 // Attack Duration
                 if (stats.FullDurationTimeSec > 0f)
                 {

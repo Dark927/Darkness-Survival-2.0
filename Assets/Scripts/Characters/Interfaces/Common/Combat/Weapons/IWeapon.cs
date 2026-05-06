@@ -10,7 +10,7 @@ namespace Characters.Common.Combat.Weapons
         GameObject GameObject { get; }
         public IAttackableEntityLogic Owner { get; }
 
-        public void Initialize(WeaponAttackDataBase weaponAttackData);
+        public void Initialize(WeaponAttackData weaponAttackData);
         public void SetBasicDamageMultiplier(float multiplier);
     }
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359d3c440fefaae49aabe93879dac7bc, type: 3}
+  m_Name: Upgrade_Weapon_GalvanicHemorrhage_SO
+  m_EditorClassIdentifier: 
+  _upgradeLevels:
+  - {fileID: 11400000, guid: db089c739de75c14dbacd1f922516f92, type: 2}
+  - {fileID: 11400000, guid: ad348da56f804a74ea488a47b02eab30, type: 2}
+  - {fileID: 11400000, guid: 2cd5935485330124b83441c63688c43c, type: 2}
+  - {fileID: 11400000, guid: 7a02267cc55c4bf48b567432767a0dc2, type: 2}
+  - {fileID: 11400000, guid: d80f6f5356504b54c8ee3d5407419419, type: 2}
+  - {fileID: 11400000, guid: e8cc00e37b037c94e938eeb28f8c4b91, type: 2}

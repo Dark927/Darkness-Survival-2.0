@@ -25,7 +25,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Methods
 
-        public override void Initialize(WeaponAttackDataBase attackData)
+        public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
             _concreteOwner = Owner as NeroLogic;

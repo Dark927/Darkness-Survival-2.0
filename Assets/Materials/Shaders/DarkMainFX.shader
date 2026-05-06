@@ -8,10 +8,11 @@ Shader "Dark/Sprites/DarkMainFX"
         _EmissionMaskTex("Emission Mask", 2D) = "black" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
 
-        [Space]
         [Header(VFX Settings)]
         [Toggle] _RemoveBlackBg("Remove Black Background", Float) = 0
-        [Toggle] _UseSameTexForEmission("Use Main Tex for Emission", Float) = 0 
+        _BlackBgThreshold("Black BG Threshold", Range(0.0, 1.0)) = 0.05
+        _BlackBgSmoothness("Black BG Smoothness", Range(0.001, 1.0)) = 0.1
+        [Toggle] _UseSameTexForEmission("Use Main Tex for Emission", Float) = 0
 
         [Header(Mask Tint)]
         [Gamma] _Gamma("Gamma", Range(0.0, 3)) = 1
@@ -105,6 +106,8 @@ Shader "Dark/Sprites/DarkMainFX"
             float _HSVGamma;
 
             float _RemoveBlackBg;
+            float _BlackBgThreshold;
+            float _BlackBgSmoothness;
             float _UseSameTexForEmission;
 
             int _RendMode;
@@ -177,6 +180,7 @@ Shader "Dark/Sprites/DarkMainFX"
                 if(_RendMode & 128){ 
                     _RendMode &= ~128;
                     smoothUV = TexturePointSmoothUV(i.uv);
+                    i.uv.x = 0;
                 }
                 else
                 {
@@ -205,7 +209,13 @@ Shader "Dark/Sprites/DarkMainFX"
                 // Remove Black Background Logic
                 if (_RemoveBlackBg > 0.5)
                 {
-                    main.a = max(main.r, max(main.g, main.b));
+                    float brightness = max(main.r, max(main.g, main.b));
+                    
+                    // smoothstep mask
+                    float bgMask = smoothstep(_BlackBgThreshold, _BlackBgThreshold + _BlackBgSmoothness, brightness);
+                    
+                    // apply alpha mask
+                    main.a *= bgMask; 
                 }
 
                 main.a *= i.color.a;

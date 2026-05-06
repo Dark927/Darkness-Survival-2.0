@@ -17,20 +17,20 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: c66df68cf77dcc14287143212833684c
   m_SerializeEntries:
-  - m_GUID: 0080cf5636874be43b2ab79a0179e2b7
-    m_Address: Assets/Data/Entities/Weapons/Enemy/EnemyDefaultAttackData.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Attack
-    - Data
-    - Enemy
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 00de543b5d604234da0e35c27202ef9d
     m_Address: Assets/Data/Entities/Weapons/Player/NeroSword/NeroSwordData.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Character
     - Data
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d84c62bd30012f4192c005d7f1a4480
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/GalvanicHemorrhageWeapon/GalvanicHemorrhageWeapon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1f31db5a59bc48443a08d12488838de0
@@ -55,6 +55,14 @@ MonoBehaviour:
     - Character
     - Prefab
     - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fa592497705d5e41aa6aa2d593171c0
+    m_Address: Assets/Data/Entities/Weapons/Player/NeroSword/NeroSwordAttackData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Attack
+    - Character
+    - Data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ab6223af1301a9349a3e5d0ecee0876f
     m_Address: Assets/Data/Entities/Weapons/Enemy/InitEnemyWeaponSetData.asset
@@ -86,14 +94,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefab
     - Weapon
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f49b0c2b14aedcf4e817f6ab75f7e1cd
-    m_Address: Assets/Data/Entities/Weapons/Player/NeroSword/NeroSwordAttackData.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Attack
-    - Character
-    - Data
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 409abf5fd251b1345941243db22daff4, type: 2}

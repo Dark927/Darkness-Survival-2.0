@@ -36,7 +36,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init
 
-        public virtual void Initialize(WeaponAttackDataBase attackData)
+        public virtual void Initialize(WeaponAttackData attackData)
         {
             _owner = GetComponentInParent<IAttackableEntityLogic>(true);
             _ownerCollidder = _owner.Body.Physics.Collider;
@@ -93,10 +93,15 @@ namespace Characters.Common.Combat.Weapons
             return (target - source).normalized;
         }
 
-        protected virtual void HitTargetListener(object sender, EventArgs args)
+        protected void HitTargetListener(object sender, EventArgs args)
         {
             AttackTriggerArgs attackArgs = (AttackTriggerArgs)args;
-            GameObject targetObject = attackArgs.TargetCollider.gameObject;
+            HitTarget(attackArgs.TargetCollider);
+        }
+
+        protected virtual void HitTarget(Collider2D targetCollider)
+        {
+            GameObject targetObject = targetCollider.gameObject;
 
             if (!CheckHitTargetCondition(targetObject, out IDamageable target))
             {
@@ -109,7 +114,7 @@ namespace Characters.Common.Combat.Weapons
             if (target.CanAcceptDamage)
             {
                 target.TakeDamage(Owner, _calculatedDamage);
-                PerformPostDamageActions(attackArgs.TargetCollider);
+                PerformPostDamageActions(targetCollider);
             }
         }
 

@@ -30,7 +30,7 @@ namespace Characters.Common.Combat.Weapons
 
         #region Init
 
-        public override void Initialize(WeaponAttackDataBase attackData)
+        public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
             _attackImpactDict = new();

@@ -1,27 +1,25 @@
 ﻿using Characters.Common.Combat.Weapons;
 using UnityEngine;
+using Utilities.Attributes;
 
 namespace Characters.Common.Combat
 {
     [System.Serializable]
-    public struct BasicAttackSettings : IAttackSettings
+    public class BasicAttackSettings : IAttackSettings
     {
         [Space, Header("Main Settings")]
-
         [SerializeField] private AttackNegativeStatusData _attackNegativeStatus;
         [SerializeField] private DamageSettings _damageSettings;
         [Space]
         [SerializeField] private ImpactSettings _impact;
 
-
-        [Space, Header("Activation Settings")]
-
-
-        [Header("<color=yellow><i>These parameters are related to weapons" +
-                "\nthat can be activated for the certain duration and have the reload time</i></color>")]
+        [CustomHeader("Activation Settings", "These parameters are related to weapons that can be activated for the certain duration and have the reload time",
+            3, 1, CustomHeaderAttribute.HeaderColor.yellow)]
         [SerializeField] private float _triggerActivityTimeSec;
         [SerializeField] private float _fullDurationTimeSec;
         [SerializeField] private float _reloadTimeSec;
+
+        public BasicAttackSettings() { }
 
         public BasicAttackSettings(IAttackSettings source)
         {
@@ -39,5 +37,11 @@ namespace Characters.Common.Combat
         public float TriggerActivityTimeSec { get => _triggerActivityTimeSec; set => _triggerActivityTimeSec = value; }
         public float FullDurationTimeSec { get => _fullDurationTimeSec; set => _fullDurationTimeSec = value; }
         public float ReloadTimeSec { get => _reloadTimeSec; set => _reloadTimeSec = value; }
+
+        // Virtual allows derived classes to return their specific types
+        public virtual IAttackSettings Clone()
+        {
+            return new BasicAttackSettings(this);
+        }
     }
 }

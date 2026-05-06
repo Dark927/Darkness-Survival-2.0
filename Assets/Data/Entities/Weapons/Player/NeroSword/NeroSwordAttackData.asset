@@ -9,38 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cab445db76c7fd943aeef015626dc5df, type: 3}
+  m_Script: {fileID: 11500000, guid: 821d0561ebcedc74ba7ece78239f958e, type: 3}
   m_Name: NeroSwordAttackData
   m_EditorClassIdentifier: 
-  _swordAttackSettings:
-    _commonSettings:
-      _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
-      _damageSettings:
-        _min: 9
-        _max: 12
-      _impact:
-        _useImpact: 1
-        _stunDurationMs: 400
-        _pushForce: 2
-        _reloadTimeMs: 250
-        _chancePercent: 25
-        _shakeSettings:
-          m_Amplitude: 1
-          m_Frequency: 1
-          m_Time: 0.15
-      _triggerActivityTimeSec: 0.1
-      _fullDurationTimeSec: 0
-      _reloadTimeSec: 0
-    _heavyDamageSettings:
-      _min: 12
-      _max: 16
-    _heavyImpactSettings:
-      _useImpact: 1
-      _stunDurationMs: 800
-      _pushForce: 4
-      _reloadTimeMs: 500
-      _chancePercent: 10
-      _shakeSettings:
-        m_Amplitude: 5
-        m_Frequency: 1
-        m_Time: 0.25
+  _settings:
+    rid: 1713407583140970504
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407583140970504
+      type: {class: SwordAttackSettings, ns: Characters.Common.Combat, asm: Assembly-CSharp}
+      data:
+        _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
+        _damageSettings:
+          _min: 7
+          _max: 9
+        _impact:
+          _useImpact: 1
+          _stunDurationMs: 400
+          _pushForce: 2
+          _reloadTimeMs: 700
+          _chancePercent: 35
+          _shakeSettings:
+            m_Amplitude: 0
+            m_Frequency: 0
+            m_Time: 0
+        _triggerActivityTimeSec: 0.1
+        _fullDurationTimeSec: 0
+        _reloadTimeSec: 0
+        _heavyDamageSettings:
+          _min: 13
+          _max: 15
+        _heavyImpactSettings:
+          _useImpact: 1
+          _stunDurationMs: 800
+          _pushForce: 4
+          _reloadTimeMs: 1400
+          _chancePercent: 20
+          _shakeSettings:
+            m_Amplitude: 0
+            m_Frequency: 0
+            m_Time: 0

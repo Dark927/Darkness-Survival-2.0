@@ -22,7 +22,7 @@ namespace Characters.Common.Combat.Weapons
         // helper to get the dynamically scaled time for a single attack pulse
         private float CurrentPulseTime => UpgradedAttackSettings.TriggerActivityTimeSec;
 
-        public override void Initialize(WeaponAttackDataBase attackData)
+        public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
 

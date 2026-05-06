@@ -8,7 +8,7 @@ namespace Characters.Common.Combat.Weapons
     {
         private CancellationTokenSource _cancellationTokenSource;
 
-        public override void Initialize(WeaponAttackDataBase attackData)
+        public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
 

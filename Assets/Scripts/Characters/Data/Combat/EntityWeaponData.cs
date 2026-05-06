@@ -12,7 +12,7 @@ namespace Characters.Common.Combat.Weapons.Data
         private int _weaponID;
         [SerializeField] private string _weaponName;
         [SerializeField] private AssetReferenceGameObject _weaponAsset;
-        [SerializeField] private WeaponAttackDataBase _attackData;
+        [SerializeField] private WeaponAttackData _attackData;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Characters.Common.Combat.Weapons.Data
         public int ID => _weaponID;
 
         public AssetReferenceGameObject WeaponAsset => _weaponAsset;
-        public WeaponAttackDataBase AttackData => _attackData;
+        public WeaponAttackData AttackData => _attackData;
 
         #endregion
 

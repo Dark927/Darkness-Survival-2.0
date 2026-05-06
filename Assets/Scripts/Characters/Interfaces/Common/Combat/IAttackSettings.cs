@@ -14,5 +14,7 @@ namespace Characters.Common.Combat
         public float TriggerActivityTimeSec { get; set; }
         public float FullDurationTimeSec { get; set; }
         public float ReloadTimeSec { get; set; }
+
+        public IAttackSettings Clone();
     }
 }

@@ -101,11 +101,11 @@ namespace Characters.Common.Combat.Weapons
 
                 upgradedAoe.AttackRadius = initialAoe.AttackRadius * _attackRadiusMultiplier;
 
-                ErrorLogger.Log($"Upgraded Attack Radius: {upgradedAoe.AttackRadius:0.##}s");
+                //ErrorLogger.Log($"Upgraded Attack Radius: {upgradedAoe.AttackRadius:0.##}s");
             }
             else
             {
-                ErrorLogger.LogWarning(this.name + " :: " + "Trying to upgrade Attack Radius, but settings are not AoE!");
+                //ErrorLogger.LogWarning(this.name + " :: " + "Trying to upgrade Attack Radius, but settings are not AoE!");
             }
         }
 

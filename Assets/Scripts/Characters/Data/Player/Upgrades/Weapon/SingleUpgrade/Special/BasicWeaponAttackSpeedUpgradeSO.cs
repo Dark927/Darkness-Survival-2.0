@@ -30,17 +30,30 @@ namespace Characters.Player.Upgrades
 
         public override void ApplyUpgrade(IUpgradableWeapon target)
         {
-            if (target is BasicCharacterWeapon basicWeapon)
-            {
-                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, _speedUpgradePercent / 100f);
-            }
+            ApplyModifier(target, 1f);
         }
 
         public override void ApplyDowngrade(IUpgradableWeapon target)
         {
-            if (target is BasicCharacterWeapon basicWeapon)
+            ApplyModifier(target, -1f);
+        }
+
+        private void ApplyModifier(IUpgradableWeapon target, float signMult)
+        {
+            if (target is not BasicCharacterWeapon basicWeapon)
             {
-                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, -(_speedUpgradePercent / 100f));
+                return;
+            }
+
+            float attackSpeedMult = (_speedUpgradePercent / 100f) * signMult;
+
+            if (_attackType == BasicAttack.LocalType.Default)
+            {
+                basicWeapon.ApplyAttackSpeedUpgrade(attackSpeedMult);
+            }
+            else
+            {
+                basicWeapon.ApplyConcreteAttackSpeedUpgrade(_attackType, attackSpeedMult);
             }
         }
     }

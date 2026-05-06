@@ -15,50 +15,77 @@ namespace Characters.Player.Upgrades
 
         protected override string GetUpgradeValueInfo(char originalSign, char displaySign) => _abilityData.Name;
 
-        protected override string GetInfo(char originalSign)
+        protected override List<StatUIInfo> GetInfo(char originalSign)
         {
-            // Abort and use custom text if the designer checked the override box
+            List<StatUIInfo> statsList = base.GetInfo(originalSign);
+
             if (_uiSettings.UseFullOverride)
             {
-                return _uiSettings.FullOverrideString;
+                return statsList;
             }
 
-            // Let the base class generate the first line: "<color>Open</color> <color>AbilityName</color>"
-            List<string> lines = new List<string>
-            {
-                base.GetInfo(originalSign)
-            };
+            // Adjust the format template for the first line ("Open AbilityName" without a colon)
+            var firstStat = statsList[0];
+            firstStat.FormatTemplate = "{0} {1}";
+            statsList[0] = firstStat;
 
+            Color nameColor = _uiSettings.UpgradeNameColor;
             Color valueColor = _uiSettings.UpgradeValueColor;
-            string nameHex = ColorUtility.ToHtmlStringRGBA(_uiSettings.UpgradeNameColor);
-            string valueHex = ColorUtility.ToHtmlStringRGBA(valueColor);
 
-            // Append the ability stats using the helper method
             AbilityStats stats = _abilityData.AbilityStats;
             AbilityStatsUI statsUI = _abilityData.AbilityStatsUI;
 
+            string statTemplate = "{0} : {1}";
+
             if (stats.StrengthValue > 0f)
             {
-                lines.Add(FormatAbilityConcreteStatInfo(statsUI.StrengthUIName, nameHex, stats.StrengthValue, valueHex));
+                statsList.Add(new StatUIInfo
+                {
+                    StatName = statsUI.StrengthUIName,
+                    StatValue = stats.StrengthValue.ToString("0.##"),
+                    NameColor = nameColor,
+                    ValueColor = valueColor,
+                    FormatTemplate = statTemplate
+                });
             }
 
             if (stats.StrengthPercent > 0f)
             {
-                lines.Add(FormatAbilityConcreteStatInfo(statsUI.StrengthUIName, nameHex, stats.StrengthPercent, valueHex, "%"));
+                statsList.Add(new StatUIInfo
+                {
+                    StatName = statsUI.StrengthUIName,
+                    StatValue = $"{stats.StrengthPercent:0.##}%",
+                    NameColor = nameColor,
+                    ValueColor = valueColor,
+                    FormatTemplate = statTemplate
+                });
             }
 
             if (stats.Radius > 0f)
             {
-                lines.Add(FormatAbilityConcreteStatInfo(statsUI.RadiusUIName, nameHex, stats.Radius, valueHex));
+                statsList.Add(new StatUIInfo
+                {
+                    StatName = statsUI.RadiusUIName,
+                    StatValue = stats.Radius.ToString("0.##"),
+                    NameColor = nameColor,
+                    ValueColor = valueColor,
+                    FormatTemplate = statTemplate
+                });
             }
 
             if (stats.Duration > 0f)
             {
-                lines.Add(FormatAbilityConcreteStatInfo(statsUI.DurationUIName, nameHex, stats.Duration, valueHex, " s."));
+                statsList.Add(new StatUIInfo
+                {
+                    StatName = statsUI.DurationUIName,
+                    StatValue = $"{stats.Duration:0.##} s.",
+                    NameColor = nameColor,
+                    ValueColor = valueColor,
+                    FormatTemplate = statTemplate
+                });
             }
 
-            // Join them all together with a line break (\n)
-            return string.Join("\n", lines);
+            return statsList;
         }
 
         public override void ApplyUpgrade(IUpgradableCharacterLogic target)

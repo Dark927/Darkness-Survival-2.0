@@ -100,11 +100,22 @@ namespace Characters.Common
         {
             Body?.ConfigureEventLinks();
             WeaponsHandler?.ConfigureEventLinks();
+
+            if (Body?.Physics != null)
+            {
+                Body.Physics.OnStunRequested += HandleStunRequested;
+            }
         }
 
         public virtual void RemoveEventLinks()
         {
             Body?.RemoveEventLinks();
+            WeaponsHandler?.RemoveEventLinks();
+
+            if (Body?.Physics != null)
+            {
+                Body.Physics.OnStunRequested -= HandleStunRequested;
+            }
         }
 
         protected virtual void SetReferences()
@@ -124,6 +135,16 @@ namespace Characters.Common
         public void ResetState()
         {
             Body.ResetState();
+        }
+
+        private void HandleStunRequested(int durationMs)
+        {
+            // This is where the logic determines WHAT “being stunned” means.
+            ApplyStun(durationMs);
+
+            // ToDo : we can add here:
+            // *Cancel the attack*
+            // *Play the animation*
         }
 
         public void ApplyStun(int durationMs)

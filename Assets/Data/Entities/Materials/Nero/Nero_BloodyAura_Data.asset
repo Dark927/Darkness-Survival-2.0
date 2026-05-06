@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   props:
     _Gamma: 1
-    _ColorTint: {r: 1, g: 1, b: 1, a: 0}
+    _ColorTint: {r: 1, g: 1, b: 1, a: 1}
     _FlashColor: {r: 0, g: 0, b: 0, a: 0}
     _FlashAmount: 0
     _EmissionColor: {r: 5.992157, g: 0, b: 0.05040819, a: 1}

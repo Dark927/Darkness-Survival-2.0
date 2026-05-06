@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Characters.Player.Upgrades
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace Characters.Player.Upgrades
     /// </summary>
     public abstract class SingleUniversalUpgradeSO<TUpgradeTarget> : SingleUpgradeBaseSO<TUpgradeTarget> where TUpgradeTarget : IUpgradable
     {
-        public virtual string GetDowngradeInfo()
+        public virtual List<StatUIInfo> GetDowngradeInfo()
         {
             return GetInfo('-');
         }

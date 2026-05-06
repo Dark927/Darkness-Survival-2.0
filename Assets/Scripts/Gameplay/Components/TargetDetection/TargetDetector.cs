@@ -10,6 +10,9 @@ namespace Gameplay.Components.TargetDetection
         private Collider2D _sourceCollider;
         private TargetDetectionSettings _settings;
 
+        private Collider2D[] _hitBuffer = new Collider2D[10];
+
+
         #endregion
 
 
@@ -118,15 +121,15 @@ namespace Gameplay.Components.TargetDetection
             bool isFound = false;
             float halfDistance = settings.Distance / 2f;
 
-            Vector2 boxCenter = SourceCenter + (Vector3)(direction * halfDistance);
+            Vector2 boxCenter = (Vector2)SourceCenter + (direction * halfDistance);
             Vector2 boxSize = new Vector2(settings.AreaWidth, settings.Distance);
 
+            // 0 GC Allocation
+            int hitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0, _hitBuffer, settings.LayerIndex);
 
-            Collider2D[] hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0, settings.LayerIndex);
-
-            foreach (var hit in hits)
+            for (int i = 0; i < hitCount; i++)
             {
-                if (!ReferenceEquals(hit.GetComponent<T>(), null))
+                if (_hitBuffer[i].TryGetComponent<T>(out _))
                 {
                     isFound = true;
                     break;
@@ -134,12 +137,10 @@ namespace Gameplay.Components.TargetDetection
             }
 
 #if UNITY_EDITOR
-
             DrawDebugRectangle(settings.Distance * direction.y, settings.AreaWidth, isFound, SourceCenter);
 #endif
 
             return isFound;
-
         }
 
 

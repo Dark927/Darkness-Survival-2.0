@@ -15,10 +15,12 @@ MonoBehaviour:
   _baseDescription: 
   _useDowngradesInfoInDesc: 1
   _upgrades:
-  - {fileID: 11400000, guid: d9d79ca1825d6f949bd0de6036db0c3a, type: 2}
-  - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
-  - {fileID: 11400000, guid: af2349b4615bc634baa21dffb282a485, type: 2}
-  - {fileID: 11400000, guid: 8843f9b111e91ee4b8661dc9171f9d35, type: 2}
+  - {fileID: 11400000, guid: 145e5e6bbd5a66942b37ea32271bd653, type: 2}
+  - {fileID: 11400000, guid: 971f036d630e66146af422c75401b646, type: 2}
+  - {fileID: 11400000, guid: 35e067f11a3486146a7982215b22f9bf, type: 2}
+  - {fileID: 11400000, guid: 4771dbf1cc3f09f4891b0ee8319331de, type: 2}
+  - {fileID: 11400000, guid: 4a1e1cae5cd1c03428627e377d435368, type: 2}
+  - {fileID: 11400000, guid: d7cde1de086337847ad9aeae932c8a2e, type: 2}
   _downgrades: []
   _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
   _customVisualDataUI: {fileID: 0}

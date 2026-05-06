@@ -119,10 +119,10 @@ namespace Characters.Player.Upgrades
             };
         }
 
-        public string GetCurrentUpgradeLevelInfo()
+        public List<StatUIInfo> GetCurrentUpgradeLevelInfo()
         {
             var level = UpcomingLevel;
-            return level != null ? level.Description : string.Empty;
+            return level != null ? level.UpgradeDetails : new List<StatUIInfo>();
         }
 
         public Sprite GetCurrentUpgradeLevelIcon()

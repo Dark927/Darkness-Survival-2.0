@@ -1,10 +1,11 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Settings.Global;
 using UnityEngine;
 
 namespace Characters.Common.Movement
 {
-    public abstract class EntityMovementBase : IEntityMovement
+    public abstract class EntityMovementBase : IEntityMovement, IResetable
     {
         public virtual bool IsMoving { get; }
         public virtual Vector2 Direction { get; }
@@ -72,6 +73,15 @@ namespace Characters.Common.Movement
         public virtual void RemoveEventLinks()
         {
 
+        }
+
+        public virtual void ResetState()
+        {
+            // Unblock any active movement restrictions
+            Unblock();
+
+            // Stop speed calculations and clear internal directions
+            Stop();
         }
 
         protected void RaiseMovementPerformed()

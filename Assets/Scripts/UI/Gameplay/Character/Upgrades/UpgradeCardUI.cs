@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Text;
 using Characters.Player.Upgrades;
 using Settings.Global;
 using TMPro;
@@ -149,7 +150,45 @@ namespace UI.Characters.Upgrades
             _upgradeTypeText.text = upgradeInfo.Type;
             _upgradeIcon.sprite = upgradeInfo.Icon;
             _upgradeLevelText.text = upgradeInfo.Level;
-            _upgradeDescriptionText.text = upgradeInfo.Description;
+
+            // Generate the rich text string from the clean data
+            StringBuilder sb = new StringBuilder();
+
+            // Add the base lore description from the Configuration (if any)
+            if (!string.IsNullOrEmpty(upgradeInfo.Description))
+            {
+                sb.AppendLine(upgradeInfo.Description);
+            }
+
+            // Process all dynamic stats
+            if (upgradeInfo.StatsList != null)
+            {
+                foreach (var stat in upgradeInfo.StatsList)
+                {
+                    // If designer used a full custom HTML override, just append it
+                    if (stat.UseFullOverride)
+                    {
+                        sb.AppendLine(stat.FullOverrideString);
+                        continue;
+                    }
+
+                    // Convert colors to Hex
+                    string nameHex = ColorUtility.ToHtmlStringRGBA(stat.NameColor);
+                    string valHex = ColorUtility.ToHtmlStringRGBA(stat.ValueColor);
+
+                    // Prepare colored chunks
+                    string coloredName = $"<color=#{nameHex}>{stat.StatName}</color>";
+                    string coloredValue = $"<color=#{valHex}>{stat.StatValue}</color>";
+
+                    // Insert chunks into the provided template (e.g., "{0} : {1}" or "{0} {1}")
+                    string finalLine = string.Format(stat.FormatTemplate, coloredName, coloredValue);
+
+                    sb.AppendLine(finalLine);
+                }
+            }
+
+            // remove the last unnecessary newline (\n)
+            _upgradeDescriptionText.text = sb.ToString().TrimEnd();
         }
 
         public void SetUpgradeVisual(UpgradeVisualDataUI visualData)

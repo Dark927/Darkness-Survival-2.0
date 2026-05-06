@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades
@@ -10,7 +11,7 @@ namespace Characters.Player.Upgrades
     /// </summary>
     public interface IUpgradeLevelSO
     {
-        public string Description { get; }
+        public List<StatUIInfo> UpgradeDetails { get; }
         public UpgradeVisualDataUI CustomUpgradeVisualDataUI { get; }
 
         // Custom Icon separated from UpgradeVisualDataUI for better reuse

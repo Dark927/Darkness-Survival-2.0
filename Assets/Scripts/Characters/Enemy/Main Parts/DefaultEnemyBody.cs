@@ -98,6 +98,7 @@ namespace Characters.Enemy
 
             Invincibility?.Disable();
             Visual?.DeactivateActualColorBlink();
+            Movement.ResetState();
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }
 

@@ -21,7 +21,7 @@
 
         public void Stun(IEntityPhysics2D entityPhysics)
         {
-            entityPhysics.EntityLogic.ApplyStun(_durationMs);
+            entityPhysics.TriggerStunActivationEvent(_durationMs);
         }
     }
 }

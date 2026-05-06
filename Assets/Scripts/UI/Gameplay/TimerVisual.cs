@@ -8,7 +8,7 @@ public class TimerVisual : MonoBehaviour
 {
     #region Fields
 
-    private TextMeshPro _textMesh;
+    private TextMeshProUGUI _textMesh;
     private GameTimer _timer;
 
     #endregion
@@ -26,7 +26,7 @@ public class TimerVisual : MonoBehaviour
 
     private void Awake()
     {
-        _textMesh = GetComponentInChildren<TextMeshPro>();
+        _textMesh = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()

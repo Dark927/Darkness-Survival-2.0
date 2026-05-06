@@ -1,4 +1,5 @@
-
+﻿
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,7 +15,6 @@ namespace Characters.Common.Physics2D
         private Collider2D _collider;
 
         private bool _isImmune = false;
-        private IEntityDynamicLogic _entityLogic;
 
         private UniTask _activeImmuneTask;
         private CancellationTokenSource _immuneCts;
@@ -24,17 +24,16 @@ namespace Characters.Common.Physics2D
 
         #endregion
 
-
         #region Properties
 
         public int ImmunityTimeMs => _immunityTimeMs;
         public bool IsImmune => _isImmune;
         public Rigidbody2D Rigidbody2D => _rigidbody;
         public Collider2D Collider => _collider;
-        public IEntityDynamicLogic EntityLogic => _entityLogic;
 
         #endregion
 
+        public event Action<int> OnStunRequested;
 
         #region Methods
 
@@ -44,7 +43,11 @@ namespace Characters.Common.Physics2D
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _entityLogic = GetComponent<IEntityDynamicLogic>();
+        }
+
+        public void TriggerStunActivationEvent(int durationMs)
+        {
+            OnStunRequested?.Invoke(durationMs);
         }
 
         #endregion

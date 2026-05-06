@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using Utilities.Attributes;
 
@@ -19,47 +18,51 @@ namespace Characters.Player.Upgrades
         [SerializeField] private Color _baseDescriptionColor = new Color(255, 230, 0, 255);
         [SerializeField] private UpgradeVisualDataUI _customVisualDataUI;
         [SerializeField] private Sprite _customIconUI;
-        public string Description => GetDescription();
+        public List<StatUIInfo> UpgradeDetails => GetUpgradeDetails();
         public IEnumerable<SingleUpgradeBaseSO<TTarget>> Upgrades => _upgrades;
         public IEnumerable<SingleUniversalUpgradeSO<TTarget>> Downgrades => _downgrades;
         public UpgradeVisualDataUI CustomUpgradeVisualDataUI => _customVisualDataUI;
         public Sprite CustomIconUI => _customIconUI;
 
-        public virtual string GetDescription()
+        public virtual List<StatUIInfo> GetUpgradeDetails()
         {
-            StringBuilder sb = new StringBuilder();
+            List<StatUIInfo> allStats = new List<StatUIInfo>();
 
+            // add base name
             if (!string.IsNullOrEmpty(_baseDescription))
             {
-                string colorHex = ColorUtility.ToHtmlStringRGBA(_baseDescriptionColor);
-                string finalDescription = $"<color=#{colorHex}>{_baseDescription}</color>";
-                sb.AppendLine(finalDescription);
+                allStats.Add(new StatUIInfo
+                {
+                    StatName = _baseDescription,
+                    NameColor = _baseDescriptionColor,
+                    FormatTemplate = "{0}" // template for single argument
+                });
             }
 
-            string currentInfo;
-
+            // get all upgrades
             foreach (var upgrade in _upgrades)
             {
-                currentInfo = upgrade.GetUpgradeInfo();
-                if (!string.IsNullOrEmpty(currentInfo))
+                var upgradeInfoList = upgrade.GetUpgradeInfo();
+                if (upgradeInfoList != null && upgradeInfoList.Count > 0)
                 {
-                    sb.AppendLine(currentInfo);
+                    allStats.AddRange(upgradeInfoList);
                 }
             }
 
+            // get all downgrades
             if (_useDowngradesInfoInDesc)
             {
                 foreach (var downgrade in _downgrades)
                 {
-                    currentInfo = downgrade.GetDowngradeInfo();
-                    if (!string.IsNullOrEmpty(currentInfo))
+                    var downgradeInfoList = downgrade.GetDowngradeInfo();
+                    if (downgradeInfoList != null && downgradeInfoList.Count > 0)
                     {
-                        sb.AppendLine(currentInfo);
+                        allStats.AddRange(downgradeInfoList);
                     }
                 }
             }
 
-            return sb.ToString();
+            return allStats;
         }
     }
 }

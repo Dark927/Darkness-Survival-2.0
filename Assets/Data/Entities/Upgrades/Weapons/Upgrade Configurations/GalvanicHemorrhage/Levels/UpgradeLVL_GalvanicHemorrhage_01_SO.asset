@@ -16,9 +16,9 @@ MonoBehaviour:
   _useDowngradesInfoInDesc: 1
   _upgrades:
   - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
-  - {fileID: 11400000, guid: 59e55977607e2f24b80fc9a0c3719a31, type: 2}
+  - {fileID: 11400000, guid: 5e3a5844089f2854f8c5bd721303d1ec, type: 2}
+  - {fileID: 11400000, guid: f5c4aa01193bd55408daa80cff084256, type: 2}
   - {fileID: 11400000, guid: 4c6b20e4a6396984f860959e493c86d0, type: 2}
-  - {fileID: 11400000, guid: 4771dbf1cc3f09f4891b0ee8319331de, type: 2}
   _downgrades: []
   _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
   _customVisualDataUI: {fileID: 0}

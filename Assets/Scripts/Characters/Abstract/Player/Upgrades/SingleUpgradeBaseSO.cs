@@ -1,7 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Characters.Player.Upgrades
 {
+    public struct StatUIInfo
+    {
+        public string StatName;
+        public string StatValue;
+        public Color NameColor;
+        public Color ValueColor;
+
+        public bool UseFullOverride;
+        public string FullOverrideString; // Here can be any HTML-tag
+
+        // {0} - upgrade stat name (with color applied)
+        // {1} - upgrade name value (with color applied)
+        public string FormatTemplate;
+    }
+
     /// <summary>
     /// The base class for all upgrades where should be some stats, etc.
     /// </summary>
@@ -10,25 +26,31 @@ namespace Characters.Player.Upgrades
         [SerializeField]
         protected SingleUpgradeUIOverrides _uiSettings = SingleUpgradeUIOverrides.Default();
 
-        public virtual string GetUpgradeInfo()
+        public virtual List<StatUIInfo> GetUpgradeInfo()
         {
             return GetInfo('+');
         }
 
-        protected virtual string GetInfo(char originalSign)
+        protected virtual List<StatUIInfo> GetInfo(char originalSign)
         {
+            var infoList = new List<StatUIInfo>();
+            var statInfo = new StatUIInfo();
+
             // Check for a complete custom override
             if (_uiSettings.UseFullOverride)
             {
-                return _uiSettings.FullOverrideString;
+                statInfo.UseFullOverride = true;
+                statInfo.FullOverrideString = _uiSettings.FullOverrideString;
+                infoList.Add(statInfo);
+                return infoList;
             }
 
             // Determine the name
-            string statName = string.IsNullOrEmpty(_uiSettings.UpgradeNameOverride)
+            statInfo.StatName = string.IsNullOrEmpty(_uiSettings.UpgradeNameOverride)
                 ? GetDefaultUpgradeName()
                 : _uiSettings.UpgradeNameOverride;
 
-            // Determine sign and colors based on Reverse Logic
+            // Determine sign and colors
             bool isUpgrade = (originalSign == '+');
             char displaySign = originalSign;
 
@@ -37,21 +59,16 @@ namespace Characters.Player.Upgrades
                 displaySign = isUpgrade ? '-' : '+';
             }
 
-            Color valueColor = isUpgrade ? _uiSettings.UpgradeValueColor : _uiSettings.DowngradeValueColor;
+            statInfo.NameColor = _uiSettings.UpgradeNameColor;
+            statInfo.ValueColor = isUpgrade ? _uiSettings.UpgradeValueColor : _uiSettings.DowngradeValueColor;
 
-            // Convert colors to Hex for TextMeshPro Rich Text
-            string nameHex = ColorUtility.ToHtmlStringRGBA(_uiSettings.UpgradeNameColor);
-            string valueHex = ColorUtility.ToHtmlStringRGBA(valueColor);
+            statInfo.StatValue = GetUpgradeValueInfo(originalSign, displaySign);
 
-            // Get the formatted value from the subclass
-            string statValue = GetUpgradeValueInfo(originalSign, displaySign);
+            // Set default format template
+            statInfo.FormatTemplate = "{0} : {1}";
 
-            return FormatStatUpgradeLine(statName, nameHex, statValue, valueHex);
-        }
-
-        protected virtual string FormatStatUpgradeLine(string upgradeName, string upgradeNameHex, string upgradeValue, string upgradeValueHex)
-        {
-            return $"<color=#{upgradeNameHex}>{upgradeName}</color> : <color=#{upgradeValueHex}>{upgradeValue}</color>";
+            infoList.Add(statInfo);
+            return infoList;
         }
 
         // Subclasses MUST implement this to provide their specific value string (e.g., "+10%")

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Characters.Common.Movement;
 using UnityEngine;
 
@@ -112,6 +112,23 @@ namespace Characters.Enemy
         {
             base.Unblock();
             _movementBlock.Unblock();
+        }
+
+        public override void ResetState()
+        {
+            base.ResetState();
+
+            // Reset local target direction
+            _targetDirection = Vector2.zero;
+
+            // Reset target reference (it will be assigned again when spawned)
+            _targetTransform = null;
+
+            // Force clear physics velocity to prevent sliding after respawn
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = Vector2.zero;
+            }
         }
 
         public void FollowTarget()

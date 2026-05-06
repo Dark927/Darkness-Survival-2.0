@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6893660281106389922}
   - component: {fileID: -1028172668390796056}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: EnemyDefaultWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4006155251015290018}
   - component: {fileID: 4834260478105635834}
   - component: {fileID: 697219712406772995}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: MainTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5105515984650649771}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Attack Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}

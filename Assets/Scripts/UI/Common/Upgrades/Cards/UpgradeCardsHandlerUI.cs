@@ -167,7 +167,7 @@ namespace UI.Characters.Upgrades
                 }
 
                 currentUpgradeInfo = currentUpgradeProvider.GetUpgradeMainInfo();
-                currentUpgradeInfo.Description = currentUpgradeProvider.GetCurrentUpgradeLevelInfo();
+                currentUpgradeInfo.StatsList = currentUpgradeProvider.GetCurrentUpgradeLevelInfo();
                 currentUpgradeInfo.Icon = currentUpgradeProvider.GetCurrentUpgradeLevelIcon();
 
                 targetCard.SetUpgradeInfo(currentUpgradeInfo);

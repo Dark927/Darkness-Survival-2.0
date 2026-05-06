@@ -26,10 +26,10 @@ MonoBehaviour:
           _max: 4
         _impact:
           _useImpact: 1
-          _stunDurationMs: 500
-          _pushForce: 10
-          _reloadTimeMs: 1000
-          _chancePercent: 40
+          _stunDurationMs: 1000
+          _pushForce: 3
+          _reloadTimeMs: 50
+          _chancePercent: 100
           _shakeSettings:
             m_Amplitude: 0
             m_Frequency: 0

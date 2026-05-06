@@ -18,61 +18,69 @@ namespace Characters.Player.Upgrades
             return _weaponData.WeaponName;
         }
 
-        protected override string GetInfo(char originalSign)
+        protected override List<StatUIInfo> GetInfo(char originalSign)
         {
+            // Get the base list from SingleUpgradeBaseSO
+            List<StatUIInfo> statsList = base.GetInfo(originalSign);
+
             // Abort and use custom text if the designer checked the override box
             if (_uiSettings.UseFullOverride)
             {
-                return _uiSettings.FullOverrideString;
+                return statsList;
             }
 
-            // Let the base class generate the first line: "<color>Open</color> <color>WeaponName</color>"
-            List<string> lines = new List<string>
-            {
-                base.GetInfo(originalSign)
-            };
+            // Adjust the format template for the first line ("Open WeaponName" instead of "Open : WeaponName")
+            var firstStat = statsList[0];
+            firstStat.FormatTemplate = "{0} {1}";
+            statsList[0] = firstStat;
 
+            Color nameColor = _uiSettings.UpgradeNameColor;
             Color valueColor = _uiSettings.UpgradeValueColor;
-            string nameHex = ColorUtility.ToHtmlStringRGBA(_uiSettings.UpgradeNameColor);
-            string valueHex = ColorUtility.ToHtmlStringRGBA(valueColor);
 
             IAttackSettings stats = _weaponData.AttackData.Settings;
 
             if (stats != null)
             {
+                // Standard template for the subsequent weapon stats
+                string statTemplate = "{0} : {1}";
+
                 // Damage
                 if (stats.Damage.Max > 0f)
                 {
-                    string damageRange = $"{stats.Damage.Min:0.##}-{stats.Damage.Max:0.##}";
-                    lines.Add(FormatAbilityConcreteStatInfo("Damage", nameHex, damageRange, valueHex, " hp."));
+                    string damageRange = $"{stats.Damage.Min:0.##}-{stats.Damage.Max:0.##} hp.";
+                    statsList.Add(new StatUIInfo { StatName = "Damage", StatValue = damageRange, NameColor = nameColor, ValueColor = valueColor, FormatTemplate = statTemplate });
                 }
 
-                if (stats is AoeAttackSettings AoeAttackSettings && AoeAttackSettings.AttackRadius > 0f)
+                // Attack Radius
+                if (stats is AoeAttackSettings aoeSettings && aoeSettings.AttackRadius > 0f)
                 {
-                    lines.Add(FormatAbilityConcreteStatInfo("Attack Radius", nameHex, AoeAttackSettings.AttackRadius.ToString("0.##"), valueHex, " s."));
+                    string radiusVal = $"{aoeSettings.AttackRadius:0.##} s.";
+                    statsList.Add(new StatUIInfo { StatName = "Attack Radius", StatValue = radiusVal, NameColor = nameColor, ValueColor = valueColor, FormatTemplate = statTemplate });
                 }
 
                 // Attack Duration
                 if (stats.FullDurationTimeSec > 0f)
                 {
-                    lines.Add(FormatAbilityConcreteStatInfo("Attack Duration", nameHex, stats.FullDurationTimeSec.ToString("0.##"), valueHex, " s."));
+                    string durVal = $"{stats.FullDurationTimeSec:0.##} s.";
+                    statsList.Add(new StatUIInfo { StatName = "Attack Duration", StatValue = durVal, NameColor = nameColor, ValueColor = valueColor, FormatTemplate = statTemplate });
                 }
 
                 // Reload time
                 if (stats.ReloadTimeSec > 0f)
                 {
-                    lines.Add(FormatAbilityConcreteStatInfo("Reload time", nameHex, stats.ReloadTimeSec.ToString("0.##"), valueHex, " s."));
+                    string reloadVal = $"{stats.ReloadTimeSec:0.##} s.";
+                    statsList.Add(new StatUIInfo { StatName = "Reload time", StatValue = reloadVal, NameColor = nameColor, ValueColor = valueColor, FormatTemplate = statTemplate });
                 }
 
                 // Impact chance
-                // We only display this if UseImpact is true AND the chance is greater than 0
                 if (stats.Impact.UseImpact && stats.Impact.ChancePercent > 0)
                 {
-                    lines.Add(FormatAbilityConcreteStatInfo("Impact chance", nameHex, stats.Impact.ChancePercent.ToString(), valueHex, "%"));
+                    string impactVal = $"{stats.Impact.ChancePercent}%";
+                    statsList.Add(new StatUIInfo { StatName = "Impact chance", StatValue = impactVal, NameColor = nameColor, ValueColor = valueColor, FormatTemplate = statTemplate });
                 }
             }
 
-            return string.Join("\n", lines);
+            return statsList;
         }
 
         public override void ApplyUpgrade(IUpgradableCharacterLogic target)

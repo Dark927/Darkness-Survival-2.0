@@ -16,30 +16,27 @@ public class CharacterLevelUI : MonoBehaviour
 
     #endregion
 
-
     #region Fields 
 
-    [SerializeField] private float _levelRaiseTimeMult = 1f;
+    [Tooltip("Time in seconds to fill the entire 100% of the level bar")]
+    [SerializeField] private float _fullBarFillDuration = 1f;
 
     private PlayerCharacterController _targetCharacter;
     private TMP_Text _levelText;
     private SliderUI _levelXpSlider;
 
     private bool _canUpdateXpSlider = true;
-    private Queue<Action> _xpUpdateQueue = new();
+
+    // Stores the target ratio to reach after the current level-up finishes
+    private float _pendingTargetXpRatio = -1f;
+
+    // Caches the current visual progress to calculate the lerp distance
+    private float _currentVisualRatio = 0f;
 
     private bool _isLevelUpPlaying;
     private readonly Queue<CharacterLevelArgs> _levelUpQueue = new();
 
     #endregion
-
-
-    #region Properties
-
-    #endregion
-
-
-    #region Methods
 
     #region Init
 
@@ -48,9 +45,6 @@ public class CharacterLevelUI : MonoBehaviour
     {
         _targetCharacter = characterController;
     }
-
-
-    #endregion
 
     private void Awake()
     {
@@ -67,9 +61,10 @@ public class CharacterLevelUI : MonoBehaviour
         _targetCharacter.CharacterLogic.Level.OnUpdateXp -= XpUpdatedListener;
     }
 
+    #endregion
+
     private void LevelChangedListener(object sender, EntityLevelArgs args)
     {
-        var characterArgs = args as CharacterLevelArgs;
         _levelUpQueue.Enqueue((CharacterLevelArgs)args);
         TryPlayNextLevelUp();
     }
@@ -85,55 +80,66 @@ public class CharacterLevelUI : MonoBehaviour
         _canUpdateXpSlider = false;
 
         var characterArgs = _levelUpQueue.Dequeue();
-        var duration = CalculateXpLerpDuration(characterArgs.ActualXpBounds);
 
-        _levelXpSlider.UpdatePercent(1f, duration, false, callback: () =>
+        // Calculate duration to reach 100% from the current visual position
+        float durationToFull = CalculateDurationToTarget(1f);
+
+        _levelXpSlider.UpdatePercent(1f, durationToFull, false, callback: () =>
         {
             _levelText.text = characterArgs.ActualLevel.ToString();
             OnLevelNumberUpdate?.Invoke(this, characterArgs.ActualLevel);
 
+            // Instantly reset the slider to 0
             _levelXpSlider.UpdatePercent(0f, 0f, false, callback: () =>
             {
+                _currentVisualRatio = 0f;
                 _isLevelUpPlaying = false;
 
-                if (_levelUpQueue.Count == 0)
+                if (_levelUpQueue.Count > 0)
                 {
-                    FlushXpQueue();
-                    _canUpdateXpSlider = true;
+                    TryPlayNextLevelUp();
                 }
+                else
+                {
+                    _canUpdateXpSlider = true;
 
-                TryPlayNextLevelUp();
+                    // Animate to pending XP if any was collected during the level-up sequence
+                    if (_pendingTargetXpRatio >= 0f)
+                    {
+                        AnimateToRatio(_pendingTargetXpRatio);
+                        _pendingTargetXpRatio = -1f;
+                    }
+                }
             });
         }, true);
     }
 
     private void XpUpdatedListener(object sender, CharacterLevelArgs args)
     {
-        float duration = CalculateXpLerpDuration(args.ActualXpBounds);
-
         if (_canUpdateXpSlider)
         {
-            _levelXpSlider.UpdatePercent(args.XpProgressRatio, duration, false);
+            AnimateToRatio(args.XpProgressRatio);
         }
         else
         {
-            _xpUpdateQueue.Enqueue(() => _levelXpSlider.UpdatePercent(args.XpProgressRatio, duration, false));
+            // Overwrite the final target ratio to avoid queueing multiple micro-animations
+            _pendingTargetXpRatio = args.XpProgressRatio;
         }
     }
 
-    private void FlushXpQueue()
+    private void AnimateToRatio(float targetRatio)
     {
-        while (_xpUpdateQueue.Count > 0)
-        {
-            _xpUpdateQueue.Dequeue().Invoke();
-        }
+        float duration = CalculateDurationToTarget(targetRatio);
+        _levelXpSlider.UpdatePercent(targetRatio, duration, false);
+        _currentVisualRatio = targetRatio;
     }
 
-    private float CalculateXpLerpDuration((float previous, float next) actualXpBounds)
+    // Calculates dynamic duration based on the actual UI distance the slider needs to travel
+    private float CalculateDurationToTarget(float targetRatio)
     {
-        var (previousXpBound, nextXpBound) = actualXpBounds;
-        return 1f * (_levelRaiseTimeMult) / ((nextXpBound / previousXpBound));
-    }
+        float distanceToTravel = Mathf.Abs(targetRatio - _currentVisualRatio);
 
-    #endregion
+        // Minimum clamp (e.g. 0.05s) prevents instantaneous/zero-duration tweens
+        return Mathf.Max(0.05f, distanceToTravel * _fullBarFillDuration);
+    }
 }

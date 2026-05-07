@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53852be6d820837428e440c2391c324c, type: 3}
   m_Name: UpgradeLVL_Unlock_GalvanicHemorrhage_01_SO
   m_EditorClassIdentifier: 
-  _baseDescription: Unlock a new weapon
+  _baseDescription: 
   _useDowngradesInfoInDesc: 0
   _upgrades:
   - {fileID: 11400000, guid: 31f7e2c0300592c48b5bfbc911027079, type: 2}

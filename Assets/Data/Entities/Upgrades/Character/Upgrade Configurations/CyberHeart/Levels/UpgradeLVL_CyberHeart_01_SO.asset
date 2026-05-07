@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f293dd64b67b33342af5e67f634f12c1, type: 3}
   m_Name: UpgradeLVL_CyberHeart_01_SO
   m_EditorClassIdentifier: 
-  _baseDescription: Upgrade <color=red><b>max HP</b></color>
+  _baseDescription: 
   _useDowngradesInfoInDesc: 1
   _upgrades:
   - {fileID: 11400000, guid: cbf5e1bdd79ecf54682d0acceaf75916, type: 2}

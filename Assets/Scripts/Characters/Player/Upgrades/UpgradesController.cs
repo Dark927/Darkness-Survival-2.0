@@ -221,21 +221,28 @@ namespace Characters.Player.Upgrades
 
             while (_upgradesToProcessCount > 0)
             {
-                await UniTask.WaitUntil(() => _levelUpdated, cancellationToken: token);
-                _levelUpdated = false;
+                bool isCanceled = await UniTask.WaitUntil(() => _levelUpdated, cancellationToken: token).SuppressCancellationThrow();
 
-                if (token.IsCancellationRequested || upgradesProvidersList.Count == 0)
+                if (isCanceled || upgradesProvidersList.Count == 0)
                 {
                     return;
                 }
 
+                _levelUpdated = false;
+
                 // Wait until the screen is clear (in case a custom artifact panel is currently open)
-                await UniTask.WaitUntil(() => !_isUpgradePanelActive, cancellationToken: token);
+                isCanceled = await UniTask.WaitUntil(() => !_isUpgradePanelActive, cancellationToken: token).SuppressCancellationThrow();
+
+                if (isCanceled)
+                {
+                    return;
+                }
 
                 var upgradesToDisplay = GetRandomUpgrades(upgradesProvidersList).ToList();
 
                 // Call the shared presentation logic
-                await PresentAndApplyUpgradesAsync(character, upgradesToDisplay, token);
+                isCanceled = await PresentAndApplyUpgradesAsync(character, upgradesToDisplay, token).SuppressCancellationThrow();
+                if (isCanceled) return;
 
                 _upgradesToProcessCount -= 1;
             }
@@ -299,7 +306,14 @@ namespace Characters.Player.Upgrades
 
         private async UniTask<UpgradeProvider> WaitForUpgradeReceiveAsync(CancellationToken token = default)
         {
-            await UniTask.WaitUntil(() => _isNewUpgradeReceived, cancellationToken: token);
+            bool isCanceled = await UniTask.WaitUntil(() => _isNewUpgradeReceived, cancellationToken: token).SuppressCancellationThrow();
+
+            // Safely exit and return null if the token was canceled
+            if (isCanceled)
+            {
+                return null;
+            }
+
             _isNewUpgradeReceived = false;
             return _receivedUpgrade;
         }

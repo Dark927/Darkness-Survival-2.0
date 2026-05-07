@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f293dd64b67b33342af5e67f634f12c1, type: 3}
   m_Name: UpgradeLVL_SoulMagnet_01_SO
   m_EditorClassIdentifier: 
-  _baseDescription: Hook the fallen's distant essence
+  _baseDescription: 
   _useDowngradesInfoInDesc: 0
   _upgrades:
   - {fileID: 11400000, guid: f7fb66ea438a3b940b9889e34587ad3f, type: 2}
   _downgrades: []
+  _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
   _customVisualDataUI: {fileID: 0}
   _customIconUI: {fileID: 0}

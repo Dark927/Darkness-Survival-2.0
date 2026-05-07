@@ -13,11 +13,12 @@ namespace Characters.Common.Combat.Weapons
 
         [Header("Physics Scanner")]
         [SerializeField] private LayerMask _enemyLayerMask;
+        [SerializeField] private const int MAX_HIT_TARGETS = 100;
 
         [Header("Extra Settings")]
         [SerializeField] private float _yOffset = 0f;
 
-        private Collider2D[] _hitBuffer = new Collider2D[20];
+        private Collider2D[] _hitBuffer = new Collider2D[MAX_HIT_TARGETS];
 
         private AoeAttackSettings _upgradedAoeAttackSettings = null;
 

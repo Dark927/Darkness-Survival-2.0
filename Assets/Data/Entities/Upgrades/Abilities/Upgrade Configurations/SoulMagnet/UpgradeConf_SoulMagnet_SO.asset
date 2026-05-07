@@ -16,7 +16,6 @@ MonoBehaviour:
   _appearTime: 0
   _name: Soul Magnet
   _type: 1
-  _description: Some extra info about upgrade which gives you some <b><color=blur>
-    vampirism % </color></b>
+  _description: 
   _icon: {fileID: 21300000, guid: da477ff808c56e5419cc824e73a9f3b2, type: 3}
   _visualDataUI: {fileID: 11400000, guid: c89b5aad41240be4392dcadac7f8b834, type: 2}

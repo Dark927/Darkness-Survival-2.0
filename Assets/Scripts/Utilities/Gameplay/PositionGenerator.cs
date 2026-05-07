@@ -18,13 +18,13 @@ namespace Utilities.World
 
             if (Random.value > 0.5f)
             {
-                position.x = Random.Range(-area.x, area.x);
+                position.x = Random.Range(-halfArea.x, halfArea.x);
                 position.y = ((halfArea.y + offset.y) * axisSide) + Random.Range(0, range.y * axisSide);
             }
             else
             {
                 position.x = ((halfArea.x + offset.x) * axisSide) + Random.Range(0, range.x * axisSide);
-                position.y = Random.Range(-area.y, area.y);
+                position.y = Random.Range(-halfArea.y, halfArea.y);
             }
 
             return position;

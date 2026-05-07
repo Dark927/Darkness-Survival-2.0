@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
@@ -6,8 +6,9 @@ public class EntityActionBlock
 {
     #region Fields 
 
-    private int _activeBlockCount = 0;
-    private UniTask _activeBlockTask;
+    private int _permanentBlockCount = 0;
+    private bool _isTimerBlocked = false;
+
     private CancellationTokenSource _cancellationTokenSource;
 
     #endregion
@@ -15,42 +16,45 @@ public class EntityActionBlock
     #region Properties
 
     public event Action OnBlockFinish;
-    public bool IsBlocked => _activeBlockCount > 0; // Blocked if any active block exists
+
+    // Blocked if there is any permanent block OR an active timer block
+    public bool IsBlocked => _permanentBlockCount > 0 || _isTimerBlocked;
 
     #endregion
 
     #region Methods
 
-
-    // Block with time (temporary block)
     public void Block(int timeInMs)
     {
-        if (timeInMs <= 0) return;
-
-        // Block and start a temporary block task
+        if (timeInMs <= 0)
+        {
+            return;
+        }
 
         CancelBlockTask();
-        Block();
+
+        _isTimerBlocked = true;
+
         _cancellationTokenSource = new CancellationTokenSource();
-        _activeBlockTask = BlockDelayTask(timeInMs, _cancellationTokenSource.Token);
+        BlockDelayTask(timeInMs, _cancellationTokenSource.Token).Forget();
     }
-    // Permanent block (adds to active block count)
+
     public void Block()
     {
-        _activeBlockCount++;
+        _permanentBlockCount++;
     }
 
-    // Unblock - decrease the active block count
     public void Unblock(bool disableTimerBlocks = false)
     {
-        if (_activeBlockCount > 0)
+        if (_permanentBlockCount > 0)
         {
-            _activeBlockCount--;
+            _permanentBlockCount--;
+        }
 
-            if (disableTimerBlocks)
-            {
-                CancelBlockTask();
-            }
+        if (disableTimerBlocks)
+        {
+            CancelBlockTask();
+            _isTimerBlocked = false;
         }
     }
 
@@ -66,13 +70,17 @@ public class EntityActionBlock
         _cancellationTokenSource = null;
     }
 
-    // Handle temporary block task (delayed unblock)
-    private async UniTask BlockDelayTask(int timeInMs, CancellationToken token)
+    private async UniTaskVoid BlockDelayTask(int timeInMs, CancellationToken token)
     {
-        await UniTask.Delay(timeInMs, cancellationToken: token);
-        OnBlockFinish?.Invoke();
+        bool isCanceled = await UniTask.Delay(timeInMs, cancellationToken: token).SuppressCancellationThrow();
 
-        Unblock();
+        if (isCanceled)
+        {
+            return;
+        }
+
+        _isTimerBlocked = false;
+        OnBlockFinish?.Invoke();
     }
 
     #endregion

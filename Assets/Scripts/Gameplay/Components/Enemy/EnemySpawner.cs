@@ -151,7 +151,7 @@ namespace Gameplay.Components.Enemy
             float spawnInterval = (spawnData.SpawnDuration / (float)count);
             EnemyController enemy;
 
-            while (count > 0 && !token.IsCancellationRequested)
+            while (count > 0)
             {
                 enemy = _source.GetEnemy(spawnData.EnemyData.CommonInfo.TypeID);
 
@@ -160,9 +160,17 @@ namespace Gameplay.Components.Enemy
                     enemy.SetTargetSpawner(this);
                     _configurator.Configure(enemy, targetPlayer);
                     enemy.gameObject.SetActive(true);
+                    count--;
                 }
-                count--;
-                await UniTask.WaitForSeconds(spawnInterval, cancellationToken: token);
+
+
+                bool isCanceled = await UniTask.WaitForSeconds(spawnInterval, cancellationToken: token).SuppressCancellationThrow();
+
+                // Safely exit the spawn loop if the spawner is destroyed or the wave ends
+                if (isCanceled)
+                {
+                    return;
+                }
             }
             return;
         }

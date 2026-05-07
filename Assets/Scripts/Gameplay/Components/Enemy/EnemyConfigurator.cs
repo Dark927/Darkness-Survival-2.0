@@ -2,6 +2,7 @@
 using Settings.CameraManagement;
 using Settings.Global;
 using UnityEngine;
+using Utilities.ErrorHandling;
 using Utilities.World;
 
 namespace Gameplay.Components.Enemy
@@ -47,15 +48,28 @@ namespace Gameplay.Components.Enemy
             _playerService ??= ServiceLocator.Current.Get<PlayerService>();
             _gameStateService ??= ServiceLocator.Current.Get<GameStateService>();
 
-            // ToDo : replace camera with DI maybe
-            enemy.transform.position = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
+            IEnemyLogic enemyLogic = enemy.EnemyLogic;
+            Rigidbody2D enemyRb = enemyLogic.Body.Physics.Rigidbody2D;
+
+            Vector2 spawnPos = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
+
+            // Force Rigidbody2D
+            if (enemyRb != null)
+            {
+                enemyRb.position = spawnPos;
+                enemyRb.velocity = Vector2.zero;
+                enemyLogic.Body.Transform.position = spawnPos; // Fallback
+            }
+            else
+            {
+                enemyLogic.Body.Transform.position = spawnPos;
+            }
 
             if (target == null)
             {
                 return;
             }
 
-            IEnemyLogic enemyLogic = enemy.GetComponentInChildren<IEnemyLogic>();
 
             if (enemyLogic != null)
             {

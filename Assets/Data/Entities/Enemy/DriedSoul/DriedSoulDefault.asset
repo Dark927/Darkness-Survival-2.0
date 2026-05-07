@@ -16,11 +16,11 @@ MonoBehaviour:
     _entityType: 2
     _name: Dried Soul
   _stats:
-    Health: 5
+    Health: 16
     Speed: 2
     InvincibilityTime: 0.15
     InvincibilityColor: {r: 0, g: 0, b: 0, a: 0}
-  _damageMultiplier: 1
+  _damageMultiplier: 0
   _weaponSetData: {fileID: 11400000, guid: ab6223af1301a9349a3e5d0ecee0876f, type: 2}
   _type: 0
   _dropItemReferences:

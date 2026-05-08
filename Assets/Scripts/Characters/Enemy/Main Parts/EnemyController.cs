@@ -24,7 +24,7 @@ namespace Characters.Enemy
 
         public EnemySpawner TargetSpawner => _targetSpawner;
         public EnemyData Data => _enemyData;
-        public IEnemyLogic EnemyLogic => _enemyLogic;
+        public IEnemyLogic Logic => _enemyLogic;
 
         #endregion
 
@@ -74,7 +74,6 @@ namespace Characters.Enemy
         public void ResetCharacter()
         {
             EntityLogic.ResetState();
-            _targetSpawner = null;
         }
 
         #endregion
@@ -82,7 +81,7 @@ namespace Characters.Enemy
 
         public void CharacterDeathListener()
         {
-            EnemyLogic.SpawnRandomDropItem();
+            Logic.SpawnRandomDropItem();
             RemoveEnemy();
         }
 
@@ -108,8 +107,6 @@ namespace Characters.Enemy
                     }
                     break;
             }
-
-
         }
 
         public void RemoveEnemy()
@@ -123,6 +120,12 @@ namespace Characters.Enemy
                 print("destroy enemy");
                 Destroy(gameObject);
             }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _targetSpawner = null;
         }
 
         #endregion

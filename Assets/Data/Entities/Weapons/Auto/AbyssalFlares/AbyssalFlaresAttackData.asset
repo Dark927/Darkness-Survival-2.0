@@ -35,7 +35,7 @@ MonoBehaviour:
             m_Frequency: 0
             m_Time: 0
         _triggerActivityTimeSec: 2
-        _fullDurationTimeSec: 200
-        _reloadTimeSec: 4
+        _fullDurationTimeSec: 6
+        _reloadTimeSec: 3
         _attackRadius: 15
         _spawnCount: 1

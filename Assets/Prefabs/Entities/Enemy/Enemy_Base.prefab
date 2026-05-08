@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sideSwitchDetectionData: {fileID: 0}
+  _swarmMovementData: {fileID: 11400000, guid: 68e8f5dbd29cc8b41a70feb8a0459ead, type: 2}
 --- !u!114 &4868782505385500979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +276,7 @@ MonoBehaviour:
       FlashAmount: 0
       FlashColor: {r: 0, g: 0, b: 0, a: 0}
       EmissionAmount: 0
+      EmissionColor: {r: 0, g: 0, b: 0, a: 0}
       Seed: 0
       DissolveAmount: 0
       UseJitterFree: 0

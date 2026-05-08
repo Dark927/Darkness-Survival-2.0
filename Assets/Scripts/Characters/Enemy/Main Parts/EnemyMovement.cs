@@ -1,5 +1,6 @@
 ﻿using System;
 using Characters.Common.Movement;
+using Characters.Enemy.Settings;
 using UnityEngine;
 
 namespace Characters.Enemy
@@ -12,10 +13,15 @@ namespace Characters.Enemy
         private Rigidbody2D _rigidbody;
 
         private Transform _targetTransform;
-        private Vector2 _targetDirection;
+
+        private Vector2 _moveDirection;
+        private Vector2 _lookDirection;
 
         private EntitySpeed _speed;
         private EntityActionBlock _movementBlock;
+
+        private SwarmMovementSettingsData _swarmSettings;
+        private static readonly Collider2D[] _neighborsBuffer = new Collider2D[15];
 
         #endregion
 
@@ -24,7 +30,7 @@ namespace Characters.Enemy
 
         public override EntitySpeed Speed => _speed;
         public override bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
-        public override Vector2 Direction => _targetDirection;
+        public override Vector2 Direction => _lookDirection;
 
         #endregion
 
@@ -33,8 +39,9 @@ namespace Characters.Enemy
 
         #region Init
 
-        public EnemyMovement(Transform bodyTransform, Transform targetTransform = null)
+        public EnemyMovement(Transform bodyTransform, SwarmMovementSettingsData swarmSettings, Transform targetTransform = null)
         {
+            _swarmSettings = swarmSettings;
             Init(bodyTransform, targetTransform);
             _speed = new EntitySpeed();
         }
@@ -118,13 +125,10 @@ namespace Characters.Enemy
         {
             base.ResetState();
 
-            // Reset local target direction
-            _targetDirection = Vector2.zero;
-
-            // Reset target reference (it will be assigned again when spawned)
+            _moveDirection = Vector2.zero;
+            _lookDirection = Vector2.zero;
             _targetTransform = null;
 
-            // Force clear physics velocity to prevent sliding after respawn
             if (_rigidbody != null)
             {
                 _rigidbody.velocity = Vector2.zero;
@@ -133,10 +137,49 @@ namespace Characters.Enemy
 
         public void FollowTarget()
         {
-            _targetDirection = (_targetTransform.position - _transform.position).normalized;
-            Move(_targetDirection);
+            if (_targetTransform == null) return;
+
+            _lookDirection = (_targetTransform.position - _transform.position).normalized;
+
+            Vector2 separationVector = CalculateSeparationVector();
+            _moveDirection = (_lookDirection + separationVector).normalized;
+
+            Move(_moveDirection);
         }
 
+        /// <summary>
+        /// Calculates an inverse push-back vector from nearby entities to simulate organic swarm separation.
+        /// </summary>
+        private Vector2 CalculateSeparationVector()
+        {
+            if (_swarmSettings == null) return Vector2.zero;
+
+            Vector2 separation = Vector2.zero;
+
+            int count = Physics2D.OverlapCircleNonAlloc(
+                _transform.position,
+                _swarmSettings.SeparationRadius,
+                _neighborsBuffer,
+                _swarmSettings.EnemyLayerMask);
+
+            for (int i = 0; i < count; i++)
+            {
+                Transform neighbor = _neighborsBuffer[i].transform;
+
+                if (neighbor == _transform) continue;
+
+                Vector2 difference = (Vector2)_transform.position - (Vector2)neighbor.position;
+                float distance = difference.magnitude;
+
+                if (distance > 0 && distance < _swarmSettings.SeparationRadius)
+                {
+                    float pushStrength = 1f - (distance / _swarmSettings.SeparationRadius);
+                    separation += (difference.normalized * pushStrength);
+                }
+            }
+
+            return separation * _swarmSettings.SeparationWeight;
+        }
 
         private void VelocityUpdateListener(object sender, Vector2 velocity)
         {

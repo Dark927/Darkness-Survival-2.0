@@ -15,4 +15,6 @@ MonoBehaviour:
   _settings:
     Distance: 10
     AreaWidth: 0.65
-    LayerIndex: 0
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 8

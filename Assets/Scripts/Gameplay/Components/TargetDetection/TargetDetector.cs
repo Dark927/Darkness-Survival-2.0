@@ -125,7 +125,7 @@ namespace Gameplay.Components.TargetDetection
             Vector2 boxSize = new Vector2(settings.AreaWidth, settings.Distance);
 
             // 0 GC Allocation
-            int hitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0, _hitBuffer, settings.LayerIndex);
+            int hitCount = Physics2D.OverlapBoxNonAlloc(boxCenter, boxSize, 0, _hitBuffer, settings.LayerMask);
 
             for (int i = 0; i < hitCount; i++)
             {

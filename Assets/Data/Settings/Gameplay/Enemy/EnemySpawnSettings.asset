@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823ced31f39ac1f40b7b7efcabc00453, type: 3}
   m_Name: EnemySpawnSettings
   m_EditorClassIdentifier: 
-  _spawnPositionRange: {x: 5, y: 5}
-  _spawnPositionOffset: {x: 5, y: 5}
+  _safeZonePadding: 2
+  _spawnRingThickness: 3.5
+  _despawnPadding: 4
+  _frontalSpawnChance: 0.85
+  _frontalConeAngle: 125

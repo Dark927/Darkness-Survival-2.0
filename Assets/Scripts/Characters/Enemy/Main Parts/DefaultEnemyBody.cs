@@ -22,6 +22,9 @@ namespace Characters.Enemy
         [Header("Target Detection")]
         [SerializeField] private TargetDetectionData _sideSwitchDetectionData;
 
+        [Header("Movement Settings")]
+        [SerializeField] private SwarmMovementSettingsData _swarmMovementData;
+
         #endregion
 
 
@@ -65,7 +68,7 @@ namespace Characters.Enemy
 
         protected override void InitMovement()
         {
-            _enemyMovement = new EnemyMovement(transform);
+            _enemyMovement = new EnemyMovement(transform, _swarmMovementData);
             base.Movement = _enemyMovement;
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }

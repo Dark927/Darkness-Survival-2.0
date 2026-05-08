@@ -4,53 +4,61 @@ namespace Utilities.World
 {
     public class PositionGenerator
     {
-        public static Vector2 GetRandomPositionSquarePattern(Vector2 area)
+        public static float CalculateSafeRadius(Camera camera, float padding)
         {
-            return GetRandomPositionSquarePattern(area, Vector2.zero, Vector2.zero);
+            float halfHeight = camera.orthographicSize;
+            float halfWidth = halfHeight * camera.aspect;
+            float distanceToCorner = Mathf.Sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight));
+            return distanceToCorner + padding;
         }
 
-        public static Vector2 GetRandomPositionSquarePattern(Vector2 area, Vector2 range, Vector2 offset)
+        // Generates a random point inside a specific degree slice of the spawn ring
+        public static Vector2 GetRandomPositionInRingArc(Vector2 center, float minRadius, float maxRadius, float minAngleDeg, float maxAngleDeg)
         {
-            Vector2 position;
+            float randomAngle = Random.Range(minAngleDeg, maxAngleDeg) * Mathf.Deg2Rad;
+            float randomRadius = Mathf.Sqrt(Random.Range(minRadius * minRadius, maxRadius * maxRadius));
 
-            int axisSide = Random.value > 0.5f ? -1 : 1;
-            Vector2 halfArea = area / 2f;
+            float x = center.x + (Mathf.Cos(randomAngle) * randomRadius);
+            float y = center.y + (Mathf.Sin(randomAngle) * randomRadius);
 
-            if (Random.value > 0.5f)
+            return new Vector2(x, y);
+        }
+
+
+        // -------------------------
+        // 70/30 Directional Logic
+        // -------------------------
+        public static Vector2 GetDirectionalSpawnPosition(Camera camera, float safePadding, float ringThickness)
+        {
+            float safeRadius = CalculateSafeRadius(camera, safePadding);
+            float maxRadius = safeRadius + ringThickness;
+            Vector2 center = camera.transform.position;
+
+
+            return GetRandomPositionInRingArc(center, safeRadius, maxRadius, 0f, 360f);
+        }
+
+        public static Vector2 GetDirectionalSpawnPosition(Camera camera, float safePadding, float ringThickness, Vector2 moveDirection, float frontalChance, float coneAngle)
+        {
+            float safeRadius = CalculateSafeRadius(camera, safePadding);
+            float maxRadius = safeRadius + ringThickness;
+            Vector2 center = camera.transform.position;
+
+            // Find the exact angle the player is moving towards
+            float baseAngle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            float halfCone = coneAngle / 2f;
+
+            // Roll the dice for 70/30 distribution
+            if (Random.value <= frontalChance)
             {
-                position.x = Random.Range(-halfArea.x, halfArea.x);
-                position.y = ((halfArea.y + offset.y) * axisSide) + Random.Range(0, range.y * axisSide);
+                // Spawn inside the Frontal Cone (e.g., -45 to +45 degrees from movement vector)
+                return GetRandomPositionInRingArc(center, safeRadius, maxRadius, baseAngle - halfCone, baseAngle + halfCone);
             }
             else
             {
-                position.x = ((halfArea.x + offset.x) * axisSide) + Random.Range(0, range.x * axisSide);
-                position.y = Random.Range(-halfArea.y, halfArea.y);
+                // Spawn in the Flanks/Rear (The rest of the circle outside the cone)
+                return GetRandomPositionInRingArc(center, safeRadius, maxRadius, baseAngle + halfCone, baseAngle + 360f - halfCone);
             }
-
-            return position;
-        }
-
-
-        public static Vector2 GetRandomPositionOutsideCamera(Camera camera)
-        {
-            return GetRandomPositionOutsideCamera(camera, Vector2.zero, Vector2.zero);
-        }
-
-        // TODO : DEBUG
-        public static Vector2 GetRandomPositionOutsideCamera(Camera camera, Vector2 range, Vector2 offset)
-        {
-            Vector2 cameraPosition = camera.transform.position;
-
-            Vector2 cameraArea;
-            cameraArea.y = camera.orthographicSize * 2;
-            cameraArea.x = cameraArea.y * camera.aspect;
-
-            Vector2 position = GetRandomPositionSquarePattern(cameraArea, range, offset);
-
-            position += cameraPosition;
-
-            //Debug.Log(position);
-            return position;
         }
     }
 }

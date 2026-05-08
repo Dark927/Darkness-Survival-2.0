@@ -1,5 +1,6 @@
-﻿using Characters.Enemy;
-using Settings.CameraManagement;
+﻿using Characters.Common;
+using Characters.Enemy;
+using Settings;
 using Settings.Global;
 using UnityEngine;
 using Utilities.ErrorHandling;
@@ -9,32 +10,18 @@ namespace Gameplay.Components.Enemy
 {
     public class EnemyConfigurator : ICharacterConfigurator<EnemyController>
     {
-        private PlayerService _playerService;
         private EnemyManagementService _managementService;
         private GameStateService _gameStateService;
 
-        private Vector2 _spawnPositionOffset = Vector2.zero;
-        private Vector2 _spawnPositionRange = Vector2.zero;
-
+        private EnemySpawnerSettingsData _spawnSettings;
         private Transform _dropItemsContainer;
 
         public EnemyConfigurator() { }
 
-        public EnemyConfigurator(Vector2 spawnPositionRange, Vector2 spawnPositionOffset, Transform dropItemsContainer = null)
+        public EnemyConfigurator(EnemySpawnerSettingsData spawnSettings, Transform dropItemsContainer = null)
         {
-            SetSpawnPositionRange(spawnPositionRange);
-            SetSpawnPositionOffset(spawnPositionOffset);
+            _spawnSettings = spawnSettings;
             SetDropItemsContainer(dropItemsContainer);
-        }
-
-        public void SetSpawnPositionOffset(Vector2 spawnPositionOffset)
-        {
-            _spawnPositionOffset = spawnPositionOffset;
-        }
-
-        public void SetSpawnPositionRange(Vector2 spawnPositionRange)
-        {
-            _spawnPositionRange = spawnPositionRange;
         }
 
         public void SetDropItemsContainer(Transform container)
@@ -42,38 +29,18 @@ namespace Gameplay.Components.Enemy
             _dropItemsContainer = container;
         }
 
-        public void Configure(EnemyController enemy, Transform target = null)
+        // CORE SETUP (Called only once when pulling from the pool)
+        public void ConfigureCompletely(EnemyController enemy, ICharacterLogic target = null)
         {
             _managementService ??= ServiceLocator.Current.Get<EnemyManagementService>();
-            _playerService ??= ServiceLocator.Current.Get<PlayerService>();
             _gameStateService ??= ServiceLocator.Current.Get<GameStateService>();
 
-            IEnemyLogic enemyLogic = enemy.EnemyLogic;
-            Rigidbody2D enemyRb = enemyLogic.Body.Physics.Rigidbody2D;
+            IEnemyLogic enemyLogic = enemy.Logic;
 
-            Vector2 spawnPos = PositionGenerator.GetRandomPositionOutsideCamera(Camera.main, _spawnPositionRange, _spawnPositionOffset);
-
-            // Force Rigidbody2D
-            if (enemyRb != null)
+            // Wire up all references and events
+            if (target != null && enemyLogic != null)
             {
-                enemyRb.position = spawnPos;
-                enemyRb.velocity = Vector2.zero;
-                enemyLogic.Body.Transform.position = spawnPos; // Fallback
-            }
-            else
-            {
-                enemyLogic.Body.Transform.position = spawnPos;
-            }
-
-            if (target == null)
-            {
-                return;
-            }
-
-
-            if (enemyLogic != null)
-            {
-                enemyLogic.SetTarget(target);
+                ConfigureFastReuseSettings(enemyLogic, target);
                 enemyLogic.SetDropItemContainer(_dropItemsContainer);
 
                 enemyLogic.Body.OnBodyDamagedWithArgs += _managementService.EnemyDamagedListener;
@@ -83,7 +50,84 @@ namespace Gameplay.Components.Enemy
             }
         }
 
-        public void Deconfigure(EnemyController enemy)
+        public void ConfigureFastReuseSettings(IEnemyLogic enemyLogic, ICharacterLogic target)
+        {
+            // Move the enemy to the correct spawn location
+            PlaceOnSpawnRing(enemyLogic, target);
+
+            enemyLogic.SetTarget(target.Body.Transform);
+        }
+
+        public void DeconfigureFastReuseSettings(IEnemyLogic enemyLogic)
+        {
+            enemyLogic.ResetState();
+        }
+
+        // REUSABLE MATH (Called during spawn AND recycling)
+        public void PlaceOnSpawnRing(IEnemyLogic enemyLogic, ICharacterLogic target = null)
+        {
+            Vector2 targetDirection = Vector2.zero;
+            float targetSpeed = 0f;
+
+            // Find Target Direction
+            if (target != null)
+            {
+                var targetMovement = target.Body.Movement;
+                if (targetMovement != null && targetMovement.IsMoving)
+                {
+                    targetDirection = targetMovement.Direction;
+                    targetSpeed = targetMovement.Speed.ActualSpeed;
+                }
+                else
+                {
+                    var targetRb = target.Body.Physics.Rigidbody2D;
+                    targetDirection = targetRb.velocity.normalized;
+                    targetSpeed = targetDirection.sqrMagnitude;
+                }
+            }
+
+            // Generate Directional Spawn Position
+            Vector2 spawnPos;
+
+            if (targetSpeed > 0.1f)
+            {
+                // Dynamic target - spawn in front of it with chance
+                spawnPos = PositionGenerator.GetDirectionalSpawnPosition(
+                    Camera.main,
+                    _spawnSettings.SafeZonePadding,
+                    _spawnSettings.SpawnRingThickness,
+                    targetDirection,
+                    _spawnSettings.FrontalSpawnChance,
+                    _spawnSettings.FrontalConeAngle
+                );
+            }
+            else
+            {
+                // Static target - just spawn around it
+                spawnPos = PositionGenerator.GetDirectionalSpawnPosition(
+                    Camera.main,
+                    _spawnSettings.SafeZonePadding,
+                    _spawnSettings.SpawnRingThickness
+                );
+            }
+
+
+            // Force Position
+            Rigidbody2D enemyRb = enemyLogic.Body.Physics.Rigidbody2D;
+
+            if (enemyRb != null)
+            {
+                enemyRb.position = spawnPos;
+                enemyRb.velocity = Vector2.zero;
+                enemyLogic.Body.Transform.position = spawnPos; // Fallback syncI
+            }
+            else
+            {
+                enemyLogic.Body.Transform.position = spawnPos;
+            }
+        }
+
+        public void DeconfigureCompletely(EnemyController enemy)
         {
             enemy.RemoveEventLinks();
             enemy.ResetCharacter();

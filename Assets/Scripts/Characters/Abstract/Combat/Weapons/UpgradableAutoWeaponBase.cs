@@ -4,7 +4,8 @@ using Cysharp.Threading.Tasks;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public abstract class UpgradableAutoWeaponBase : UpgradableWeaponBase, IAutoWeapon
+    public abstract class UpgradableAutoWeaponBase<TSettings> : UpgradableWeaponBase<TSettings>, IAutoWeapon
+        where TSettings : class, IAttackSettings
     {
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -26,13 +27,16 @@ namespace Characters.Common.Combat.Weapons
 
         private async UniTaskVoid AutoAttackLoop(CancellationToken token)
         {
-            await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token);
+            bool isCanceled = await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token).SuppressCancellationThrow();
+            if (isCanceled) return;
 
             while (!token.IsCancellationRequested)
             {
-                await PerformAttackPhase(token);
+                isCanceled = await PerformAttackPhase(token).SuppressCancellationThrow();
+                if (isCanceled) return;
 
-                await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token);
+                isCanceled = await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token).SuppressCancellationThrow();
+                if (isCanceled) return;
             }
         }
 
@@ -51,6 +55,7 @@ namespace Characters.Common.Combat.Weapons
             _cancellationTokenSource = new CancellationTokenSource();
             AutoAttackLoop(_cancellationTokenSource.Token).Forget();
         }
+
         public void StopAttack()
         {
             CancelActiveTask();

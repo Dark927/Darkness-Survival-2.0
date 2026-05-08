@@ -64,6 +64,14 @@ MonoBehaviour:
     - Character
     - Data
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96802f61eafa1cf4facec48477e365f7
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/AbyssalFlares/AbyssalFlaresWeapon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ab6223af1301a9349a3e5d0ecee0876f
     m_Address: Assets/Data/Entities/Weapons/Enemy/InitEnemyWeaponSetData.asset
     m_ReadOnly: 0

@@ -11,6 +11,7 @@ namespace Characters.Common.Combat.Weapons
         public IAttackableEntityLogic Owner { get; }
 
         public void Initialize(WeaponAttackData weaponAttackData);
+        public void Initialize(WeaponAttackData weaponAttackData, string weaponName);
         public void SetBasicDamageMultiplier(float multiplier);
     }
 }

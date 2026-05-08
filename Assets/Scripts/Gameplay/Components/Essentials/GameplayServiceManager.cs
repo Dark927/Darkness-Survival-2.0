@@ -28,6 +28,7 @@ namespace Gameplay.Components
         private void Awake()
         {
             TryInitIndicators();
+            TryInitGameplayObjectContainers();
         }
 
         private void TryInitIndicators()
@@ -44,6 +45,20 @@ namespace Gameplay.Components
 
             ServiceLocator.Current.Register(indicatorsService);
             Services.Add(indicatorsService);
+        }
+
+        private void TryInitGameplayObjectContainers()
+        {
+            // Create the root GameObject in the scene hierarchy
+            GameObject containersServiceObj = new GameObject(nameof(GameplayContainersService));
+            containersServiceObj.transform.SetParent(transform, false);
+
+            GameObjectsContainer rootContainer = containersServiceObj.AddComponent<GameObjectsContainer>();
+
+            GameplayContainersService containersService = DiContainer.Instantiate<GameplayContainersService>(new object[] { rootContainer });
+
+            ServiceLocator.Current.Register(containersService);
+            Services.Add(containersService);
         }
 
         #endregion

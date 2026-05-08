@@ -9,6 +9,7 @@ namespace Characters.Common.Combat.Weapons
         public void ApplyReloadSpeedUpgrade(float multiplier);
         public void ApplyActiveDurationUpgrade(float multiplier);
         public void ApplyAttackRadiusUpgrade(float multiplier);
+        public void ApplyAttackCountUpgrade(int additionalCount);
         public void ApplyImpactChanceUpgrade(float additionalPercent);
     }
 }

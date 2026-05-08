@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75ab2575b13428f409903b091466ff22, type: 3}
+  m_Name: UpgradeLVL_Weapon_GalvanicHemorrhage_04_SO
+  m_EditorClassIdentifier: 
+  _baseDescription: 
+  _useDowngradesInfoInDesc: 1
+  _upgrades:
+  - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+  - {fileID: 11400000, guid: f1960f38a6cd2db41a3a60d4caafccd0, type: 2}
+  - {fileID: 11400000, guid: aea5a7358467663408bce071b5a4ef50, type: 2}
+  - {fileID: 11400000, guid: 4940b38c5b776ba4f8f27c437543b5d0, type: 2}
+  _downgrades: []
+  _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+  _customVisualDataUI: {fileID: 0}
+  _customIconUI: {fileID: 0}

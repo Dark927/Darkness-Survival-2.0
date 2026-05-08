@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class GalvanicHemorrhageWeapon : UpgradableAutoWeaponBase
+    public class GalvanicHemorrhageWeapon : UpgradableAutoWeaponBase<AoeAttackSettings>
     {
         [Header("References")]
         [SerializeField] private WeaponAnimatorController _animatorController;
@@ -20,8 +20,6 @@ namespace Characters.Common.Combat.Weapons
 
         private Collider2D[] _hitBuffer = new Collider2D[MAX_HIT_TARGETS];
 
-        private AoeAttackSettings _upgradedAoeAttackSettings = null;
-
         public event Action<float> OnAuraPhaseStarted;
         public event Action<float> OnAttackRadiusUpgraded;
         public event Action OnAuraPhaseEnded;
@@ -30,7 +28,6 @@ namespace Characters.Common.Combat.Weapons
         public override void Initialize(WeaponAttackData attackData)
         {
             base.Initialize(attackData);
-            _upgradedAoeAttackSettings = (AoeAttackSettings)UpgradedAttackSettings;
 
             if (_animatorController != null)
             {
@@ -56,16 +53,16 @@ namespace Characters.Common.Combat.Weapons
 
         protected override async UniTask PerformAttackPhase(CancellationToken token)
         {
-            OnAuraPhaseStarted?.Invoke(_upgradedAoeAttackSettings.AttackRadius);
+            OnAuraPhaseStarted?.Invoke(UpgradedAttackSettings.AttackRadius);
 
-            float animSpeed = InitialAttackSettings.TriggerActivityTimeSec / _upgradedAoeAttackSettings.TriggerActivityTimeSec;
+            float animSpeed = InitialAttackSettings.TriggerActivityTimeSec / UpgradedAttackSettings.TriggerActivityTimeSec;
             if (_animatorController != null)
             {
                 _animatorController.SetAttackSpeedMultiplier(animSpeed);
             }
 
-            float pulseTime = _upgradedAoeAttackSettings.TriggerActivityTimeSec;
-            int attackCount = Mathf.FloorToInt(_upgradedAoeAttackSettings.FullDurationTimeSec / pulseTime);
+            float pulseTime = UpgradedAttackSettings.TriggerActivityTimeSec;
+            int attackCount = Mathf.FloorToInt(UpgradedAttackSettings.FullDurationTimeSec / pulseTime);
             if (attackCount < 1) attackCount = 1;
 
             for (int i = 0; i < attackCount; i++)
@@ -94,7 +91,7 @@ namespace Characters.Common.Combat.Weapons
             BaseAttackImpact.Shake?.Activate();
 
             Vector2 center = transform.position;
-            float radius = _upgradedAoeAttackSettings.AttackRadius;
+            float radius = UpgradedAttackSettings.AttackRadius;
 
             ContactFilter2D filter = new ContactFilter2D
             {
@@ -115,7 +112,7 @@ namespace Characters.Common.Combat.Weapons
         public override void ApplyAttackRadiusUpgrade(float multiplier)
         {
             base.ApplyAttackRadiusUpgrade(multiplier);
-            OnAttackRadiusUpgraded?.Invoke(_upgradedAoeAttackSettings.AttackRadius);
+            OnAttackRadiusUpgraded?.Invoke(UpgradedAttackSettings.AttackRadius);
         }
 
         #region Debug
@@ -125,8 +122,8 @@ namespace Characters.Common.Combat.Weapons
             float defaultRadius = 0.5f; // 0.5 coz diameter = 0.5+0.5=1 (1 game unit)
 
             Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
-            float radius = Application.isPlaying && _upgradedAoeAttackSettings != null
-                ? _upgradedAoeAttackSettings.AttackRadius
+            float radius = Application.isPlaying && UpgradedAttackSettings != null
+                ? UpgradedAttackSettings.AttackRadius
                 : defaultRadius;
 
             Gizmos.DrawWireSphere((Vector2)transform.position, radius);

@@ -50,12 +50,12 @@ Material:
     m_Ints:
     - _RendMode: 0
     m_Floats:
-    - _BlackBgSmoothness: 0.12
-    - _BlackBgThreshold: 0.141
+    - _BlackBgSmoothness: 0.001
+    - _BlackBgThreshold: 0
     - _EmissionAmount: 0.127
     - _EnableExternalAlpha: 0
     - _FlashAmount: 0
-    - _Gamma: 1.692
+    - _Gamma: 1
     - _HSVGamma: 1
     - _HueTolerance: 0.1
     - _RemoveBlackBg: 0
@@ -64,7 +64,7 @@ Material:
     - _UseSameTexForEmission: 0
     - _ValTolerance: 0.2
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0.972549}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 4.9245777, g: 0, b: 0, a: 1}
     - _FlashColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}

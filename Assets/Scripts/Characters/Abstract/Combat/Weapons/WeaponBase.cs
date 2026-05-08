@@ -12,7 +12,7 @@ namespace Characters.Common.Combat.Weapons
         private IAttackableEntityLogic _owner;
         private Collider2D _ownerCollidder;
         private IAttackSettings _attackSettings;
-
+        private string _weaponName = null;
         private Damage _calculatedDamage;
         private AttackImpact _impact;
 
@@ -28,6 +28,8 @@ namespace Characters.Common.Combat.Weapons
         public bool ImpactAvailable => InitialAttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
         public GameObject GameObject => this.gameObject;
+        public string WeaponName => _weaponName;
+
 
         #endregion
 
@@ -51,6 +53,12 @@ namespace Characters.Common.Combat.Weapons
             _impact = InitImpact(attackData.Settings.Impact);
 
             SetDefaultPosRelatedToOwner();
+        }
+
+        public void Initialize(WeaponAttackData attackData, string weaponName)
+        {
+            _weaponName = (weaponName == null) ? gameObject.name : weaponName;
+            Initialize(attackData);
         }
 
         protected virtual AttackImpact InitImpact(ImpactSettings impactSettings)

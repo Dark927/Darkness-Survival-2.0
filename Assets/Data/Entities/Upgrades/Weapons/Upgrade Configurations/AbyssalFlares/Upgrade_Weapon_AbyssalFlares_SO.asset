@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359d3c440fefaae49aabe93879dac7bc, type: 3}
+  m_Name: Upgrade_Weapon_AbyssalFlares_SO
+  m_EditorClassIdentifier: 
+  _upgradeLevels:
+  - {fileID: 11400000, guid: 5e2f506afd657d148abf42382c09eaca, type: 2}
+  - {fileID: 11400000, guid: 051a4f4b803b9624daed957ea8426f42, type: 2}
+  - {fileID: 11400000, guid: 8e123f105edbc0e4cb74344e3262c27b, type: 2}
+  - {fileID: 11400000, guid: ad33e4af877bc964eadda68d22a43eb1, type: 2}
+  - {fileID: 11400000, guid: 5a4f137c26d10ab4383daaf9ef69e786, type: 2}
+  - {fileID: 11400000, guid: a378113fa56571a419f2e5744d4383bd, type: 2}

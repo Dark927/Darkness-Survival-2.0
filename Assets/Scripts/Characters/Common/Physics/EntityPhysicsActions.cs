@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Characters.Common.Physics2D
+namespace Characters.Common.CustomPhysics2D
 {
     public class EntityPhysicsActions
     {

@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using Characters.Common.Physics2D;
+using Characters.Common.CustomPhysics2D;
 using Cysharp.Threading.Tasks;
 using Settings.CameraManagement.Shake;
 using UnityEngine;

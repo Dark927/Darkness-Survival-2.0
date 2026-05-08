@@ -57,7 +57,7 @@ namespace Characters.Common.Combat
             await weaponLoadHandle;
 
             var weapon = CreateFeature(weaponLoadHandle.Result, weaponData.WeaponName, DefaultFeaturesContainer.transform);
-            weapon.Initialize(weaponData.AttackData);
+            weapon.Initialize(weaponData.AttackData, weaponData.WeaponName);
 
             ActiveOnesDict.TryAdd(weaponData.ID, weapon);
             OnNewWeaponGiven?.Invoke(weapon);

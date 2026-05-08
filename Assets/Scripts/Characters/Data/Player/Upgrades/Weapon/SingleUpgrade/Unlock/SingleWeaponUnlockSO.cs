@@ -54,7 +54,7 @@ namespace Characters.Player.Upgrades
                 // Attack Radius
                 if (stats is AoeAttackSettings aoeSettings && aoeSettings.AttackRadius > 0f)
                 {
-                    string radiusVal = $"{aoeSettings.AttackRadius:0.##} s.";
+                    string radiusVal = $"{aoeSettings.AttackRadius:0.##}";
                     statsList.Add(new StatUIInfo { StatName = "Attack Radius", StatValue = radiusVal, NameColor = nameColor, ValueColor = valueColor, FormatTemplate = statTemplate });
                 }
 

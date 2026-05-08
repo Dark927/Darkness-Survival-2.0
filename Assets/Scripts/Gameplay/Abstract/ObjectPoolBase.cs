@@ -147,6 +147,23 @@ namespace Gameplay.Components
             }
             return null;
         }
+
+        /// <summary>
+        /// Applies an action to all instantiated items in the pool (both active and inactive).
+        /// Useful for updating states on all pooled objects at once.
+        /// </summary>
+        public void ApplyActionToAllItems(Action<T> action)
+        {
+            foreach (var item in _activeObjects)
+            {
+                action?.Invoke(item);
+            }
+
+            foreach (var item in _objectsQueue)
+            {
+                action?.Invoke(item);
+            }
+        }
     }
 
     #endregion

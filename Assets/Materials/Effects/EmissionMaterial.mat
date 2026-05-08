@@ -28,11 +28,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 37eea6726f3277340ab7bd47404f5b55, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7d375b9095b548f4b845030cdde0e862, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -51,7 +51,7 @@ Material:
     m_Floats: []
     m_Colors:
     - _Color: {r: 90.50967, g: 90.50967, b: 90.50967, a: 1}
-    - _EmissionColor: {r: 0.0007314645, g: 0, b: 0.00010771281, a: 1}
+    - _EmissionColor: {r: 15.813396, g: 15.813396, b: 15.813396, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2065369992346573599
 MonoBehaviour:

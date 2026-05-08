@@ -178,7 +178,7 @@ namespace UI.Characters.Upgrades
 
                     // Prepare colored chunks
                     string coloredName = $"<color=#{nameHex}>{stat.StatName}</color>";
-                    string coloredValue = $"<color=#{valHex}>{stat.StatValue}</color>";
+                    string coloredValue = $"<color=#{valHex}><nobr>{stat.StatValue}</nobr></color>";
 
                     // Insert chunks into the provided template (e.g., "{0} : {1}" or "{0} {1}")
                     string finalLine = string.Format(stat.FormatTemplate, coloredName, coloredValue);

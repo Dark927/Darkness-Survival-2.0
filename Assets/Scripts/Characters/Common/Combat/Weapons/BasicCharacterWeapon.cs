@@ -4,7 +4,7 @@ using Characters.Player;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class BasicCharacterWeapon : UpgradableWeaponBase
+    public class BasicCharacterWeapon : UpgradableWeaponBase<SwordAttackSettings>
     {
         protected Dictionary<BasicAttack.LocalType, IAttackSettings> InitialSettingsDict = new();
         protected Dictionary<BasicAttack.LocalType, IAttackSettings> UpgradedSettingsDict = new();

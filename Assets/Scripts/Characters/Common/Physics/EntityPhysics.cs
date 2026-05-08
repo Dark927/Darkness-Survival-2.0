@@ -4,7 +4,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Characters.Common.Physics2D
+namespace Characters.Common.CustomPhysics2D
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(IEntityDynamicLogic))]
     public class EntityPhysics : MonoBehaviour, IEntityPhysics2D

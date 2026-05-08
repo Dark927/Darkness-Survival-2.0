@@ -2,7 +2,7 @@
 using System;
 using Characters.Common.Combat;
 using Characters.Common.Movement;
-using Characters.Common.Physics2D;
+using Characters.Common.CustomPhysics2D;
 using Characters.Common.Visual;
 using Characters.Health;
 using UnityEngine;

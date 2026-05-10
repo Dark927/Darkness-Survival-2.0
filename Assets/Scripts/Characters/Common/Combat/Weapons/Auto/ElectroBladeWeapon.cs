@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class ElectroBladeWeapon : UpgradableAutoWeaponBase<BasicAttackSettings>, IWeaponWithSpecialAttack
+    public class ElectroBladeWeapon : AutoWeaponBase<BasicAttackSettings>, IWeaponWithSpecialAttack
     {
         [Header("Electro Blade Triggers")]
         [SerializeField] private AttackTrigger _frontTrigger;

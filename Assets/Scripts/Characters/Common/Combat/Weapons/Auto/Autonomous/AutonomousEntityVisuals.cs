@@ -17,10 +17,13 @@ namespace Characters.Common.Combat.Weapons
 
         // Needs to be updated by the weapon when the upgrade is acquired.
         private bool _isExtraVisualActive = false;
+        private bool _isMainVisualActive = false;
+
+        private bool CanActivateExtraVisual => _isMainVisualActive && _isExtraVisualActive;
 
         public bool IsSpecialVisualActive => _isExtraVisualActive;
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             if (_entityLogic == null) return;
 
@@ -36,35 +39,55 @@ namespace Characters.Common.Combat.Weapons
             _entityLogic.OnEntityDied -= HideVisuals;
         }
 
-        private void Start()
+        private void Awake()
         {
             HideVisuals();
         }
 
-        private void ShowVisuals()
+        protected virtual void ShowVisuals()
         {
-            if (_baseVisual != null) _baseVisual.SetActive(true);
+            if (_baseVisual != null)
+            {
+                _isMainVisualActive = true;
+                _baseVisual.SetActive(true);
+            }
 
-            if (_isExtraVisualActive && _extraVisual != null)
+            ShowExtraVisuals();
+        }
+
+        protected virtual void HideVisuals()
+        {
+            if (_baseVisual != null)
+            {
+                _isMainVisualActive = false;
+                _baseVisual.SetActive(false);
+            }
+            HideExtraVisuals();
+        }
+
+        protected virtual void ShowExtraVisuals()
+        {
+            if (CanActivateExtraVisual && _extraVisual != null)
             {
                 _extraVisual.SetActive(true);
             }
         }
 
-        private void HideVisuals()
+        protected virtual void HideExtraVisuals()
         {
-            if (_baseVisual != null) _baseVisual.SetActive(false);
             if (_extraVisual != null) _extraVisual.SetActive(false);
         }
 
         public void EnableSpecialVisual()
         {
             _isExtraVisualActive = true;
+            ShowExtraVisuals();
         }
 
         public void DisableSpecialVisual()
         {
             _isExtraVisualActive = false;
+            HideExtraVisuals();
         }
     }
 }

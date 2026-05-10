@@ -8,7 +8,8 @@ namespace Characters.Common
 {
     public interface IEntityBody : IEventsConfigurable, IResetable, IInitializable, IDisposable
     {
-        public Transform Transform { get; }
+        public Transform OriginalTransform { get; }
+        public Transform TargetingTransform { get; }
         public IEntityView View { get; }
         public IEntityVisual Visual { get; }
 

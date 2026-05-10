@@ -21,8 +21,8 @@ namespace Characters.Player.Upgrades
         #region Fields 
 
         private UpgradeConfigurationSO _upgradeConfigurationSO;
-        private UpgradeSO _upgradeSO;
-        private List<IUpgradeLevelSO> _upgradeLevelsList;
+        private UpgradeDataSO _upgradeSO;
+        private List<IUpgradeLevelData> _upgradeLevelsList;
         private int _currentUpgradeLevel;
 
         #endregion
@@ -35,7 +35,7 @@ namespace Characters.Player.Upgrades
         public int RemainingLevels => (CommonLevelsCount + 1) - CurrentLevelToApply;
         public bool HasNextLevel => RemainingLevels > 0;
 
-        private IUpgradeLevelSO UpcomingLevel => HasNextLevel ? _upgradeLevelsList[_currentUpgradeLevel - 1] : null;
+        private IUpgradeLevelData UpcomingLevel => HasNextLevel ? _upgradeLevelsList[_currentUpgradeLevel - 1] : null;
         public UpgradeVisualDataUI VisualData
         {
             get
@@ -85,7 +85,7 @@ namespace Characters.Player.Upgrades
         /// </summary>
         /// <param name="upgradeLevel">out the upgrade level of specific requested type ([ == null] when the method returns false)</param>
         /// <returns>true - next upgrade level is not null, false - levels are over</returns>
-        public bool TryGetNextUpgradeLevel<TTargetUpgradeLevel>(out TTargetUpgradeLevel upgradeLevel) where TTargetUpgradeLevel : class, IUpgradeLevelSO
+        public bool TryGetNextUpgradeLevel<TTargetUpgradeLevel>(out TTargetUpgradeLevel upgradeLevel) where TTargetUpgradeLevel : class, IUpgradeLevelData
         {
             upgradeLevel = null;
 
@@ -97,7 +97,7 @@ namespace Characters.Player.Upgrades
             return upgradeLevel != null;
         }
 
-        public TTargetUpgradeLevel GetNextUpgradeLevel<TTargetUpgradeLevel>() where TTargetUpgradeLevel : class, IUpgradeLevelSO
+        public TTargetUpgradeLevel GetNextUpgradeLevel<TTargetUpgradeLevel>() where TTargetUpgradeLevel : class, IUpgradeLevelData
         {
             var level = UpcomingLevel;
             _currentUpgradeLevel++;

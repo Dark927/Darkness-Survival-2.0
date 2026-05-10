@@ -3,7 +3,7 @@ using Utilities.ErrorHandling;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public abstract class UpgradableWeaponBase<TSettings> : WeaponBase, IUpgradableWeapon
+    public abstract class UpgradableWeaponBase<TSettings> : WeaponBase<TSettings>, IUpgradableWeapon
         where TSettings : class, IAttackSettings
     {
         #region Fields
@@ -14,7 +14,6 @@ namespace Characters.Common.Combat.Weapons
         private float _damageMultiplier = 1f;
         private float _attackRadiusMultiplier = 1f;
         private float _extraImpactChancePercent = 0;
-        private int _extraAttackCount = 0;
 
         protected TSettings UpgradedAttackSettings;
 
@@ -108,18 +107,6 @@ namespace Characters.Common.Combat.Weapons
             else
             {
                 //ErrorLogger.LogWarning(this.name + " :: " + "Trying to upgrade Attack Radius, but settings are not AoE!");
-            }
-        }
-
-
-        public virtual void ApplyAttackCountUpgrade(int additionalCount)
-        {
-            // Apply this upgrade only for Burst/Projectile attacks
-            if (InitialAttackSettings is BurstAoeAttackSettings initialBurst &&
-                UpgradedAttackSettings is BurstAoeAttackSettings upgradedBurst)
-            {
-                _extraAttackCount += additionalCount;
-                upgradedBurst.SpawnCount = initialBurst.SpawnCount + _extraAttackCount;
             }
         }
 

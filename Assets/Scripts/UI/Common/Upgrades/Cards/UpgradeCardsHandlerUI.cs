@@ -4,7 +4,6 @@ using System.Linq;
 using Characters.Player.Upgrades;
 using Settings.Global;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Utilities.ErrorHandling;
 
 namespace UI.Characters.Upgrades
@@ -27,7 +26,6 @@ namespace UI.Characters.Upgrades
 
         private Dictionary<UpgradeCardUI, UpgradeProvider> _configuredCards;
         private StagePostProcessService _stagePostProcessService;
-        private CharacterLevelUI _characterLevelUI;
 
         #endregion
 
@@ -42,35 +40,10 @@ namespace UI.Characters.Upgrades
             _configuredCards = new();
         }
 
-        ////////////////////////////////////////////////////////////////
-        // ToDo : remove this 
-        // ToDo : remove this 
-        // ToDo : remove this 
-        ////////////////////////////////////////////////////////////////
-
-        private void Update()
-        {
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                HideUpgrades();
-            }
-
-            if (Keyboard.current.leftAltKey.wasPressedThisFrame)
-            {
-                DisplayUpgrades(_upgradesData);
-            }
-        }
-        IEnumerable<UpgradeProvider> _upgradesData;
-
-        ////////////////////////////////////////////////////////////////
-
         #endregion
 
         public void DisplayUpgrades(IEnumerable<UpgradeProvider> upgradesProviders)
         {
-            // ToDo : temp variable for tests in Update method (remove)
-            _upgradesData = upgradesProviders;
-
             int upgradesCount = upgradesProviders.Count();
 
             if (upgradesCount == 0)

@@ -9,13 +9,98 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359d3c440fefaae49aabe93879dac7bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 690db8a4f4a8cc2488b70e87479d0787, type: 3}
   m_Name: Upgrade_Weapon_ElectroBlade_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: d7e2020c11c1e0947a52da810f983494, type: 2}
-  - {fileID: 11400000, guid: e3bb9e70a635af14489eabbe4cdef761, type: 2}
-  - {fileID: 11400000, guid: 7cc0be11c364ab840bb93c18423f83b8, type: 2}
-  - {fileID: 11400000, guid: c4d5fb1adcfd7084180ad1961a705416, type: 2}
-  - {fileID: 11400000, guid: 7fe2cf4c63ceb3648bf8c5f5f69e98fb, type: 2}
-  - {fileID: 11400000, guid: a50c5873d48cba447bf0417c127754df, type: 2}
+  - rid: 1713407670837313568
+  - rid: 1713407670837313569
+  - rid: 1713407670837313570
+  - rid: 1713407670837313571
+  - rid: 1713407670837313572
+  - rid: 1713407670837313573
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313568
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+        - {fileID: 11400000, guid: 8e0b5d7f10b6fb849b5a329fe32fa11f, type: 2}
+        - {fileID: 11400000, guid: 4c6b20e4a6396984f860959e493c86d0, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313569
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+        - {fileID: 11400000, guid: 6f05114aba8d4284082229160c3398ac, type: 2}
+        - {fileID: 11400000, guid: 1b184f832f9323a4dbb476fe97485883, type: 2}
+        - {fileID: 11400000, guid: 4c6b20e4a6396984f860959e493c86d0, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313570
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: fd5ff2effb8711e4fb76e7c34c0ad86d, type: 2}
+        - {fileID: 11400000, guid: af2349b4615bc634baa21dffb282a485, type: 2}
+        - {fileID: 11400000, guid: 26d77d33fbd44e1448aa756ea792ff6c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313571
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+        - {fileID: 11400000, guid: 195635f634cee144c8b3b35ff9e2d617, type: 2}
+        - {fileID: 11400000, guid: 1b184f832f9323a4dbb476fe97485883, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313572
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: 6f05114aba8d4284082229160c3398ac, type: 2}
+        - {fileID: 11400000, guid: c831ff2585ce67847936c862749cea33, type: 2}
+        - {fileID: 11400000, guid: 1b184f832f9323a4dbb476fe97485883, type: 2}
+        - {fileID: 11400000, guid: 753bcd06aaa241742a84dbac2c785d3c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313573
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: d9d79ca1825d6f949bd0de6036db0c3a, type: 2}
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: af2349b4615bc634baa21dffb282a485, type: 2}
+        - {fileID: 11400000, guid: 8843f9b111e91ee4b8661dc9171f9d35, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

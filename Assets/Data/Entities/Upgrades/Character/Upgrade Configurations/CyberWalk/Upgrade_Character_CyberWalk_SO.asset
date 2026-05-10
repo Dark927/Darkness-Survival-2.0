@@ -13,9 +13,79 @@ MonoBehaviour:
   m_Name: Upgrade_Character_CyberWalk_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: 5b5f6bc05f6e9514e9290d831b31551e, type: 2}
-  - {fileID: 11400000, guid: f53a4d9972e29024ba3e60c2ce3e264f, type: 2}
-  - {fileID: 11400000, guid: c4239c3f261c07e4da7d5cb8af7dbcf7, type: 2}
-  - {fileID: 11400000, guid: 753f786e099aa904eab49ac070b77954, type: 2}
-  - {fileID: 11400000, guid: 027fb93b043752543bf8678a493414f7, type: 2}
-  - {fileID: 11400000, guid: e0b649f713c299145ac5852073c8bbf5, type: 2}
+  - rid: 1713407670837313590
+  - rid: 1713407670837313591
+  - rid: 1713407670837313592
+  - rid: 1713407670837313593
+  - rid: 1713407670837313594
+  - rid: 1713407670837313595
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313590
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a80148d1459ea044d9dd073d83fcc5c1, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313591
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 3ec0d9f39d3b1a147b94684a913596ee, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313592
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 9221a6be872f19e4d8546ad0c0df6fab, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313593
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: c85b6824fcb14784abe3f112f1d0ad0d, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313594
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 9221a6be872f19e4d8546ad0c0df6fab, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313595
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: c85b6824fcb14784abe3f112f1d0ad0d, type: 2}
+        - {fileID: 11400000, guid: 6b3e0d40096df9345b4e5422e2a31cc6, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

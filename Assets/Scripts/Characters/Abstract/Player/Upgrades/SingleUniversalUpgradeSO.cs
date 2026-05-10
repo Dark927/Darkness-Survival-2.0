@@ -1,18 +1,12 @@
-﻿
-using System.Collections.Generic;
-
-namespace Characters.Player.Upgrades
+﻿namespace Characters.Player.Upgrades
 {
     /// <summary>
-    /// The base class for all upgrades where should be some stats, etc (with the Downgrade feature).
+    /// GENERIC UNIVERSAL: For upgrades that can be applied AND downgraded (curses, trade-offs, removals).
     /// </summary>
-    public abstract class SingleUniversalUpgradeSO<TUpgradeTarget> : SingleUpgradeBaseSO<TUpgradeTarget> where TUpgradeTarget : IUpgradable
+    public abstract class SingleUniversalUpgradeSO<TTarget> : SingleUpgradeBaseSO<TTarget>, IDowngradeApplicator<TTarget>
+        where TTarget : IUpgradable
     {
-        public virtual List<StatUIInfo> GetDowngradeInfo()
-        {
-            return GetInfo('-');
-        }
-
-        public abstract void ApplyDowngrade(TUpgradeTarget target);
+        // Enforced by IDowngradeApplicator
+        public abstract void ApplyDowngrade(TTarget target);
     }
 }

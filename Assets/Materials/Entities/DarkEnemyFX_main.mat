@@ -53,9 +53,9 @@ Material:
     - _DissolveAmount: 0
     - _DissolveNoise: 1000
     - _DissolveOutline: 1.1
-    - _EmissionAmount: 0.163
+    - _EmissionAmount: 0.038
     - _EnableExternalAlpha: 0
-    - _FlashAmount: 0.429
+    - _FlashAmount: 0.086
     - _Gamma: 1
     - _HSVGamma: 1
     - _HueTolerance: 0.1

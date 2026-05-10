@@ -352,7 +352,7 @@ namespace Characters.Player.Upgrades
 
         private void HandleCharacterUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            targetCharacter.UpgradesCoordinator.ApplyCharacterUpgrade(upgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableCharacterLogic>>());
+            targetCharacter.UpgradesCoordinator.ApplyCharacterUpgrade(upgradeProvider.GetNextUpgradeLevel<ICharacterUpgradeLevelData>());
         }
 
         private void HandleAbilityUpgrade(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
@@ -369,31 +369,28 @@ namespace Characters.Player.Upgrades
             switch (abilityUpgradeProvider.AbilityType)
             {
                 case AbilityType.Weapon:
-                    coordinator.ApplyWeaponAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableWeapon>>());
+                    coordinator.ApplyWeaponAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<IUpgradeLevelData>());
                     break;
                 case AbilityType.Passive:
-                    coordinator.ApplyPassiveAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableAbility>>());
+                    coordinator.ApplyPassiveAbilityUpgrade(abilityUpgradeProvider.TargetAbilityID, abilityUpgradeProvider.GetNextUpgradeLevel<IUpgradeLevelData>());
                     break;
             }
         }
 
-
         private void HandleAbilityUnlock(IUpgradableCharacterLogic targetCharacter, UpgradeProvider upgradeProvider)
         {
-            var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<UpgradeLevelSO<IUpgradableCharacterLogic>>();
+            var abilityUnlockLevel = upgradeProvider.GetNextUpgradeLevel<ICharacterUpgradeLevelData>();
             targetCharacter.UpgradesCoordinator.ApplyCharacterUpgrade(abilityUnlockLevel);
-
-            // Add a new Upgrade Configuration from unlocked ability.
 
             SingleAbilityUnlockBaseSO singleAbilityUnlock = null;
 
+            // This foreach loop works perfectly now because we exposed IEnumerable<AbstractUpgradeSO> Upgrades in Step 1!
             foreach (var singleUpgrade in abilityUnlockLevel.Upgrades)
             {
                 singleAbilityUnlock = (singleUpgrade as SingleAbilityUnlockBaseSO);
 
                 if (singleAbilityUnlock != null)
                 {
-                    // Note : give the ability ID to find the target ability (if it is needed) when applying the upgrade.
                     AddUpgradeConfiguration(targetCharacter, singleAbilityUnlock.AbilityUpgradeConfiguration, singleAbilityUnlock.AbilityID);
                 }
             }
@@ -401,16 +398,26 @@ namespace Characters.Player.Upgrades
 
         private void AddUpgradeConfiguration(IUpgradableCharacterLogic targetCharacter, UpgradeConfigurationSO upgradeConfigurationSO, int extraTargetID = -1)
         {
-            UpgradeProvider upgradeProvider = null;
-
-            upgradeProvider = upgradeConfigurationSO.Upgrade switch
+            UpgradeProvider upgradeProvider = upgradeConfigurationSO.Upgrade switch
             {
-                WeaponUpgradeSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Weapon, extraTargetID),
-                AbilityUpgradeSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Passive, extraTargetID),
+                // Weapons Route
+                WeaponUniversalUpgradeDataSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Weapon, extraTargetID),
+
+                // Passive Abilities Route
+                AbilityUniversalUpgradeDataSO => new AbilityUpgradeProvider(upgradeConfigurationSO, AbilityType.Passive, extraTargetID),
+
                 _ => new UpgradeProvider(upgradeConfigurationSO),
             };
 
-            _availableCharactersUpgrades[targetCharacter]?.Add(upgradeProvider);
+            // Safely add to the tracked upgrades collection
+            if (_availableCharactersUpgrades.TryGetValue(targetCharacter, out var providerList))
+            {
+                providerList.Add(upgradeProvider);
+            }
+            else
+            {
+                ErrorLogger.LogWarning($"Warning | Target Character not found in upgrades dictionary | {targetCharacter}");
+            }
         }
     }
 

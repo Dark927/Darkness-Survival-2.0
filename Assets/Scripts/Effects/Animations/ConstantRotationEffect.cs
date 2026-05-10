@@ -15,6 +15,12 @@ namespace Visuals.Effects.Animations
         [Tooltip("The axis to rotate around. For 2D games (0, 0, 1).")]
         [SerializeField] private Vector3 _rotationAxis = new Vector3(0f, 0f, 1f);
 
+        [Header("Start Rotation")]
+        [SerializeField] private bool _useRandomStartRotation = false;
+
+        [Tooltip("If random is false, the object will start at this exact angle when enabled.")]
+        [SerializeField] private float _customStartAngle = 0f;
+
         [Header("Target (Optional)")]
         [Tooltip("Leave empty to rotate this GameObject, or assign a specific child to rotate.")]
         [SerializeField] private Transform _targetTransform;
@@ -29,6 +35,17 @@ namespace Visuals.Effects.Animations
 
             // Normalize the axis to ensure consistent speed math
             _rotationAxis.Normalize();
+        }
+
+        private void OnEnable()
+        {
+            if (_targetTransform == null) return;
+
+            // Determine the starting angle
+            float startAngle = _useRandomStartRotation ? Random.Range(0f, 360f) : _customStartAngle;
+
+            // Apply the initial rotation.
+            _targetTransform.localRotation = Quaternion.AngleAxis(startAngle, _rotationAxis);
         }
 
         private void Update()
@@ -49,6 +66,18 @@ namespace Visuals.Effects.Animations
         public void InvertDirection()
         {
             _rotationSpeed = -_rotationSpeed;
+        }
+
+        public void SetCustomStartAngle(float angle)
+        {
+            _customStartAngle = angle;
+            _useRandomStartRotation = false;
+
+            // Force apply immediately if requested via code while active
+            if (gameObject.activeInHierarchy && _targetTransform != null)
+            {
+                _targetTransform.localRotation = Quaternion.AngleAxis(_customStartAngle, _rotationAxis);
+            }
         }
     }
 }

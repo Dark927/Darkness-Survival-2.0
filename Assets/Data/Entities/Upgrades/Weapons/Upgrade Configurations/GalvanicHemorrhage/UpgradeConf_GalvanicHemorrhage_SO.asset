@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f956afeaf415b345ad8ba4280f7c035, type: 3}
   m_Name: UpgradeConf_GalvanicHemorrhage_SO
   m_EditorClassIdentifier: 
-  _upgrade: {fileID: 11400000, guid: ee562a377d259a34d842846004363512, type: 2}
+  _upgrade: {fileID: 11400000, guid: 3f640729480060246a2fcb236ad42b96, type: 2}
   _appearTime: 0
   _name: Galvanic Hemorrhage
   _type: 3

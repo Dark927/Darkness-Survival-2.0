@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6893660281106389922}
-  - component: {fileID: 1017026852469741376}
+  - component: {fileID: 3266995850316667027}
   m_Layer: 7
   m_Name: AbyssalFlaresWeapon
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2882176941015868707}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1017026852469741376
+--- !u!114 &3266995850316667027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,16 +42,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 421757004132747062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859cb44c0b1ab6d4e8221f547abb6111, type: 3}
+  m_Script: {fileID: 11500000, guid: 8195d604635977c49b05af5f93d398c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _entityPrefab: {fileID: 4306491045117700604, guid: b0fd660bed90c594fb9b065b7f627e4d, type: 3}
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _preloadCount: 3
-  _maxPoolCapacity: 100
-  _aimSpreadDegrees: 15
+  _preloadCount: 2
+  _maxPoolCapacity: 20
+  _aimSpreadDegrees: 10
 --- !u!1 &723747307162161144
 GameObject:
   m_ObjectHideFlags: 0

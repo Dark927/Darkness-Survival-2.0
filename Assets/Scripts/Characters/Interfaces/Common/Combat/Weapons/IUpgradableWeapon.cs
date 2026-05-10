@@ -2,14 +2,26 @@
 
 namespace Characters.Common.Combat.Weapons
 {
+    // Level 1: Every weapon has these
     public interface IUpgradableWeapon : IWeapon, IUpgradable
     {
-        public void ApplyDamageUpgrade(float multiplier);
-        public void ApplyAttackSpeedUpgrade(float multiplier);
-        public void ApplyReloadSpeedUpgrade(float multiplier);
-        public void ApplyActiveDurationUpgrade(float multiplier);
-        public void ApplyAttackRadiusUpgrade(float multiplier);
-        public void ApplyAttackCountUpgrade(int additionalCount);
-        public void ApplyImpactChanceUpgrade(float additionalPercent);
+        void ApplyDamageUpgrade(float multiplier);
+        void ApplyAttackSpeedUpgrade(float multiplier);
+        void ApplyReloadSpeedUpgrade(float multiplier);
+        void ApplyActiveDurationUpgrade(float multiplier);
+        void ApplyAttackRadiusUpgrade(float multiplier);
+        void ApplyImpactChanceUpgrade(float additionalPercent);
+    }
+
+    // Level 2: Only weapons that spawn multiple things (Projectiles, Meteors)
+    public interface IUpgradableBurstWeapon : IUpgradableWeapon
+    {
+        void ApplyAttackCountUpgrade(int additionalCount);
+    }
+
+    // Level 3: Only weapons that orbit the player (Sickles, Bibles)
+    public interface IUpgradableOrbitalWeapon : IUpgradableBurstWeapon
+    {
+        void ApplyOrbitalSpeedUpgrade(float multiplier);
     }
 }

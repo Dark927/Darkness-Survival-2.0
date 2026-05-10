@@ -9,8 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8851937e7acaed14a8e3b4f961d5836f, type: 3}
+  m_Script: {fileID: 11500000, guid: f9ae32a8f3e07d44a954977b2c05e13c, type: 3}
   m_Name: Upgrade_WeaponUnlock_AbyssalFlares_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: 8ac7f4fe134a9be45ab3325fa50cb378, type: 2}
+  - rid: 1713407670837313582
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313582
+      type: {class: WeaponUnlockLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 3cf8e946c3902d049a4a4a31c1f5c4eb, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

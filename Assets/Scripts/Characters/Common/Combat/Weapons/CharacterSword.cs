@@ -35,8 +35,7 @@ namespace Characters.Common.Combat.Weapons
             base.Initialize(attackData);
             _attackImpactDict = new();
 
-            _swordAttackSettings = (SwordAttackSettings)InitialAttackSettings;
-
+            _swordAttackSettings = (SwordAttackSettings)InitialAttackSettings.Clone();
 
             _attackTriggers = GetComponentsInChildren<SwordAttackTrigger>().ToList();
             _attackTriggers.ForEach(attackTrigger => attackTrigger.Initialize());
@@ -61,7 +60,7 @@ namespace Characters.Common.Combat.Weapons
 
         protected override void SetDefaultPosRelatedToOwner()
         {
-            transform.position = Owner.Body.Transform.position;
+            transform.position = Owner.Body.OriginalTransform.position;
         }
 
         private void InitSwordImpact(BasicAttack.LocalType targetAttackType)

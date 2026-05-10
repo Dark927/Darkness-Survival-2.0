@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class GalvanicHemorrhageWeapon : UpgradableAutoWeaponBase<AoeAttackSettings>
+    public class GalvanicHemorrhageWeapon : AutoWeaponBase<AoeAttackSettings>
     {
         [Header("References")]
         [SerializeField] private WeaponAnimatorController _animatorController;

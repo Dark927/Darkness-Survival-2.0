@@ -9,13 +9,82 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee7771356577eaa4b9c39390836287dd, type: 3}
+  m_Script: {fileID: 11500000, guid: c25c3185203d64948871e430e5beb229, type: 3}
   m_Name: Upgrade_Ability_DemonicAbsorption_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: 335824b5c0ece024ea78e1a1f2ac6e65, type: 2}
-  - {fileID: 11400000, guid: 398ccde067d3bf849a1f717930369bd0, type: 2}
-  - {fileID: 11400000, guid: 4c414e84c6a869347b576e283928b4b1, type: 2}
-  - {fileID: 11400000, guid: 2bdf3af773b5cd74b956f6f59c0b4079, type: 2}
-  - {fileID: 11400000, guid: f6975b80ec9de24429314052de0561e9, type: 2}
-  - {fileID: 11400000, guid: 70f475f5ffd64c74a9c97df2e124d7b8, type: 2}
+  - rid: 1713407670837313597
+  - rid: 1713407670837313598
+  - rid: 1713407670837313599
+  - rid: 1713407670837313600
+  - rid: 1713407670837313601
+  - rid: 1713407670837313602
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313597
+      type: {class: AbilityUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 8740c5e44fe6fd743ab641990355f9eb, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313598
+      type: {class: AbilityUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: e57a75dd748b02842ac669e972c0f0fe, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313599
+      type: {class: AbilityUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 10e3b80dd91150341b72f553ef400856, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313600
+      type: {class: AbilityUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: e57a75dd748b02842ac669e972c0f0fe, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313601
+      type: {class: AbilityUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 89b9b936fd973f449b975926658e91fc, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313602
+      type: {class: AbilityUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: feef6dac03372c64195bcb5bfa812388, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

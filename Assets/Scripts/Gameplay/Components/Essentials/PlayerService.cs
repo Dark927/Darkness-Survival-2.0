@@ -112,7 +112,7 @@ namespace Gameplay.Components
 
             if (character != null)
             {
-                characterTransform = (character.Body != null) ? character.Body.Transform : null;
+                characterTransform = (character.Body != null) ? character.Body.OriginalTransform : null;
             }
 
             return characterTransform;

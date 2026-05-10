@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f956afeaf415b345ad8ba4280f7c035, type: 3}
   m_Name: UpgradeConf_AbyssalFlares_Unlock_SO
   m_EditorClassIdentifier: 
-  _upgrade: {fileID: 11400000, guid: ba0ac785ebbb40844b179be4523a8630, type: 2}
+  _upgrade: {fileID: 11400000, guid: 77083bf1f393eda46a14985cf9227d8a, type: 2}
   _appearTime: 0
   _name: Abyssal Flares
   _type: 4

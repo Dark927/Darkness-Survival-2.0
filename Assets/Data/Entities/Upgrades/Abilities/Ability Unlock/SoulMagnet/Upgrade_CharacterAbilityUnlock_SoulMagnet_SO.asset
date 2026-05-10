@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Upgrade_CharacterAbilityUnlock_SoulMagnet_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: ae8a37f64ae76344eb7fb61b123f162b, type: 2}
+  - rid: 1713407670837313596
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313596
+      type: {class: AbilityUnlockLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: f7fb66ea438a3b940b9889e34587ad3f, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

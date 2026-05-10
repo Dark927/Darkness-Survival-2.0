@@ -9,13 +9,103 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359d3c440fefaae49aabe93879dac7bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 690db8a4f4a8cc2488b70e87479d0787, type: 3}
   m_Name: Upgrade_Weapon_AbyssalFlares_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: 5e2f506afd657d148abf42382c09eaca, type: 2}
-  - {fileID: 11400000, guid: 051a4f4b803b9624daed957ea8426f42, type: 2}
-  - {fileID: 11400000, guid: 8e123f105edbc0e4cb74344e3262c27b, type: 2}
-  - {fileID: 11400000, guid: ad33e4af877bc964eadda68d22a43eb1, type: 2}
-  - {fileID: 11400000, guid: 5a4f137c26d10ab4383daaf9ef69e786, type: 2}
-  - {fileID: 11400000, guid: a378113fa56571a419f2e5744d4383bd, type: 2}
+  - rid: 1713407670837313550
+  - rid: 1713407670837313551
+  - rid: 1713407670837313552
+  - rid: 1713407670837313553
+  - rid: 1713407670837313554
+  - rid: 1713407670837313555
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313550
+      type: {class: BurstWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 7bbb220872f55874aa640b4905fa5cc2, type: 2}
+        - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+        - {fileID: 11400000, guid: 3d5856e37995e23498716363d3db5c4e, type: 2}
+        - {fileID: 11400000, guid: 753bcd06aaa241742a84dbac2c785d3c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313551
+      type: {class: BurstWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+        - {fileID: 11400000, guid: cec41e89146a4c148b3a21eac0a81cd6, type: 2}
+        - {fileID: 11400000, guid: 58d272174680d7047b4b3c61ec4f6c55, type: 2}
+        - {fileID: 11400000, guid: 4d141b85fd4611042a18c7181fb31ae4, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313552
+      type: {class: BurstWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: c986aae627819c240b3ce6dfda1a8a03, type: 2}
+        - {fileID: 11400000, guid: 215ca43b4d2aad14b98839f986b4173e, type: 2}
+        - {fileID: 11400000, guid: fd5ff2effb8711e4fb76e7c34c0ad86d, type: 2}
+        - {fileID: 11400000, guid: f27fb145d43eeb54e90a3c359e862869, type: 2}
+        - {fileID: 11400000, guid: 753bcd06aaa241742a84dbac2c785d3c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313553
+      type: {class: BurstWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+        - {fileID: 11400000, guid: cec41e89146a4c148b3a21eac0a81cd6, type: 2}
+        - {fileID: 11400000, guid: dcad6a119797b8443b468dd92a2baa73, type: 2}
+        - {fileID: 11400000, guid: 3df7fd577fa9b8949872209dfd05a14d, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313554
+      type: {class: BurstWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 7bbb220872f55874aa640b4905fa5cc2, type: 2}
+        - {fileID: 11400000, guid: 654fc75cf5cfa38468538fcd87219930, type: 2}
+        - {fileID: 11400000, guid: dcad6a119797b8443b468dd92a2baa73, type: 2}
+        - {fileID: 11400000, guid: 4c6b20e4a6396984f860959e493c86d0, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313555
+      type: {class: BurstWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 145e5e6bbd5a66942b37ea32271bd653, type: 2}
+        - {fileID: 11400000, guid: d765e017e91790e45acacceb02f5df27, type: 2}
+        - {fileID: 11400000, guid: 3151594ae6528504094be5c000625958, type: 2}
+        - {fileID: 11400000, guid: 89149d9c8e1c7fb499f3a411d8db2b6f, type: 2}
+        - {fileID: 11400000, guid: c2e4609c3905bb7488352878a896b781, type: 2}
+        - {fileID: 11400000, guid: 4a1e1cae5cd1c03428627e377d435368, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 21300000, guid: 44bce8af15a00c744bd7393ef6868f96, type: 3}

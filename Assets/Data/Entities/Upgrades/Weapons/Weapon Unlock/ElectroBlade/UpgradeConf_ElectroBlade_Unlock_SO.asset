@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f956afeaf415b345ad8ba4280f7c035, type: 3}
   m_Name: UpgradeConf_ElectroBlade_Unlock_SO
   m_EditorClassIdentifier: 
-  _upgrade: {fileID: 11400000, guid: 0cfe69b850f7e4a49a7c00479bb1a6e3, type: 2}
+  _upgrade: {fileID: 11400000, guid: 91e045038b035d646bf8a64c9a1e7c29, type: 2}
   _appearTime: 0
   _name: Electro Blade
   _type: 4

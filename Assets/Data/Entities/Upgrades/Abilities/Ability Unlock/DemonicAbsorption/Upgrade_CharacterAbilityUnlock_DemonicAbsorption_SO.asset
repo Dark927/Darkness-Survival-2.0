@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Upgrade_CharacterAbilityUnlock_DemonicAbsorption_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: 07d76c298e7e6404295b3ac6851275e3, type: 2}
+  - rid: 1713407670837313583
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313583
+      type: {class: AbilityUnlockLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: e31f72aa77213a8499d2ce187cf066d9, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

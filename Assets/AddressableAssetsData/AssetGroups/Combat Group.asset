@@ -40,6 +40,14 @@ MonoBehaviour:
     - Attack
     - Data
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2fdc20df074aada4da1a16862f202258
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/NocturnalReapers/Weapon_NocturnalReapers_Projectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 430f8d60607b154408485b25cda1c673
     m_Address: Assets/Prefabs/Entities/Enemy/Weapons/EnemyDefaultWeapon.prefab
     m_ReadOnly: 0
@@ -50,6 +58,14 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 678ad20c8e822e349b435b7f94b1face
     m_Address: Assets/Prefabs/Entities/Weapons/Player/NeroSword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 805ad0777ccd78f4bbc46c6f194cc57f
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/NocturnalReapers/Weapon_NocturnalReapers.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Character
@@ -78,6 +94,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - Data
     - Enemy
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b0fd660bed90c594fb9b065b7f627e4d
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/AbyssalFlares/AbyssalFlaresWeapon_Projectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b170f6ecb5fea024099a02a8810ae33f

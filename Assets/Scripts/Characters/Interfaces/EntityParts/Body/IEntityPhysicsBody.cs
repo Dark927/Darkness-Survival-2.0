@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using Characters.Common.Combat;
 using Characters.Common.Movement;
 using Characters.Common.CustomPhysics2D;

@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8438462239733528830}
-  - component: {fileID: 58277488486569962}
+  - component: {fileID: 7587769767647007996}
   - component: {fileID: 5324385565363799141}
   m_Layer: 7
   m_Name: AbyssalFlaresWeapon_Projectile
@@ -149,7 +149,7 @@ Transform:
   - {fileID: 3201926193390912651}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &58277488486569962
+--- !u!114 &7587769767647007996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,11 +158,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4306491045117700604}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47d6275ab2dddb4c903ff1d333eef05, type: 3}
+  m_Script: {fileID: 11500000, guid: 90541b74f418f374b9835a7c2731b9a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitRadius: 0.15
-  _hitOffset: {x: 0.33, y: 0}
+  _hitRadius: 0.175
+  _hitOffset: {x: 0.35, y: 0}
 --- !u!114 &5324385565363799141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70141d8bc4f6d7a46a7802ebfb19972b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entityLogic: {fileID: 58277488486569962}
+  _entityLogic: {fileID: 7587769767647007996}
   _baseVisual: {fileID: 5508608771472031632}
   _extraVisual: {fileID: 2899861790711194194}
 --- !u!1 &5508608771472031632

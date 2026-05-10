@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class TriggerMeleeWeapon : WeaponBase
+    public class TriggerMeleeWeapon : WeaponBase<BasicAttackSettings>
     {
         #region Fields 
 

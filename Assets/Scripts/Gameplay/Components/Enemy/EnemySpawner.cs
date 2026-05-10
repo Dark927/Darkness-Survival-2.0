@@ -217,9 +217,9 @@ namespace Gameplay.Components.Enemy
 
                 // Find the player's movement direction for the teleport calculations
                 Vector2 playerDirection = Vector2.zero;
-                Transform playerTransform = playerLogic.Body.Transform;
+                var playerMovement = playerLogic.Body.Movement;
 
-                if (playerTransform.TryGetComponent<IEntityMovement>(out var playerMovement) && playerMovement.IsMoving)
+                if (playerMovement != null && playerMovement.IsMoving)
                 {
                     playerDirection = playerMovement.Direction;
                 }
@@ -229,7 +229,7 @@ namespace Gameplay.Components.Enemy
 
                 foreach (var enemyLogic in _activeEnemies)
                 {
-                    Vector2 enemyPos = enemyLogic.Body.Transform.position;
+                    Vector2 enemyPos = enemyLogic.Body.OriginalTransform.position;
 
                     if ((enemyPos - cameraPos).sqrMagnitude > despawnSqr)
                     {

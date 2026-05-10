@@ -70,7 +70,7 @@ namespace Characters.Common
             }
 
             _defaultFeaturesContainer = new GameObject(targetName);
-            _defaultFeaturesContainer.transform.SetParent(EntityLogic.Body.Transform, false);
+            _defaultFeaturesContainer.transform.SetParent(EntityLogic.Body.OriginalTransform, false);
         }
 
         public virtual void Dispose()

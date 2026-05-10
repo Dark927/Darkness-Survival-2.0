@@ -66,7 +66,7 @@ namespace Characters.Common.Features
             {
                 IEntityFeature.TargetEntityPart.UseContainerSettings => DefaultFeaturesContainer.transform,
                 IEntityFeature.TargetEntityPart.Base => EntityLogic is MonoBehaviour monoBehaviour ? monoBehaviour.transform : null,
-                IEntityFeature.TargetEntityPart.Body => EntityLogic.Body?.Transform,
+                IEntityFeature.TargetEntityPart.Body => EntityLogic.Body?.OriginalTransform,
                 _ => null,
             };
         }

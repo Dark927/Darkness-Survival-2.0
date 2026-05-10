@@ -55,7 +55,7 @@ namespace Gameplay.Components.Enemy
             // Move the enemy to the correct spawn location
             PlaceOnSpawnRing(enemyLogic, target);
 
-            enemyLogic.SetTarget(target.Body.Transform);
+            enemyLogic.SetTarget(target.Body.TargetingTransform);
         }
 
         public void DeconfigureFastReuseSettings(IEnemyLogic enemyLogic)
@@ -119,11 +119,11 @@ namespace Gameplay.Components.Enemy
             {
                 enemyRb.position = spawnPos;
                 enemyRb.velocity = Vector2.zero;
-                enemyLogic.Body.Transform.position = spawnPos; // Fallback syncI
+                enemyLogic.Body.OriginalTransform.position = spawnPos; // Fallback syncI
             }
             else
             {
-                enemyLogic.Body.Transform.position = spawnPos;
+                enemyLogic.Body.OriginalTransform.position = spawnPos;
             }
         }
 

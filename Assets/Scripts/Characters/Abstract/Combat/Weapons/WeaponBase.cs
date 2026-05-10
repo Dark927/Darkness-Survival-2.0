@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public abstract class WeaponBase : MonoBehaviour, IWeapon
+    public abstract class WeaponBase<TAttackSetting> : MonoBehaviour, IWeapon where TAttackSetting : IAttackSettings
     {
         #region Fields
 
         private IAttackableEntityLogic _owner;
         private Collider2D _ownerCollidder;
-        private IAttackSettings _attackSettings;
+        private TAttackSetting _attackSettings;
         private string _weaponName = null;
         private Damage _calculatedDamage;
         private AttackImpact _impact;
@@ -23,7 +23,7 @@ namespace Characters.Common.Combat.Weapons
         #region Properties
 
         public IAttackableEntityLogic Owner => _owner;
-        public IAttackSettings InitialAttackSettings => _attackSettings;
+        public TAttackSetting InitialAttackSettings => _attackSettings;
         public AttackImpact BaseAttackImpact => _impact;
         public bool ImpactAvailable => InitialAttackSettings.Impact.UseImpact;
         public Vector3 Center => _ownerCollidder.bounds.center;
@@ -43,7 +43,7 @@ namespace Characters.Common.Combat.Weapons
             _owner = GetComponentInParent<IAttackableEntityLogic>(true);
             _ownerCollidder = _owner.Body.Physics.Collider;
 
-            _attackSettings = attackData.Settings;   // settings - value type
+            _attackSettings = (TAttackSetting)attackData.Settings;
 
             if (attackData.Settings.NegativeStatus != null)
             {

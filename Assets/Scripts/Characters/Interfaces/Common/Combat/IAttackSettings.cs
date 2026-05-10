@@ -1,5 +1,6 @@
 ﻿
 using Characters.Common.Combat.Weapons;
+using UnityEngine;
 
 namespace Characters.Common.Combat
 {

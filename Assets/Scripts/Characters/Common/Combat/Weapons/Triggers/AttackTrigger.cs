@@ -154,11 +154,11 @@ namespace Characters.Common.Combat
                 return;
             }
 
-            IEntityBody characterBody = GetComponentInParent<IEntityBody>(true);
+            IEntityPhysicsBody characterBody = GetComponentInParent<IEntityPhysicsBody>(true);
 
-            if ((characterBody != null) && characterBody.Transform.TryGetComponent(out Collider2D bodyCollider))
+            if ((characterBody != null) && characterBody.Physics.Collider)
             {
-                _collider.CopyPropertiesFrom(bodyCollider);
+                _collider.CopyPropertiesFrom(characterBody.Physics.Collider);
             }
             else
             {

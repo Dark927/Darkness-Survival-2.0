@@ -13,24 +13,22 @@ namespace Characters.Player.Upgrades
             _character = targetCharacter;
         }
 
-        public void ApplyCharacterUpgrade(UpgradeLevelSO<IUpgradableCharacterLogic> upgradeLevel)
+        public void ApplyCharacterUpgrade(ICharacterUpgradeLevelData upgradeLevel)
         {
-            ApplyUpgradeToTheTarget(_character, upgradeLevel);
+            upgradeLevel.ApplyTo(_character);
         }
 
-        public void ApplyPassiveAbilityUpgrade(int abilityID, UpgradeLevelSO<IUpgradableAbility> upgradeLevel)
+        public void ApplyPassiveAbilityUpgrade(int abilityID, IUpgradeLevelData upgradeLevel)
         {
             ApplyAbilityUpgrade(_character.AbilitiesHandler, abilityID, upgradeLevel);
         }
 
-        public void ApplyWeaponAbilityUpgrade(int weaponID, UpgradeLevelSO<IUpgradableWeapon> upgradeLevel)
+        public void ApplyWeaponAbilityUpgrade(int weaponID, IUpgradeLevelData upgradeLevel)
         {
-
             ApplyAbilityUpgrade(_character.WeaponsHandler, weaponID, upgradeLevel);
         }
 
-        private void ApplyAbilityUpgrade<TSearchTarget, TUpgradableTarget>(IFeaturesHolderProvider<TSearchTarget> abilitiesProvider, int targetID, UpgradeLevelSO<TUpgradableTarget> upgradeLevel)
-            where TUpgradableTarget : IUpgradable
+        private void ApplyAbilityUpgrade<TSearchTarget>(IFeaturesHolderProvider<TSearchTarget> abilitiesProvider, int targetID, IUpgradeLevelData upgradeLevel)
         {
             if (!abilitiesProvider.TryGetFeatureByID(targetID, out var ability))
             {
@@ -38,26 +36,15 @@ namespace Characters.Player.Upgrades
                 return;
             }
 
-            if (ability is not TUpgradableTarget upgradableAbility)
+            // If the feature is upgradable, pass it to the Level Data.
+            // The Level Data will automatically verify the type
+            if (ability is IUpgradable upgradableAbility)
             {
-                ErrorLogger.LogWarning($"Warning | Ability ID == {targetID} is not of the expected type in collection | Upgrade will be ignored | {_character}");
-                return;
+                upgradeLevel.ApplyTo(upgradableAbility);
             }
-
-            ApplyUpgradeToTheTarget(upgradableAbility, upgradeLevel);
-        }
-
-
-        private void ApplyUpgradeToTheTarget<TTarget>(TTarget target, UpgradeLevelSO<TTarget> upgradeLevel) where TTarget : IUpgradable
-        {
-            foreach (var upgrade in upgradeLevel.Upgrades)
+            else
             {
-                upgrade.ApplyUpgrade(target);
-            }
-
-            foreach (var upgrade in upgradeLevel.Downgrades)
-            {
-                upgrade.ApplyDowngrade(target);
+                ErrorLogger.LogWarning($"Warning | Ability ID == {targetID} is not IUpgradable | {_character}");
             }
         }
     }

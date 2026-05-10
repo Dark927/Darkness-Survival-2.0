@@ -53,7 +53,7 @@ namespace Settings.CameraManagement
             if (_playerCamera != null && _introCamera != null)
             {
                 // Assign the player to the gameplay camera
-                Transform playerTransform = player.CharacterLogic.Body.Transform;
+                Transform playerTransform = player.CharacterLogic.Body.TargetingTransform;
                 _playerCamera.Follow = playerTransform;
 
                 /*

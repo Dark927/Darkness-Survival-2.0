@@ -14,7 +14,8 @@ namespace Characters.Common.Combat
         [SerializeField] private ImpactSettings _impact;
 
         [CustomHeader("Activation Settings", "These parameters are related to weapons that can be activated for the certain duration and have the reload time",
-            3, 1, CustomHeaderAttribute.HeaderColor.yellow)]
+            5, 1, CustomHeaderAttribute.HeaderColor.yellow)]
+        [Header("Trigger activity time defines tick-rate of attacks. So if trigger activity time is 1 second, enemy will take damage once per second")]
         [SerializeField] private float _triggerActivityTimeSec;
         [SerializeField] private float _fullDurationTimeSec;
         [SerializeField] private float _reloadTimeSec;

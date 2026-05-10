@@ -79,7 +79,7 @@ namespace UI.Local.Health
         {
             // ToDo : check this (sometimes healthbar has reverted scale).
 
-            if (Mathf.Sign(_entityBody.Transform.localScale.x) != Mathf.Sign(transform.localScale.x))
+            if (Mathf.Sign(_entityBody.OriginalTransform.localScale.x) != Mathf.Sign(transform.localScale.x))
             {
                 transform.localScale = transform.localScale * (-1);
             }

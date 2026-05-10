@@ -9,13 +9,87 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 359d3c440fefaae49aabe93879dac7bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 690db8a4f4a8cc2488b70e87479d0787, type: 3}
   m_Name: Upgrade_Weapon_CyberSword_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: 9a1182ee9ace4e4489e20017c5613e38, type: 2}
-  - {fileID: 11400000, guid: 4ea1a47ba4e63da46afe78af9e91602e, type: 2}
-  - {fileID: 11400000, guid: 6389adb4bce300c48b18389a8235b2ee, type: 2}
-  - {fileID: 11400000, guid: 597d14f2abe7ac8438bbf67d95a669c0, type: 2}
-  - {fileID: 11400000, guid: 2b1e00cbeee1f3d4682c4617a24eccc3, type: 2}
-  - {fileID: 11400000, guid: 07d4e0b4e7f684648a0cc565fd8d4b38, type: 2}
+  - rid: 1713407670837313562
+  - rid: 1713407670837313563
+  - rid: 1713407670837313564
+  - rid: 1713407670837313565
+  - rid: 1713407670837313566
+  - rid: 1713407670837313567
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313562
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: c08aeb02762243a41a59d9770df9bff4, type: 2}
+        - {fileID: 11400000, guid: 411862636cc1b5f40a00f7449d74254c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313563
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+        - {fileID: 11400000, guid: 16f4c69bd4b0d6447b923ca7ef48da2a, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313564
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: fd5ff2effb8711e4fb76e7c34c0ad86d, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313565
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 449acbe123db057439f12cbf3e20a3e6, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313566
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+        - {fileID: 11400000, guid: 5c7442c23d48fe246885aabcfab7ae5e, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313567
+      type: {class: CoreWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 654fc75cf5cfa38468538fcd87219930, type: 2}
+        - {fileID: 11400000, guid: cb9964262cff34349a3e3f5e1628eddd, type: 2}
+        - {fileID: 11400000, guid: 655ae97237b581d40be9551ac013ee14, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 11400000, guid: 3d9abae0a3d546045b8e26638ba6fdd4, type: 2}
+        _customIconUI: {fileID: 0}

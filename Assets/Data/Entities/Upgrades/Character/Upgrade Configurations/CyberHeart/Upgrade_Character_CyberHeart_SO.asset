@@ -13,9 +13,85 @@ MonoBehaviour:
   m_Name: Upgrade_Character_CyberHeart_SO
   m_EditorClassIdentifier: 
   _upgradeLevels:
-  - {fileID: 11400000, guid: ca945006e6873f84b80b082164d67251, type: 2}
-  - {fileID: 11400000, guid: 33a5867b124c5084a85ad0bc68fad397, type: 2}
-  - {fileID: 11400000, guid: c727d0312e3ea7e4791b9f8ae2bd5a54, type: 2}
-  - {fileID: 11400000, guid: ca9c06ac349b8d54f95e518b36528be3, type: 2}
-  - {fileID: 11400000, guid: 6d74f7057cebb984ca5f9961869079df, type: 2}
-  - {fileID: 11400000, guid: 3d1e4b8b8f7fd5c4185d74cf6b5b217c, type: 2}
+  - rid: 1713407670837313584
+  - rid: 1713407670837313585
+  - rid: 1713407670837313586
+  - rid: 1713407670837313587
+  - rid: 1713407670837313588
+  - rid: 1713407670837313589
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313584
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: e6ee72c3ebad3a04db1e744b549876ec, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313585
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 26ed02cd9735a7b4d93f26552f95e1ee, type: 2}
+        - {fileID: 11400000, guid: e5b925dc9530ca14e8035f395267c3e9, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313586
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: e6ee72c3ebad3a04db1e744b549876ec, type: 2}
+        - {fileID: 11400000, guid: 4026e2add63343045a473abdcb76c607, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313587
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 26ed02cd9735a7b4d93f26552f95e1ee, type: 2}
+        - {fileID: 11400000, guid: e5b925dc9530ca14e8035f395267c3e9, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313588
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 5635a871e9e0a454ab6b4e00c2127b82, type: 2}
+        - {fileID: 11400000, guid: a9885f74d29f0444093dd1487e210a56, type: 2}
+        - {fileID: 11400000, guid: e5b925dc9530ca14e8035f395267c3e9, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407670837313589
+      type: {class: CharacterUpgradeLevelData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 5635a871e9e0a454ab6b4e00c2127b82, type: 2}
+        - {fileID: 11400000, guid: 70cf73b363866004195d974c22655690, type: 2}
+        - {fileID: 11400000, guid: afd4a6657065edf4ba9f70346a633382, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

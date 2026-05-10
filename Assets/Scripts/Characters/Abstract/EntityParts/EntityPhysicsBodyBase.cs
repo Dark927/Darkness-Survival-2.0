@@ -15,6 +15,9 @@ namespace Characters.Common
     public abstract class EntityPhysicsBodyBase : MonoBehaviour, IEntityPhysicsBody
     {
         #region Fields
+
+        [SerializeField] private Transform _targetingTransform;
+
         private IEntityPhysics2D _entityPhysics;
         private IEntityMovement _movement;
         private IEntityView _view;
@@ -43,7 +46,8 @@ namespace Characters.Common
 
         #region Properties
 
-        public Transform Transform => transform;
+        public Transform TargetingTransform => _targetingTransform;
+        public Transform OriginalTransform => transform;
         public IEntityPhysics2D Physics => _entityPhysics;
         public IEntityMovement Movement { get => _movement; protected set => _movement = value; }
         public IEntityView View { get => _view; protected set => _view = value; }
@@ -87,6 +91,11 @@ namespace Characters.Common
         {
             _entityPhysics = GetComponent<IEntityPhysics2D>();
             _entityPhysics.Initialize();
+
+            if (_targetingTransform == null)
+            {
+                _targetingTransform = OriginalTransform;
+            }
         }
 
         protected virtual void InitMovement()

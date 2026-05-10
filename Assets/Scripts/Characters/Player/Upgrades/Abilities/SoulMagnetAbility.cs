@@ -37,8 +37,6 @@ namespace Characters.Player.Abilities
         private float _xpBonusMultiplier = 0f;
 
         private ICharacterLogic _ownerLogic;
-        private Transform _ownerTransform;
-        private Collider2D _ownerCollider;
 
         // Performance caching (Zero Allocation tracking)
         private Collider2D[] _overlapResults = new Collider2D[MAX_ITEMS_TO_GRAB_PER_FRAME];
@@ -48,7 +46,7 @@ namespace Characters.Player.Abilities
         private bool _isHijackingForBonusXp => _xpBonusMultiplier > 0f;
 
         // Helper property to dynamically get the center of the player's body rather than their feet
-        private Vector3 PullCenter => _ownerCollider != null ? _ownerCollider.bounds.center : _ownerTransform.position;
+        private Vector3 PullCenter => _ownerLogic.Body.TargetingTransform.position;
 
         #endregion
 
@@ -71,10 +69,6 @@ namespace Characters.Player.Abilities
             }
 
             _ownerLogic = myCharacterLogic;
-            _ownerTransform = _ownerLogic.Body.Transform;
-
-            // Cache the collider. We cast to Collider2D just in case Physics.Collider returns a generic type
-            _ownerCollider = _ownerLogic.Body.Physics.Collider as Collider2D;
         }
 
         public void Dispose()
@@ -120,7 +114,7 @@ namespace Characters.Player.Abilities
 
         private void Update()
         {
-            if (_ownerTransform == null)
+            if (PullCenter == null)
             {
                 return;
             }
@@ -232,7 +226,7 @@ namespace Characters.Player.Abilities
             Gizmos.color = new Color(0.7f, 0f, 1f, 0.4f);
 
             // Dynamically draw from the collider center if active, otherwise fallback to transform
-            if (Application.isPlaying && _ownerTransform != null)
+            if (Application.isPlaying && PullCenter != null)
             {
                 Gizmos.DrawWireSphere(PullCenter, _baseRadius * _radiusMultiplier);
             }

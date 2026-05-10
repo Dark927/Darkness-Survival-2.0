@@ -23,7 +23,7 @@ namespace Characters.Player.Upgrades
     [CreateAssetMenu(fileName = "NewUpgradeConfigurationData", menuName = "Game/Upgrades/Main/Upgrade Configuration Data")]
     public class UpgradeConfigurationSO : ScriptableObject
     {
-        [SerializeField] private UpgradeSO _upgrade;
+        [SerializeField] private UpgradeDataSO _upgrade;
 
         [Space, CustomHeader("Main Info", 9, 0)]
 
@@ -46,7 +46,7 @@ namespace Characters.Player.Upgrades
         public string Description => _description;
         public Sprite Icon => _icon;
 
-        public UpgradeSO Upgrade => _upgrade;
+        public UpgradeDataSO Upgrade => _upgrade;
         public UpgradeVisualDataUI VisualData => _visualDataUI;
     }
 }

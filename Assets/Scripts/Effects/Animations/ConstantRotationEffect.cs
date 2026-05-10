@@ -11,6 +11,7 @@ namespace Visuals.Effects.Animations
         [Header("Rotation Settings")]
         [Tooltip("The speed of rotation in degrees per second.")]
         [SerializeField] private float _rotationSpeed = 90f;
+        [SerializeField] private float _rotationSpeedMultiplier = 1f;
 
         [Tooltip("The axis to rotate around. For 2D games (0, 0, 1).")]
         [SerializeField] private Vector3 _rotationAxis = new Vector3(0f, 0f, 1f);
@@ -53,7 +54,7 @@ namespace Visuals.Effects.Animations
             if (_targetTransform != null)
             {
                 // Rotate smoothly based on time
-                _targetTransform.Rotate(_rotationAxis, _rotationSpeed * Time.deltaTime);
+                _targetTransform.Rotate(_rotationAxis, _rotationSpeed * _rotationSpeedMultiplier * Time.deltaTime);
             }
         }
 
@@ -61,6 +62,11 @@ namespace Visuals.Effects.Animations
         public void SetRotationSpeed(float newSpeed)
         {
             _rotationSpeed = newSpeed;
+        }
+
+        public void SetRotationSpeedMultiplier(float multiplier)
+        {
+            _rotationSpeedMultiplier = multiplier;
         }
 
         public void InvertDirection()

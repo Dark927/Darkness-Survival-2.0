@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: UpgradesSet_Nero_Data
   m_EditorClassIdentifier: 
   _upgradesConfigurations:
-  - {fileID: 11400000, guid: 9c8f1ccbe0fac9241a06c60a05f0031f, type: 2}
+  - {fileID: 11400000, guid: 9816ad62a72209947a946c5d17305b52, type: 2}

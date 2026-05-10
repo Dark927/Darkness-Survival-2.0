@@ -13,15 +13,17 @@ namespace Characters.Common.Combat.Weapons
     {
         private float _orbitSpeedMultiplier = 1f;
         private float _currentPhaseEndTime;
+        private float _currentPhaseBaseAngle;
 
         private readonly List<OrbitalEntity> _activeEntities = new List<OrbitalEntity>();
 
         protected override async UniTask PerformAttackPhase(CancellationToken token)
         {
-            // Cache the duration so the UniTask wait and the EndTime math are perfectly synchronized,
-            // even if the duration stat is upgraded mid-phase.
             float currentPhaseDuration = UpgradedAttackSettings.FullDurationTimeSec;
             _currentPhaseEndTime = Time.time + currentPhaseDuration;
+
+            // Roll the random angle ONCE when the attack phase starts
+            _currentPhaseBaseAngle = Random.Range(0f, 360f);
 
             FireWeapon();
 
@@ -75,7 +77,7 @@ namespace Characters.Common.Combat.Weapons
 
             for (int i = 0; i < entityCount; i++)
             {
-                float startAngle = angleStep * i;
+                float startAngle = (angleStep * i) + _currentPhaseBaseAngle;
                 SpawnEntity(orbitCenter, startAngle, finalOrbitRadius, finalOrbitSpeed, remainingLifetime);
             }
         }

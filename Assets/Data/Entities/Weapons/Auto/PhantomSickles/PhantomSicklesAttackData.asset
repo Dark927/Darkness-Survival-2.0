@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 821d0561ebcedc74ba7ece78239f958e, type: 3}
-  m_Name: NocturnalReapersAttackData
+  m_Name: PhantomSicklesAttackData
   m_EditorClassIdentifier: 
   _settings:
     rid: 1713407670837313611
@@ -26,17 +26,17 @@ MonoBehaviour:
           _max: 12
         _impact:
           _useImpact: 1
-          _stunDurationMs: 1000
+          _stunDurationMs: 350
           _pushForce: 3
-          _reloadTimeMs: 50
-          _chancePercent: 25
+          _reloadTimeMs: 450
+          _chancePercent: 35
           _shakeSettings:
             m_Amplitude: 0
             m_Frequency: 0
             m_Time: 0
-        _triggerActivityTimeSec: 1
-        _fullDurationTimeSec: 8
-        _reloadTimeSec: 4
-        _attackRadius: 1.5
-        _spawnCount: 1
-        _baseOrbitSpeed: -200
+        _triggerActivityTimeSec: 0.75
+        _fullDurationTimeSec: 16
+        _reloadTimeSec: 6
+        _attackRadius: 3.5
+        _spawnCount: 2
+        _baseOrbitSpeed: -100

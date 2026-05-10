@@ -120,10 +120,26 @@ MonoBehaviour:
     - Data
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcca773c9d2fb60419dcb741656978c0
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/PhantomSickers/Weapon_PhantomSickers_Projectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: de7aaa96e39445a4199bff642de9e334
     m_Address: Assets/Prefabs/Entities/Weapons/Auto/ElectroBladeWeapon.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e63af47cc4315c64e969dd19470f17ee
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/PhantomSickers/Weapon_PhantomSickers.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
     - Prefab
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0

@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690db8a4f4a8cc2488b70e87479d0787, type: 3}
+  m_Name: Upgrade_Weapon_PhantomSickles_SO
+  m_EditorClassIdentifier: 
+  _upgradeLevels:
+  - rid: 1713407692268634112
+  - rid: 1713407670837313610
+  - rid: 1713407692268634113
+  - rid: 1713407692268634114
+  - rid: 1713407692268634115
+  - rid: 1713407692268634116
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407670837313610
+      type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 8157975ea84191f42a25e41208da458d, type: 2}
+        - {fileID: 11400000, guid: a492d972f0d6947429342628fb05f64f, type: 2}
+        - {fileID: 11400000, guid: c63434f52994dc74ab06d27f25c85685, type: 2}
+        - {fileID: 11400000, guid: dc7c93ce7a3aee34bab34ca84986f2e5, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407692268634112
+      type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+        - {fileID: 11400000, guid: 865a3bcf3af16ba489ae183c86ecd526, type: 2}
+        - {fileID: 11400000, guid: ca05258daebf7a74e80a25d582576a82, type: 2}
+        - {fileID: 11400000, guid: e9076705342462140ab235781efcb2f7, type: 2}
+        - {fileID: 11400000, guid: 26d77d33fbd44e1448aa756ea792ff6c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407692268634113
+      type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 0fef7384ee906fd49a54d69136f6ed4a, type: 2}
+        - {fileID: 11400000, guid: d0d9e5e18d608014db82f10eddae17f1, type: 2}
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: db094a6b4d357db41b8913e3c7833cb9, type: 2}
+        - {fileID: 11400000, guid: 6d63711e7481c6a4e8de14e923e83d7e, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407692268634114
+      type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 8157975ea84191f42a25e41208da458d, type: 2}
+        - {fileID: 11400000, guid: 82fa2a58425fe754aa0e49c14432a960, type: 2}
+        - {fileID: 11400000, guid: 7da493a13ac00004496cc6c07d951f60, type: 2}
+        - {fileID: 11400000, guid: 9ab00221179b4da4e8b14013b9d8e892, type: 2}
+        - {fileID: 11400000, guid: 4a1e1cae5cd1c03428627e377d435368, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407692268634115
+      type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 8157975ea84191f42a25e41208da458d, type: 2}
+        - {fileID: 11400000, guid: fd5ff2effb8711e4fb76e7c34c0ad86d, type: 2}
+        - {fileID: 11400000, guid: 865a3bcf3af16ba489ae183c86ecd526, type: 2}
+        - {fileID: 11400000, guid: dc7c93ce7a3aee34bab34ca84986f2e5, type: 2}
+        - {fileID: 11400000, guid: e9076705342462140ab235781efcb2f7, type: 2}
+        - {fileID: 11400000, guid: 856520d86aa164241a900bda5256a846, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407692268634116
+      type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 8e4365e064d0d064896d7b2a88bcf1c8, type: 2}
+        - {fileID: 11400000, guid: 654fc75cf5cfa38468538fcd87219930, type: 2}
+        - {fileID: 11400000, guid: 66c8a8e2c192f8f4d86df07f3ad328cb, type: 2}
+        - {fileID: 11400000, guid: dc7c93ce7a3aee34bab34ca84986f2e5, type: 2}
+        - {fileID: 11400000, guid: be17ff6ac1fb95447a40dfad60e7386f, type: 2}
+        - {fileID: 11400000, guid: 26d77d33fbd44e1448aa756ea792ff6c, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

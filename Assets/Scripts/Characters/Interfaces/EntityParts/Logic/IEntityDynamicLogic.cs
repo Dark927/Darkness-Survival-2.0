@@ -1,5 +1,6 @@
 ﻿using Characters.Common.Abilities;
 using Characters.Common.Settings;
+using Characters.Common.Statuses;
 
 namespace Characters.Common
 {
@@ -12,7 +13,7 @@ namespace Characters.Common
         public EntityInfo Info { get; }
         public CharacterStats Stats { get; }
         public EntityPassiveAbilitiesHandler AbilitiesHandler { get; }
-
+        public IEntityStatusLogic Status { get; }
         public void Initialize(IEntityData data);
     }
 }

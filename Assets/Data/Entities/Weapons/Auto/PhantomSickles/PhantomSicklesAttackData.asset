@@ -22,14 +22,14 @@ MonoBehaviour:
       data:
         _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
         _damageSettings:
-          _min: 7
-          _max: 12
+          _min: 3
+          _max: 4
         _impact:
           _useImpact: 1
-          _stunDurationMs: 350
-          _pushForce: 3
-          _reloadTimeMs: 450
-          _chancePercent: 35
+          _stunDurationMs: 250
+          _pushForce: 1.5
+          _reloadTimeMs: 0
+          _chancePercent: 25
           _shakeSettings:
             m_Amplitude: 0
             m_Frequency: 0

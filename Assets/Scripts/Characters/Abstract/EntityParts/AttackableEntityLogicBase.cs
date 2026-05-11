@@ -4,6 +4,7 @@ using Characters.Common.Abilities;
 using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons;
 using Characters.Common.Settings;
+using Characters.Common.Statuses;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace Characters.Common
 
         private EntityWeaponAbilitiesHandler _weaponHandler;
         private EntityPassiveAbilitiesHandler _abilitiesHandler;
+        private IEntityStatusLogic _statusLogic;
 
         #endregion
 
@@ -31,6 +33,7 @@ namespace Characters.Common
         public EntityInfo Info => _entityData.CommonInfo;
         public EntityWeaponAbilitiesHandler WeaponsHandler => _weaponHandler;
         public EntityPassiveAbilitiesHandler AbilitiesHandler => _abilitiesHandler;
+        public IEntityStatusLogic Status => _statusLogic;
 
 
         #endregion
@@ -45,8 +48,14 @@ namespace Characters.Common
             _entityData = data as AttackableCharacterData;
             InitBody();
             _abilitiesHandler = new EntityPassiveAbilitiesHandler(this);
+            _statusLogic = new EntityStatusLogic(this);
             InitWeaponsAsync();
             SetReferences();
+        }
+
+        protected virtual void Update()
+        {
+            _statusLogic?.UpdateTimers();
         }
 
         private void InitBody()
@@ -134,6 +143,7 @@ namespace Characters.Common
 
         public void ResetState()
         {
+            _statusLogic?.ClearAll();
             Body.ResetState();
         }
 
@@ -149,7 +159,8 @@ namespace Characters.Common
 
         public void ApplyStun(int durationMs)
         {
-            Body.Movement.Block(durationMs);
+            // Convert milliseconds to seconds and pass it
+            Status.Apply(new StunStatusEffect(durationMs / 1000f));
         }
 
         public virtual void ListenNewWeaponGiven(object sender, IWeapon weapon)

@@ -7,6 +7,8 @@ namespace Characters.Common.Movement
 {
     public abstract class EntityMovementBase : IEntityMovement, IResetable
     {
+        protected float _cachedOriginalSpeedMultiplier;
+
         public virtual bool IsMoving { get; }
         public virtual Vector2 Direction { get; }
         public virtual EntitySpeed Speed { get; }
@@ -14,6 +16,35 @@ namespace Characters.Common.Movement
 
         public event Action<Vector2> OnMovementPerformed;
         public event EventHandler<bool> OnMovementStateChanged;
+
+
+        public virtual void SetTemporarySpeedMultiplier(float multiplier)
+        {
+            _cachedOriginalSpeedMultiplier = Speed.Settings.CurrentSpeedMultiplier;
+
+            SpeedSettings modifiedSettings = Speed.Settings;
+            modifiedSettings.CurrentSpeedMultiplier = _cachedOriginalSpeedMultiplier * multiplier;
+
+            Speed.SetSettings(modifiedSettings);
+
+            if (!IsBlocked)
+            {
+                Speed.UpdateVelocity(Speed.Direction);
+            }
+        }
+
+        public virtual void RestoreSpeedMultiplier()
+        {
+            SpeedSettings restoredSettings = Speed.Settings;
+            restoredSettings.CurrentSpeedMultiplier = _cachedOriginalSpeedMultiplier;
+
+            Speed.SetSettings(restoredSettings);
+
+            if (!IsBlocked)
+            {
+                Speed.UpdateVelocity(Speed.Direction);
+            }
+        }
 
         public virtual UniTaskVoid MoveAsync(Vector2 direction)
         {

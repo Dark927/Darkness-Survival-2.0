@@ -44,8 +44,7 @@ namespace Characters.Common.Movement
 
         public void Stop()
         {
-            _settings.CurrentSpeedMultiplier = 0;
-            UpdateVelocity(_direction);
+            UpdateVelocity(Vector2.zero);
         }
 
         public void ClearDirection()

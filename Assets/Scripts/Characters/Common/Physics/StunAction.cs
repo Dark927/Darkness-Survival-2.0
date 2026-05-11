@@ -4,6 +4,9 @@
     {
         private int _durationMs;
 
+        // Priority 0: Executes First
+        public int Priority => 0;
+
         public StunAction(params object[] values)
         {
             SetValues(values);
@@ -23,5 +26,7 @@
         {
             entityPhysics.TriggerStunActivationEvent(_durationMs);
         }
+
+        public int CompareTo(IPhysicsAction other) => Priority.CompareTo(other.Priority);
     }
 }

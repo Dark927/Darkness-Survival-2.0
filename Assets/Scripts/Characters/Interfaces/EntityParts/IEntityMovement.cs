@@ -57,6 +57,16 @@ namespace Characters.Common.Movement
         /// </summary>
         public void Unblock();
 
+        /// <summary>
+        /// Applies a temporary modifier to the movement speed (e.g., from a Slow status).
+        /// </summary>
+        public void SetTemporarySpeedMultiplier(float multiplier);
+
+        /// <summary>
+        /// Removes temporary modifiers and restores the underlying speed settings.
+        /// </summary>
+        public void RestoreSpeedMultiplier();
+
 
         #endregion
     }

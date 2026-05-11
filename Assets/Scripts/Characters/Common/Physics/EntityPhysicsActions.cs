@@ -13,7 +13,10 @@ namespace Characters.Common.CustomPhysics2D
             Stun = 1,
         }
 
-        private Dictionary<PhysicsActionType, IPhysicsAction> _actionsDict = new();
+        private readonly Dictionary<PhysicsActionType, IPhysicsAction> _actionsDict = new();
+
+        // Cached buffer for zero-allocation sorting
+        private readonly List<IPhysicsAction> _sortedBuffer = new List<IPhysicsAction>(4);
 
         public EntityPhysicsActions AddKnockback(float force, Vector2 direction)
         {
@@ -27,7 +30,13 @@ namespace Characters.Common.CustomPhysics2D
 
         public IEnumerable<IPhysicsAction> Get()
         {
-            return _actionsDict.Values;
+            _sortedBuffer.Clear();
+            _sortedBuffer.AddRange(_actionsDict.Values);
+
+            // Sorts based on the Priority integer (0 executes before 100)
+            _sortedBuffer.Sort();
+
+            return _sortedBuffer;
         }
 
         private EntityPhysicsActions AddAction(PhysicsActionType type, params object[] parameters)

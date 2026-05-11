@@ -31,6 +31,7 @@ namespace Characters.Enemy
         public override EntitySpeed Speed => _speed;
         public override bool IsMoving => _rigidbody.velocity.sqrMagnitude > 0f;
         public override Vector2 Direction => _lookDirection;
+        public override bool IsBlocked => _movementBlock != null && _movementBlock.IsBlocked;
 
         #endregion
 
@@ -71,13 +72,11 @@ namespace Characters.Enemy
         public override void ConfigureEventLinks()
         {
             _speed.OnVelocityUpdate += VelocityUpdateListener;
-            _movementBlock.OnBlockFinish += _speed.SetMaxSpeedMultiplier;
         }
 
         public override void RemoveEventLinks()
         {
             _speed.OnVelocityUpdate -= VelocityUpdateListener;
-            _movementBlock.OnBlockFinish -= _speed.SetMaxSpeedMultiplier;
         }
 
         #endregion

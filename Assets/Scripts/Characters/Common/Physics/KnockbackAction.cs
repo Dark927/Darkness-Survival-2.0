@@ -1,6 +1,5 @@
-﻿
-
-using UnityEngine;
+﻿using UnityEngine;
+using Utilities.ErrorHandling;
 
 namespace Characters.Common.CustomPhysics2D
 {
@@ -8,6 +7,9 @@ namespace Characters.Common.CustomPhysics2D
     {
         private float _force;
         private Vector2 _direction;
+
+        // Priority 100: Executes Last (After AI is disabled)
+        public int Priority => 100;
 
         public KnockbackAction(params object[] values)
         {
@@ -29,5 +31,7 @@ namespace Characters.Common.CustomPhysics2D
         {
             entityPhysics.Rigidbody2D.AddForce(_force * _direction, ForceMode2D.Impulse);
         }
+
+        public int CompareTo(IPhysicsAction other) => Priority.CompareTo(other.Priority);
     }
 }

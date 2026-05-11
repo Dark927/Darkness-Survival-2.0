@@ -70,13 +70,7 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual void SetDefaultPosRelatedToOwner()
         {
-            if (_owner == null)
-            {
-                return;
-            }
-
-            var ownerCollider = _owner.Body.Physics.Collider;
-            transform.position = ownerCollider.bounds.center;
+            transform.position = Vector3.zero;
         }
 
         public virtual void Dispose()

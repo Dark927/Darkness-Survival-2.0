@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821d0561ebcedc74ba7ece78239f958e, type: 3}
+  m_Name: AbyssalMireAttackData
+  m_EditorClassIdentifier: 
+  _settings:
+    rid: 1713407715677569024
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407715677569024
+      type: {class: SlowingHazardAttackSettings, ns: Characters.Common.Combat, asm: Assembly-CSharp}
+      data:
+        _attackNegativeStatus: {fileID: 11400000, guid: 1f31db5a59bc48443a08d12488838de0, type: 2}
+        _damageSettings:
+          _min: 2
+          _max: 3
+        _impact:
+          _useImpact: 0
+          _stunDurationMs: 0
+          _pushForce: 0
+          _reloadTimeMs: 0
+          _chancePercent: 0
+          _shakeSettings:
+            m_Amplitude: 0
+            m_Frequency: 0
+            m_Time: 0
+        _triggerActivityTimeSec: 0.35
+        _fullDurationTimeSec: 6
+        _reloadTimeSec: 4
+        _attackRadius: 0.5
+        _spawnCount: 1
+        _minSpawnRadius: 2
+        _maxSpawnRadius: 5
+        _slowMultiplier: 0.8

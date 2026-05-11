@@ -9,7 +9,7 @@ namespace Characters.Common.Combat.Weapons
     {
         [Header("Logic Link")]
         [Tooltip("The logic component on this prefab.")]
-        [SerializeField] private AutonomousEntityBase _entityLogic;
+        [SerializeField] protected AutonomousEntityBase _entityLogic;
 
         [Header("Visual Elements")]
         [SerializeField] private GameObject _baseVisual;
@@ -23,7 +23,7 @@ namespace Characters.Common.Combat.Weapons
 
         public bool IsSpecialVisualActive => _isExtraVisualActive;
 
-        protected void OnEnable()
+        protected virtual void OnEnable()
         {
             if (_entityLogic == null) return;
 
@@ -31,7 +31,7 @@ namespace Characters.Common.Combat.Weapons
             _entityLogic.OnEntityDied += HideVisuals;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (_entityLogic == null) return;
 
@@ -39,7 +39,7 @@ namespace Characters.Common.Combat.Weapons
             _entityLogic.OnEntityDied -= HideVisuals;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             HideVisuals();
         }
@@ -88,6 +88,22 @@ namespace Characters.Common.Combat.Weapons
         {
             _isExtraVisualActive = false;
             HideExtraVisuals();
+        }
+
+        protected void ScaleVisualElements(float currentRadius)
+        {
+            float diameter = currentRadius * 2f;
+            Vector3 newScale = new Vector3(diameter, diameter, 1f);
+
+            if (_baseVisual != null)
+            {
+                _baseVisual.transform.localScale = newScale;
+            }
+
+            if (_extraVisual != null)
+            {
+                _extraVisual.transform.localScale = newScale;
+            }
         }
     }
 }

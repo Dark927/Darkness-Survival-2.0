@@ -92,7 +92,7 @@ namespace Gameplay.Components.TargetDetection
 #if UNITY_EDITOR
 
             Vector2 boxCenter = SourceCenter;
-            DrawDebugRectangle(settings.Distance * direction.y, settings.AreaWidth, isFound, boxCenter);
+            //DrawDebugRectangle(settings.Distance * direction.y, settings.AreaWidth, isFound, boxCenter);
 #endif
 
             return isFound;
@@ -137,7 +137,7 @@ namespace Gameplay.Components.TargetDetection
             }
 
 #if UNITY_EDITOR
-            DrawDebugRectangle(settings.Distance * direction.y, settings.AreaWidth, isFound, SourceCenter);
+            //DrawDebugRectangle(settings.Distance * direction.y, settings.AreaWidth, isFound, SourceCenter);
 #endif
 
             return isFound;

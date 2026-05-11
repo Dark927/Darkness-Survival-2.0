@@ -6,7 +6,11 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class GalvanicHemorrhageWeapon : AutoWeaponBase<AoeAttackSettings>
+    /// <summary>
+    /// A universal weapon that creates an AoE damage zone centered on the owner.
+    /// Pulses damage periodically and broadcasts its radius for visual scaling.
+    /// </summary>
+    public class PulseAuraWeapon : AutoWeaponBase<AoeAttackSettings>, IElementWithExtraVisual
     {
         [Header("References")]
         [SerializeField] private WeaponAnimatorController _animatorController;
@@ -19,11 +23,15 @@ namespace Characters.Common.Combat.Weapons
         [SerializeField] private float _yOffset = 0f;
 
         private Collider2D[] _hitBuffer = new Collider2D[MAX_HIT_TARGETS];
+        private bool _isSpecialVisualActive = false;
+
+        public bool IsSpecialVisualActive => _isSpecialVisualActive;
 
         public event Action<float> OnAuraPhaseStarted;
         public event Action<float> OnAttackRadiusUpgraded;
         public event Action OnAuraPhaseEnded;
-        public event Action OnAuraUnlockedEvent;
+        public event Action OnSpecialAuraLockedEvent;
+        public event Action OnSpecialAuraUnlockedEvent;
 
         public override void Initialize(WeaponAttackData attackData)
         {
@@ -44,11 +52,6 @@ namespace Characters.Common.Combat.Weapons
             {
                 _animatorController.OnAttackImpactTriggered -= ApplyDamageOnHit;
             }
-        }
-
-        public void UnlockAura()
-        {
-            OnAuraUnlockedEvent?.Invoke();
         }
 
         protected override async UniTask PerformAttackPhase(CancellationToken token)
@@ -127,6 +130,18 @@ namespace Characters.Common.Combat.Weapons
                 : defaultRadius;
 
             Gizmos.DrawWireSphere((Vector2)transform.position, radius);
+        }
+
+        public void EnableSpecialVisual()
+        {
+            _isSpecialVisualActive = true;
+            OnSpecialAuraUnlockedEvent?.Invoke();
+        }
+
+        public void DisableSpecialVisual()
+        {
+            _isSpecialVisualActive = false;
+            OnSpecialAuraLockedEvent?.Invoke();
         }
 
         #endregion

@@ -131,32 +131,9 @@ namespace Characters.Common.Combat.Weapons
 
         #region Callbacks
 
-        //private void HandleEntityHit(Collider2D targetCollider, OrbitalEntity entity)
-        //{
-        //    HitTargetListener(this, new AttackTriggerArgs(targetCollider));
-        //}
-
         private void HandleEntityHit(Collider2D targetCollider, OrbitalEntity entity)
         {
-            // 1. Original damage logic
             HitTargetListener(this, new AttackTriggerArgs(targetCollider));
-
-            // ==========================================
-            // TEMPORARY TEST LOGIC FOR PHASE 1
-            // ==========================================
-
-            // Try to resolve the hit collider into your entity logic. 
-            // (Adjust GetComponentInParent if your colliders are on a different hierarchy level than the logic script)
-            var hitEntity = targetCollider.GetComponentInParent<IEntityDynamicLogic>();
-
-            if (hitEntity != null && hitEntity.Status != null)
-            {
-                // Apply a 50% slow (0.5f multiplier) that lasts for 2 seconds.
-                // Because the orbital weapon hits repeatedly, this will trigger the Dictionary Merge logic!
-                hitEntity.Status.Apply(new SlowStatusEffect(2.0f, 0.5f));
-            }
-
-            // ==========================================
         }
 
         private void HandleEntityDeath(AutonomousEntityBase entity)

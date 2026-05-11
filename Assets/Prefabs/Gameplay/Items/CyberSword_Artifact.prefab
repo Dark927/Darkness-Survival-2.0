@@ -358,7 +358,7 @@ MonoBehaviour:
   _parameters:
     _tintColor: {r: 1, g: 1, b: 1, a: 1}
     _customUpgrades:
-    - {fileID: 11400000, guid: b8124e0bf9bca784a86bc349faf755e9, type: 2}
+    - {fileID: 11400000, guid: 3485612f86067ad4caccfa81138260ed, type: 2}
     _areIntroUpgrades: 1
 --- !u!1 &7068127507206755300
 GameObject:

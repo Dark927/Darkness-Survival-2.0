@@ -56,8 +56,24 @@ MonoBehaviour:
     - Prefab
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 564f1fbe995ae6d42a979a83c58dc953
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/AbyssalMire/AbyssalMireWeapon_Projectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 678ad20c8e822e349b435b7f94b1face
     m_Address: Assets/Prefabs/Entities/Weapons/Player/NeroSword.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7205c33751e087e40a922e265a4dcdf9
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/AbyssalMire/AbyssalMireWeapon.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Character

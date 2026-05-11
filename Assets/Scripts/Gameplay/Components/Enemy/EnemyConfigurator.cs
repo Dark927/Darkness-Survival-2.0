@@ -119,7 +119,7 @@ namespace Gameplay.Components.Enemy
             {
                 enemyRb.position = spawnPos;
                 enemyRb.velocity = Vector2.zero;
-                enemyLogic.Body.OriginalTransform.position = spawnPos; // Fallback syncI
+                enemyLogic.Body.OriginalTransform.position = spawnPos; // Fallback sync
             }
             else
             {

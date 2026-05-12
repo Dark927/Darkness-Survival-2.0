@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponLogic: {fileID: 4136743690585194426}
   _baseAuraVisual: {fileID: 3513421025336894922}
-  _bloodAuraVisual: {fileID: 0}
+  _specialAuraVisual: {fileID: 0}
 --- !u!1 &6805943667232582109
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,8 +174,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3511177441650745890, guid: 3522e453ad6777443af69591e4d192f9, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511177441650745890, guid: 3522e453ad6777443af69591e4d192f9, type: 3}
       propertyPath: m_SortingOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511177441650745890, guid: 3522e453ad6777443af69591e4d192f9, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1755736555
       objectReference: {fileID: 0}
     - target: {fileID: 3986603844410720670, guid: 3522e453ad6777443af69591e4d192f9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -265,5 +273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationSpeed: 125
+  _rotationSpeedMultiplier: 1
   _rotationAxis: {x: 0, y: 0, z: 1}
+  _useRandomStartRotation: 0
+  _customStartAngle: 0
   _targetTransform: {fileID: 0}

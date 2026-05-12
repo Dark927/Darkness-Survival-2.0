@@ -27,9 +27,9 @@ MonoBehaviour:
         _impact:
           _useImpact: 1
           _stunDurationMs: 250
-          _pushForce: 1.5
+          _pushForce: 3
           _reloadTimeMs: 0
-          _chancePercent: 25
+          _chancePercent: 35
           _shakeSettings:
             m_Amplitude: 0
             m_Frequency: 0

@@ -19,6 +19,7 @@ namespace Characters.Player
         private bool _canAttack = true;
         [SerializeField] private EntityBaseData _characterData;
         private CharacterInputHandler _input;
+        private Vector2 _currentInputDirection = Vector2.zero;
 
         #endregion
 
@@ -59,6 +60,23 @@ namespace Characters.Player
             base.Start();
             ServiceLocator.Current.Get<PlayerService>()?.AddPlayer(this);
             ConfigureEventLinks();
+        }
+
+        private void FixedUpdate()
+        {
+            if (CharacterLogic == null || CharacterLogic.Body.Movement == null)
+            {
+                return;
+            }
+
+            if (_currentInputDirection.sqrMagnitude > 0)
+            {
+                CharacterLogic.Body.Movement.Move(_currentInputDirection);
+            }
+            else if (CharacterLogic.Body.Movement.IsMoving)
+            {
+                CharacterLogic.Body.Movement.Stop();
+            }
         }
 
         private void ConfigureCharacter(IEntityData data)
@@ -129,21 +147,7 @@ namespace Characters.Player
 
         private void OnMovement(InputAction.CallbackContext context)
         {
-            if (CharacterLogic.Body.Movement == null)
-            {
-                return;
-            }
-
-            Vector2 direction = context.ReadValue<Vector2>();
-
-            if (direction.sqrMagnitude > 0)
-            {
-                CharacterLogic.Body.Movement.MoveAsync(direction).Forget();
-            }
-            else
-            {
-                CharacterLogic.Body.Movement.Stop();
-            }
+            _currentInputDirection = context.ReadValue<Vector2>();
         }
 
         public void SetCanAttackFlag(bool value)

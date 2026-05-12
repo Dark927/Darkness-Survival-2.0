@@ -90,7 +90,7 @@ namespace Characters.Common.Combat.Weapons
             HideExtraVisuals();
         }
 
-        protected void ScaleVisualElements(float currentRadius)
+        protected void SetRadius(float currentRadius)
         {
             float diameter = currentRadius * 2f;
             Vector3 newScale = new Vector3(diameter, diameter, 1f);

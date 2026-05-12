@@ -46,9 +46,11 @@ namespace Characters.Common.Movement
             }
         }
 
-        public virtual UniTaskVoid MoveAsync(Vector2 direction)
+
+        // --- External Physics Interactions ---
+        public virtual void ApplyExternalPush(Vector2 direction, float force)
         {
-            throw new NotImplementedException();
+
         }
 
 

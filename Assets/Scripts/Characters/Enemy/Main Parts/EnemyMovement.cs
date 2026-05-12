@@ -1,6 +1,7 @@
 ﻿using System;
 using Characters.Common.Movement;
 using Characters.Enemy.Settings;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Characters.Enemy
@@ -22,6 +23,10 @@ namespace Characters.Enemy
 
         private SwarmMovementSettingsData _swarmSettings;
         private static readonly Collider2D[] _neighborsBuffer = new Collider2D[15];
+
+        private Vector2 _externalPushVelocity;
+        private float _externalPushDecayRate = 10f;
+        private bool _isDecayingPush = false;
 
         #endregion
 
@@ -182,7 +187,50 @@ namespace Characters.Enemy
 
         private void VelocityUpdateListener(object sender, Vector2 velocity)
         {
-            _rigidbody.velocity = _speed.Velocity;
+            _rigidbody.velocity = _speed.Velocity + _externalPushVelocity;
+        }
+
+        public override void ApplyExternalPush(Vector2 direction, float force)
+        {
+            _externalPushVelocity += direction * force;
+
+            // Instantly apply the blended velocity
+            _rigidbody.velocity = _speed.Velocity + _externalPushVelocity;
+
+            // Start the decay loop if it isn't already running
+            if (!_isDecayingPush)
+            {
+                DecayExternalPushTask().Forget();
+            }
+        }
+
+        private async UniTaskVoid DecayExternalPushTask()
+        {
+            _isDecayingPush = true;
+
+            // Smoothly reduce the external push back to zero over time
+            while (_externalPushVelocity.sqrMagnitude > 0.01f)
+            {
+                await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+
+                // Fast decay
+                _externalPushVelocity = Vector2.Lerp(_externalPushVelocity, Vector2.zero, Time.fixedDeltaTime * _externalPushDecayRate);
+
+                // Continuously update the Rigidbody with the blended velocity
+                if (_rigidbody != null)
+                {
+                    _rigidbody.velocity = _speed.Velocity + _externalPushVelocity;
+                }
+            }
+
+            _externalPushVelocity = Vector2.zero;
+
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = _speed.Velocity;
+            }
+
+            _isDecayingPush = false;
         }
 
         #endregion

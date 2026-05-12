@@ -29,7 +29,6 @@ namespace Characters.Common.Movement
 
         #region Methods
 
-        public UniTaskVoid MoveAsync(Vector2 direction);
         public void Move(Vector2 direction);
 
         public void UpdateSpeedSettings(SpeedSettings settings, bool moveWithMaxSpeed = false);
@@ -66,6 +65,12 @@ namespace Characters.Common.Movement
         /// Removes temporary modifiers and restores the underlying speed settings.
         /// </summary>
         public void RestoreSpeedMultiplier();
+
+
+        /// <summary>
+        /// External physics interaction logic
+        /// </summary>
+        public void ApplyExternalPush(Vector2 direction, float force);
 
 
         #endregion

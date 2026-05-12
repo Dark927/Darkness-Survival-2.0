@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690db8a4f4a8cc2488b70e87479d0787, type: 3}
+  m_Name: Upgrade_Weapon_RunicVortex_SO
+  m_EditorClassIdentifier: 
+  _upgradeLevels:
+  - rid: 1713407740430516224
+  - rid: 1713407740430516226
+  - rid: 1713407740430516225
+  - rid: 1713407740430516227
+  - rid: 1713407740430516228
+  - rid: 1713407740430516229
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407740430516224
+      type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: db15c693691ec1c48b82bf422d992d49, type: 2}
+        - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+        - {fileID: 11400000, guid: 05eafc2f33ee6ce42b1b98183aa25753, type: 2}
+        - {fileID: 11400000, guid: 3c399872936c43748ad29b9ceba6ec24, type: 2}
+        - {fileID: 11400000, guid: d3365145a736be94c9e1a0b71fd3d305, type: 2}
+        - {fileID: 11400000, guid: cc9baf5aa072617469d12f4e88588888, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407740430516225
+      type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 74c23b59912cec945ac271809833a299, type: 2}
+        - {fileID: 11400000, guid: b926830214ce9104782561c70437d201, type: 2}
+        - {fileID: 11400000, guid: 9b8f30a11c6fc1741b5a116b11e3d480, type: 2}
+        - {fileID: 11400000, guid: edf9080810e590742b7e698edea0f21b, type: 2}
+        - {fileID: 11400000, guid: 3b19d69a6eb6c284286543a9eca4b6c4, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407740430516226
+      type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: ae678e46d5bca04439ec58a63d04b5f0, type: 2}
+        - {fileID: 11400000, guid: a12fb2aa56de32f4b9df64586d672751, type: 2}
+        - {fileID: 11400000, guid: edf9080810e590742b7e698edea0f21b, type: 2}
+        - {fileID: 11400000, guid: a3684e45caef5c84b8fd0bfd58739811, type: 2}
+        - {fileID: 11400000, guid: 92b10c4d088a5fa4da6fb7d60381da83, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407740430516227
+      type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: db15c693691ec1c48b82bf422d992d49, type: 2}
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: 66b9866b382dac5469ddac24851185aa, type: 2}
+        - {fileID: 11400000, guid: 9fb2bed7639bfa242a53f9328572723e, type: 2}
+        - {fileID: 11400000, guid: 3a1c98bd978a8b14f9ad19bfa9b9afc9, type: 2}
+        - {fileID: 11400000, guid: d843c9fb08139614a8d28e5bfee2c957, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407740430516228
+      type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: 077237882ca959d4fbe3cdc3509d0b27, type: 2}
+        - {fileID: 11400000, guid: c52457d83921e924b9032e7c2a664efa, type: 2}
+        - {fileID: 11400000, guid: 8f8608078b457d5498e967a2fc9e546d, type: 2}
+        - {fileID: 11400000, guid: 960c49351221ca5458f9a9729cedbf31, type: 2}
+        - {fileID: 11400000, guid: a3684e45caef5c84b8fd0bfd58739811, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407740430516229
+      type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: db15c693691ec1c48b82bf422d992d49, type: 2}
+        - {fileID: 11400000, guid: df7418b77f56c8547bc0584878d0b512, type: 2}
+        - {fileID: 11400000, guid: 79167d144b788b147b4769a9604245be, type: 2}
+        - {fileID: 11400000, guid: c2f2a5b360c86014d98ec9fb9cc86e20, type: 2}
+        - {fileID: 11400000, guid: 2fef9097e1ac7104ba3bc3ae7840c4e8, type: 2}
+        - {fileID: 11400000, guid: 8d52620beb36c9943981fc4a2fd0acdc, type: 2}
+        - {fileID: 11400000, guid: 45cff6ef7d3b4494b990df09cb39a73f, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

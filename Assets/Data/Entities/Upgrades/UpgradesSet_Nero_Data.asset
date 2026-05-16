@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _upgradesConfigurations:
   - {fileID: 11400000, guid: 9816ad62a72209947a946c5d17305b52, type: 2}
+  - {fileID: 11400000, guid: 362d6b52ebfddce459d78cd9c740797e, type: 2}

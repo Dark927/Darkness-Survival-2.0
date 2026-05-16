@@ -452,6 +452,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetingTransform: {fileID: 3138226621374426368}
+  _useColliderCenterAsTarget: 0
+  _customTargetingObjectName: TargetingCenter
 --- !u!114 &1741456745381354177
 MonoBehaviour:
   m_ObjectHideFlags: 0

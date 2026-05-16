@@ -16,7 +16,11 @@ namespace Characters.Common
     {
         #region Fields
 
+        [Header("Targeting")]
         [SerializeField] private Transform _targetingTransform;
+        [Tooltip("If true and Targeting Transform is null, automatically creates a targeting point at the Collider's local center.")]
+        [SerializeField] private bool _useColliderCenterAsTarget = true;
+        [SerializeField] private string _customTargetingObjectName = "TargetingCenter";
 
         private IEntityPhysics2D _entityPhysics;
         private IEntityMovement _movement;
@@ -40,6 +44,8 @@ namespace Characters.Common
         public event Action OnBodyDiedCompletely;
         public event DamageEventHandler OnBodyDamaged;
         public event DamageEventHandlerWithArgs OnBodyDamagedWithArgs;
+        public event Action<IEntityPhysicsBody> OnBodyDiesWithArgs;
+        public event Action<IEntityPhysicsBody> OnBodyDiedCompletelyWithArgs;
 
         #endregion
 
@@ -94,7 +100,22 @@ namespace Characters.Common
 
             if (_targetingTransform == null)
             {
-                _targetingTransform = OriginalTransform;
+                // Attempt to auto-generate the center target if allowed and a collider exists
+                if (_useColliderCenterAsTarget && Physics.Collider != null)
+                {
+                    GameObject targetObj = new GameObject(_customTargetingObjectName);
+                    _targetingTransform = targetObj.transform;
+
+                    _targetingTransform.SetParent(transform);
+
+                    // The collider's offset is in local space, making it the perfect relative position
+                    _targetingTransform.localPosition = Physics.Collider.offset;
+                }
+                else
+                {
+                    // Fallback to the entity's root pivot point
+                    _targetingTransform = OriginalTransform;
+                }
             }
         }
 
@@ -172,11 +193,13 @@ namespace Characters.Common
         protected void RaiseOnBodyDies()
         {
             OnBodyDies?.Invoke();
+            OnBodyDiesWithArgs?.Invoke(this);
         }
 
         protected void RaiseOnBodyCompletelyDied()
         {
             OnBodyDiedCompletely?.Invoke();
+            OnBodyDiedCompletelyWithArgs?.Invoke(this);
         }
 
         protected void RaiseOnBodyDamaged(Damage damage)

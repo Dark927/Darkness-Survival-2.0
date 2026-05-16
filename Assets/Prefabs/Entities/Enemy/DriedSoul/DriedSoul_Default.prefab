@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8030815889494331086, guid: ddbd4d80a682869478515dd5bcadcfb3, type: 3}
       propertyPath: m_Name
-      value: DriedSoul_Base Variant
+      value: DriedSoul_Default
       objectReference: {fileID: 0}
     - target: {fileID: 8391001634711914033, guid: ddbd4d80a682869478515dd5bcadcfb3, type: 3}
       propertyPath: m_Sprite

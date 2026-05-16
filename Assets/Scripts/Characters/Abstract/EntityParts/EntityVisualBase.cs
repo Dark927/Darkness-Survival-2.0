@@ -91,6 +91,14 @@ namespace Characters.Common.Visual
             _customVisualParts.Add(customVisualPart);
         }
 
+        public void RemoveCustomVisualPart(IEntityCustomVisualPart customVisualPart)
+        {
+            if (_customVisualParts.Contains(customVisualPart))
+            {
+                _customVisualParts.Remove(customVisualPart);
+            }
+        }
+
 
         private async UniTask ColorBlink(Color targetColor, float durationInSec, float repeats, CancellationToken token = default)
         {

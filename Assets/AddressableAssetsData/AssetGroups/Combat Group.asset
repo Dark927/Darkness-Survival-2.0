@@ -136,6 +136,22 @@ MonoBehaviour:
     - Data
     - Weapon
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5ae0da8b53f4344792cdd208d390447
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/SanguineRupture/SanguineRupture_Weapon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5b8a076f97e75e4088d3e8b4467a797
+    m_Address: Assets/Prefabs/Entities/Weapons/Auto/SanguineRupture/SanguineRupture_Projectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Character
+    - Prefab
+    - Weapon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dcca773c9d2fb60419dcb741656978c0
     m_Address: Assets/Prefabs/Entities/Weapons/Auto/PhantomSickers/Weapon_PhantomSickers_Projectile.prefab
     m_ReadOnly: 0

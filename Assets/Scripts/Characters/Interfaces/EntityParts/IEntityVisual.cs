@@ -26,6 +26,7 @@ namespace Characters.Common.Visual
         public void ActivateColorBlink(Color targetColor, float durationInSec, float stepInSec);
         public void DeactivateActualColorBlink();
         public void GiveCustomVisualPart(IEntityCustomVisualPart visualPart);
+        public void RemoveCustomVisualPart(IEntityCustomVisualPart visualPart);
 
 
         #endregion

@@ -26,11 +26,13 @@ namespace Characters.Common
         /// Used to notify that the character's body is dying (but not yet dead).
         /// </summary>
         public event Action OnBodyDies;
+        public event Action<IEntityPhysicsBody> OnBodyDiesWithArgs;
 
         /// <summary>
         /// Used to notify that the character's body is comletely dead.
         /// </summary>
         public event Action OnBodyDiedCompletely;
+        public event Action<IEntityPhysicsBody> OnBodyDiedCompletelyWithArgs;
 
         public event DamageEventHandler OnBodyDamaged;
         public event DamageEventHandlerWithArgs OnBodyDamagedWithArgs;

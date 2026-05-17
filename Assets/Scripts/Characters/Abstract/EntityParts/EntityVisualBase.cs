@@ -75,14 +75,17 @@ namespace Characters.Common.Visual
 
         public void DeactivateActualColorBlink()
         {
-            if (_blinkCts == null)
+            if (_blinkCts != null)
             {
-                return;
+                _blinkCts.Cancel();
+                _blinkCts.Dispose();
+                _blinkCts = null;
             }
 
-            _blinkCts.Cancel();
-            _blinkCts.Dispose();
-            _blinkCts = null;
+            if (_entityFXComponent != null)
+            {
+                DoFlash(Color.clear, 0f);
+            }
         }
 
         public void GiveCustomVisualPart(IEntityCustomVisualPart customVisualPart)

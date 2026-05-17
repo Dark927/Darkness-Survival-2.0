@@ -161,6 +161,11 @@ namespace Characters.Common.Combat.Weapons
                 // Unsubscribe
                 body.OnBodyDiesWithArgs -= HandleEnemyDeath;
                 body.OnBodyDiedCompletelyWithArgs -= HandleEnemyCleanup;
+
+                if (body.OriginalTransform != null && body.OriginalTransform.TryGetComponent<EntityColliderLink>(out var link))
+                {
+                    link.Logic.Status?.Remove<MarkedStatusEffect>();
+                }
             }
         }
 
@@ -187,6 +192,8 @@ namespace Characters.Common.Combat.Weapons
                 onHit: HandleReactionHit,
                 onDie: HandleReactionDeath
             );
+
+            BaseAttackImpact.Shake?.Activate();
         }
 
         protected virtual void HandleReactionHit(Collider2D targetCollider)

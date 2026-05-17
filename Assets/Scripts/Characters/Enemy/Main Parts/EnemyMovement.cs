@@ -45,31 +45,24 @@ namespace Characters.Enemy
 
         #region Init
 
-        public EnemyMovement(Transform bodyTransform, SwarmMovementSettingsData swarmSettings, Transform targetTransform = null)
+        public EnemyMovement(Transform bodyTransform, Rigidbody2D rigidbody, SwarmMovementSettingsData swarmSettings, Transform targetTransform = null)
         {
             _swarmSettings = swarmSettings;
-            Init(bodyTransform, targetTransform);
+            Init(bodyTransform, rigidbody, targetTransform);
             _speed = new EntitySpeed();
         }
 
-        private void Init(Transform bodyTransform, Transform targetTransform)
+        private void Init(Transform bodyTransform, Rigidbody2D rigidbody, Transform targetTransform)
         {
-            try
-            {
-                _transform = bodyTransform;
-                SetTarget(targetTransform);
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
+            _transform = bodyTransform;
+            _rigidbody = rigidbody;
+            SetTarget(targetTransform);
 
             InitComponents();
         }
 
         private void InitComponents()
         {
-            _rigidbody = _transform.GetComponent<Rigidbody2D>();
             _movementBlock = new EntityActionBlock();
             _speed = new EntitySpeed();
         }

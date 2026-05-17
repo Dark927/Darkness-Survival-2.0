@@ -15,5 +15,8 @@ namespace Characters.Common.CustomPhysics2D
 
         public void SetStatic();
         public void SetDynamic();
+
+        public void DisableCollisions();
+        public void EnableCollisions();
     }
 }

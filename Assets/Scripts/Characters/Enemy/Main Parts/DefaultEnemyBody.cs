@@ -68,7 +68,7 @@ namespace Characters.Enemy
 
         protected override void InitMovement()
         {
-            _enemyMovement = new EnemyMovement(transform, _swarmMovementData);
+            _enemyMovement = new EnemyMovement(transform, Physics.Rigidbody2D, _swarmMovementData);
             base.Movement = _enemyMovement;
             Movement.UpdateSpeedSettings(new SpeedSettings() { MaxSpeedMultiplier = _enemyLogic.Stats.Speed }, true);
         }

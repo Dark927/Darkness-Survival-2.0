@@ -40,9 +40,11 @@ namespace Gameplay.Components.Enemy
             // Wire up all references and events
             if (target != null && enemyLogic != null)
             {
+                enemy.ResetCharacter();
                 ConfigureFastReuseSettings(enemyLogic, target);
                 enemyLogic.SetDropItemContainer(_dropItemsContainer);
 
+                enemy.Logic.Body.Physics.EnableCollisions();
                 enemyLogic.Body.OnBodyDamagedWithArgs += _managementService.EnemyDamagedListener;
                 enemy.OnEntityKilled += _managementService.EnemyKilledListener;
                 enemy.ConfigureEventLinks();
@@ -55,7 +57,7 @@ namespace Gameplay.Components.Enemy
             // Move the enemy to the correct spawn location
             PlaceOnSpawnRing(enemyLogic, target);
 
-            enemyLogic.SetTarget(target.Body.TargetingTransform);
+            enemyLogic.SetTarget(target.Body.OriginalTransform);
         }
 
         public void DeconfigureFastReuseSettings(IEnemyLogic enemyLogic)
@@ -129,8 +131,8 @@ namespace Gameplay.Components.Enemy
 
         public void DeconfigureCompletely(EnemyController enemy)
         {
+            enemy.Logic.Body.Physics.DisableCollisions();
             enemy.RemoveEventLinks();
-            enemy.ResetCharacter();
             enemy.EntityLogic.Body.OnBodyDamagedWithArgs -= _managementService.EnemyDamagedListener;
             enemy.OnEntityKilled -= _managementService.EnemyKilledListener;
             _gameStateService?.GameEvent.Unsubscribe(enemy);

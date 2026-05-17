@@ -96,6 +96,15 @@ namespace Characters.Common.CustomPhysics2D
         {
             _rigidbody.isKinematic = false;
         }
+        public void EnableCollisions()
+        {
+            _collider.enabled = true;
+        }
+
+        public void DisableCollisions()
+        {
+            _collider.enabled = false;
+        }
 
         #endregion
     }

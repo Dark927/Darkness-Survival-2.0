@@ -75,5 +75,18 @@ namespace Characters.Common.Statuses
             _activeStatuses.Clear();
             _typesToRemove.Clear();
         }
+
+        public void Remove<T>() where T : IStatusEffect
+        {
+            Type effectType = typeof(T);
+
+            if (_activeStatuses.TryGetValue(effectType, out IStatusEffect existingEffect))
+            {
+                existingEffect.OnRemove(_owner);
+
+                _activeStatuses.Remove(effectType);
+                _typesToRemove.Remove(effectType);
+            }
+        }
     }
 }

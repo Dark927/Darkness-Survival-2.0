@@ -37,7 +37,7 @@ namespace Characters.Common.Visual
 
             // CLEANUP
             // ToDo : use Pool.Return(this) here later
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

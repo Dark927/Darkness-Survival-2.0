@@ -14,8 +14,6 @@ namespace Characters.Common.Combat.Weapons
             base.Initialize(attackData);
 
             Owner.Body.OnBodyDies += StopAttack;
-
-            StartAttack();
         }
 
         public override void Dispose()
@@ -27,16 +25,11 @@ namespace Characters.Common.Combat.Weapons
 
         private async UniTaskVoid AutoAttackLoop(CancellationToken token)
         {
-            bool isCanceled = await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token).SuppressCancellationThrow();
-            if (isCanceled) return;
-
             while (!token.IsCancellationRequested)
             {
-                isCanceled = await PerformAttackPhase(token).SuppressCancellationThrow();
-                if (isCanceled) return;
+                await PerformAttackPhase(token);
 
-                isCanceled = await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token).SuppressCancellationThrow();
-                if (isCanceled) return;
+                await UniTask.WaitForSeconds(UpgradedAttackSettings.ReloadTimeSec, cancellationToken: token).SuppressCancellationThrow();
             }
         }
 

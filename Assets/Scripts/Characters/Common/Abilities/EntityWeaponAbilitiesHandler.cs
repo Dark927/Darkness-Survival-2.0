@@ -123,9 +123,22 @@ namespace Characters.Common.Abilities
             return (_weaponsHolder != null) && _weaponsHolder.ActiveOnesDict.TryGetValue(weaponID, out weapon);
         }
 
-        public UniTask GiveWeaponAsync(EntityWeaponData weaponData)
+        public async UniTask GiveWeaponAsync(EntityWeaponData weaponData)
         {
-            return _weaponsHolder.GiveAsync(weaponData);
+            // Await the loading and instantiation
+            await _weaponsHolder.GiveAsync(weaponData);
+
+            if (TryGetFeatureByID(weaponData.ID, out IWeapon weapon))
+            {
+                if (weapon is IAutoWeapon autoWeapon)
+                {
+                    autoWeapon.StartAttack();
+                }
+            }
+            else
+            {
+                ErrorLogger.LogWarning($"[EntityWeaponAbilitiesHandler] Failed to initialize and retrieve weapon ID: {weaponData.ID}");
+            }
         }
 
         public void TryPerformBasicAttack(BasicAttack.LocalType type)

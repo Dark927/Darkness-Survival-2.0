@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690db8a4f4a8cc2488b70e87479d0787, type: 3}
+  m_Name: Upgrade_Weapon_SanguineRupture_SO
+  m_EditorClassIdentifier: 
+  _upgradeLevels:
+  - rid: 1713407852510969857
+  - rid: 1713407852510969858
+  - rid: 1713407852510969865
+  - rid: 1713407852510969859
+  - rid: 1713407852510969860
+  - rid: 1713407852510969861
+  references:
+    version: 2
+    RefIds:
+    - rid: 1713407852510969857
+      type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a34fcb33799ee4242b0200e512cf86b8, type: 2}
+        - {fileID: 11400000, guid: 91bd77a658914b248964285476956f44, type: 2}
+        - {fileID: 11400000, guid: abd4efcb303fd2148be66abdacd2ff13, type: 2}
+        - {fileID: 11400000, guid: 3d9b6110d8d77ef409302eff492b340c, type: 2}
+        - {fileID: 11400000, guid: 76e44260dbab78148831a6e10e7b8df1, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407852510969858
+      type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a34fcb33799ee4242b0200e512cf86b8, type: 2}
+        - {fileID: 11400000, guid: fd5ff2effb8711e4fb76e7c34c0ad86d, type: 2}
+        - {fileID: 11400000, guid: 8aa1285f22a083e4ebd895a82cc8cf69, type: 2}
+        - {fileID: 11400000, guid: 02d7a03416c4c1146a4dd9e6e19a2543, type: 2}
+        - {fileID: 11400000, guid: c136534560f98b24fb8bc8811ad09415, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407852510969859
+      type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a34fcb33799ee4242b0200e512cf86b8, type: 2}
+        - {fileID: 11400000, guid: 654fc75cf5cfa38468538fcd87219930, type: 2}
+        - {fileID: 11400000, guid: 5df03239a75320341859e25644099c78, type: 2}
+        - {fileID: 11400000, guid: 6aff8b8cc5e76c94ea66b233342167b0, type: 2}
+        - {fileID: 11400000, guid: ccbac3fd44ea4bc42810a207df1e7112, type: 2}
+        - {fileID: 11400000, guid: 79bb5d8d16a260f4f9806e9359085420, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407852510969860
+      type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: a34fcb33799ee4242b0200e512cf86b8, type: 2}
+        - {fileID: 11400000, guid: 145e5e6bbd5a66942b37ea32271bd653, type: 2}
+        - {fileID: 11400000, guid: a8de1556add45064d8c23c9eb461d4ba, type: 2}
+        - {fileID: 11400000, guid: 55323dcc9a0a2a442b37f0fe159c7e97, type: 2}
+        - {fileID: 11400000, guid: 9a2eab9bb616d6f44997fbc6d71db26a, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407852510969861
+      type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: 44498bf4740764f409d0e32a509e05bd, type: 2}
+        - {fileID: 11400000, guid: 337d33decdbd95d49bb796ff59199ccc, type: 2}
+        - {fileID: 11400000, guid: 666e241b127fd1b4f954960c0a5a8038, type: 2}
+        - {fileID: 11400000, guid: 1159e8fba20ba6846abe6e1511e7fd5b, type: 2}
+        - {fileID: 11400000, guid: ccbac3fd44ea4bc42810a207df1e7112, type: 2}
+        - {fileID: 11400000, guid: 64e973bc146a33e4b95e113224214479, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}
+    - rid: 1713407852510969865
+      type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
+      data:
+        _baseDescription: 
+        _useDowngradesInfoInDesc: 1
+        _upgrades:
+        - {fileID: 11400000, guid: af7f37ac0300ab94bbc658da5c303830, type: 2}
+        _downgrades: []
+        _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
+        _customVisualDataUI: {fileID: 0}
+        _customIconUI: {fileID: 0}

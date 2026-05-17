@@ -63,4 +63,10 @@ namespace Characters.Common.Combat.Weapons
     {
 
     }
+
+    // Level 4: Reactive Weapons (Marks and Death Explosions)
+    public interface IUpgradableReactiveWeapon : IUpgradableHazardWeapon
+    {
+        void ApplyEffectDurationUpgrade(float multiplier);
+    }
 }

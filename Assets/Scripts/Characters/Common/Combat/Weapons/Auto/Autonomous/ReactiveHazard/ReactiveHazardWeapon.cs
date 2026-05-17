@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Characters.Common.Combat.Weapons
 {
-    public class ReactiveHazardWeapon<TSettings, TEntity> : HazardWeaponBase<TSettings, TEntity>
+    public class ReactiveHazardWeapon<TSettings, TEntity> : HazardWeaponBase<TSettings, TEntity>, IUpgradableReactiveWeapon
         where TSettings : ReactiveHazardAttackSettings
         where TEntity : AutonomousEntityBase, IReactiveAutonomousEntity
     {
@@ -19,6 +19,9 @@ namespace Characters.Common.Combat.Weapons
         private int _marksAppliedThisPhase;
         private int _maxMarksForPhase;
         private CancellationTokenSource _weaponLifetimeCts;
+
+        // Multiplier tracking for the effect duration
+        private float _effectDurationMultiplier = 1f;
 
         public override void Initialize(WeaponAttackData attackData)
         {
@@ -46,7 +49,7 @@ namespace Characters.Common.Combat.Weapons
                 if (_marksAppliedThisPhase >= _maxMarksForPhase && ActiveMarks.Count == 0)
                 {
 #if UNITY_EDITOR
-                    Debug.Log("[ReactiveWeapon] Scanning complete and all marks resolved. Early Reload.");
+                    //Debug.Log("[ReactiveWeapon] Scanning complete and all marks resolved. Early Reload.");
 #endif
                     break;
                 }
@@ -89,7 +92,7 @@ namespace Characters.Common.Combat.Weapons
             return MarkEnemy(link.Logic.Body);
         }
 
-        private bool MarkEnemy(IEntityPhysicsBody targetBody)
+        protected bool MarkEnemy(IEntityPhysicsBody targetBody)
         {
             // Check if they are already in the Dictionary
             if (!targetBody.IsDying && !ActiveMarks.ContainsKey(targetBody))
@@ -128,7 +131,7 @@ namespace Characters.Common.Combat.Weapons
             if (!isCanceled)
             {
 #if UNITY_EDITOR
-                Debug.Log("[ReactiveWeapon] A mark expired naturally due to time out.");
+                //Debug.Log("[ReactiveWeapon] A mark expired naturally due to time out.");
 #endif
                 UnmarkEnemy(body);
             }
@@ -158,13 +161,18 @@ namespace Characters.Common.Combat.Weapons
 
                 ActiveMarks.Remove(body);
 
-                // Unsubscribe
-                body.OnBodyDiesWithArgs -= HandleEnemyDeath;
-                body.OnBodyDiedCompletelyWithArgs -= HandleEnemyCleanup;
+                UnityEngine.Object unityBodyObj = body as UnityEngine.Object;
 
-                if (body.OriginalTransform != null && body.OriginalTransform.TryGetComponent<EntityColliderLink>(out var link))
+                if (unityBodyObj != null)
                 {
-                    link.Logic.Status?.Remove<MarkedStatusEffect>();
+                    // The enemy is still alive in the scene, it is safe to access properties
+                    body.OnBodyDiesWithArgs -= HandleEnemyDeath;
+                    body.OnBodyDiedCompletelyWithArgs -= HandleEnemyCleanup;
+
+                    if (body.OriginalTransform != null && body.OriginalTransform.TryGetComponent<EntityColliderLink>(out var link))
+                    {
+                        link.Logic.Status?.Remove<MarkedStatusEffect>();
+                    }
                 }
             }
         }
@@ -189,22 +197,18 @@ namespace Characters.Common.Combat.Weapons
                 radius: UpgradedAttackSettings.AttackRadius,
                 visualLifeTime: 0.5f,
                 targetMask: _enemyLayerMask,
-                onHit: HandleReactionHit,
+                onHit: col => HandleReactionHit(col, position),
                 onDie: HandleReactionDeath
             );
 
             BaseAttackImpact.Shake?.Activate();
         }
 
-        protected virtual void HandleReactionHit(Collider2D targetCollider)
+        protected virtual void HandleReactionHit(Collider2D targetCollider, Vector3 explosionPosition)
         {
-            HitTargetListener(this, new AttackTriggerArgs(targetCollider));
+            var args = new AttackTriggerArgs(targetCollider, explosionPosition);
 
-            // CHAIN REACTION: Bypasses MaxMarksForPhase
-            if (targetCollider.TryGetComponent<EntityColliderLink>(out var link) && link.Logic.Body != null)
-            {
-                MarkEnemy(link.Logic.Body);
-            }
+            HitTarget(args);
         }
 
         private void HandleReactionDeath(AutonomousEntityBase entity)
@@ -229,6 +233,19 @@ namespace Characters.Common.Combat.Weapons
 
             ClearAllMarks();
         }
+
+        #region Upgrades
+
+        public virtual void ApplyEffectDurationUpgrade(float multiplier)
+        {
+            _effectDurationMultiplier += multiplier;
+            UpgradedAttackSettings.EffectDurationTimeSec = InitialAttackSettings.EffectDurationTimeSec * _effectDurationMultiplier;
+
+            // Note: This only affects future marks applied after the upgrade.
+            // Existing marks already have their CancellationToken running with the old duration
+        }
+
+        #endregion
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()

@@ -20,5 +20,5 @@ MonoBehaviour:
     UpgradeValueColor: {r: 0, g: 1, b: 0, a: 1}
     DowngradeValueColor: {r: 1, g: 0, b: 0, a: 1}
     ReverseSignLogic: 0
-  _abilityUpgradeConfiguration: {fileID: 11400000, guid: 362d6b52ebfddce459d78cd9c740797e, type: 2}
+  _abilityUpgradeConfiguration: {fileID: 11400000, guid: 7dc70c9c05c56164cb16e4ce05428a38, type: 2}
   _weaponData: {fileID: 11400000, guid: c6e9c00a876042649a3e650ec2eca68e, type: 2}

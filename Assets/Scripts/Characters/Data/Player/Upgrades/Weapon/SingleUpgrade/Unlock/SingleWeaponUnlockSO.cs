@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Characters.Common.Combat;
 using Characters.Common.Combat.Weapons.Data;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Characters.Player.Upgrades
@@ -85,7 +86,7 @@ namespace Characters.Player.Upgrades
 
         public override void ApplyUpgrade(IUpgradableCharacterLogic target)
         {
-            target.WeaponsHandler.GiveWeaponAsync(_weaponData);
+            target.WeaponsHandler.GiveWeaponAsync(_weaponData).Forget();
         }
     }
 }

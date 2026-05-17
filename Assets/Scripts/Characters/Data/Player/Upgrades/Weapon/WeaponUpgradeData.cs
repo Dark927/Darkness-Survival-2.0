@@ -15,4 +15,7 @@ namespace Characters.Player.Upgrades
 
     [Serializable]
     public class StormWeaponUpgradeData : UpgradeLevelData<IUpgradableStormWeapon>, IWeaponUpgradeLevelData { }
+
+    [Serializable]
+    public class ReactiveWeaponUpgradeData : UpgradeLevelData<IUpgradableReactiveWeapon>, IWeaponUpgradeLevelData { }
 }

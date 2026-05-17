@@ -26,7 +26,7 @@ namespace Characters.Common.Combat.Weapons
         public TAttackSetting InitialAttackSettings => _attackSettings;
         public AttackImpact BaseAttackImpact => _impact;
         public bool ImpactAvailable => InitialAttackSettings.Impact.UseImpact;
-        public Vector3 Center => _ownerCollidder.bounds.center;
+        public Vector3 OwnerCenter => _ownerCollidder.bounds.center;
         public GameObject GameObject => this.gameObject;
         public string WeaponName => _weaponName;
 
@@ -98,12 +98,12 @@ namespace Characters.Common.Combat.Weapons
         protected void HitTargetListener(object sender, EventArgs args)
         {
             AttackTriggerArgs attackArgs = (AttackTriggerArgs)args;
-            HitTarget(attackArgs.TargetCollider);
+            HitTarget(attackArgs);
         }
 
-        protected virtual void HitTarget(Collider2D targetCollider)
+        protected virtual void HitTarget(AttackTriggerArgs args)
         {
-            GameObject targetObject = targetCollider.gameObject;
+            GameObject targetObject = args.TargetCollider.gameObject;
 
             if (!CheckHitTargetCondition(targetObject, out IDamageable target))
             {
@@ -116,7 +116,7 @@ namespace Characters.Common.Combat.Weapons
             if (target.CanAcceptDamage)
             {
                 target.TakeDamage(Owner, _calculatedDamage);
-                PerformPostDamageActions(targetCollider);
+                PerformPostDamageActions(args);
             }
         }
 
@@ -125,15 +125,16 @@ namespace Characters.Common.Combat.Weapons
             return CalculateCurrentDamage(InitialAttackSettings.Damage);
         }
 
-        protected virtual void PerformPostDamageActions(Collider2D targetCollider)
+        protected virtual void PerformPostDamageActions(AttackTriggerArgs args)
         {
-            IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
+            IEntityPhysicsBody targetBody = args.TargetCollider.GetComponent<IEntityPhysicsBody>();
 
-            if (!targetBody.Physics.IsImmune)
+            if (!targetBody.Physics.IsImmune || true)
             {
-                PerformImpact(targetCollider);
+                PerformImpact(args);
             }
-            FlashTarget(targetCollider, _calculatedDamage.NegativeStatus);
+
+            FlashTarget(args.TargetCollider, _calculatedDamage.NegativeStatus);
         }
 
         protected virtual void FlashTarget(Collider2D targetCollider, AttackNegativeStatus negativeStatus)
@@ -152,14 +153,15 @@ namespace Characters.Common.Combat.Weapons
             }
         }
 
-        protected virtual void PerformImpact(Collider2D targetCollider)
+        protected virtual void PerformImpact(AttackTriggerArgs args)
         {
             if (CanUseActiveImpactThisTime(out AttackImpact activeImpact))
             {
-                IEntityPhysicsBody targetBody = targetCollider.GetComponent<IEntityPhysicsBody>();
-                activeImpact.AddKnockback(CalculatePushDirection(Center, targetCollider.bounds.center));
-                activeImpact.PerformPhysicsImpact(targetCollider);
+                // Fallback to Weapon Center if no custom Epicenter was provided in the args
+                Vector3 sourcePos = args.Epicenter ?? OwnerCenter;
 
+                activeImpact.AddKnockback(CalculatePushDirection(sourcePos, args.TargetCollider.bounds.center));
+                activeImpact.PerformPhysicsImpact(args.TargetCollider);
                 activeImpact.ReloadImpact();
             }
         }

@@ -52,7 +52,7 @@ MonoBehaviour:
         _downgrades: []
         _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
         _customVisualDataUI: {fileID: 0}
-        _customIconUI: {fileID: 0}
+        _customIconUI: {fileID: 21300000, guid: f79a57405649f5a47986fdf2b0cd14ef, type: 3}
     - rid: 1713407740430516226
       type: {class: StormWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
       data:

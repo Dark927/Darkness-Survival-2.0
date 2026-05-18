@@ -17,5 +17,5 @@ MonoBehaviour:
   _name: Cyber Walk
   _type: 0
   _description: 
-  _icon: {fileID: 21300000, guid: 35aab49c88de5294cb74d0ac9c86b66e, type: 3}
+  _icon: {fileID: 21300000, guid: 9b055ba080ff6514f9437a7808b8d55c, type: 3}
   _visualDataUI: {fileID: 11400000, guid: c89b5aad41240be4392dcadac7f8b834, type: 2}

@@ -70,7 +70,7 @@ namespace Characters.Common.Combat.Weapons
 
         protected virtual void SetDefaultPosRelatedToOwner()
         {
-            transform.position = Vector3.zero;
+            transform.position = Owner.Body.TargetingTransform.position;
         }
 
         public virtual void Dispose()
@@ -129,7 +129,7 @@ namespace Characters.Common.Combat.Weapons
         {
             IEntityPhysicsBody targetBody = args.TargetCollider.GetComponent<IEntityPhysicsBody>();
 
-            if (!targetBody.Physics.IsImmune || true)
+            if (!targetBody.Physics.IsImmune)
             {
                 PerformImpact(args);
             }

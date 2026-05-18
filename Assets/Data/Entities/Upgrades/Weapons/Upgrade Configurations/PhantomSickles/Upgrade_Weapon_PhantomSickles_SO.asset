@@ -65,7 +65,7 @@ MonoBehaviour:
         _downgrades: []
         _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
         _customVisualDataUI: {fileID: 0}
-        _customIconUI: {fileID: 0}
+        _customIconUI: {fileID: 21300000, guid: 22bfa47d6521c734bbb102349f4e36f2, type: 3}
     - rid: 1713407692268634114
       type: {class: OrbitalWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
       data:

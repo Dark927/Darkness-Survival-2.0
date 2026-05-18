@@ -98,7 +98,7 @@ MonoBehaviour:
         _downgrades: []
         _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
         _customVisualDataUI: {fileID: 0}
-        _customIconUI: {fileID: 0}
+        _customIconUI: {fileID: 21300000, guid: e7c4a02b6b12b6f4fa6e81acb4caa6ce, type: 3}
     - rid: 1713407852510969865
       type: {class: ReactiveWeaponUpgradeData, ns: Characters.Player.Upgrades, asm: Assembly-CSharp}
       data:
@@ -109,4 +109,4 @@ MonoBehaviour:
         _downgrades: []
         _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
         _customVisualDataUI: {fileID: 0}
-        _customIconUI: {fileID: 0}
+        _customIconUI: {fileID: 21300000, guid: 1d3eeb7c33917044293ab8b977b48cd7, type: 3}

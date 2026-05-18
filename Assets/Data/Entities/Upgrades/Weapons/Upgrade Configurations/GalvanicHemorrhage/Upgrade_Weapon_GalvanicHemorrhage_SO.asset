@@ -107,4 +107,4 @@ MonoBehaviour:
         _downgrades: []
         _baseDescriptionColor: {r: 255, g: 230, b: 0, a: 255}
         _customVisualDataUI: {fileID: 0}
-        _customIconUI: {fileID: 0}
+        _customIconUI: {fileID: 21300000, guid: 2db98ae801fb78c41b9d78c15ab3376c, type: 3}

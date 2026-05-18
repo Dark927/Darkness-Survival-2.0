@@ -17,5 +17,5 @@ MonoBehaviour:
   _name: Nocturnal Reapers
   _type: 4
   _description: 
-  _icon: {fileID: 21300000, guid: 8264d6b1e45306e4f95452c388e17f79, type: 3}
+  _icon: {fileID: 21300000, guid: 896696563bc119f44a7975b94a80dff5, type: 3}
   _visualDataUI: {fileID: 11400000, guid: c89b5aad41240be4392dcadac7f8b834, type: 2}

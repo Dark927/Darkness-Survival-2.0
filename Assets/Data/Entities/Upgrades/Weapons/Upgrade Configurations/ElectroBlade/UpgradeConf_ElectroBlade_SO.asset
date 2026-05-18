@@ -17,5 +17,5 @@ MonoBehaviour:
   _name: Electro Blade
   _type: 3
   _description: 
-  _icon: {fileID: 21300000, guid: 7f812083773e4f7488d9c47cd059de86, type: 3}
+  _icon: {fileID: 21300000, guid: 30108c7983d2d1044b94c5809d77e096, type: 3}
   _visualDataUI: {fileID: 11400000, guid: c89b5aad41240be4392dcadac7f8b834, type: 2}
